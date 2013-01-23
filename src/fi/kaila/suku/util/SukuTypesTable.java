@@ -93,8 +93,9 @@ public class SukuTypesTable extends JTable {
 	 */
 	public String getTypeText(String tag) {
 		Integer iidx = model.getTypeText(tag);
-		if (iidx == null)
+		if (iidx == null) {
 			return tag;
+		}
 		int idx = iidx.intValue();
 		if (idx >= 0) {
 			String txt = (String) model.getTypesData(idx, 6);
@@ -130,8 +131,9 @@ public class SukuTypesTable extends JTable {
 	 */
 	public String getTagName(String tag) {
 		Integer iidx = model.getTypeText(tag);
-		if (iidx == null)
+		if (iidx == null) {
 			return tag;
+		}
 		int idx = iidx.intValue();
 		if (idx >= 0) {
 			String txt = model.getTypesName(idx);
@@ -170,11 +172,13 @@ public class SukuTypesTable extends JTable {
 	 * @return true if settings is on
 	 */
 	public boolean isType(String tag, int col) {
-		if (col < 1 || col > 5)
+		if (col < 1 || col > 5) {
 			return false;
+		}
 		Integer idxInt = model.getTypeText(tag);
-		if (idxInt == null)
+		if (idxInt == null) {
 			return true;
+		}
 		int idx = idxInt.intValue();
 		if (idx >= 0) {
 
@@ -208,11 +212,11 @@ public class SukuTypesTable extends JTable {
 			StringBuilder sb = new StringBuilder();
 			sb.append(getTypesTag(row));
 			sb.append("=");
-			sb.append(((Boolean) getValueAt(row, 1)) ? "X" : "O");
-			sb.append(((Boolean) getValueAt(row, 2)) ? "X" : "O");
-			sb.append(((Boolean) getValueAt(row, 3)) ? "X" : "O");
-			sb.append(((Boolean) getValueAt(row, 4)) ? "X" : "O");
-			sb.append(((Boolean) getValueAt(row, 5)) ? "X" : "O");
+			sb.append((Boolean) getValueAt(row, 1) ? "X" : "O");
+			sb.append((Boolean) getValueAt(row, 2) ? "X" : "O");
+			sb.append((Boolean) getValueAt(row, 3) ? "X" : "O");
+			sb.append((Boolean) getValueAt(row, 4) ? "X" : "O");
+			sb.append((Boolean) getValueAt(row, 5) ? "X" : "O");
 			sb.append(getValueAt(row, 6));
 			v.add(sb.toString());
 

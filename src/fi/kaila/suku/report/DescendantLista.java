@@ -184,8 +184,9 @@ public class DescendantLista extends CommonReport {
 					// first flush all spouses for the generation
 					for (mymp = 0; mymp < lspouses.size(); mymp++) {
 						ListPerson ppp = lspouses.get(mymp);
-						if (ppp.gene >= lp.gene)
+						if (ppp.gene >= lp.gene) {
 							break;
+						}
 					}
 					while (lspouses.size() > mymp) {
 						int lasidx = lspouses.size() - 1;
@@ -234,13 +235,13 @@ public class DescendantLista extends CommonReport {
 				// label = new Label(2, i+1, text);
 				// sheet.addCell(label);
 				int coln = col + gen;
-				String bdate = pp.getBirtDate() == null ? null : pp
-						.getBirtDate().substring(0, 4);
+				String bdate = pp.getBirtDate() == null ? null : Utils
+						.textDate(pp.getBirtDate(), false);
 				// label = new Label(col, i+1,date );
 				// sheet.addCell(label);
 				// col++;
-				String ddate = pp.getDeatDate() == null ? null : pp
-						.getDeatDate().substring(0, 4);
+				String ddate = pp.getDeatDate() == null ? null : Utils
+						.textDate(pp.getDeatDate(), false);
 				// label = new Label(col, i+1, date);
 				// sheet.addCell(label);
 				//

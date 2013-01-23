@@ -31,6 +31,7 @@ import fi.kaila.suku.util.SukuTypesTable;
 import fi.kaila.suku.util.Utils;
 import fi.kaila.suku.util.pojo.PersonLongData;
 import fi.kaila.suku.util.pojo.PersonShortData;
+import fi.kaila.suku.util.pojo.Relation;
 import fi.kaila.suku.util.pojo.RelationNotice;
 import fi.kaila.suku.util.pojo.ReportTableMember;
 import fi.kaila.suku.util.pojo.ReportUnit;
@@ -235,7 +236,7 @@ public abstract class CommonReport {
 				ImageNotice inoti = imgNotices.get(i);
 				UnitNotice nn = inoti.nn;
 
-				float prose = (i * 100f) / imgNotices.size();
+				float prose = i * 100f / imgNotices.size();
 				caller.setRunnerValue("" + (int) prose + ";"
 						+ nn.getMediaFilename());
 
@@ -261,11 +262,11 @@ public abstract class CommonReport {
 								neww = imw;
 
 							} else {
-								newh = imh * (neww / imw);
+								newh = imh * neww / imw;
 								neww = imw;
 							}
 						} else {
-							neww = imw * (newh / imh);
+							neww = imw * newh / imh;
 						}
 
 						/*
@@ -427,9 +428,10 @@ public abstract class CommonReport {
 							nms.clear();
 						}
 					}
-					float prose = (runnervalue * 100f) / mapsize;
-					if (prose > 100)
+					float prose = runnervalue * 100f / mapsize;
+					if (prose > 100) {
 						prose = 100;
+					}
 					caller.setRunnerValue("" + (int) prose + ";"
 							+ pit.shortPerson.getAlfaName());
 					runnervalue++;
@@ -459,9 +461,9 @@ public abstract class CommonReport {
 
 			String previousSurname = null;
 
-			for (int i = 0; i < pits.length; i++) {
+			for (PersonInTables pit2 : pits) {
 
-				PersonInTables pit = pits[i];
+				PersonInTables pit = pit2;
 				if (pit.shortPerson.getPrivacy() != null) {
 					if (pit.shortPerson.getPrivacy().equals("F")) {
 						PersonShortData nn = new PersonShortData(
@@ -609,8 +611,7 @@ public abstract class CommonReport {
 				repoWriter.addText(bt);
 				bt = new NameIndexText();
 
-				for (int i = 0; i < places.length; i++) {
-					PlaceInTables pit = places[i];
+				for (PlaceInTables pit : places) {
 					bt.addText(pit.getPlace());
 					bt.addText("\t");
 					bt.addText(pit.toString());
@@ -638,10 +639,10 @@ public abstract class CommonReport {
 				repoWriter.addText(bt);
 				bt = new NameIndexText();
 				int row = 1;
-				for (int i = 0; i < refs.length; i++) {
+				for (String ref : refs) {
 					bt.addText("" + row);
 					bt.addText("\t");
-					bt.addText(refs[i]);
+					bt.addText(ref);
 
 					repoWriter.addText(bt);
 					row++;
@@ -703,11 +704,11 @@ public abstract class CommonReport {
 		if (sdata.relations != null) {
 			RelationNotice rnMarr = null;
 
-			for (int i = 0; i < sdata.relations.length; i++) {
-				if (sdata.relations[i].getRelative() == memberPid) {
+			for (Relation relation : sdata.relations) {
+				if (relation.getRelative() == memberPid) {
 					if (sdata.persLong.getPrivacy() == null) {
-						if (sdata.relations[i].getNotices() != null) {
-							rnn = sdata.relations[i].getNotices();
+						if (relation.getNotices() != null) {
+							rnn = relation.getNotices();
 
 							for (RelationNotice rr : rnn) {
 								if (rr.getTag().equals("MARR")) {
@@ -773,8 +774,7 @@ public abstract class CommonReport {
 			}
 			if (rnn != null) {
 				boolean skipMarr = true;
-				for (int i = 0; i < rnn.length; i++) {
-					RelationNotice rn = rnn[i];
+				for (RelationNotice rn : rnn) {
 					if (skipMarr && rn.getTag().equals("MARR")) {
 						skipMarr = false;
 					} else {
@@ -864,8 +864,9 @@ public abstract class CommonReport {
 
 	protected int getTypeColumn(int pid) {
 		Integer foundMe = mapper.get(pid);
-		if (foundMe != null)
+		if (foundMe != null) {
 			return 3;
+		}
 		mapper.put(Integer.valueOf(pid), Integer.valueOf(pid));
 		return 2;
 	}
@@ -917,9 +918,7 @@ public abstract class CommonReport {
 		notices[0] = new UnitNotice("NAME");
 		notices[0].setGivenname(typesTable.getTextValue("REPORT_NOMEN_NESCIO"));
 
-		for (int j = 0; j < notices.length; j++) {
-			UnitNotice nn = notices[j];
-
+		for (UnitNotice nn : notices) {
 			if (nn.getTag().equals("NAME")) {
 
 				printGivenname(bt, nn.getGivenname(), true);
@@ -988,7 +987,7 @@ public abstract class CommonReport {
 				pareCount++;
 				long pareTab = ref.asChildren.get(i);
 				String partext = typesTable
-						.getTextValue((pareTab % 2 == 0) ? "Father" : "Mother");
+						.getTextValue(pareTab % 2 == 0 ? "Father" : "Mother");
 				if (caller.getAncestorPane().getAllBranches()) {
 					long fftab = ftab.getTableNo() * 2;
 					if (pareTab % 2 != 0) {
@@ -1076,11 +1075,13 @@ public abstract class CommonReport {
 		int tableCount = 0;
 		int famtCount = 0;
 
-		for (int i = 0; i < xnotices.length; i++) {
-			if (xnotices[i].getTag().equals("TABLE"))
+		for (UnitNotice xnotice : xnotices) {
+			if (xnotice.getTag().equals("TABLE")) {
 				tableCount++;
-			if (xnotices[i].getTag().equals("FAMT"))
+			}
+			if (xnotice.getTag().equals("FAMT")) {
 				famtCount++;
+			}
 		}
 
 		UnitNotice[] notices = new UnitNotice[xnotices.length - tableCount
@@ -1149,7 +1150,7 @@ public abstract class CommonReport {
 
 		if (showType.equals(ReportWorkerDialog.SET_SPOUSE_YEAR)
 				|| showType.equals(ReportWorkerDialog.SET_SPOUSE_DATE)) {
-			if ((isBefore && rn.getTag().equals("MARR")) || (!isBefore)) {
+			if (isBefore && rn.getTag().equals("MARR") || !isBefore) {
 				String yr = rn.getFromDate();
 				if (showType.equals(ReportWorkerDialog.SET_SPOUSE_YEAR)) {
 					if (yr != null && yr.length() >= 4) {
@@ -1254,7 +1255,7 @@ public abstract class CommonReport {
 				if ((nn.getPrivacy() == null || nn.getPrivacy().equals(
 						Resurses.PRIVACY_TEXT))
 						&& nn.getSurety() >= minSurety) {
-					if ((typesTable.isType(tag, colType))) {
+					if (typesTable.isType(tag, colType)) {
 						if (typesTable.isType(tag, 1)) {
 							String noType = nn.getNoticeType();
 							if (noType != null) {
@@ -1327,11 +1328,11 @@ public abstract class CommonReport {
 							addDot = true;
 						}
 
-						if (nn.getPlace() != null
-								|| (nn.getTag().equals("RESI") && nn
-										.getPostOffice() != null)) {
-							if (addSpace)
+						if (nn.getPlace() != null || nn.getTag().equals("RESI")
+								&& nn.getPostOffice() != null) {
+							if (addSpace) {
 								bt.addText(" ");
+							}
 							bt.addText(convertPlace(nn));
 
 							addSpace = true;
@@ -1339,7 +1340,7 @@ public abstract class CommonReport {
 						}
 
 						if (caller.isCreatePlaceIndexSet()
-								&& typesTable.isType(nn.getTag(), 5)) {
+								&& typesTable.isType(nn.getTag(), 2)) {
 
 							String place = nn.getPlace();
 							if (place != null && nn.getTag().equals("RESI")
@@ -1373,8 +1374,10 @@ public abstract class CommonReport {
 							}
 						}
 
-						if ((caller.isShowVillageFarm() && (nn.getVillage() != null
-								|| nn.getFarm() != null || nn.getCroft() != null))
+						if (caller.isShowVillageFarm()
+								&& (nn.getVillage() != null
+										|| nn.getFarm() != null || nn
+										.getCroft() != null)
 								|| nn.getState() != null
 								|| nn.getCountry() != null) {
 							if (addSpace) {
@@ -1460,11 +1463,11 @@ public abstract class CommonReport {
 											neww = imw;
 
 										} else {
-											newh = imh * (neww / imw);
+											newh = imh * neww / imw;
 											neww = imw;
 										}
 									} else {
-										neww = imw * (newh / imh);
+										neww = imw * newh / imh;
 									}
 
 									imageNumber++;
@@ -1570,8 +1573,9 @@ public abstract class CommonReport {
 						if (caller.showAddress()) {
 
 							if (nn.getAddress() != null) {
-								if (addSpace)
+								if (addSpace) {
 									bt.addText(" ");
+								}
 								int tlen = 0;
 								String parts[] = nn.getAddress()
 										.replaceAll("\\r", "").split("\n");
@@ -1722,8 +1726,9 @@ public abstract class CommonReport {
 	 * @return
 	 */
 	private int printText(BodyText bt, String text, String[] namesin) {
-		if (text == null)
+		if (text == null) {
 			return 0;
+		}
 
 		if (namesin != null && caller.showBoldNames()) {
 			String names[] = new String[namesin.length];
@@ -1887,8 +1892,9 @@ public abstract class CommonReport {
 	private String printDate(String datePrefix, String dateFrom, String dateTo) {
 		String mellan = "";
 		String framme = "";
-		if (dateFrom == null)
+		if (dateFrom == null) {
 			return "";
+		}
 		StringBuilder sb = new StringBuilder();
 
 		if (datePrefix != null) {
@@ -1916,8 +1922,9 @@ public abstract class CommonReport {
 	}
 
 	private String toRepoDate(String date) {
-		if (date == null)
+		if (date == null) {
 			return null;
+		}
 		String df = caller.getDateFormat();
 
 		int dd = 0;
@@ -1988,8 +1995,7 @@ public abstract class CommonReport {
 		UnitNotice[] notices = persLong.getNotices();
 		int minSurety = caller.showMinSurety();
 		boolean isDead = false;
-		for (int j = 0; j < notices.length; j++) {
-			UnitNotice nn = notices[j];
+		for (UnitNotice nn : notices) {
 			if (nn.getTag().equals("DEAT") || nn.getTag().equals("BURI")) {
 				isDead = true;
 			}
@@ -2018,7 +2024,7 @@ public abstract class CommonReport {
 				if ((nn.getPrivacy() == null || nn.getPrivacy().equals(
 						Resurses.PRIVACY_TEXT))
 						&& nn.getSurety() >= minSurety) {
-					if ((typesTable.isType("NAME", colType) || nameCount == 0)) {
+					if (typesTable.isType("NAME", colType) || nameCount == 0) {
 
 						if (nameCount > 0 && nn.getNoticeType() == null) {
 							bt.addText(", ");
@@ -2156,9 +2162,10 @@ public abstract class CommonReport {
 			String startChar = "";
 			String endChar = "";
 			if (namePart.length() > 2
-					&& ((namePart.charAt(0) == '(' && namePart.charAt(namePart
-							.length() - 1) == ')') || (namePart.charAt(0) == '\"' && namePart
-							.charAt(namePart.length() - 1) == '\"'))) {
+					&& (namePart.charAt(0) == '('
+							&& namePart.charAt(namePart.length() - 1) == ')' || namePart
+							.charAt(0) == '\"'
+							&& namePart.charAt(namePart.length() - 1) == '\"')) {
 				char[] c = new char[1];
 				c[0] = namePart.charAt(0);
 				startChar = new String(c);
@@ -2292,8 +2299,9 @@ public abstract class CommonReport {
 	}
 
 	private String trim(String text) {
-		if (text == null)
+		if (text == null) {
 			return null;
+		}
 
 		String tek = spaceTrim(text);
 
@@ -2341,8 +2349,9 @@ public abstract class CommonReport {
 	 * @return the string
 	 */
 	protected String nv(String text) {
-		if (text == null)
+		if (text == null) {
 			return "";
+		}
 		return text;
 	}
 
