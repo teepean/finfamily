@@ -1340,7 +1340,7 @@ public abstract class CommonReport {
 						}
 
 						if (caller.isCreatePlaceIndexSet()
-								&& typesTable.isType(nn.getTag(), 2)) {
+								&& typesTable.isType(nn.getTag(), 5)) {
 
 							String place = nn.getPlace();
 							if (place != null && nn.getTag().equals("RESI")
