@@ -1339,6 +1339,72 @@ public abstract class CommonReport {
 							addDot = true;
 						}
 
+						StringBuilder villageFarm = new StringBuilder();
+
+						if (caller.isShowVillageFarm()
+								&& (nn.getVillage() != null
+										|| nn.getFarm() != null || nn
+										.getCroft() != null)
+								|| nn.getState() != null
+								|| nn.getCountry() != null) {
+							if (addSpace) {
+								bt.addText(" ");
+								villageFarm.append(" ");
+								addSpace = false;
+							}
+							bt.addText("(");
+							villageFarm.append("(");
+							if (caller.isShowVillageFarm()
+									&& nn.getVillage() != null) {
+								bt.addText(nn.getVillage());
+								villageFarm.append(nn.getVillage());
+								addSpace = true;
+							}
+							if (caller.isShowVillageFarm()
+									&& nn.getFarm() != null) {
+								if (addSpace) {
+									bt.addText(" ");
+									villageFarm.append(" ");
+									addSpace = true;
+								}
+								bt.addText(nn.getFarm());
+								villageFarm.append(nn.getFarm());
+								addSpace = true;
+							}
+							if (caller.isShowVillageFarm()
+									&& nn.getCroft() != null) {
+								if (addSpace) {
+									bt.addText(" ");
+									villageFarm.append(" ");
+									addSpace = true;
+								}
+								bt.addText(nn.getCroft());
+								villageFarm.append(nn.getCroft());
+							}
+
+							if (nn.getState() != null) {
+								if (addSpace) {
+									bt.addText(" ");
+									villageFarm.append(" ");
+								}
+								addSpace = true;
+								bt.addText(nn.getState());
+								villageFarm.append(nn.getState());
+							}
+							if (nn.getCountry() != null) {
+								if (addSpace) {
+									bt.addText(", ");
+									villageFarm.append(", ");
+								}
+								bt.addText(nn.getCountry());
+								villageFarm.append(nn.getCountry());
+							}
+							addSpace = true;
+							addDot = true;
+							bt.addText(")");
+							villageFarm.append(")");
+						}
+
 						if (caller.isCreatePlaceIndexSet()
 								&& typesTable.isType(nn.getTag(), 5)) {
 
@@ -1346,6 +1412,9 @@ public abstract class CommonReport {
 							if (place != null && nn.getTag().equals("RESI")
 									&& nn.getPostOffice() != null) {
 								place = nn.getPostOffice();
+							}
+							if (place != null && caller.isShowVillageFarm()) {
+								place = place + villageFarm.toString();
 							}
 							int idx = -1;
 							while (idx > -2) {
@@ -1374,58 +1443,6 @@ public abstract class CommonReport {
 							}
 						}
 
-						if (caller.isShowVillageFarm()
-								&& (nn.getVillage() != null
-										|| nn.getFarm() != null || nn
-										.getCroft() != null)
-								|| nn.getState() != null
-								|| nn.getCountry() != null) {
-							if (addSpace) {
-								bt.addText(" ");
-								addSpace = false;
-							}
-							bt.addText("(");
-							if (caller.isShowVillageFarm()
-									&& nn.getVillage() != null) {
-								bt.addText(nn.getVillage());
-								addSpace = true;
-							}
-							if (caller.isShowVillageFarm()
-									&& nn.getFarm() != null) {
-								if (addSpace) {
-									bt.addText(" ");
-									addSpace = true;
-								}
-								bt.addText(nn.getFarm());
-								addSpace = true;
-							}
-							if (caller.isShowVillageFarm()
-									&& nn.getCroft() != null) {
-								if (addSpace) {
-									bt.addText(" ");
-									addSpace = true;
-								}
-								bt.addText(nn.getCroft());
-
-							}
-
-							if (nn.getState() != null) {
-								if (addSpace) {
-									bt.addText(" ");
-								}
-								addSpace = true;
-								bt.addText(nn.getState());
-							}
-							if (nn.getCountry() != null) {
-								if (addSpace) {
-									bt.addText(", ");
-								}
-								bt.addText(nn.getCountry());
-							}
-							addSpace = true;
-							addDot = true;
-							bt.addText(")");
-						}
 						if (tag.startsWith("PHOT") && caller.isSeparateImages()) {
 							if (addSpace) {
 								addSpace = true;
