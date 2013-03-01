@@ -203,19 +203,22 @@ public class DescendantReport extends CommonReport {
 				"pid=" + subjectmember.getPid(),
 				"lang=" + Resurses.getLanguage());
 
-		if (pdata.persLong == null)
+		if (pdata.persLong == null) {
 			return;
+		}
 
 		UnitNotice[] xnotices = pdata.persLong.getNotices();
 
 		int tableCount = 0;
 		int famtCount = 0;
 
-		for (int i = 0; i < xnotices.length; i++) {
-			if (xnotices[i].getTag().equals("TABLE"))
+		for (UnitNotice xnotice : xnotices) {
+			if (xnotice.getTag().equals("TABLE")) {
 				tableCount++;
-			if (xnotices[i].getTag().equals("FAMT"))
+			}
+			if (xnotice.getTag().equals("FAMT")) {
 				famtCount++;
+			}
 		}
 
 		UnitNotice[] notices = new UnitNotice[xnotices.length - tableCount
@@ -230,33 +233,33 @@ public class DescendantReport extends CommonReport {
 		int xtable = 0;
 		int xfamt = 0;
 
-		for (int i = 0; i < xnotices.length; i++) {
-			if (xnotices[i].getTag().equals("FAMT")) {
-				famtNotices[xfamt++] = xnotices[i];
-			} else if (xnotices[i].getTag().equals("TABLE")) {
-				tableNotices[xtable++] = xnotices[i];
+		for (UnitNotice xnotice : xnotices) {
+			if (xnotice.getTag().equals("FAMT")) {
+				famtNotices[xfamt++] = xnotice;
+			} else if (xnotice.getTag().equals("TABLE")) {
+				tableNotices[xtable++] = xnotice;
 			} else {
-				notices[xn++] = xnotices[i];
+				notices[xn++] = xnotice;
 			}
 		}
 
-		for (int j = 0; j < notices.length; j++) {
-			UnitNotice nn = notices[j];
+		for (UnitNotice nn : notices) {
 			if (nn.getTag().equals("NAME")) {
 				tabOwner.append(nn.getSurname());
-				if (tabOwner.length() > 0)
+				if (tabOwner.length() > 0) {
 					tabOwner.append(" ");
+				}
 				tabOwner.append(nn.getGivenname());
 				break;
 			}
 		}
-		float prose = (idx * 100f) / tables.size();
+		float prose = idx * 100f / tables.size();
 		caller.setRunnerValue("" + (int) prose + ";"
 				+ (tab.getTableNo() + tableOffset) + ":" + tabOwner);
 
 		String genText = "";
-		if (tab.getGen() > 0) {
-			genText = Roman.int2roman(tab.getGen());
+		if (tab.getGen() >= 0) {
+			genText = Roman.int2roman(tab.getGen() + 1);
 		}
 
 		if (tableNotices.length > 0) {
@@ -335,12 +338,11 @@ public class DescendantReport extends CommonReport {
 						//
 						if (caller.getDescendantPane().isBothParents()) {
 							// OK. Let's see if we can locate him/her
-							String pareTag = (pareSex.equals("M")) ? "MOTH"
+							String pareTag = pareSex.equals("M") ? "MOTH"
 									: "FATH";
 							int parePid = 0;
 							int pareSurety = 0;
-							for (int j = 0; j < pdata.relations.length; j++) {
-								Relation rel = pdata.relations[j];
+							for (Relation rel : pdata.relations) {
 								if (rel.getTag().equals(pareTag)) {
 									if (rel.getSurety() > pareSurety) {
 										// still check for adoptions
@@ -541,7 +543,7 @@ public class DescendantReport extends CommonReport {
 
 		if (tab.getChild().size() > 0) {
 			bt = new ChildHeaderText();
-			genText = Roman.int2roman(tab.getGen() + 1);
+			genText = Roman.int2roman(tab.getGen() + 2);
 			bt.addText(genText + ". ");
 			bt.addText(typesTable.getTextValue("Chil"));
 			repoWriter.addText(bt);
@@ -602,9 +604,9 @@ public class DescendantReport extends CommonReport {
 					paretag = "FATH";
 					ownerTag = "MOTH";
 				}
-				for (int i = 0; i < cdata.relations.length; i++) {
-					if (paretag.equals(cdata.relations[i].getTag())) {
-						bid = cdata.relations[i].getRelative();
+				for (Relation relation : cdata.relations) {
+					if (paretag.equals(relation.getTag())) {
+						bid = relation.getRelative();
 						break;
 
 					}
@@ -629,14 +631,12 @@ public class DescendantReport extends CommonReport {
 
 				StringBuilder adopTag = new StringBuilder();
 
-				for (int i = 0; i < cdata.relations.length; i++) {
-					if (ownerTag.equals(cdata.relations[i].getTag())) {
-						if (tab.getPid() == cdata.relations[i].getRelative()) {
-							if (cdata.relations[i].getNotices() != null) {
-								for (int j = 0; j < cdata.relations[i]
-										.getNotices().length; j++) {
-									RelationNotice rn = cdata.relations[i]
-											.getNotices()[j];
+				for (Relation relation : cdata.relations) {
+					if (ownerTag.equals(relation.getTag())) {
+						if (tab.getPid() == relation.getRelative()) {
+							if (relation.getNotices() != null) {
+								for (int j = 0; j < relation.getNotices().length; j++) {
+									RelationNotice rn = relation.getNotices()[j];
 									String aux = rn.getTag();
 									if ("ADOP".equals(aux)) {
 										if (adopTag.length() > 0) {
