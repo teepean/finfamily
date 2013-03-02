@@ -225,8 +225,8 @@ public class AncestorReport extends CommonReport {
 				if (i > 0 && tab.getTableNo() % 2 == 0) {
 					ftab = tab;
 					if (i < tables.size() - 1
-							&& (tab.getTableNo() + 1 == tables.get(i + 1)
-									.getTableNo())) {
+							&& tab.getTableNo() + 1 == tables.get(i + 1)
+									.getTableNo()) {
 						mtab = tables.get(i + 1);
 					}
 
@@ -256,7 +256,7 @@ public class AncestorReport extends CommonReport {
 
 			ReportUnit tab = tables.get(i);
 
-			createAncestorTable(i, tab, null, (currTab == tab.getTableNo()) ? 0
+			createAncestorTable(i, tab, null, currTab == tab.getTableNo() ? 0
 					: tab.getTableNo());
 			// createDescendantTable(i, tab);
 			currTab = tab.getTableNo();
@@ -353,21 +353,22 @@ public class AncestorReport extends CommonReport {
 			UnitNotice nn = xdata.getNotices()[j];
 			if (nn.getTag().equals("NAME")) {
 				tabOwner.append(nn.getSurname());
-				if (tabOwner.length() > 0)
+				if (tabOwner.length() > 0) {
 					tabOwner.append(" ");
+				}
 				tabOwner.append(nn.getGivenname());
 				break;
 			}
 		}
 
-		float prose = (idx * 100f) / tables.size();
+		float prose = idx * 100f / tables.size();
 		caller.setRunnerValue("" + (int) prose + ";" + tableNum + ":"
 				+ tabOwner.toString());
 
 		bt = new TableHeaderText();
 		String genText = "";
-		if (mainTab.getGen() > 0) {
-			genText = Roman.int2roman(mainTab.getGen());
+		if (mainTab.getGen() >= 0) {
+			genText = Roman.int2roman(mainTab.getGen() + 1);
 		}
 
 		if (mtab != null && ftab != null) {
@@ -375,8 +376,8 @@ public class AncestorReport extends CommonReport {
 			if (!genText.isEmpty()) {
 				bt.addText(genText + ".");
 			}
-			bt.addAnchor("" + (ftab.getTableNo()));
-			bt.addAnchor("" + (mtab.getTableNo()));
+			bt.addAnchor("" + ftab.getTableNo());
+			bt.addAnchor("" + mtab.getTableNo());
 			bt.addText(" " + toPrintTable(ftab.getTableNo()));
 
 			bt.addText(", " + toPrintTable(mtab.getTableNo()));
@@ -386,7 +387,7 @@ public class AncestorReport extends CommonReport {
 				if (!genText.isEmpty()) {
 					bt.addText(genText + ".");
 				}
-				bt.addAnchor("" + (tableNum));
+				bt.addAnchor("" + tableNum);
 				bt.addText(" " + toPrintTable(tableNum));
 			}
 		}
@@ -492,8 +493,7 @@ public class AncestorReport extends CommonReport {
 
 				Relation marr = null;
 				if (mammadata != null && mammadata.relations != null) {
-					for (int i = 0; i < mammadata.relations.length; i++) {
-						Relation rr = mammadata.relations[i];
+					for (Relation rr : mammadata.relations) {
 						if (rr.getTag().equals("HUSB")
 								&& fid == rr.getRelative()
 								&& mid == rr.getPid()) {
@@ -595,11 +595,10 @@ public class AncestorReport extends CommonReport {
 					RelationNotice rnn[] = null;
 					if (sdata.relations != null) {
 
-						for (int i = 0; i < sdata.relations.length; i++) {
-							if (sdata.relations[i].getRelative() == tab
-									.getPid()) {
-								if (sdata.relations[i].getNotices() != null) {
-									rnn = sdata.relations[i].getNotices();
+						for (Relation relation : sdata.relations) {
+							if (relation.getRelative() == tab.getPid()) {
+								if (relation.getNotices() != null) {
+									rnn = relation.getNotices();
 
 									RelationNotice rn = rnn[0];
 									spouType = printRelationNotice(rn,
@@ -760,11 +759,10 @@ public class AncestorReport extends CommonReport {
 
 					// check if child is adopted
 					String adopTag = null;
-					for (int i = 0; i < cdata.relations.length; i++) {
-						if (ownerTag.equals(cdata.relations[i].getTag())) {
-							if (cdata.relations[i].getNotices() != null) {
-								adopTag = cdata.relations[i].getNotices()[0]
-										.getTag();
+					for (Relation relation : cdata.relations) {
+						if (ownerTag.equals(relation.getTag())) {
+							if (relation.getNotices() != null) {
+								adopTag = relation.getNotices()[0].getTag();
 
 							}
 							break;
@@ -851,8 +849,7 @@ public class AncestorReport extends CommonReport {
 										.toLowerCase());
 							} else {
 								bt.addText(typesTable.getTextValue(
-										(isMale) ? "WIFE" : "HUSB")
-										.toLowerCase());
+										isMale ? "WIFE" : "HUSB").toLowerCase());
 							}
 							bt.addText(":");
 							repoWriter.addText(bt);
@@ -934,12 +931,11 @@ public class AncestorReport extends CommonReport {
 
 							// check if child is adopted
 							String adopTag = null;
-							for (int i = 0; i < cdata.relations.length; i++) {
-								if (ownerTag
-										.equals(cdata.relations[i].getTag())) {
-									if (cdata.relations[i].getNotices() != null) {
-										adopTag = cdata.relations[i]
-												.getNotices()[0].getTag();
+							for (Relation relation : cdata.relations) {
+								if (ownerTag.equals(relation.getTag())) {
+									if (relation.getNotices() != null) {
+										adopTag = relation.getNotices()[0]
+												.getTag();
 
 									}
 									break;
