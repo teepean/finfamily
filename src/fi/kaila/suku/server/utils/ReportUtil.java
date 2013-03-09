@@ -214,8 +214,8 @@ public class ReportUtil {
 
 				ReportTableMember spouses[] = member.getSpouses();
 				if (spouses != null) {
-					for (int k = 0; k < spouses.length; k++) {
-						PersonInTables ref = personReferences.get(spouses[k]
+					for (ReportTableMember spouse : spouses) {
+						PersonInTables ref = personReferences.get(spouse
 								.getPid());
 						fromTable = "";
 						if (ref != null) {
@@ -223,7 +223,7 @@ public class ReportUtil {
 									true, true, false, 0);
 						}
 						if (fromTable.isEmpty()) {
-							addAncestorsToMember(unit, spouses[k], 1, gen, null);
+							addAncestorsToMember(unit, spouse, 1, gen, null);
 							// spouse not a relative
 						}
 					}
@@ -448,9 +448,10 @@ public class ReportUtil {
 						if (order
 								.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE)
 								&& chi.getSex().equals("M")) {
-							// females.put(unit.getPid(),chi);
-							females.put(pareUnits.getPid(),
-									pareUnits.getMember(0));
+							// FIRSTMALE report doesn't worked correctly.
+							// halonmi 20130309
+							females.put(unit.getPid(), chi);
+							// females.put(pareUnits.getPid(),pareUnits.getMember(0));
 						}
 						//
 						// if spouse has table then if spouse and subject
@@ -497,10 +498,10 @@ public class ReportUtil {
 					|| order.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE)
 					|| order.equals(ReportWorkerDialog.SET_ORDER_NEWMALE)
 					|| order.equals(ReportWorkerDialog.SET_ORDER_REG)
-					|| (order.equals(ReportWorkerDialog.SET_ORDER_MALE)
-							&& "M".equals(chix.getSex()) || (order
-							.equals(ReportWorkerDialog.SET_ORDER_FEMALE) && "F"
-							.equals(chix.getSex())))) {
+					|| order.equals(ReportWorkerDialog.SET_ORDER_MALE)
+					&& "M".equals(chix.getSex())
+					|| order.equals(ReportWorkerDialog.SET_ORDER_FEMALE)
+					&& "F".equals(chix.getSex())) {
 
 				nxttab = createDescendantTables(tableNo, tableNo, chix,
 						gen + 1, generations, order, adopted, round);
