@@ -63,19 +63,22 @@ public class QueryUtil {
 		try {
 			StringBuilder seleSQL = new StringBuilder();
 
-			seleSQL.append("select u.pid,u.sex,u.userrefn,"
-					+ "u.groupid,u.tag,n.tag,n.givenname,");
+			seleSQL.append("select u.pid,u.sex,u.userrefn,");
+			seleSQL.append("u.groupid,u.tag,n.tag,n.givenname,");
 			seleSQL.append("n.patronym,n.prefix,n.surname,n.postfix,");
-			seleSQL.append("n.fromdate,n.Place,n.Description,"
-					+ "n.pnid,n.mediafilename,n.mediatitle,n.Country ");
-			seleSQL.append("from unit as u left join unitnotice "
-					+ "as n on u.pid = n.pid ");
+			seleSQL.append("n.fromdate,n.place,n.village,n.farm,n.croft,n.Description,");
+			seleSQL.append("n.pnid,n.mediafilename,n.mediatitle,n.Country ");
+			seleSQL.append("from unit as u left join unitnotice ");
+			seleSQL.append("as n on u.pid = n.pid ");
 
 			StringBuilder fromSQL = new StringBuilder();
 			StringBuilder sbn = new StringBuilder();
 			StringBuilder free = new StringBuilder();
 
 			String searchPlace = null;
+			String searchVillage = null;
+			String searchFarm = null;
+			String searchCroft = null;
 			String searchNoticeTag = null;
 			boolean searchNoNotice = false;
 			String searchSex = null;
@@ -84,6 +87,7 @@ public class QueryUtil {
 			if (params.length > 1) {
 
 				boolean isFirstCriteria = true;
+				boolean isFirstPlaceCriteria = true;
 				for (idx = 1; idx < params.length; idx++) {
 					pari = params[idx].split("=");
 					decod = URLDecoder.decode(pari[1], "UTF-8");
@@ -93,23 +97,35 @@ public class QueryUtil {
 					} else {
 
 						if (pari[0].equals(Resurses.CRITERIA_GIVENNAME)) {
-							if (sbn.length() > 0)
+							if (sbn.length() > 0) {
 								sbn.append("and ");
-							sbn.append("givenname ilike '" + toQuery(decod)
-									+ "%' ");
+							}
+							sbn.append("givenname ilike '");
+							sbn.append(toQuery(decod));
+							sbn.append("%' ");
 						} else if (pari[0].equals(Resurses.CRITERIA_SURNAME)) {
-							if (sbn.length() > 0)
+							if (sbn.length() > 0) {
 								sbn.append("and ");
+							}
 
-							sbn.append("surname ilike '" + toQuery(decod)
-									+ "%' ");
+							sbn.append("surname ilike '");
+							sbn.append(toQuery(decod));
+							sbn.append("%' ");
 						} else if (pari[0].equals(Resurses.CRITERIA_PATRONYME)) {
-							if (sbn.length() > 0)
+							if (sbn.length() > 0) {
 								sbn.append("and ");
-							sbn.append("patronym ilike '" + toQuery(decod)
-									+ "%' ");
+							}
+							sbn.append("patronym ilike '");
+							sbn.append(toQuery(decod));
+							sbn.append("%' ");
 						} else if (pari[0].equals(Resurses.CRITERIA_PLACE)) {
 							searchPlace = decod;
+						} else if (pari[0].equals(Resurses.CRITERIA_VILLAGE)) {
+							searchVillage = decod;
+						} else if (pari[0].equals(Resurses.CRITERIA_FARM)) {
+							searchFarm = decod;
+						} else if (pari[0].equals(Resurses.CRITERIA_CROFT)) {
+							searchCroft = decod;
 						} else if (pari[0].equals(Resurses.CRITERIA_NOTICE)) {
 							searchNoticeTag = decod;
 						} else if (pari[0]
@@ -129,7 +145,9 @@ public class QueryUtil {
 					}
 				}
 				if (searchSex != null) {
-					seleSQL.append(" where u.sex = '" + searchSex + "' ");
+					seleSQL.append(" where u.sex = '");
+					seleSQL.append(searchSex);
+					seleSQL.append("' ");
 					isFirstCriteria = false;
 				}
 				if (sbn.length() > 0) {
@@ -162,7 +180,9 @@ public class QueryUtil {
 						fromSQL.append("and ");
 					}
 					isFirstCriteria = false;
-					fromSQL.append("u.groupid ilike '" + toQuery(group) + "%' ");
+					fromSQL.append("u.groupid ilike '");
+					fromSQL.append(toQuery(group));
+					fromSQL.append("%' ");
 				}
 
 				for (idx = 1; idx < params.length; idx++) {
@@ -187,18 +207,28 @@ public class QueryUtil {
 					isFirstCriteria = false;
 					fromSQL.append("u.pid in (select pid from unitnotice where ");
 					if (begdate != null && todate == null) {
-						fromSQL.append("fromdate >= '" + begdate + "' ");
+						fromSQL.append("fromdate >= '");
+						fromSQL.append(begdate);
+						fromSQL.append("' ");
 					} else if (begdate == null && todate != null) {
-						fromSQL.append("fromdate <= '" + todate + "9999' ");
+						fromSQL.append("fromdate <= '");
+						fromSQL.append(todate);
+						fromSQL.append("9999' ");
 					} else if (begdate != null && todate != null) {
-						fromSQL.append("fromdate between '" + begdate
-								+ "' and '" + todate + "9999' ");
+						fromSQL.append("fromdate between '");
+						fromSQL.append(begdate);
+						fromSQL.append("' and '");
+						fromSQL.append(todate);
+						fromSQL.append("9999' ");
 					}
 					if (begdate == null && todate == null && place != null) {
-						fromSQL.append("place ilike '" + toQuery(place) + "%' ");
+						fromSQL.append("place ilike '");
+						fromSQL.append(toQuery(place));
+						fromSQL.append("%' ");
 					} else if (place != null) {
-						fromSQL.append("and place ilike '" + toQuery(place)
-								+ "' ");
+						fromSQL.append("and place ilike '");
+						fromSQL.append(toQuery(place));
+						fromSQL.append("' ");
 					}
 					fromSQL.append("and tag='BIRT') ");
 				}
@@ -228,17 +258,28 @@ public class QueryUtil {
 					isFirstCriteria = false;
 					fromSQL.append("u.pid in (select pid from unitnotice where ");
 					if (begdate != null && todate == null) {
-						fromSQL.append("fromdate >= '" + begdate + "' ");
+						fromSQL.append("fromdate >= '");
+						fromSQL.append(begdate);
+						fromSQL.append("' ");
 					} else if (begdate == null && todate != null) {
-						fromSQL.append("fromdate <= '" + todate + "9999' ");
+						fromSQL.append("fromdate <= '");
+						fromSQL.append(todate);
+						fromSQL.append("9999' ");
 					} else if (begdate != null && todate != null) {
-						fromSQL.append("fromdate between '" + begdate
-								+ "' and '" + todate + "9999' ");
+						fromSQL.append("fromdate between '");
+						fromSQL.append(begdate);
+						fromSQL.append("' and '");
+						fromSQL.append(todate);
+						fromSQL.append("9999' ");
 					}
 					if (begdate == null && todate == null && place != null) {
-						fromSQL.append("place ilike '" + toQuery(place) + "' ");
+						fromSQL.append("place ilike '");
+						fromSQL.append(toQuery(place));
+						fromSQL.append("' ");
 					} else if (place != null) {
-						fromSQL.append("and place ilike '" + place + "%' ");
+						fromSQL.append("and place ilike '");
+						fromSQL.append(place);
+						fromSQL.append("%' ");
 					}
 					fromSQL.append("and tag='DEAT') ");
 				}
@@ -262,14 +303,19 @@ public class QueryUtil {
 					}
 					isFirstCriteria = false;
 					if (todate == null) {
-						fromSQL.append("u.pid in (select pid from unitnotice where coalesce(modified,createdate) >= '"
-								+ begdate + "')");
+						fromSQL.append("u.pid in (select pid from unitnotice where coalesce(modified,createdate) >= '");
+						fromSQL.append(begdate);
+						fromSQL.append("')");
 					} else if (begdate == null) {
-						fromSQL.append("u.pid in (select pid from unitnotice where coalesce(modified,createdate) <= '"
-								+ todate + "' )");
+						fromSQL.append("u.pid in (select pid from unitnotice where coalesce(modified,createdate) <= '");
+						fromSQL.append(todate);
+						fromSQL.append("' )");
 					} else {
-						fromSQL.append("u.pid in (select pid from unitnotice where coalesce(modified,createdate) between '"
-								+ begdate + "' and '" + todate + "' ) ");
+						fromSQL.append("u.pid in (select pid from unitnotice where coalesce(modified,createdate) between '");
+						fromSQL.append(begdate);
+						fromSQL.append("' and '");
+						fromSQL.append(todate);
+						fromSQL.append("' ) ");
 					}
 				}
 				String viewIdTxt = null;
@@ -289,35 +335,124 @@ public class QueryUtil {
 					}
 					isFirstCriteria = false;
 
-					fromSQL.append("u.pid in (select pid from viewunits where vid = "
-							+ viewIdTxt + ") ");
+					fromSQL.append("u.pid in (select pid from viewunits where vid = ");
+					fromSQL.append(viewIdTxt);
+					fromSQL.append(") ");
 
 				}
 
-				if (searchPlace != null || searchNoticeTag != null) {
+				if (searchPlace != null || searchVillage != null
+						|| searchFarm != null || searchCroft != null
+						|| searchNoticeTag != null) {
 					if (isFirstCriteria) {
 						fromSQL.append("where ");
 					} else {
 						fromSQL.append("and ");
 					}
-					isFirstCriteria = false;
-					if (searchPlace != null && searchNoticeTag == null) {
-
-						fromSQL.append("u.pid in (select pid from unitnotice where place ilike '"
-								+ toQuery(searchPlace) + "%') ");
-
-					} else if (searchPlace != null && searchNoticeTag != null) {
-						fromSQL.append("u.pid in (select pid from unitnotice where place ilike '"
-								+ toQuery(searchPlace)
-								+ "' and tag = '"
-								+ searchNoticeTag + "') ");
-					} else if (searchPlace == null && searchNoticeTag != null) {
+					isFirstPlaceCriteria = true;
+					if ((searchPlace != null || searchVillage != null
+							|| searchFarm != null || searchCroft != null)
+							&& searchNoticeTag == null) {
+						fromSQL.append("u.pid in (select pid from unitnotice where");
+						if (searchPlace != null) {
+							if (isFirstPlaceCriteria) {
+								isFirstPlaceCriteria = false;
+							} else {
+								fromSQL.append(" and");
+							}
+							fromSQL.append(" place ilike '");
+							fromSQL.append(toQuery(searchPlace));
+							fromSQL.append("%'");
+						}
+						if (searchVillage != null) {
+							if (isFirstPlaceCriteria) {
+								isFirstPlaceCriteria = false;
+							} else {
+								fromSQL.append(" and");
+							}
+							fromSQL.append(" village ilike '");
+							fromSQL.append(toQuery(searchVillage));
+							fromSQL.append("%'");
+						}
+						if (searchFarm != null) {
+							if (isFirstPlaceCriteria) {
+								isFirstPlaceCriteria = false;
+							} else {
+								fromSQL.append(" and");
+							}
+							fromSQL.append(" farm ilike '");
+							fromSQL.append(toQuery(searchFarm));
+							fromSQL.append("%'");
+						}
+						if (searchCroft != null) {
+							if (isFirstPlaceCriteria) {
+								isFirstPlaceCriteria = false;
+							} else {
+								fromSQL.append(" and");
+							}
+							fromSQL.append(" croft ilike '");
+							fromSQL.append(toQuery(searchCroft));
+							fromSQL.append("%'");
+						}
+						fromSQL.append(") ");
+					} else if ((searchPlace != null || searchVillage != null
+							|| searchFarm != null || searchCroft != null)
+							&& searchNoticeTag != null) {
+						fromSQL.append("u.pid in (select pid from unitnotice where");
+						if (searchPlace != null) {
+							if (isFirstPlaceCriteria) {
+								isFirstPlaceCriteria = false;
+							} else {
+								fromSQL.append(" and");
+							}
+							fromSQL.append(" place ilike '");
+							fromSQL.append(toQuery(searchPlace));
+							fromSQL.append("'");
+						}
+						if (searchVillage != null) {
+							if (isFirstPlaceCriteria) {
+								isFirstPlaceCriteria = false;
+							} else {
+								fromSQL.append(" and");
+							}
+							fromSQL.append(" village ilike '");
+							fromSQL.append(toQuery(searchVillage));
+							fromSQL.append("'");
+						}
+						if (searchFarm != null) {
+							if (isFirstPlaceCriteria) {
+								isFirstPlaceCriteria = false;
+							} else {
+								fromSQL.append(" and");
+							}
+							fromSQL.append(" farm ilike '");
+							fromSQL.append(toQuery(searchFarm));
+							fromSQL.append("'");
+						}
+						if (searchCroft != null) {
+							if (isFirstPlaceCriteria) {
+								isFirstPlaceCriteria = false;
+							} else {
+								fromSQL.append(" and");
+							}
+							fromSQL.append(" croft ilike '");
+							fromSQL.append(toQuery(searchCroft));
+							fromSQL.append("'");
+						}
+						fromSQL.append(" and tag = '");
+						fromSQL.append(searchNoticeTag);
+						fromSQL.append("') ");
+					} else if (searchPlace == null && searchVillage == null
+							&& searchFarm == null && searchCroft == null
+							&& searchNoticeTag != null) {
 						if (!searchNoNotice) {
-							fromSQL.append("u.pid in (select pid from unitnotice where tag = '"
-									+ searchNoticeTag + "') ");
+							fromSQL.append("u.pid in (select pid from unitnotice where tag = '");
+							fromSQL.append(searchNoticeTag);
+							fromSQL.append("') ");
 						} else {
-							fromSQL.append("u.pid not in (select pid from unitnotice where tag = '"
-									+ searchNoticeTag + "') ");
+							fromSQL.append("u.pid not in (select pid from unitnotice where tag = '");
+							fromSQL.append(searchNoticeTag);
+							fromSQL.append("') ");
 						}
 					}
 
@@ -330,10 +465,12 @@ public class QueryUtil {
 					}
 					isFirstCriteria = false;
 
-					fromSQL.append("u.pid in (select pid from unitnotice where surety <= "
-							+ searchMaxSurety + ") ");
-					fromSQL.append("or u.pid in (select pid from relation where surety <= "
-							+ searchMaxSurety + ") ");
+					fromSQL.append("u.pid in (select pid from unitnotice where surety <= ");
+					fromSQL.append(searchMaxSurety);
+					fromSQL.append(") ");
+					fromSQL.append("or u.pid in (select pid from relation where surety <= ");
+					fromSQL.append(searchMaxSurety);
+					fromSQL.append(") ");
 
 				}
 				if (searchFullText != null) {
@@ -367,10 +504,11 @@ public class QueryUtil {
 
 							free.append(valueAndOrNot == 1 ? "or " : "and ");
 						}
-						free.append("u.pid "
-								+ ((valueAndOrNot == 2) ? "not " : "")
-								+ "in (select pid from fullTextView where fulltext ilike '%"
-								+ toQuery(parts[i]) + "%') ");
+						free.append("u.pid ");
+						free.append((valueAndOrNot == 2 ? "not " : ""));
+						free.append("in (select pid from fullTextView where fulltext ilike '%");
+						free.append(toQuery(parts[i]));
+						free.append("%') ");
 					}
 					free.append(")");
 
@@ -403,12 +541,15 @@ public class QueryUtil {
 			String dbpostfix; // 11
 			String dbfromdate; // 12
 			String dbplace; // 13
+			String dbvillage; // 14
+			String dbfarm; // 15
+			String dbcroft; // 16
 
-			String dbdescription; // 14
-			int dbnpid; // 15
-			String dbmediafilename; // 16
-			String dbmediatitle; // 17
-			String dbCountry; // 18
+			String dbdescription; // 17
+			int dbnpid; // 18
+			String dbmediafilename; // 19
+			String dbmediatitle; // 20
+			String dbCountry; // 21
 			String rtag;
 
 			while (rs.next()) {
@@ -422,11 +563,14 @@ public class QueryUtil {
 				dbpostfix = rs.getString(11);
 				dbfromdate = rs.getString(12);
 				dbplace = rs.getString(13);
-				dbdescription = rs.getString(14);
-				dbnpid = rs.getInt(15);
-				dbmediafilename = rs.getString(16);
-				dbmediatitle = rs.getString(17);
-				dbCountry = rs.getString(18);
+				dbvillage = rs.getString(14);
+				dbfarm = rs.getString(15);
+				dbcroft = rs.getString(16);
+				dbdescription = rs.getString(17);
+				dbnpid = rs.getInt(18);
+				dbmediafilename = rs.getString(19);
+				dbmediatitle = rs.getString(20);
+				dbCountry = rs.getString(21);
 				if (pid != currentPid && currentPid != 0 && perso != null) {
 					personList.add(perso);
 
@@ -470,6 +614,9 @@ public class QueryUtil {
 							perso.setBirtTag(dbntag);
 							perso.setBirtDate(dbfromdate);
 							perso.setBirtPlace(dbplace);
+							perso.setBirtVillage(dbvillage);
+							perso.setBirtFarm(dbfarm);
+							perso.setBirtCroft(dbcroft);
 							perso.setBirtCountry(dbCountry);
 						}
 					}
@@ -482,6 +629,9 @@ public class QueryUtil {
 							perso.setDeatTag(dbntag);
 							perso.setDeatDate(dbfromdate);
 							perso.setDeatPlace(dbplace);
+							perso.setDeatVillage(dbvillage);
+							perso.setDeatFarm(dbfarm);
+							perso.setDeatCroft(dbcroft);
 							perso.setDeatCountry(dbCountry);
 						}
 					}
@@ -583,8 +733,9 @@ public class QueryUtil {
 	 * @return encoded text
 	 */
 	private String toQuery(String text) {
-		if (text == null)
+		if (text == null) {
 			return null;
+		}
 		if (text.indexOf('\'') < 0) {
 			return text;
 		}

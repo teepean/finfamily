@@ -51,8 +51,14 @@ public class PersonShortData implements Serializable, Transferable,
 	private String birtTag = null;
 	private String deatTag = null;
 	private String bPlace = null;
+	private String bVillage = null;
+	private String bFarm = null;
+	private String bCroft = null;
 	private String bCountry = null;
 	private String dPlace = null;
+	private String dVillage = null;
+	private String dFarm = null;
+	private String dCroft = null;
 	private String dCountry = null;
 	private final String chred = null;
 	private final String buried = null;
@@ -237,6 +243,36 @@ public class PersonShortData implements Serializable, Transferable,
 	}
 
 	/**
+	 * Sets the birt village.
+	 * 
+	 * @param birtVillage
+	 *            the new birt village
+	 */
+	public void setBirtVillage(String birtVillage) {
+		this.bVillage = birtVillage;
+	}
+
+	/**
+	 * Sets the birt farm.
+	 * 
+	 * @param birtFarm
+	 *            the new birt farm
+	 */
+	public void setBirtFarm(String birtFarm) {
+		this.bFarm = birtFarm;
+	}
+
+	/**
+	 * Sets the birt croft.
+	 * 
+	 * @param birtCroft
+	 *            the new birt Croft
+	 */
+	public void setBirtCroft(String birtCroft) {
+		this.bCroft = birtCroft;
+	}
+
+	/**
 	 * Sets the birt country.
 	 * 
 	 * @param birtCountry
@@ -274,6 +310,36 @@ public class PersonShortData implements Serializable, Transferable,
 	 */
 	public void setDeatPlace(String deatPlace) {
 		this.dPlace = deatPlace;
+	}
+
+	/**
+	 * Sets the deat village.
+	 * 
+	 * @param deatVillage
+	 *            the new deat village
+	 */
+	public void setDeatVillage(String deatVillage) {
+		this.dVillage = deatVillage;
+	}
+
+	/**
+	 * Sets the deat farm.
+	 * 
+	 * @param deatFarm
+	 *            the new deat farm
+	 */
+	public void setDeatFarm(String deatFarm) {
+		this.dFarm = deatFarm;
+	}
+
+	/**
+	 * Sets the deat croft.
+	 * 
+	 * @param deatCroft
+	 *            the new deat croft
+	 */
+	public void setDeatCroft(String deatCroft) {
+		this.dCroft = deatCroft;
 	}
 
 	/**
@@ -386,8 +452,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 */
 	public String tagValue(String tag) {
 		String tagx = tagMap.get(tag);
-		if (tagx == null)
+		if (tagx == null) {
 			return null;
+		}
 		return tagx;
 	}
 
@@ -777,8 +844,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return name count
 	 */
 	public int getNameCount() {
-		if (names == null)
+		if (names == null) {
 			return 0;
+		}
 		return this.names.length;
 	}
 
@@ -799,8 +867,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return givenname idx
 	 */
 	public String getGivenname(int idx) {
-		if (names == null || names.length == 0)
+		if (names == null || names.length == 0) {
 			return null;
+		}
 		return names[idx].getGivenname();
 	}
 
@@ -822,8 +891,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return patronyme for name idx
 	 */
 	public String getPatronym(int idx) {
-		if (names == null || names.length == 0)
+		if (names == null || names.length == 0) {
 			return null;
+		}
 		return names[idx].getPatronyme();
 	}
 
@@ -845,8 +915,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return prefix for name idx
 	 */
 	public String getPrefix(int idx) {
-		if (names == null || names.length == 0)
+		if (names == null || names.length == 0) {
 			return null;
+		}
 		return names[idx].getPrefix();
 	}
 
@@ -868,8 +939,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return surname for name idx
 	 */
 	public String getSurname(int idx) {
-		if (names == null || names.length == 0)
+		if (names == null || names.length == 0) {
 			return null;
+		}
 		return names[idx].getSurname();
 	}
 
@@ -891,8 +963,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return postfix for name idx
 	 */
 	public String getPostfix(int idx) {
-		if (names == null || names.length == 0)
+		if (names == null || names.length == 0) {
 			return null;
+		}
 		return names[idx].getPostfix();
 	}
 
@@ -902,8 +975,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return morenames
 	 */
 	public String getMorenames() {
-		if (names == null || names.length < 2)
+		if (names == null || names.length < 2) {
 			return null;
+		}
 		StringBuilder sb = new StringBuilder();
 		for (int i = 1; i < names.length; i++) {
 			if (i > 1) {
@@ -936,8 +1010,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return birth year as int
 	 */
 	public int getBirtYear() {
-		if (bDate == null)
+		if (bDate == null) {
 			return 0;
+		}
 		return Integer.parseInt(bDate.substring(0, 4).trim());
 	}
 
@@ -947,8 +1022,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return death year as int
 	 */
 	public int getDeatYear() {
-		if (dDate == null)
+		if (dDate == null) {
 			return 0;
+		}
 		return Integer.parseInt(dDate.substring(0, 4).trim());
 	}
 
@@ -1124,8 +1200,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return true if person has image
 	 */
 	public boolean hasImage() {
-		if (this.imageData == null)
+		if (this.imageData == null) {
 			return false;
+		}
 		return true;
 	}
 
@@ -1135,8 +1212,9 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return image
 	 */
 	public BufferedImage getImage() {
-		if (this.imageData == null)
+		if (this.imageData == null) {
 			return null;
+		}
 		ByteArrayInputStream bb = new ByteArrayInputStream(this.imageData);
 
 		if (this.image != null) {
@@ -1190,13 +1268,13 @@ public class PersonShortData implements Serializable, Transferable,
 				+ nv(Utils.textDate(getDeatDate(), false)) + "\t"
 				+ nv(getDeatPlace()) + nv(getOccupation()));
 		int ii = getMarrCount();
-		String ttxt = (ii == 0) ? "" : "" + ii;
+		String ttxt = ii == 0 ? "" : "" + ii;
 		sb.append("\t" + ttxt);
 		ii = getChildCount();
-		ttxt = (ii == 0) ? "" : "" + ii;
+		ttxt = ii == 0 ? "" : "" + ii;
 		sb.append("\t" + ttxt);
 		ii = getPareCount();
-		ttxt = (ii == 0) ? "" : "" + ii;
+		ttxt = ii == 0 ? "" : "" + ii;
 		sb.append("\t" + ttxt);
 
 		return sb.toString();
@@ -1240,18 +1318,21 @@ public class PersonShortData implements Serializable, Transferable,
 			sb.append(getGivenname());
 		}
 		if (getPrefix() != null) {
-			if (sb.length() > 0)
+			if (sb.length() > 0) {
 				sb.append(" ");
+			}
 			sb.append(getPrefix());
 		}
 		if (getSurname() != null) {
-			if (sb.length() > 0)
+			if (sb.length() > 0) {
 				sb.append(" ");
+			}
 			sb.append(getSurname());
 		}
 		if (getPostfix() != null) {
-			if (sb.length() > 0)
+			if (sb.length() > 0) {
 				sb.append(" ");
+			}
 			sb.append(getPostfix());
 		}
 		return sb.toString();
@@ -1282,26 +1363,30 @@ public class PersonShortData implements Serializable, Transferable,
 		}
 
 		if (getSurname() != null) {
-			if (sb.length() > 0)
+			if (sb.length() > 0) {
 				sb.append(" ");
+			}
 			sb.append(getSurname());
 		}
 		if (getGivenname() != null) {
-			if (sb.length() > 0)
+			if (sb.length() > 0) {
 				sb.append(" ");
+			}
 			sb.append(getGivenname());
 		}
 		if (withPatronyme) {
 			if (getPatronym() != null) {
-				if (sb.length() > 0)
+				if (sb.length() > 0) {
 					sb.append(" ");
+				}
 				sb.append(getPatronym());
 			}
 		}
 
 		if (getPostfix() != null) {
-			if (sb.length() > 0)
+			if (sb.length() > 0) {
 				sb.append(" ");
+			}
 			sb.append(getPostfix());
 		}
 		return sb.toString();
@@ -1327,9 +1412,9 @@ public class PersonShortData implements Serializable, Transferable,
 			} else {
 				String parts[] = getGivenname().split(" ");
 				name = parts[0];
-				for (int i = 0; i < parts.length; i++) {
-					if (parts[i].indexOf('*') > 0) {
-						name = parts[i];
+				for (String part : parts) {
+					if (part.indexOf('*') > 0) {
+						name = part;
 						break;
 					}
 				}
@@ -1344,27 +1429,31 @@ public class PersonShortData implements Serializable, Transferable,
 
 		if (withPatronyme && allNames) {
 			if (getPatronym() != null) {
-				if (sb.length() > 0)
+				if (sb.length() > 0) {
 					sb.append(" ");
+				}
 				sb.append(getPatronym());
 			}
 		}
 
 		if (getPrefix() != null) {
-			if (sb.length() > 0)
+			if (sb.length() > 0) {
 				sb.append(" ");
+			}
 			sb.append(getPrefix());
 		}
 
 		if (getSurname() != null) {
-			if (sb.length() > 0)
+			if (sb.length() > 0) {
 				sb.append(" ");
+			}
 			sb.append(getSurname());
 		}
 
 		if (getPostfix() != null) {
-			if (sb.length() > 0)
+			if (sb.length() > 0) {
 				sb.append(" ");
+			}
 			sb.append(getPostfix());
 		}
 		return sb.toString();
@@ -1446,8 +1535,9 @@ public class PersonShortData implements Serializable, Transferable,
 	}
 
 	private String nv(String text) {
-		if (text == null)
+		if (text == null) {
 			return "";
+		}
 		return text;
 	}
 
@@ -1471,7 +1561,7 @@ public class PersonShortData implements Serializable, Transferable,
 		if (cl != 0) {
 			return cl;
 		}
-		return (nv(getBirtDate()).compareTo(nv(o.getBirtDate())));
+		return nv(getBirtDate()).compareTo(nv(o.getBirtDate()));
 
 	}
 

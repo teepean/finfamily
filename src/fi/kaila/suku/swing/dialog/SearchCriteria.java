@@ -74,6 +74,9 @@ public class SearchCriteria extends JDialog implements ActionListener {
 	private String preferredView = null;
 
 	private final JTextField place;
+	private final JTextField village;
+	private final JTextField farm;
+	private final JTextField croft;
 	private final JComboBox noticeList;
 	private final JCheckBox noticeExist;
 	private final JComboBox sex;
@@ -315,7 +318,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		super(owner, Resurses.getString(Resurses.QUERY), true);
 		me = this;
 		setLayout(null);
-		int y = 20;
+		int y = 10;
 		int idx;
 		ColTable tbl;
 		JLabel lbl;
@@ -325,7 +328,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		Border bvl = BorderFactory.createCompoundBorder(bvlr, bvll);
 		this.colpanel = new JPanel(new GridLayout(0, 1));
 		getContentPane().add(this.colpanel);
-		this.colpanel.setBounds(700, y + 20, 150, 300);
+		this.colpanel.setBounds(720, y + 10, 150, 300);
 		this.colpanel.setBorder(bvl);
 
 		for (idx = 0; idx < this.coltables.length; idx++) {
@@ -366,7 +369,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		this.namePanel = new JPanel(new GridLayout(2, 0, 10, 10));
 		getContentPane().add(this.namePanel);
-		this.namePanel.setBounds(20, y, 600, 80);
+		this.namePanel.setBounds(10, y, 710, 80);
 		this.namePanel.setBorder(tit);
 
 		lbl = new JLabel(Resurses.getString(Resurses.CRITERIA_SURNAME));
@@ -394,7 +397,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		this.birtPanel = new JPanel(new GridLayout(2, 3, 10, 10));
 		getContentPane().add(this.birtPanel);
-		this.birtPanel.setBounds(20, y, 600, 80);
+		this.birtPanel.setBounds(10, y, 710, 80);
 
 		tit = BorderFactory.createTitledBorder(bvl,
 				Resurses.getString(Resurses.CRITERIA_BIRT));
@@ -425,7 +428,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		this.deatPanel = new JPanel(new GridLayout(2, 3, 10, 10));
 		getContentPane().add(this.deatPanel);
-		this.deatPanel.setBounds(20, y, 600, 80);
+		this.deatPanel.setBounds(10, y, 710, 80);
 		this.deatPanel.setBorder(tit);
 
 		lbl = new JLabel(Resurses.getString(Resurses.CRITERIA_DEAT_FROM));
@@ -452,7 +455,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		this.createdPanel = new JPanel(new GridLayout(2, 3, 2, 2));
 		getContentPane().add(this.createdPanel);
-		this.createdPanel.setBounds(20, y, 400, 80);
+		this.createdPanel.setBounds(10, y, 510, 80);
 		this.createdPanel.setBorder(tit);
 
 		lbl = new JLabel(Resurses.getString(Resurses.CRITERIA_CREATED_FROM));
@@ -471,7 +474,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		this.viewPanel = new JPanel(new GridLayout(2, 4, 10, 10));
 		getContentPane().add(this.viewPanel);
-		this.viewPanel.setBounds(420, y, 200, 80);
+		this.viewPanel.setBounds(520, y, 200, 80);
 		this.viewPanel.setBorder(tit);
 
 		this.viewList = new JComboBox();
@@ -488,10 +491,19 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		placePanel = new JPanel(new GridLayout(2, 3, 10, 10));
 		getContentPane().add(this.placePanel);
-		placePanel.setBounds(20, y, 400, 80);
+		placePanel.setBounds(10, y, 510, 80);
 		placePanel.setBorder(tit);
 
 		lbl = new JLabel(Resurses.getString(Resurses.CRITERIA_PLACE));
+		placePanel.add(lbl);
+
+		lbl = new JLabel(Resurses.getString(Resurses.CRITERIA_VILLAGE));
+		placePanel.add(lbl);
+
+		lbl = new JLabel(Resurses.getString(Resurses.CRITERIA_FARM));
+		placePanel.add(lbl);
+
+		lbl = new JLabel(Resurses.getString(Resurses.CRITERIA_CROFT));
 		placePanel.add(lbl);
 
 		noticeExist = new JCheckBox(
@@ -501,6 +513,15 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		place = new JTextField();
 		placePanel.add(place);
 
+		village = new JTextField();
+		placePanel.add(village);
+
+		farm = new JTextField();
+		placePanel.add(farm);
+
+		croft = new JTextField();
+		placePanel.add(croft);
+
 		noticeList = new JComboBox();
 		placePanel.add(noticeList);
 
@@ -509,7 +530,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		sexPanel = new JPanel(new GridLayout(2, 0, 10, 10));
 		getContentPane().add(sexPanel);
-		sexPanel.setBounds(420, y, 200, 80);
+		sexPanel.setBounds(520, y, 200, 80);
 		sexPanel.setBorder(tit);
 
 		surety = new SukuSuretyField();
@@ -530,7 +551,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		textPanel = new JPanel(new GridLayout(2, 1, 10, 10));
 		getContentPane().add(textPanel);
-		textPanel.setBounds(20, y, 400, 80);
+		textPanel.setBounds(10, y, 510, 80);
 		textPanel.setBorder(tit);
 
 		lbl = new JLabel(Resurses.getString("CRITERIA_FILL_TEXT_DESCRIPTION"));
@@ -546,14 +567,14 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		getContentPane().add(ok);
 		ok.setActionCommand(Resurses.OK);
 		ok.addActionListener(this);
-		ok.setBounds(560, y, 140, 24);
+		ok.setBounds(580, y, 140, 24);
 
 		JButton reset = new JButton(Resurses.getString(Resurses.RESET));
 		// this.ok.setDefaultCapable(true);
 		getContentPane().add(reset);
 		reset.setActionCommand(Resurses.RESET);
 		reset.addActionListener(this);
-		reset.setBounds(710, y, 140, 24);
+		reset.setBounds(730, y, 140, 24);
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds(d.width / 2 - 450, d.height / 2 - 300, 900, y + 100);
@@ -603,9 +624,9 @@ public class SearchCriteria extends JDialog implements ActionListener {
 			int preferredVid = 0;
 			int preferredIndex = -1;
 			viewList.removeAllItems();
-			for (int i = 0; i < sets.generalArray.length; i++) {
+			for (String element : sets.generalArray) {
 
-				String[] parts = sets.generalArray[i].split("=");
+				String[] parts = element.split("=");
 				if (parts.length == 2) {
 					if (parts[0].equals("patronyme")) {
 						patronyme.setText(parts[1]);
@@ -655,6 +676,12 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 					} else if (parts[0].equals("place")) {
 						place.setText(parts[1]);
+					} else if (parts[0].equals("village")) {
+						village.setText(parts[1]);
+					} else if (parts[0].equals("farm")) {
+						farm.setText(parts[1]);
+					} else if (parts[0].equals("croft")) {
+						croft.setText(parts[1]);
 					} else if (parts[0].equals("notice")) {
 						SukuTypesModel model = Utils.typeInstance();
 						int indx = 0;
@@ -928,7 +955,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 	 * @return no of fields
 	 */
 	public int getFieldCount() {
-		return 20;
+		return 23;
 		// int addCol = 0;
 		// for (int i = 1; i < 4; i++) {
 		// ColTable tbl = this.coltables[i];
@@ -974,10 +1001,11 @@ public class SearchCriteria extends JDialog implements ActionListener {
 			return this.createdToDate.getText();
 		case 11:
 			vid = this.getViewId();
-			if (vid == 0)
+			if (vid == 0) {
 				return null;
-			else
+			} else {
 				return "" + vid;
+			}
 		case 12:
 			return this.viewGroup.getText();
 		case 13:
@@ -985,25 +1013,31 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		case 14:
 			return place.getText();
 		case 15:
+			return village.getText();
+		case 16:
+			return farm.getText();
+		case 17:
+			return croft.getText();
+		case 18:
 			int noticeIdx = noticeList.getSelectedIndex();
 			if (noticeIdx > 0) {
 				SukuTypesModel model = Utils.typeInstance();
 				return model.getTypesTag(noticeIdx - 1);
 			}
 			return null;
-		case 16:
-			return (noticeExist.isSelected()) ? "true" : null;
+		case 19:
+			return noticeExist.isSelected() ? "true" : null;
 
-		case 17:
+		case 20:
 			return "" + surety.getSurety();
-		case 18:
+		case 21:
 			int sexIdx = sex.getSelectedIndex();
 			if (sexIdx > 0) {
 				return "" + sexcodes[sexIdx];
 			}
 			return null;
 
-		case 19:
+		case 22:
 			return fullText.getText();
 
 		default:
@@ -1051,14 +1085,20 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		case 14:
 			return Resurses.CRITERIA_PLACE;
 		case 15:
-			return Resurses.CRITERIA_NOTICE;
+			return Resurses.CRITERIA_VILLAGE;
 		case 16:
-			return Resurses.CRITERIA_NOTICE_EXISTS;
+			return Resurses.CRITERIA_FARM;
 		case 17:
-			return Resurses.CRITERIA_SURETY;
+			return Resurses.CRITERIA_CROFT;
 		case 18:
-			return Resurses.CRITERIA_SEX;
+			return Resurses.CRITERIA_NOTICE;
 		case 19:
+			return Resurses.CRITERIA_NOTICE_EXISTS;
+		case 20:
+			return Resurses.CRITERIA_SURETY;
+		case 21:
+			return Resurses.CRITERIA_SEX;
+		case 22:
 			return Resurses.CRITERIA_FULL_TEXT;
 		default:
 			return null;
@@ -1071,12 +1111,14 @@ public class SearchCriteria extends JDialog implements ActionListener {
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 		int idx;
 		boolean bvalue;
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 		if (cmd.equals(Resurses.RESET)) {
 
 			resetArguments();
@@ -1136,8 +1178,8 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 				int ppnum = 0;
 
-				for (int i = 0; i < viewArray.length; i++) {
-					String[] pp = viewArray[i].split(";");
+				for (String element : viewArray) {
+					String[] pp = element.split(";");
 
 					try {
 						ppnum = Integer.parseInt(pp[0]);
@@ -1147,7 +1189,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 					}
 
 					if (vid == ppnum) {
-						preferredView = viewArray[i];
+						preferredView = element;
 						break;
 
 					}
@@ -1158,6 +1200,9 @@ public class SearchCriteria extends JDialog implements ActionListener {
 				v.add("viewId=" + preferredView);
 			}
 			v.add("place=" + place.getText());
+			v.add("village=" + village.getText());
+			v.add("farm=" + farm.getText());
+			v.add("croft=" + croft.getText());
 
 			int noticeIdx = noticeList.getSelectedIndex();
 			if (noticeIdx > 0) {
@@ -1227,6 +1272,9 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		viewGroup.setText("");
 		preferredView = "";
 		place.setText("");
+		village.setText("");
+		farm.setText("");
+		croft.setText("");
 		if (noticeList.getItemCount() > 0) {
 			noticeList.setSelectedIndex(0);
 		}
@@ -1260,6 +1308,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 			this.add(calDate);
 
 			calDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+				@Override
 				public void propertyChange(java.beans.PropertyChangeEvent evt) {
 					if (evt.getNewValue() instanceof Date) {
 						String df = Resurses.getDateFormat();

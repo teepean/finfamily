@@ -409,6 +409,15 @@ public class Resurses {
 	/** The Constant CRITERIA_PLACE. */
 	public static final String CRITERIA_PLACE = "CRITERIA_PLACE";
 
+	/** The Constant CRITERIA_VILLAGE. */
+	public static final String CRITERIA_VILLAGE = "CRITERIA_VILLAGE";
+
+	/** The Constant CRITERIA_FARM. */
+	public static final String CRITERIA_FARM = "CRITERIA_FARM";
+
+	/** The Constant CRITERIA_CROFT. */
+	public static final String CRITERIA_CROFT = "CRITERIA_CROFT";
+
 	/** The Constant CRITERIA_NOTICE_MISSING. */
 	public static final String CRITERIA_NOTICE_MISSING = "CRITERIA_NOTICE_MISSING";
 
