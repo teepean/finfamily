@@ -435,16 +435,19 @@ public class ReportUtil {
 					}
 					if (j == jsize) { // all children found from other spouse
 
-						// j = 0;
-						// int jlen = unit.getChild().size();
-						// for (j = 0; j < jlen; j++) {
-						// if (unit.getChild().get(j).getPid() != pareUnits
-						// .getChild().get(j).getPid()) {
-						// break;
-						// }
-						// }
-						// if (j < jlen)
-						// break;
+						// halonmi 20130311 >>>
+						j = 0;
+						int jlen = unit.getChild().size();
+						for (j = 0; j < jlen; j++) {
+							if (unit.getChild().get(j).getPid() != pareUnits
+									.getChild().get(j).getPid()) {
+								break;
+							}
+						}
+						if (j < jlen) {
+							break;
+						}
+						// halonmi 20130311 <<<
 						if (order
 								.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE)
 								&& chi.getSex().equals("M")) {

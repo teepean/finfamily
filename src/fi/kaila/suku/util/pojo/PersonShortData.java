@@ -556,6 +556,9 @@ public class PersonShortData implements Serializable, Transferable,
 					birtTag = n.getTag();
 					bDate = n.getFromDate();
 					bPlace = n.getPlace();
+					bVillage = n.getVillage();
+					bFarm = n.getFarm();
+					bCroft = n.getCroft();
 					bCountry = n.getCountry();
 				}
 			} else if (n.getTag().equals("DEAT") || n.getTag().equals("BURI")) {
@@ -563,6 +566,9 @@ public class PersonShortData implements Serializable, Transferable,
 					deatTag = n.getTag();
 					dDate = n.getFromDate();
 					dPlace = n.getPlace();
+					dVillage = n.getVillage();
+					dFarm = n.getFarm();
+					dCroft = n.getCroft();
 					dCountry = n.getCountry();
 				}
 			} else if (n.getTag().equals("OCCU")) {
@@ -1047,6 +1053,33 @@ public class PersonShortData implements Serializable, Transferable,
 	}
 
 	/**
+	 * Gets the birt village.
+	 * 
+	 * @return birt village
+	 */
+	public String getBirtVillage() {
+		return this.bVillage;
+	}
+
+	/**
+	 * Gets the birt farm.
+	 * 
+	 * @return birt farm
+	 */
+	public String getBirtFarm() {
+		return this.bFarm;
+	}
+
+	/**
+	 * Gets the birt croft.
+	 * 
+	 * @return birt croft
+	 */
+	public String getBirtCroft() {
+		return this.bCroft;
+	}
+
+	/**
 	 * Gets the birth country.
 	 * 
 	 * @return birth country
@@ -1080,6 +1113,33 @@ public class PersonShortData implements Serializable, Transferable,
 	 */
 	public String getDeatPlace() {
 		return this.dPlace;
+	}
+
+	/**
+	 * Gets the deat village.
+	 * 
+	 * @return death village
+	 */
+	public String getDeatVillage() {
+		return this.dVillage;
+	}
+
+	/**
+	 * Gets the deat farm.
+	 * 
+	 * @return death farm
+	 */
+	public String getDeatFarm() {
+		return this.dFarm;
+	}
+
+	/**
+	 * Gets the deat croft.
+	 * 
+	 * @return death croft
+	 */
+	public String getDeatCroft() {
+		return this.dCroft;
 	}
 
 	/**
