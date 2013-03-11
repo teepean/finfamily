@@ -164,11 +164,29 @@ public class Resurses {
 	/** The Constant COLUMN_T_BIRTPLACE. */
 	public static final String COLUMN_T_BIRTPLACE = "T_BIRTPLACE";
 
+	/** The Constant COLUMN_T_BIRTVILLAGE. */
+	public static final String COLUMN_T_BIRTVILLAGE = "T_BIRTVILLAGE";
+
+	/** The Constant COLUMN_T_BIRTFARM. */
+	public static final String COLUMN_T_BIRTFARM = "T_BIRTFARM";
+
+	/** The Constant COLUMN_T_BIRTCROFT. */
+	public static final String COLUMN_T_BIRTCROFT = "T_BIRTCROFT";
+
 	/** Full column for DEATH. */
 	public static final String COLUMN_T_DEAT = "T_DEAT";
 
 	/** The Constant COLUMN_T_DEATPLACE. */
 	public static final String COLUMN_T_DEATPLACE = "T_DEATPLACE";
+
+	/** The Constant COLUMN_T_DEATVILLAGE. */
+	public static final String COLUMN_T_DEATVILLAGE = "T_DEATVILLAGE";
+
+	/** The Constant COLUMN_T_DEATFARM. */
+	public static final String COLUMN_T_DEATFARM = "T_DEATFARM";
+
+	/** The Constant COLUMN_T_DEATCROFT. */
+	public static final String COLUMN_T_DEATCROFT = "T_DEATCROFT";
 
 	/** The Constant COLUMN_T_OCCUPATION. */
 	public static final String COLUMN_T_OCCUPATION = "T_OCCUPATION";

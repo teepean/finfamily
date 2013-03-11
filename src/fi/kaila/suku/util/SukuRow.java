@@ -168,16 +168,19 @@ public class SukuRow {
 			return sb.toString();
 		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_ISMARR)) {
 
-			if (person.getMarrCount() == 0)
+			if (person.getMarrCount() == 0) {
 				return "";
+			}
 			return "" + person.getMarrCount();
 		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_ISCHILD)) {
-			if (person.getChildCount() == 0)
+			if (person.getChildCount() == 0) {
 				return "";
+			}
 			return "" + person.getChildCount();
 		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_ISPARE)) {
-			if (person.getPareCount() == 0)
+			if (person.getPareCount() == 0) {
 				return "";
+			}
 			return "" + person.getPareCount();
 			// } else if (fullIdx ==
 			// crit.getColIndex(Resurses.COLUMN_T_GIVENNAME)){
@@ -189,8 +192,9 @@ public class SukuRow {
 			// return this.surName;
 		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_UNKN)) {
 
-			if (!person.getUnkn())
+			if (!person.getUnkn()) {
 				return "";
+			}
 			return "*"; // this.unkn;
 		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_PATRONYME)) {
 
@@ -201,12 +205,30 @@ public class SukuRow {
 		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_BIRTPLACE)) {
 
 			return person.getBirtPlace();
+		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_BIRTVILLAGE)) {
+
+			return person.getBirtVillage();
+		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_BIRTFARM)) {
+
+			return person.getBirtFarm();
+		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_BIRTCROFT)) {
+
+			return person.getBirtCroft();
 		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_DEAT)) {
 
 			return Utils.textDate(person.getDeatDate(), false);
 		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_DEATPLACE)) {
 
 			return person.getDeatPlace();
+		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_DEATVILLAGE)) {
+
+			return person.getDeatVillage();
+		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_DEATFARM)) {
+
+			return person.getDeatFarm();
+		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_DEATCROFT)) {
+
+			return person.getDeatCroft();
 		} else if (idx == crit.getColIndex(Resurses.COLUMN_T_OCCUPATION)) {
 
 			return person.getOccupation();
@@ -267,7 +289,7 @@ public class SukuRow {
 	 * @return the todo text
 	 */
 	public String getUnkn() {
-		return (getPerson().getUnkn()) ? "*" : "";
+		return getPerson().getUnkn() ? "*" : "";
 	}
 
 	/**
