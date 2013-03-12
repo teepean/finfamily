@@ -410,18 +410,18 @@ public class ReportUtil {
 			// got table of spouse (if such exists)
 			//
 			if (pareUnits != null) {
+				int jsize = pareUnits.getChild().size();
+				int ksize = unit.getChild().size();
 
 				//
 				// check that all children are part of other parents unit
 				//
-				if (unit.getChild().size() > pareUnits.getChild().size()) {
-					int jsize = pareUnits.getChild().size();
+				if (ksize > jsize) {
 					int j = 0;
 					for (j = 0; j < jsize; j++) {
 						int nxtSpouseChildPid = pareUnits.getChild().get(j)
 								.getPid();
 						int k = 0;
-						int ksize = unit.getChild().size();
 						for (k = 0; k < ksize; k++) {
 							int nxtMyChildPid = pareUnits.getChild().get(k)
 									.getPid();
@@ -437,14 +437,13 @@ public class ReportUtil {
 
 						// halonmi 20130311 >>>
 						j = 0;
-						int jlen = unit.getChild().size();
-						for (j = 0; j < jlen; j++) {
+						for (j = 0; j < ksize && j < jsize; j++) {
 							if (unit.getChild().get(j).getPid() != pareUnits
 									.getChild().get(j).getPid()) {
 								break;
 							}
 						}
-						if (j < jlen) {
+						if (j < ksize) {
 							break;
 						}
 						// halonmi 20130311 <<<
