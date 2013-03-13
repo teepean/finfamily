@@ -514,6 +514,8 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		noticeExist = new JCheckBox(
 				Resurses.getString(Resurses.CRITERIA_NOTICE_MISSING));
+		noticeExist.setToolTipText(Resurses
+				.getString(Resurses.CRITERIA_NOTICE_MISSING));
 		placePanel.add(noticeExist);
 
 		place = new JTextField();
