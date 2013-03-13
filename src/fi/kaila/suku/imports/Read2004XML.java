@@ -802,7 +802,7 @@ public class Read2004XML extends DefaultHandler {
 			this.relationModifiedBy = attributes.getValue("modifiedBy");
 			this.relationCreatedBy = attributes.getValue("createdBy");
 			ResultSet rs;
-			PreparedStatement pstm;
+			PreparedStatement pstm = null;
 			try {
 				pstm = this.con
 						.prepareStatement("select nextval('relationseq')");
@@ -818,6 +818,14 @@ public class Read2004XML extends DefaultHandler {
 
 				e.printStackTrace();
 				throw new SAXException("Sequence relationseq sql error");
+			} finally {
+				if (pstm != null) {
+					try {
+						pstm.close();
+					} catch (SQLException ignored) {
+						// SQLException ignored
+					}
+				}
 			}
 
 		} else if (this.currentEle.equals(relationNoticeTG)) {
@@ -828,7 +836,7 @@ public class Read2004XML extends DefaultHandler {
 			this.relationNoticeCreateDate = attributes.getValue("created");
 			this.relationNoticeModifiedBy = attributes.getValue("modifiedBy");
 			this.relationNoticeCreatedBy = attributes.getValue("createdBy");
-			PreparedStatement pst;
+			PreparedStatement pst = null;
 			try {
 				pst = this.con
 						.prepareStatement("select nextval('relationnoticeseq')");
@@ -844,6 +852,14 @@ public class Read2004XML extends DefaultHandler {
 
 				e.printStackTrace();
 				throw new SAXException("Sequence relationoticeseq sql error");
+			} finally {
+				if (pst != null) {
+					try {
+						pst.close();
+					} catch (SQLException ignored) {
+						// SQLException ignored
+					}
+				}
 			}
 
 		} else if (this.currentEle.equals(relationNoticeDateTG)) {
@@ -883,13 +899,22 @@ public class Read2004XML extends DefaultHandler {
 			this.viewUnitPid = attributes.getValue("unitid");
 		} else if (this.currentEle.equals(typesTG)) {
 			String sql = "delete from types";
+			Statement stm = null;
 			try {
-				Statement stm = con.createStatement();
+				stm = con.createStatement();
 				stm.executeUpdate(sql);
 				logger.log(Level.FINE, "deleted default types");
 			} catch (SQLException e) {
 				logger.log(Level.SEVERE, "deleting default types failed", e);
 				throw new SAXException(e);
+			} finally {
+				if (stm != null) {
+					try {
+						stm.close();
+					} catch (SQLException ignored) {
+						// SQLException ignored
+					}
+				}
 			}
 
 		} else if (this.currentEle.equals(typeTG)) {
@@ -902,8 +927,9 @@ public class Read2004XML extends DefaultHandler {
 			String reportname = attributes.getValue("reportname");
 			String sql = "insert into types (tagtype,tag,rule,langcode,name,reportname) "
 					+ "values ('Notices',?,?,?,?,?) ";
+			PreparedStatement pst = null;
 			try {
-				PreparedStatement pst = con.prepareStatement(sql);
+				pst = con.prepareStatement(sql);
 				pst.setString(1, this.typeTag);
 				pst.setString(2, this.typeRule);
 				pst.setString(3, langcode);
@@ -916,6 +942,14 @@ public class Read2004XML extends DefaultHandler {
 			} catch (SQLException e) {
 				logger.log(Level.SEVERE, "deleting default types failed", e);
 				throw new SAXException(e);
+			} finally {
+				if (pst != null) {
+					try {
+						pst.close();
+					} catch (SQLException ignored) {
+						// SQLException ignored
+					}
+				}
 			}
 
 		}
@@ -945,7 +979,7 @@ public class Read2004XML extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		PreparedStatement pst;
+		PreparedStatement pst = null;
 		String aux;
 		if (this.qName != null) {
 			this.qName = null;
@@ -1245,6 +1279,14 @@ public class Read2004XML extends DefaultHandler {
 				} catch (SQLException e) {
 					logger.log(Level.SEVERE, "importing sources failed", e);
 					throw new SAXException(e);
+				} finally {
+					if (pst != null) {
+						try {
+							pst.close();
+						} catch (SQLException ignored) {
+							// SQLException ignored
+						}
+					}
 				}
 
 			}
@@ -1276,6 +1318,14 @@ public class Read2004XML extends DefaultHandler {
 			} catch (SQLException e) {
 				logger.log(Level.WARNING, "Problem with inserting groups ", e);
 				e.printStackTrace();
+			} finally {
+				if (pst != null) {
+					try {
+						pst.close();
+					} catch (SQLException ignored) {
+						// SQLException ignored
+					}
+				}
 			}
 
 		}
@@ -1333,6 +1383,14 @@ public class Read2004XML extends DefaultHandler {
 			} catch (SQLException e) {
 				logger.log(Level.SEVERE, "importing sukuvariables failed", e);
 				throw new SAXException(e);
+			} finally {
+				if (pst != null) {
+					try {
+						pst.close();
+					} catch (SQLException ignored) {
+						// SQLException ignored
+					}
+				}
 			}
 
 		}
@@ -1375,7 +1433,14 @@ public class Read2004XML extends DefaultHandler {
 						logger.log(Level.SEVERE, "importing conversion failed",
 								e);
 						throw new SAXException(e);
-
+					} finally {
+						if (pst != null) {
+							try {
+								pst.close();
+							} catch (SQLException ignored) {
+								// SQLException ignored
+							}
+						}
 					}
 				}
 				this.conversionsFrom = null;
@@ -1415,7 +1480,14 @@ public class Read2004XML extends DefaultHandler {
 				} catch (SQLException e) {
 					logger.log(Level.SEVERE, "importing views failed", e);
 					throw new SAXException(e);
-
+				} finally {
+					if (pst != null) {
+						try {
+							pst.close();
+						} catch (SQLException ignored) {
+							// SQLException ignored
+						}
+					}
 				}
 			}
 
@@ -1449,6 +1521,14 @@ public class Read2004XML extends DefaultHandler {
 				} catch (SQLException e) {
 					logger.log(Level.SEVERE, "importing viewunits failed", e);
 					throw new SAXException(e);
+				} finally {
+					if (pst != null) {
+						try {
+							pst.close();
+						} catch (SQLException ignored) {
+							// SQLException ignored
+						}
+					}
 				}
 			}
 
@@ -1937,16 +2017,20 @@ public class Read2004XML extends DefaultHandler {
 							|| this.relationDescription != null) {
 
 						StringBuilder allText = new StringBuilder();
-						if (this.relationBegType != null)
+						if (this.relationBegType != null) {
 							allText.append(this.relationBegType);
-						if (this.relationDescription != null)
+						}
+						if (this.relationDescription != null) {
 							allText.append(this.relationDescription);
-						if (this.relationBegPlace != null)
+						}
+						if (this.relationBegPlace != null) {
 							allText.append(this.relationBegPlace);
-						if (this.relationNoteText != null)
+						}
+						if (this.relationNoteText != null) {
 							allText.append(this.relationNoteText);
-						// if (this.relationSourceText != null) allText +=
-						// this.relationSourceText;
+							// if (this.relationSourceText != null) allText +=
+							// this.relationSourceText;
+						}
 
 						// System.out.println(allText.toString());
 						String langus[] = extractLangs(allText.toString());
@@ -2051,10 +2135,12 @@ public class Read2004XML extends DefaultHandler {
 							|| this.relationEndType != null) {
 
 						String allText = "";
-						if (this.relationEndType != null)
+						if (this.relationEndType != null) {
 							allText += this.relationEndType;
-						if (this.relationEndPlace != null)
+						}
+						if (this.relationEndPlace != null) {
 							allText += this.relationEndPlace;
+						}
 
 						String langus[] = extractLangs(allText);
 
@@ -2138,7 +2224,7 @@ public class Read2004XML extends DefaultHandler {
 				if (aid >= lastMaxAid) {
 					lastMaxAid = aid;
 				}
-				double prose = (lastMaxAid * 100) / last;
+				double prose = lastMaxAid * 100 / last;
 				int intprose = (int) prose;
 				if (intprose < 100) {
 
@@ -2248,18 +2334,23 @@ public class Read2004XML extends DefaultHandler {
 		int i;
 		PreparedStatement pst;
 		StringBuilder allText = new StringBuilder();
-		if (this.noticeType != null)
+		if (this.noticeType != null) {
 			allText.append(this.noticeType);
-		if (this.noticeDescription != null)
+		}
+		if (this.noticeDescription != null) {
 			allText.append(this.noticeDescription);
-		if (this.noticePlace != null)
+		}
+		if (this.noticePlace != null) {
 			allText.append(this.noticePlace);
-		if (this.noticeNoteText != null)
+		}
+		if (this.noticeNoteText != null) {
 			allText.append(this.noticeNoteText);
+		}
 		// if (this.noticeSourceText != null) allText +=
 		// this.noticeSourceText;
-		if (this.noticeMediaTitle != null)
+		if (this.noticeMediaTitle != null) {
 			allText.append(this.noticeMediaTitle);
+		}
 		// System.out.println(allText.toString());
 		String langus[] = extractLangs(allText.toString());
 
@@ -2333,8 +2424,8 @@ public class Read2004XML extends DefaultHandler {
 			pst.close();
 
 			if (this.placeCollector.size() > 0 || this.nameCollector.size() > 0
-					|| (this.namelist != null && this.namelist.size() > 0)
-					|| (this.placelist != null && this.placelist.size() > 0)) {
+					|| this.namelist != null && this.namelist.size() > 0
+					|| this.placelist != null && this.placelist.size() > 0) {
 
 				NameArray asn = new NameArray();
 				Iterator<String> it = this.nameCollector.keySet().iterator();
@@ -2711,30 +2802,36 @@ public class Read2004XML extends DefaultHandler {
 
 	private String extractCSVPart(String tag, String noticeAddress, int i) {
 		int jj;
-		if (noticeAddress == null)
+		if (noticeAddress == null) {
 			return null;
+		}
 		for (jj = 0; jj < farmTags.length; jj++) {
-			if (farmTags[jj].equals(tag))
+			if (farmTags[jj].equals(tag)) {
 				break;
+			}
 		}
 		if (jj == farmTags.length) {
-			if (i == 0)
+			if (i == 0) {
 				return noticeAddress;
+			}
 			return null;
 		}
 
 		String parts[] = noticeAddress.split(",");
 
 		if (parts.length == 1) {
-			if (i == 0)
+			if (i == 0) {
 				return noticeAddress;
+			}
 			return null;
 		}
-		if (i == 0)
+		if (i == 0) {
 			return null;
+		}
 
-		if (i > parts.length)
+		if (i > parts.length) {
 			return null;
+		}
 
 		return parts[i - 1];
 	}
@@ -2758,8 +2855,9 @@ public class Read2004XML extends DefaultHandler {
 	 * @return text for requested language
 	 */
 	private String langText(String text, String lang) {
-		if (text == null)
+		if (text == null) {
 			return null;
+		}
 
 		HashMap<String, String> map = new HashMap<String, String>();
 
@@ -2802,8 +2900,9 @@ public class Read2004XML extends DefaultHandler {
 				String val;
 				while (apu != null) {
 					ix = apu.indexOf("}");
-					if (ix < 0 || ix > 5)
+					if (ix < 0 || ix > 5) {
 						break;
+					}
 					lan = apu.substring(2, ix);
 					jx = apu.indexOf("{$", ix);
 					if (jx < 0) {
@@ -2929,8 +3028,9 @@ public class Read2004XML extends DefaultHandler {
 
 		}
 
-		if (text.equals(sb.toString()) && !lang.equals(this.oldCode))
+		if (text.equals(sb.toString()) && !lang.equals(this.oldCode)) {
 			return null;
+		}
 
 		return sb.toString();
 
@@ -2944,8 +3044,9 @@ public class Read2004XML extends DefaultHandler {
 	 * 
 	 */
 	private String[] extractLangs(String text) {
-		if (text == null)
+		if (text == null) {
 			return null;
+		}
 
 		StringBuffer sbs[];
 		String langs[];
@@ -3016,8 +3117,9 @@ public class Read2004XML extends DefaultHandler {
 
 	private int idToInt(String numero) {
 		int id;
-		if (numero == null || numero.length() < 2)
+		if (numero == null || numero.length() < 2) {
 			return 0;
+		}
 		try {
 			id = Integer.parseInt(numero.substring(1));
 		} catch (NumberFormatException ne) {
@@ -3050,7 +3152,7 @@ public class Read2004XML extends DefaultHandler {
 			throws IOException, FileNotFoundException, SukuException {
 		int ldot = imgName.lastIndexOf(".");
 		String imgSuffix = null;
-		if (ldot > 0 && ldot > (imgName.length() - 6)) {
+		if (ldot > 0 && ldot > imgName.length() - 6) {
 			imgSuffix = imgName.substring(ldot);
 		}
 

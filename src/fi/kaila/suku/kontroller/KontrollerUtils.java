@@ -64,8 +64,8 @@ public class KontrollerUtils {
 				dos.writeBytes(rivi.toString() + lineEnd);
 				rivi = new StringBuilder();
 			}
-			rivi.append(hexi.charAt((nextByte >> 4) & 0xf));
-			rivi.append(hexi.charAt((nextByte) & 0xf));
+			rivi.append(hexi.charAt(nextByte >> 4 & 0xf));
+			rivi.append(hexi.charAt(nextByte & 0xf));
 
 		}
 
@@ -88,8 +88,9 @@ public class KontrollerUtils {
 		int inle = 0;
 		while (true) {
 			int idata = in.read();
-			if (idata == -1)
+			if (idata == -1) {
 				break;
+			}
 			inle++;
 		}
 
@@ -138,8 +139,8 @@ public class KontrollerUtils {
 				StringBuilder xx = new StringBuilder();
 				xx.append("Content-Encoding: " + coding);
 				xx.append(";");
-				for (int j = 0; j < params.length; j++) {
-					xx.append(params[j]);
+				for (String param : params) {
+					xx.append(param);
 					xx.append(";");
 				}
 
@@ -150,15 +151,29 @@ public class KontrollerUtils {
 					in = uc.getInputStream();
 				}
 
-				ObjectInputStream ois = new ObjectInputStream(in);
+				ObjectInputStream ois = null;
 				SukuData fam = null;
 				try {
+					ois = new ObjectInputStream(in);
 					fam = (SukuData) ois.readObject();
-
-					in.close();
 				} catch (Exception e) {
 					e.printStackTrace();
 					throw new SukuException(e);
+				} finally {
+					if (ois != null) {
+						try {
+							ois.close();
+						} catch (IOException ignored) {
+							// IOException ignored
+						}
+					}
+					if (in != null) {
+						try {
+							in.close();
+						} catch (IOException ignored) {
+							// IOException ignored
+						}
+					}
 				}
 
 				return fam;
@@ -190,8 +205,8 @@ public class KontrollerUtils {
 		try {
 			query.append("userno=" + userno);
 
-			for (int i = 0; i < paras.length; i++) {
-				query.append("&" + URLEncoder.encode(paras[i], "UTF-8"));
+			for (String para : paras) {
+				query.append("&" + URLEncoder.encode(para, "UTF-8"));
 			}
 
 			String lineEnd = "\r\n";
@@ -243,8 +258,8 @@ public class KontrollerUtils {
 					dos.writeBytes(rivi.toString() + lineEnd);
 					rivi = new StringBuilder();
 				}
-				rivi.append(hexi.charAt((nextByte >> 4) & 0xf));
-				rivi.append(hexi.charAt((nextByte) & 0xf));
+				rivi.append(hexi.charAt(nextByte >> 4 & 0xf));
+				rivi.append(hexi.charAt(nextByte & 0xf));
 
 			}
 

@@ -24,9 +24,10 @@ import fi.kaila.suku.util.SukuException;
  * @author Kalle
  * @deprecated
  */
+@Deprecated
 public class ImportExcelData {
 
-	private Connection con;
+	private final Connection con;
 
 	private static Logger logger = Logger.getLogger(ImportExcelData.class
 			.getName());
@@ -105,9 +106,9 @@ public class ImportExcelData {
 		String DELETE_PLACELOC = "delete from PlaceLocations";
 		String DELETE_PLACEOTHER = "delete from PlaceOtherNames";
 
-		PreparedStatement pst;
+		PreparedStatement pst = null;
 
-		PreparedStatement pstOther;
+		PreparedStatement pstOther = null;
 
 		try {
 
