@@ -1529,7 +1529,11 @@ public abstract class CommonReport {
 									if (trimmed != null && !trimmed.isEmpty()) {
 										if (trimmed.charAt(0) != ','
 												&& trimmed.charAt(0) != '.') {
-											bt.addText(" ");
+											if (!bt.endsWithText(".")) {
+												bt.addText(". ");
+											} else {
+												bt.addText(" ");
+											}
 										}
 									}
 								}
