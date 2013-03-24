@@ -151,7 +151,7 @@ public abstract class CommonReport {
 	}
 
 	/**
-	 * finds the tables by their owners into personTables
+	 * finds the tables by their owners into personTables.
 	 */
 	public void initPersonTables() {
 		personTables = new HashMap<Integer, ReportUnit>();
@@ -221,6 +221,7 @@ public abstract class CommonReport {
 	 * Prints the images.
 	 * 
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	public void printImages() throws SukuException {
 		if (imgNotices.size() > 0) {
@@ -352,9 +353,10 @@ public abstract class CommonReport {
 	}
 
 	/**
-	 * Print name index in word document (or html)
+	 * Print name index in word document (or html).
 	 * 
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	public void printNameIndex() throws SukuException {
 
@@ -671,12 +673,22 @@ public abstract class CommonReport {
 	}
 
 	/**
-	 * @param tabMember
+	 * Prints the spouse.
+	 * 
+	 * @param tabNo
+	 *            the tab no
+	 * @param memberPid
+	 *            the member pid
 	 * @param bt
+	 *            the bt
 	 * @param spouseMember
+	 *            the spouse member
 	 * @param spouNum
-	 * @return
+	 *            the spou num
+	 * @param tableOffset
+	 *            the table offset
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	protected void printSpouse(long tabNo, int memberPid, BodyText bt,
 			ReportTableMember spouseMember, int spouNum, int tableOffset)
@@ -862,6 +874,13 @@ public abstract class CommonReport {
 
 	}
 
+	/**
+	 * Gets the type column.
+	 * 
+	 * @param pid
+	 *            the pid
+	 * @return the type column
+	 */
 	protected int getTypeColumn(int pid) {
 		Integer foundMe = mapper.get(pid);
 		if (foundMe != null) {
@@ -872,10 +891,15 @@ public abstract class CommonReport {
 	}
 
 	/**
+	 * Prints the parent reference.
+	 * 
 	 * @param bt
+	 *            the bt
 	 * @param ppid
+	 *            the ppid
 	 * @return the result in a SukuData object
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	public SukuData printParentReference(BodyText bt, int ppid)
 			throws SukuException {
@@ -912,6 +936,12 @@ public abstract class CommonReport {
 		return ppdata;
 	}
 
+	/**
+	 * Prints the name nn.
+	 * 
+	 * @param bt
+	 *            the bt
+	 */
 	protected void printNameNn(BodyText bt) {
 
 		UnitNotice[] notices = new UnitNotice[1];
@@ -930,10 +960,26 @@ public abstract class CommonReport {
 		bt.addText(". ");
 	}
 
+	/**
+	 * To print table.
+	 * 
+	 * @param tableNo
+	 *            the table no
+	 * @return the string
+	 */
 	protected String toPrintTable(long tableNo) {
 		return toPrintTable(tableNo, false);
 	}
 
+	/**
+	 * To print table.
+	 * 
+	 * @param tableNo
+	 *            the table no
+	 * @param showGeneration
+	 *            the show generation
+	 * @return the string
+	 */
 	protected String toPrintTable(long tableNo, boolean showGeneration) {
 		String order = caller.getAncestorPane().getNumberingFormat()
 				.getSelection().getActionCommand();
@@ -964,9 +1010,12 @@ public abstract class CommonReport {
 	}
 
 	/**
+	 * Adds the parent reference.
+	 * 
 	 * @param ftab
+	 *            the ftab
 	 * @param bt
-	 * @return
+	 *            the bt
 	 */
 	protected void addParentReference(ReportUnit ftab, BodyText bt) {
 		PersonInTables ref;
@@ -1007,9 +1056,19 @@ public abstract class CommonReport {
 	}
 
 	/**
-	 * @param ftab
+	 * Adds the child reference.
+	 * 
+	 * @param pop
+	 *            the pop
+	 * @param mom
+	 *            the mom
+	 * @param pid
+	 *            the pid
+	 * @param text
+	 *            the text
 	 * @param bt
-	 * @return
+	 *            the bt
+	 * @return true, if successful
 	 */
 	protected boolean addChildReference(ReportUnit pop, ReportUnit mom,
 			int pid, String text, BodyText bt) {
@@ -1070,6 +1129,13 @@ public abstract class CommonReport {
 		return false;
 	}
 
+	/**
+	 * Gets the internal notices.
+	 * 
+	 * @param xnotices
+	 *            the xnotices
+	 * @return the internal notices
+	 */
 	protected UnitNotice[] getInternalNotices(UnitNotice[] xnotices) {
 
 		int tableCount = 0;
@@ -1098,6 +1164,19 @@ public abstract class CommonReport {
 		return notices;
 	}
 
+	/**
+	 * Prints the relation notice.
+	 * 
+	 * @param rn
+	 *            the rn
+	 * @param defType
+	 *            the def type
+	 * @param spouseNum
+	 *            the spouse num
+	 * @param isBefore
+	 *            the is before
+	 * @return the string
+	 */
 	protected String printRelationNotice(RelationNotice rn, String defType,
 			int spouseNum, boolean isBefore) {
 
@@ -1232,6 +1311,18 @@ public abstract class CommonReport {
 		return sb.toString();
 	}
 
+	/**
+	 * Prints the notices.
+	 * 
+	 * @param bt
+	 *            the bt
+	 * @param persLong
+	 *            the pers long
+	 * @param colType
+	 *            the col type
+	 * @param tableNo
+	 *            the table no
+	 */
 	protected void printNotices(BodyText bt, PersonLongData persLong,
 			int colType, long tableNo) {
 		UnitNotice[] notices = persLong.getNotices();
@@ -1705,6 +1796,17 @@ public abstract class CommonReport {
 
 	}
 
+	/**
+	 * Adds the source.
+	 * 
+	 * @param addDot
+	 *            the add dot
+	 * @param srcFormat
+	 *            the src format
+	 * @param src
+	 *            the src
+	 * @return the string
+	 */
 	protected String addSource(boolean addDot, String srcFormat, String src) {
 		StringBuilder sb = new StringBuilder();
 		if (src != null && !src.isEmpty()) {
@@ -2005,8 +2107,11 @@ public abstract class CommonReport {
 	 * Anna-Liisa** or Per Erik** to result in two names underlined
 	 * 
 	 * @param bt
-	 * @param notices
-	 * @param isMain
+	 *            the bt
+	 * @param persLong
+	 *            the pers long
+	 * @param colType
+	 *            the col type
 	 */
 	protected void printName(BodyText bt, PersonLongData persLong, int colType) {
 		int nameCount = 0;
@@ -2377,8 +2482,14 @@ public abstract class CommonReport {
 	}
 
 	class TextNamePart {
+		
+		/** The location. */
 		int location = -1;
+		
+		/** The name idx. */
 		int nameIdx = -1;
+		
+		/** The name text. */
 		String nameText = null;
 	}
 

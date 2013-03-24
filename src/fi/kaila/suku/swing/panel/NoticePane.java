@@ -60,6 +60,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	// /** The to delete. */
 	// JButton toDelete;
+	/** The lbl deleted. */
 	JLabel lblDeleted;
 	//
 	// /** The to add. */
@@ -208,7 +209,8 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/** The image. */
 	MyImage image;
-	/** Image size */
+	
+	/** Image size. */
 	JLabel imageDetail;
 
 	/** The giv lbl. */

@@ -40,8 +40,8 @@ public class ExcelImporter {
 	 * 
 	 * @param con
 	 *            the con
-	 * @param path
-	 *            the path
+	 * @param fis
+	 *            the fis
 	 * @return types
 	 * @throws SukuException
 	 *             the suku exception
@@ -287,8 +287,8 @@ public class ExcelImporter {
 	 * 
 	 * @param con
 	 *            the con
-	 * @param path
-	 *            the path
+	 * @param fis
+	 *            the fis
 	 * @return coordinates reuqested
 	 * @throws SukuException
 	 *             the suku exception

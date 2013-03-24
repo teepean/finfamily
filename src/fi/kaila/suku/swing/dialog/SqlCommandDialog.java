@@ -57,7 +57,10 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 	private int[] viewIds = null;
 	private JCheckBox resetView = null;
 
+	/** The ok. */
 	JButton ok = null;
+	
+	/** The cancel. */
 	JButton cancel = null;
 
 	/**
@@ -68,7 +71,9 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 	 * SukuData resu = Suku.kontroll
 	 * 
 	 * @param parent
+	 *            the parent
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	public SqlCommandDialog(Suku parent) throws SukuException {
 		super(parent, Resurses.getString("MENU_TOOLS_SQL"), false);
@@ -299,6 +304,9 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
@@ -317,6 +325,9 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentResized(ComponentEvent e) {
 
@@ -341,16 +352,25 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 				100, 24);
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentMoved(ComponentEvent e) {
 		// not used
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentShown(ComponentEvent e) {
 		// not used
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
+	 */
 	@Override
 	public void componentHidden(ComponentEvent e) {
 		// not used

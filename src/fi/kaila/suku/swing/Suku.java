@@ -248,6 +248,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	private JMenuItem mOwner;
 	private JMenuItem mDbUpdate;
 	private JMenu mToolsAuxProgram;
+	
+	/** The m tools aux graphviz. */
 	public JMenuItem mToolsAuxGraphviz;
 	private JMenuItem mListDatabases;
 	// private JMenuItem mStopPgsql;
@@ -1105,9 +1107,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	}
 
 	/**
-	 * 
 	 * This can be used by some dialogs to attach it to the main program instead
-	 * of null
+	 * of null.
 	 * 
 	 * @return the Suku instance
 	 */
@@ -1370,6 +1371,12 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		return kontroller;
 	}
 
+	/**
+	 * Sets the status.
+	 * 
+	 * @param text
+	 *            the new status
+	 */
 	public void setStatus(String text) {
 		this.statusPanel.setText(text);
 	}
@@ -2897,6 +2904,12 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	}
 
+	/**
+	 * Start join.
+	 * 
+	 * @param sub
+	 *            the sub
+	 */
 	public void startJoin(PersonShortData sub) {
 		PersonShortData main;
 		try {
@@ -2928,8 +2941,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	}
 
 	/**
-	 * 
-	 * Get's opened persons pid or 0 if none opened
+	 * Get's opened persons pid or 0 if none opened.
 	 * 
 	 * @return pid of opened person
 	 */
@@ -4499,16 +4511,29 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	}
 
+	/**
+	 * Sets the image scaler index.
+	 * 
+	 * @param imageScaler
+	 *            the new image scaler index
+	 */
 	public void setImageScalerIndex(int imageScaler) {
 
 		imageScalingIndex = imageScaler;
 	}
 
+	/**
+	 * Gets the image scaler index.
+	 * 
+	 * @return the image scaler index
+	 */
 	public int getImageScalerIndex() {
 		return imageScalingIndex;
 	}
 
 	/**
+	 * Gets the fin family xls.
+	 * 
 	 * @return the finFamilyXls
 	 */
 	public static String getFinFamilyXls() {
@@ -4524,6 +4549,12 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		return null;
 	}
 
+	/**
+	 * Sets the fin family xls.
+	 * 
+	 * @param path
+	 *            the new fin family xls
+	 */
 	public static void setFinFamilyXls(String path) {
 		if (path != null && path.isEmpty()) {
 			finFamilyXls = null;

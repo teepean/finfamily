@@ -472,6 +472,8 @@ public class Read2004XML extends DefaultHandler {
 	LinkedHashMap<String, String> images = null;
 	/** The is zip file. */
 	boolean isZipFile = false;
+	
+	/** The zip in. */
 	ZipInputStream zipIn = null;
 	private Import2004Dialog runner = null;
 
@@ -483,8 +485,6 @@ public class Read2004XML extends DefaultHandler {
 	 * </p>
 	 * .
 	 * 
-	 * @param urli
-	 *            address of the backup file
 	 * @param con
 	 *            connection instance to the PostgreSQL database
 	 * @param oldCode
@@ -522,6 +522,8 @@ public class Read2004XML extends DefaultHandler {
 	/**
 	 * Method that does the import of file at urli.
 	 * 
+	 * @param filepath
+	 *            the filepath
 	 * @return the suku data
 	 * @throws SukuException
 	 *             the suku exception

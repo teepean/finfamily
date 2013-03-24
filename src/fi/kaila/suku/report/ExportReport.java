@@ -78,6 +78,16 @@ public class ExportReport extends CommonReport {
 
 	}
 
+	/**
+	 * Creates the export table.
+	 * 
+	 * @param idx
+	 *            the idx
+	 * @param pidCount
+	 *            the pid count
+	 * @throws SukuException
+	 *             the suku exception
+	 */
 	protected void createExportTable(int idx, int[] pidCount)
 			throws SukuException {
 		BodyText bt = new TableHeaderText();

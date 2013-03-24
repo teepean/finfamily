@@ -1116,6 +1116,14 @@ public class RelativesPane extends JPanel implements ActionListener,
 		}
 	}
 
+	/**
+	 * Insert into child table.
+	 * 
+	 * @param persShort
+	 *            the pers short
+	 * @param row
+	 *            the row
+	 */
 	void insertIntoChildTable(PersonShortData persShort, int row) {
 
 		Relation rel = new Relation(0, longPers.getPid(), persShort.getPid(),
@@ -1300,6 +1308,14 @@ public class RelativesPane extends JPanel implements ActionListener,
 		chilTab.updateUI();
 	}
 
+	/**
+	 * Insert into spouse table.
+	 * 
+	 * @param persShort
+	 *            the pers short
+	 * @param row
+	 *            the row
+	 */
 	void insertIntoSpouseTable(PersonShortData persShort, int row) {
 		// System.out.println("Lisätään siis puolisoksi " + showNewPerson);
 		String tag = "WIFE";
@@ -1363,6 +1379,14 @@ public class RelativesPane extends JPanel implements ActionListener,
 		chilTab.updateUI();
 	}
 
+	/**
+	 * Insert into parent table.
+	 * 
+	 * @param persShort
+	 *            the pers short
+	 * @param row
+	 *            the row
+	 */
 	void insertIntoParentTable(PersonShortData persShort, int row) {
 		// System.out.println("Lisätään siis vanhemmaksi " + showNewPerson);
 		String tag = "MOTH";

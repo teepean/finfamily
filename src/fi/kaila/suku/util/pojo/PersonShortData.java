@@ -1292,6 +1292,7 @@ public class PersonShortData implements Serializable, Transferable,
 	}
 
 	/**
+	 * Gets the media data.
 	 * 
 	 * @return the image data
 	 */
@@ -1453,13 +1454,12 @@ public class PersonShortData implements Serializable, Transferable,
 	}
 
 	/**
-	 * retrieve person name with givenname surname order
+	 * retrieve person name with givenname surname order.
 	 * 
 	 * @param allNames
 	 *            is true if all names , else only preferred givenname
 	 * @param withPatronyme
 	 *            if allNames = true will get also patronyme
-	 * 
 	 * @return the name as requested
 	 */
 	public String getName(boolean allNames, boolean withPatronyme) {
@@ -1663,23 +1663,47 @@ public class PersonShortData implements Serializable, Transferable,
 		return surety;
 	}
 
+	/**
+	 * Sets the father pid.
+	 * 
+	 * @param fatherPid
+	 *            the new father pid
+	 */
 	public void setFatherPid(int fatherPid) {
 		this.fatherPid = fatherPid;
 	}
 
+	/**
+	 * Gets the father pid.
+	 * 
+	 * @return the father pid
+	 */
 	public int getFatherPid() {
 		return fatherPid;
 	}
 
+	/**
+	 * Sets the mother pid.
+	 * 
+	 * @param motherPid
+	 *            the new mother pid
+	 */
 	public void setMotherPid(int motherPid) {
 		this.motherPid = motherPid;
 	}
 
+	/**
+	 * Gets the mother pid.
+	 * 
+	 * @return the mother pid
+	 */
 	public int getMotherPid() {
 		return motherPid;
 	}
 
 	/**
+	 * Gets the privacy.
+	 * 
 	 * @return the privacy
 	 */
 	public String getPrivacy() {
@@ -1687,11 +1711,10 @@ public class PersonShortData implements Serializable, Transferable,
 	}
 
 	/**
+	 * relapath is used (at least) by Relation search.
 	 * 
-	 * relapath is used (at least) by Relation search
-	 * 
-	 * @param relapath
-	 *            the relapath to set
+	 * @param pid
+	 *            the pid
 	 */
 	public void addToRelapath(int pid) {
 		if (this.relapath == null) {
@@ -1701,6 +1724,8 @@ public class PersonShortData implements Serializable, Transferable,
 	}
 
 	/**
+	 * Gets the relapath.
+	 * 
 	 * @return the relapath
 	 */
 	public Vector<Integer> getRelapath() {

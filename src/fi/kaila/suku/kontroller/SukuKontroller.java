@@ -32,6 +32,7 @@ public interface SukuKontroller {
 	 *            the userid
 	 * @param passwd
 	 *            the passwd
+	 * @return the connection
 	 * @throws SukuException
 	 *             If connection fails this is thrown with reason for failuye
 	 */
@@ -39,7 +40,7 @@ public interface SukuKontroller {
 			String passwd) throws SukuException;
 
 	/**
-	 * Reset database connection
+	 * Reset database connection.
 	 */
 	public void resetConnection();
 
@@ -159,11 +160,13 @@ public interface SukuKontroller {
 
 	/**
 	 * Method used in webstart version to save the buffer to a file on local
-	 * disk
+	 * disk.
 	 * 
 	 * @param filter
-	 * @param buffer
-	 * @return
+	 *            the filter
+	 * @param in
+	 *            the in
+	 * @return true, if successful
 	 */
 	public boolean saveFile(String filter, InputStream in);
 
@@ -172,6 +175,7 @@ public interface SukuKontroller {
 	 * 
 	 * @return created local file as an output stream
 	 * @throws FileNotFoundException
+	 *             the file not found exception
 	 */
 	public OutputStream getOutputStream() throws FileNotFoundException;
 
@@ -186,33 +190,38 @@ public interface SukuKontroller {
 	public InputStream openLocalFile(String filter);
 
 	/**
+	 * Checks if is remote.
 	 * 
 	 * @return true if remote mode
 	 */
 	public boolean isRemote();
 
 	/**
+	 * Checks if is web start.
 	 * 
 	 * @return true if web start mode (running in sandbox)
 	 */
 	public boolean isWebStart();
 
 	/**
+	 * Checks if is connected.
 	 * 
 	 * @return true if connected to db (PostgreSQL)
 	 */
 	public boolean isConnected();
 
 	/**
+	 * Gets the schema.
 	 * 
 	 * @return true if connected to valid family database
 	 */
 	public String getSchema();
 
 	/**
-	 * sets the valid family database schema
+	 * sets the valid family database schema.
 	 * 
 	 * @param schema
+	 *            the new schema
 	 */
 	public void setSchema(String schema);
 

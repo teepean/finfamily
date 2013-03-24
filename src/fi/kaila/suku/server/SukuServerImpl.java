@@ -75,6 +75,7 @@ public class SukuServerImpl implements SukuServer {
 	 * @param schema
 	 *            the schema
 	 * @param openFile
+	 *            the open file
 	 * @throws SukuException
 	 *             the suku exception
 	 */
@@ -2270,6 +2271,9 @@ public class SukuServerImpl implements SukuServer {
 		return getSukuData(null, params);
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.server.SukuServer#setLocalFile(java.lang.String)
+	 */
 	@Override
 	public void setLocalFile(String f) {
 		this.openFile = f;

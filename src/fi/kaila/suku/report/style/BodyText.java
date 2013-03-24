@@ -187,13 +187,18 @@ public class BodyText {
 	}
 
 	/**
-	 * Add link with text
+	 * Add link with text.
 	 * 
 	 * @param text
+	 *            the text
 	 * @param isBold
+	 *            the is bold
 	 * @param isUnderline
+	 *            the is underline
 	 * @param isItalic
+	 *            the is italic
 	 * @param link
+	 *            the link
 	 */
 	public void addLink(String text, boolean isBold, boolean isUnderline,
 			boolean isItalic, String link) {
@@ -229,12 +234,25 @@ public class BodyText {
 
 	}
 
+	/**
+	 * Adds the anchor.
+	 * 
+	 * @param anchor
+	 *            the anchor
+	 */
 	public void addAnchor(String anchor) {
 		Text t = new Text(null);
 		t.anchor = anchor;
 		txt.add(t);
 	}
 
+	/**
+	 * Gets the anchor.
+	 * 
+	 * @param idx
+	 *            the idx
+	 * @return the anchor
+	 */
 	public String getAnchor(int idx) {
 		Text t = txt.get(idx);
 		return t.anchor;
@@ -262,8 +280,10 @@ public class BodyText {
 	}
 
 	/**
+	 * Gets the link.
 	 * 
 	 * @param idx
+	 *            the idx
 	 * @return link from text element or null
 	 */
 	public String getLink(int idx) {
@@ -310,6 +330,13 @@ public class BodyText {
 		return t.isItalic;
 	}
 
+	/**
+	 * Ends with text.
+	 * 
+	 * @param suffix
+	 *            the suffix
+	 * @return true, if successful
+	 */
 	public boolean endsWithText(String suffix) {
 
 		StringBuilder sb = new StringBuilder();
@@ -384,6 +411,9 @@ public class BodyText {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

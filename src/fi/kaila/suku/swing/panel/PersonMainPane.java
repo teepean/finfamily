@@ -155,6 +155,12 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		return personPid;
 	}
 
+	/**
+	 * Sets the sex.
+	 * 
+	 * @param sex
+	 *            the new sex
+	 */
 	void setSex(String sex) {
 		if (sex != null) {
 			persLong.setSex(sex);

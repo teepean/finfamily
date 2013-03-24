@@ -79,10 +79,12 @@ public interface ReportInterface {
 	public void closeReport() throws SukuException;
 
 	/**
-	 * close report part
+	 * close report part.
 	 * 
 	 * @param tabNo
+	 *            the tab no
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	public void closeReport(long tabNo) throws SukuException;
 

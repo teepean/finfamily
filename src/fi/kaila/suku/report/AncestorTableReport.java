@@ -59,6 +59,7 @@ public class AncestorTableReport extends CommonReport {
 	 * execute the report.
 	 * 
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	@Override
 	public void executeReport() throws SukuException {

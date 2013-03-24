@@ -83,6 +83,7 @@ public class ReportUtil {
 	 * @throws SQLException
 	 *             the sQL exception
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	public SukuData createDescendantStructure(int pid, int generations,
 			int spouGen, int chilGen, String order, boolean adopted)

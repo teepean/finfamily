@@ -682,7 +682,7 @@ public class Utils {
 	 * command to start the external application for the file.
 	 * 
 	 * @param url
-	 * 
+	 *            the url
 	 */
 	public static void openExternalFile(String url) {
 
@@ -806,6 +806,21 @@ public class Utils {
 		return name;
 	}
 
+	/**
+	 * Scale image.
+	 * 
+	 * @param immPath
+	 *            the imm path
+	 * @param image
+	 *            the image
+	 * @param p_width
+	 *            the p_width
+	 * @param p_height
+	 *            the p_height
+	 * @return the buffered image
+	 * @throws Exception
+	 *             the exception
+	 */
 	public static BufferedImage scaleImage(String immPath, BufferedImage image,
 			int p_width, int p_height) throws Exception {
 		return scaleImage(immPath, image, p_width, p_height, 0);
@@ -818,11 +833,19 @@ public class Utils {
 	 * /63227-image-resizing-in-java.html#post301529 made by Rick Palmer
 	 * Modified to use java ImageIO for output
 	 * 
+	 * @param immPath
+	 *            the imm path
 	 * @param image
+	 *            the image
 	 * @param p_width
+	 *            the p_width
 	 * @param p_height
+	 *            the p_height
+	 * @param trailer_height
+	 *            the trailer_height
 	 * @return the scaled image
 	 * @throws Exception
+	 *             the exception
 	 */
 	public static BufferedImage scaleImage(String immPath, BufferedImage image,
 			int p_width, int p_height, int trailer_height) throws Exception {
@@ -970,6 +993,8 @@ public class Utils {
 	/**
 	 * A Common method for debugging using System.out.println("text");
 	 * 
+	 * @param source
+	 *            the source
 	 * @param text
 	 *            to print
 	 */
@@ -988,10 +1013,11 @@ public class Utils {
 	}
 
 	/**
-	 * remove diacritcs from text
+	 * remove diacritcs from text.
 	 * 
 	 * @param text
-	 * @return
+	 *            the text
+	 * @return the string
 	 */
 	public static String toUsAscii(String text) {
 		if (text == null)
@@ -1023,11 +1049,21 @@ public class Utils {
 	}
 
 	/**
+	 * Graphviz do.
+	 * 
+	 * @param parent
+	 *            the parent
+	 * @param exeTask
+	 *            the exe task
 	 * @param infile
+	 *            the infile
 	 * @param endi
-	 * @throws IOException
-	 * @throws InterruptedException
+	 *            the endi
 	 * @return success status from process
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 * @throws InterruptedException
+	 *             the interrupted exception
 	 */
 	public static int graphvizDo(JFrame parent, String exeTask, String infile,
 			String endi) throws IOException, InterruptedException {

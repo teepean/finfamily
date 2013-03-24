@@ -96,6 +96,11 @@ public class SukuDateField extends JPanel implements ActionListener {
 		return Utils.dbDate(dateFrom.getText());
 	}
 
+	/**
+	 * Gets the date pref text.
+	 * 
+	 * @return the date pref text
+	 */
 	public String getDatePrefText() {
 		int idx = datePref.getSelectedIndex();
 		if (idx <= 0)
@@ -199,6 +204,9 @@ public class SukuDateField extends JPanel implements ActionListener {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e != null && e.getSource() == datePref) {

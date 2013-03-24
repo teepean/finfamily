@@ -40,6 +40,14 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 
 	private boolean isConnected = false;
 
+	/**
+	 * Instantiates a new suku kontroller hybrid impl.
+	 * 
+	 * @param host
+	 *            the host
+	 * @param url
+	 *            the url
+	 */
 	public SukuKontrollerHybridImpl(Suku host, String url) {
 		this.host = host;
 		this.url = url;
@@ -48,6 +56,9 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getConnection(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void getConnection(String host, String dbname, String userid,
 			String passwd) throws SukuException {
@@ -107,12 +118,18 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#resetConnection()
+	 */
 	@Override
 	public void resetConnection() {
 		isConnected = false;
 
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getSukuData(java.lang.String[])
+	 */
 	@Override
 	public SukuData getSukuData(String... params) throws SukuException {
 
@@ -120,6 +137,9 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getSukuData(fi.kaila.suku.util.pojo.SukuData, java.lang.String[])
+	 */
 	@Override
 	public SukuData getSukuData(SukuData request, String... params)
 			throws SukuException {
@@ -163,6 +183,9 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 		return tmp;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#openFile(java.lang.String)
+	 */
 	@Override
 	public boolean openFile(String filter) {
 
@@ -185,6 +208,9 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getFileLength()
+	 */
 	@Override
 	public long getFileLength() {
 		if (file != null) {
@@ -193,6 +219,9 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getInputStream()
+	 */
 	@Override
 	public InputStream getInputStream() {
 		if (file != null) {
@@ -206,6 +235,9 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getFileName()
+	 */
 	@Override
 	public String getFileName() {
 		if (file != null) {
@@ -214,21 +246,33 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getFilePath()
+	 */
 	@Override
 	public String getFilePath() {
 		return file.getAbsolutePath().replace("\\", "/");
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getPref(java.lang.Object, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public String getPref(Object o, String key, String def) {
 		return sr.get(o.getClass().getName() + "." + key, def);
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#putPref(java.lang.Object, java.lang.String, java.lang.String)
+	 */
 	@Override
 	public void putPref(Object o, String key, String value) {
 		sr.put(o.getClass().getName() + "." + key, value);
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#createLocalFile(java.lang.String)
+	 */
 	@Override
 	public boolean createLocalFile(String filter) {
 		Preferences sr = Preferences.userRoot();
@@ -284,6 +328,9 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#saveFile(java.lang.String, java.io.InputStream)
+	 */
 	@Override
 	public boolean saveFile(String filter, InputStream in) {
 		if (createLocalFile(filter)) {
@@ -308,6 +355,9 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getOutputStream()
+	 */
 	@Override
 	public OutputStream getOutputStream() throws FileNotFoundException {
 		if (file != null) {
@@ -316,6 +366,9 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#openLocalFile(java.lang.String)
+	 */
 	@Override
 	public InputStream openLocalFile(String path) {
 		if (openFile(path)) {
@@ -336,29 +389,44 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isRemote()
+	 */
 	@Override
 	public boolean isRemote() {
 
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isWebStart()
+	 */
 	@Override
 	public boolean isWebStart() {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isConnected()
+	 */
 	@Override
 	public boolean isConnected() {
 
 		return isConnected;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getSchema()
+	 */
 	@Override
 	public String getSchema() {
 
 		return schema;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#setSchema(java.lang.String)
+	 */
 	@Override
 	public void setSchema(String schema) {
 

@@ -22,6 +22,21 @@ public class KontrollerUtils {
 	private static Logger logger = Logger.getLogger(KontrollerUtils.class
 			.getName());
 
+	/**
+	 * Open file.
+	 * 
+	 * @param uri
+	 *            the uri
+	 * @param userno
+	 *            the userno
+	 * @param filename
+	 *            the filename
+	 * @param iis
+	 *            the iis
+	 * @return the int
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
 	public static int openFile(String uri, String userno, String filename,
 			InputStream iis) throws IOException {
 
@@ -102,6 +117,19 @@ public class KontrollerUtils {
 		return resu;
 	}
 
+	/**
+	 * Gets the suku data.
+	 * 
+	 * @param uri
+	 *            the uri
+	 * @param userno
+	 *            the userno
+	 * @param params
+	 *            the params
+	 * @return the suku data
+	 * @throws SukuException
+	 *             the suku exception
+	 */
 	public static SukuData getSukuData(String uri, String userno,
 			String... params) throws SukuException {
 		StringBuilder sb = new StringBuilder();
@@ -188,6 +216,21 @@ public class KontrollerUtils {
 
 	}
 
+	/**
+	 * Gets the suku data.
+	 * 
+	 * @param uri
+	 *            the uri
+	 * @param userno
+	 *            the userno
+	 * @param request
+	 *            the request
+	 * @param params
+	 *            the params
+	 * @return the suku data
+	 * @throws SukuException
+	 *             the suku exception
+	 */
 	public static SukuData getSukuData(String uri, String userno,
 			SukuData request, String... params) throws SukuException {
 		SukuData errr = new SukuData();

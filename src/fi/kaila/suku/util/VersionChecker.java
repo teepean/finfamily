@@ -25,6 +25,12 @@ public class VersionChecker {
 	private Suku suku = null;
 	private Logger logger = null;
 
+	/**
+	 * Instantiates a new version checker.
+	 * 
+	 * @param suku
+	 *            the suku
+	 */
 	public VersionChecker(Suku suku) {
 		logger = Logger.getLogger(this.getClass().getName());
 		this.suku = suku;
@@ -161,6 +167,9 @@ public class VersionChecker {
 
 	class VersionTask extends SwingWorker<Void, Void> {
 
+		/* (non-Javadoc)
+		 * @see javax.swing.SwingWorker#doInBackground()
+		 */
 		@Override
 		protected Void doInBackground() throws Exception {
 			runMe();

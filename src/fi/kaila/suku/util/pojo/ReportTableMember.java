@@ -424,10 +424,21 @@ public class ReportTableMember implements Serializable {
 		return spouses;
 	}
 
+	/**
+	 * Sets the other parent pid.
+	 * 
+	 * @param otherParentPid
+	 *            the new other parent pid
+	 */
 	public void setOtherParentPid(int otherParentPid) {
 		this.otherParentPid = otherParentPid;
 	}
 
+	/**
+	 * Gets the other parent pid.
+	 * 
+	 * @return the other parent pid
+	 */
 	public int getOtherParentPid() {
 		return otherParentPid;
 	}
@@ -500,6 +511,9 @@ public class ReportTableMember implements Serializable {
 			return "sub[" + pid + "/" + sex + "/" + stradoNum + "]";
 		}
 
+		/* (non-Javadoc)
+		 * @see java.lang.Comparable#compareTo(java.lang.Object)
+		 */
 		@Override
 		public int compareTo(SubPersonMember oth) {
 

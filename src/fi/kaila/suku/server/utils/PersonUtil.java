@@ -52,6 +52,8 @@ public class PersonUtil {
 	/**
 	 * Update the person/relation data.
 	 * 
+	 * @param usertext
+	 *            the usertext
 	 * @param req
 	 *            the req
 	 * @return result in resu field if failed
@@ -1573,10 +1575,12 @@ public class PersonUtil {
 	}
 
 	/**
-	 * Update the noticerow values for the person
+	 * Update the noticerow values for the person.
 	 * 
 	 * @param longPerson
+	 *            the long person
 	 * @throws SQLException
+	 *             the sQL exception
 	 */
 	public void updateNoticesOrder(PersonLongData longPerson)
 			throws SQLException {
@@ -1596,11 +1600,14 @@ public class PersonUtil {
 	}
 
 	/**
-	 * get various settings from db
+	 * get various settings from db.
 	 * 
 	 * @param index
+	 *            the index
 	 * @param type
+	 *            the type
 	 * @param name
+	 *            the name
 	 * @return settings in a SukuData object
 	 */
 	public SukuData getSettings(String index, String type, String name) {

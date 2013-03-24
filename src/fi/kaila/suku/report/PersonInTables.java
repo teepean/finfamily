@@ -35,10 +35,10 @@ public class PersonInTables implements Comparable<PersonInTables> {
 	// public long asOwner = 0;
 	public String givenName = null;
 
+	/** The sur name. */
 	public String surName = null;
-	/**
-	 * references as child
-	 */
+	
+	/** references as child. */
 	public Vector<Long> asChildren = new Vector<Long>();
 
 	/** references as parents. */
@@ -232,6 +232,8 @@ public class PersonInTables implements Comparable<PersonInTables> {
 	/**
 	 * Gets the owner string.
 	 * 
+	 * @param tableOffset
+	 *            the table offset
 	 * @return comma separated list of owners
 	 */
 	public String getOwnerString(long tableOffset) {
@@ -384,6 +386,8 @@ public class PersonInTables implements Comparable<PersonInTables> {
 	}
 
 	/**
+	 * Sets the my table.
+	 * 
 	 * @param myTable
 	 *            the myTable to set
 	 */
@@ -397,6 +401,8 @@ public class PersonInTables implements Comparable<PersonInTables> {
 	}
 
 	/**
+	 * Gets the my table.
+	 * 
 	 * @return the myTable
 	 */
 	public long getMyTable() {

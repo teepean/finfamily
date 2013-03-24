@@ -68,6 +68,9 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		isConnected = true;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#resetConnection()
+	 */
 	@Override
 	public void resetConnection() {
 		this.server.resetConnection();
@@ -347,12 +350,18 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		return file.getAbsolutePath().replace("\\", "/");
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isRemote()
+	 */
 	@Override
 	public boolean isRemote() {
 
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#saveFile(java.lang.String, java.io.InputStream)
+	 */
 	@Override
 	public boolean saveFile(String filter, InputStream in) {
 
@@ -378,18 +387,27 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isWebStart()
+	 */
 	@Override
 	public boolean isWebStart() {
 
 		return false;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isConnected()
+	 */
 	@Override
 	public boolean isConnected() {
 
 		return isConnected;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getSchema()
+	 */
 	@Override
 	public String getSchema() {
 		if (isConnected) {
@@ -398,6 +416,9 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#setSchema(java.lang.String)
+	 */
 	@Override
 	public void setSchema(String schema) {
 		this.schema = schema;

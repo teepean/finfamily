@@ -20,12 +20,23 @@ public class ExportData extends PersonShortData {
 	private PersonLongData person = null;
 	private Relation[] relations = null;
 
+	/**
+	 * Instantiates a new export data.
+	 * 
+	 * @param person
+	 *            the person
+	 * @param relations
+	 *            the relations
+	 */
 	public ExportData(PersonLongData person, Relation[] relations) {
 		super(person);
 		this.person = person;
 		this.relations = relations;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.util.pojo.PersonShortData#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

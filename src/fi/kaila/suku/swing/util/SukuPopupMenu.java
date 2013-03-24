@@ -62,6 +62,8 @@ public class SukuPopupMenu {
 	 *            the idx
 	 * @param b
 	 *            the b
+	 * @param name
+	 *            the name
 	 */
 	public void enableHiskiPerson(int idx, boolean b, String name) {
 		if (idx >= 0 && idx < pHiskiPerson.length) {
@@ -128,6 +130,12 @@ public class SukuPopupMenu {
 		return currentPerson;
 	}
 
+	/**
+	 * Enable join add.
+	 * 
+	 * @param firstPers
+	 *            the first pers
+	 */
 	public void enableJoinAdd(PersonShortData firstPers) {
 		if (firstPers == null) {
 			pJoinAddPerson.setVisible(false);

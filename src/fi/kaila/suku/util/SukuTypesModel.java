@@ -33,7 +33,7 @@ public class SukuTypesModel extends AbstractTableModel {
 	}
 
 	/**
-	 * init the types data
+	 * init the types data.
 	 */
 	public void initTypes() {
 		try {

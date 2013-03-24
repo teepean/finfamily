@@ -251,6 +251,7 @@ public class SukuSenser implements MouseListener {
 	 * 
 	 * @param parent
 	 *            the parent
+	 * @return the sens
 	 */
 	public void getSens(SukuTextField parent) {
 		if (model.size() > 0) {

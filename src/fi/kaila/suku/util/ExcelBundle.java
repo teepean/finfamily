@@ -27,6 +27,8 @@ public class ExcelBundle {
 			.getLogger(ExcelBundle.class.getName());
 
 	/**
+	 * Gets the bundle map.
+	 * 
 	 * @return the map
 	 */
 	public HashMap<String, String> getBundleMap() {

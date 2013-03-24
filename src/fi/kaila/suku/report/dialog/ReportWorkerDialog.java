@@ -173,6 +173,8 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 	private JProgressBar progressBar;
 	private Task task;
+	
+	/** The cancel requested. */
 	boolean cancelRequested = false;
 	private TaskLista taskLista;
 	private TaskGraphviz taskGraphviz;
@@ -421,7 +423,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 	}
 
 	/**
-	 * Check if village, farm and croft is to be shown
+	 * Check if village, farm and croft is to be shown.
 	 * 
 	 * @return true if they are to be shown
 	 */
@@ -487,6 +489,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 	}
 
 	/**
+	 * Gets the storage vid.
 	 * 
 	 * @return vid of view to store result of report
 	 */
@@ -503,6 +506,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 	}
 
 	/**
+	 * Empty storage view.
 	 * 
 	 * @return true if storageView is to be emptied first
 	 */
@@ -511,6 +515,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 	}
 
 	/**
+	 * Show index years.
 	 * 
 	 * @return true to show years in name index
 	 */
@@ -536,16 +541,26 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 		return (commonWithAddress.getSelectedObjects() != null);
 	}
 
+	/**
+	 * Show refn.
+	 * 
+	 * @return true, if successful
+	 */
 	public boolean showRefn() {
 		return (commonWithRefn.getSelectedObjects() != null);
 	}
 
+	/**
+	 * Show group.
+	 * 
+	 * @return true, if successful
+	 */
 	public boolean showGroup() {
 		return (commonWithGroup.getSelectedObjects() != null);
 	}
 
 	/**
-	 * Min surety level to include in the report (where supported)
+	 * Min surety level to include in the report (where supported).
 	 * 
 	 * @return surety level
 	 */
@@ -1055,6 +1070,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 	}
 
 	/**
+	 * Gets the export pane.
 	 * 
 	 * @return handle to export reports pane
 	 */
@@ -2807,6 +2823,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 	 * @param juttu
 	 *            the new runner value
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	public void setRunnerValue(String juttu) throws SukuException {
 		if (cancelRequested) {
@@ -2833,6 +2850,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 	}
 
 	/**
+	 * Checks if is cancel requested.
 	 * 
 	 * @return true if cancel button has been pressed
 	 */
@@ -2840,6 +2858,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 		return cancelRequested;
 	}
 
+	/**
+	 * Request cancel.
+	 */
 	public void requestCancel() {
 		cancelRequested = true;
 	}
@@ -2884,6 +2905,8 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		/** The index tab offset. */
 		int indexTabOffset = 0;
+		
+		/** The alla. */
 		boolean alla = true;
 
 		/*
@@ -3313,6 +3336,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 	class TaskGeneral extends SwingWorker<Void, Void> {
 
+		/* (non-Javadoc)
+		 * @see javax.swing.SwingWorker#doInBackground()
+		 */
 		@Override
 		protected Void doInBackground() throws Exception {
 			try {
@@ -3649,6 +3675,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.SwingWorker#done()
+		 */
 		@Override
 		public void done() {
 			Toolkit.getDefaultToolkit().beep();
@@ -3661,6 +3690,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		// XmlReport repo = null;
 
+		/* (non-Javadoc)
+		 * @see javax.swing.SwingWorker#doInBackground()
+		 */
 		@Override
 		protected Void doInBackground() {
 			// repo = new XmlReport(runner, 3,
@@ -3678,6 +3710,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.SwingWorker#done()
+		 */
 		@Override
 		public void done() {
 			Toolkit.getDefaultToolkit().beep();
@@ -3689,6 +3724,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 	class TaskRelation extends SwingWorker<Void, Void> {
 
+		/* (non-Javadoc)
+		 * @see javax.swing.SwingWorker#doInBackground()
+		 */
 		@Override
 		protected Void doInBackground() throws Exception {
 			try {
@@ -3702,6 +3740,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.SwingWorker#done()
+		 */
 		@Override
 		public void done() {
 			Toolkit.getDefaultToolkit().beep();

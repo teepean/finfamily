@@ -105,6 +105,10 @@ public class RelationNotice implements Serializable {
 	 *            the modified
 	 * @param created
 	 *            the created
+	 * @param modifiedBy
+	 *            the modified by
+	 * @param createdBy
+	 *            the created by
 	 */
 	public RelationNotice(int rnid, int rid, int surety, String tag,
 			String type, String description, String datePrefix,
@@ -444,6 +448,7 @@ public class RelationNotice implements Serializable {
 	}
 
 	/**
+	 * Gets the created by.
 	 * 
 	 * @return created by userid
 	 */
@@ -461,6 +466,7 @@ public class RelationNotice implements Serializable {
 	}
 
 	/**
+	 * Gets the modified by.
 	 * 
 	 * @return modifiedBy userid
 	 */

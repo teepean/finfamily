@@ -92,7 +92,7 @@ public class AncestorReport extends CommonReport {
 							+ e.getMessage());
 		}
 
-		if (vlist != null && vlist.resu != null) {
+		if ((vlist != null) && (vlist.resu != null)) {
 			JOptionPane.showMessageDialog(caller,
 					Resurses.getString(Resurses.CREATE_REPORT) + " ["
 							+ vlist.resu + "]");
@@ -167,14 +167,14 @@ public class AncestorReport extends CommonReport {
 					mtab = new ReportUnitAll();
 					mtab.r = reportUnits.get(ua.r.getMotherPid());
 					if (mtab.r != null) {
-						mtab.tabNo = ua.tabNo * 2 + 1;
+						mtab.tabNo = (ua.tabNo * 2) + 1;
 						mtab.gene = ua.gene + 1;
 						mtab.r.setTableNo(mtab.tabNo);
 						mtab.r.setGen(mtab.gene);
 					}
 				}
 
-				if (ua.r.getFatherPid() > 0 || ua.r.getMotherPid() > 0) {
+				if ((ua.r.getFatherPid() > 0) || (ua.r.getMotherPid() > 0)) {
 
 					createAncestorTable(0, ftab.r, mtab.r,
 							(ftab.r != null ? ftab.tabNo : mtab.tabNo));
@@ -222,11 +222,11 @@ public class AncestorReport extends CommonReport {
 				ftab = tab;
 			} else {
 
-				if (i > 0 && tab.getTableNo() % 2 == 0) {
+				if ((i > 0) && ((tab.getTableNo() % 2) == 0)) {
 					ftab = tab;
-					if (i < tables.size() - 1
-							&& tab.getTableNo() + 1 == tables.get(i + 1)
-									.getTableNo()) {
+					if ((i < (tables.size() - 1))
+							&& ((tab.getTableNo() + 1) == tables.get(i + 1)
+									.getTableNo())) {
 						mtab = tables.get(i + 1);
 					}
 
@@ -240,7 +240,7 @@ public class AncestorReport extends CommonReport {
 			// tabno = tab.getTableNo();
 			// System.out.println("TAB: " + tabno);
 			i++;
-			if (ftab != null && mtab != null) {
+			if ((ftab != null) && (mtab != null)) {
 				i++;
 			}
 		}
@@ -278,6 +278,7 @@ public class AncestorReport extends CommonReport {
 	 * @param tableNum
 	 *            the table num
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	protected void createAncestorTable(int idx, ReportUnit ftab,
 			ReportUnit mtab, long tableNum) throws SukuException {
@@ -361,7 +362,7 @@ public class AncestorReport extends CommonReport {
 			}
 		}
 
-		float prose = idx * 100f / tables.size();
+		float prose = (idx * 100f) / tables.size();
 		caller.setRunnerValue("" + (int) prose + ";" + tableNum + ":"
 				+ tabOwner.toString());
 
@@ -371,7 +372,7 @@ public class AncestorReport extends CommonReport {
 			genText = Roman.int2roman(mainTab.getGen() + 1);
 		}
 
-		if (mtab != null && ftab != null) {
+		if ((mtab != null) && (ftab != null)) {
 			bt.addText(typesTable.getTextValue("TABLES") + " ");
 			if (!genText.isEmpty()) {
 				bt.addText(genText + ".");
@@ -460,12 +461,12 @@ public class AncestorReport extends CommonReport {
 				bt.addText(genText);
 				bt.addText(". ");
 			}
-			if (caller.showRefn() && xdata.getRefn() != null) {
+			if (caller.showRefn() && (xdata.getRefn() != null)) {
 
 				bt.addText(xdata.getRefn());
 				bt.addText(" ");
 			}
-			if (caller.showGroup() && xdata.getGroupId() != null) {
+			if (caller.showGroup() && (xdata.getGroupId() != null)) {
 
 				bt.addText(xdata.getGroupId());
 				bt.addText(" ");
@@ -492,11 +493,11 @@ public class AncestorReport extends CommonReport {
 				// now let's look for marriage info
 
 				Relation marr = null;
-				if (mammadata != null && mammadata.relations != null) {
+				if ((mammadata != null) && (mammadata.relations != null)) {
 					for (Relation rr : mammadata.relations) {
 						if (rr.getTag().equals("HUSB")
-								&& fid == rr.getRelative()
-								&& mid == rr.getPid()) {
+								&& (fid == rr.getRelative())
+								&& (mid == rr.getPid())) {
 							marr = rr;
 							break;
 						}
@@ -535,12 +536,12 @@ public class AncestorReport extends CommonReport {
 				bt.addText(genText);
 				bt.addText(". ");
 			}
-			if (caller.showRefn() && mammadata.persLong.getRefn() != null) {
+			if (caller.showRefn() && (mammadata.persLong.getRefn() != null)) {
 
 				bt.addText(mammadata.persLong.getRefn());
 				bt.addText(" ");
 			}
-			if (caller.showGroup() && mammadata.persLong.getGroupId() != null) {
+			if (caller.showGroup() && (mammadata.persLong.getGroupId() != null)) {
 
 				bt.addText(mammadata.persLong.getGroupId());
 				bt.addText(" ");
@@ -630,7 +631,7 @@ public class AncestorReport extends CommonReport {
 					} else {
 						printNameNn(bt);
 					}
-					if (rnn != null && rnn.length > 1) {
+					if ((rnn != null) && (rnn.length > 1)) {
 						for (int i = 1; i < rnn.length; i++) {
 							RelationNotice rn = rnn[i];
 							spouType = printRelationNotice(rn, null, 0, false);
@@ -715,7 +716,7 @@ public class AncestorReport extends CommonReport {
 			for (int i = 0; i < tab.getChild().size(); i++) {
 				ReportTableMember mem = tab.getChild().get(i);
 				boolean addMe = false;
-				if (ftab != null && mtab != null) {
+				if ((ftab != null) && (mtab != null)) {
 					for (int j = 0; j < mtab.getChild().size(); j++) {
 						ReportTableMember mom = mtab.getChild().get(j);
 						if (mem.getPid() == mom.getPid()) {
@@ -810,7 +811,7 @@ public class AncestorReport extends CommonReport {
 			boolean isMale = true;
 			String parentText;
 
-			if (ftab != null && mtab != null) {
+			if ((ftab != null) && (mtab != null)) {
 				while (true) {
 					if (isMale) {
 						parentText = typesTable.getTextValue("FATHERS");
@@ -829,8 +830,8 @@ public class AncestorReport extends CommonReport {
 
 						boolean addMe = true;
 
-						if (mem.getPid() == ftab.getPid()
-								|| mem.getPid() == mtab.getPid()) {
+						if ((mem.getPid() == ftab.getPid())
+								|| (mem.getPid() == mtab.getPid())) {
 							addMe = false;
 						}
 

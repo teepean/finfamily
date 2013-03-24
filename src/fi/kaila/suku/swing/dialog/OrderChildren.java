@@ -57,6 +57,14 @@ public class OrderChildren extends JDialog implements ActionListener,
 	private final JProgressBar progressBar;
 	private Task task;
 
+	/**
+	 * Instantiates a new order children.
+	 * 
+	 * @param owner
+	 *            the owner
+	 * @throws SukuException
+	 *             the suku exception
+	 */
 	public OrderChildren(Suku owner) throws SukuException {
 		super(owner, Resurses.getString("MENU_CHILDREN_ORDER"), true);
 		this.owner = owner;
@@ -138,10 +146,18 @@ public class OrderChildren extends JDialog implements ActionListener,
 
 	}
 
+	/**
+	 * Gets the runner.
+	 * 
+	 * @return the runner
+	 */
 	public static OrderChildren getRunner() {
 		return runner;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
@@ -207,11 +223,21 @@ public class OrderChildren extends JDialog implements ActionListener,
 	 */
 	class Task extends SwingWorker<Void, Void> {
 
+		/** The view id. */
 		int viewId = 0;
+		
+		/** The stop me now. */
 		boolean stopMeNow = false;
+		
+		/** The order all. */
 		boolean orderAll = false;
+		
+		/** The not ordered. */
 		int notOrdered = 0;
 
+		/* (non-Javadoc)
+		 * @see javax.swing.SwingWorker#doInBackground()
+		 */
 		@Override
 		protected Void doInBackground() throws Exception {
 
@@ -268,6 +294,9 @@ public class OrderChildren extends JDialog implements ActionListener,
 			return null;
 		}
 
+		/* (non-Javadoc)
+		 * @see javax.swing.SwingWorker#done()
+		 */
 		@Override
 		public void done() {
 			Toolkit.getDefaultToolkit().beep();
@@ -283,6 +312,9 @@ public class OrderChildren extends JDialog implements ActionListener,
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if ("progress".equals(evt.getPropertyName())) {

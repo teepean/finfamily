@@ -107,7 +107,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 				int pit = in.read(b);
 				for (int i = 0; i < pit; i++) {
-					if (b[i] == '\n' || b[i] == '\r') {
+					if ((b[i] == '\n') || (b[i] == '\r')) {
 						pit = i;
 						break;
 					}
@@ -135,6 +135,11 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#resetConnection()
+	 */
 	@Override
 	public void resetConnection() {
 		isConnected = false;
@@ -426,12 +431,23 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isRemote()
+	 */
 	@Override
 	public boolean isRemote() {
 
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#saveFile(java.lang.String,
+	 * java.io.InputStream)
+	 */
 	@Override
 	public boolean saveFile(String filter, InputStream in) {
 		/**
@@ -457,23 +473,43 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isWebStart()
+	 */
 	@Override
 	public boolean isWebStart() {
 
 		return true;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isConnected()
+	 */
 	@Override
 	public boolean isConnected() {
 		return isConnected;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#getSchema()
+	 */
 	@Override
 	public String getSchema() {
 
 		return this.schema;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#setSchema(java.lang.String)
+	 */
 	@Override
 	public void setSchema(String schema) {
 

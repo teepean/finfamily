@@ -77,6 +77,10 @@ public class Relation implements Serializable {
 	 *            the modified
 	 * @param created
 	 *            the created
+	 * @param modifiedBy
+	 *            the modified by
+	 * @param createdBy
+	 *            the created by
 	 */
 	public Relation(int rid, int aid, int bid, String tag, int surety,
 			Timestamp modified, Timestamp created, String modifiedBy,
@@ -141,8 +145,10 @@ public class Relation implements Serializable {
 	}
 
 	/**
+	 * Gets the notice.
 	 * 
 	 * @param tag
+	 *            the tag
 	 * @return first notice of type tag
 	 */
 	public RelationNotice getNotice(String tag) {
@@ -298,6 +304,7 @@ public class Relation implements Serializable {
 	}
 
 	/**
+	 * Gets the created by.
 	 * 
 	 * @return userid of creater
 	 */
@@ -315,6 +322,7 @@ public class Relation implements Serializable {
 	}
 
 	/**
+	 * Gets the modified by.
 	 * 
 	 * @return userid of modifier
 	 */

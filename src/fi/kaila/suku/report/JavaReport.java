@@ -391,11 +391,17 @@ public class JavaReport extends JFrame implements ActionListener,
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.Component#toString()
+	 */
 	@Override
 	public String toString() {
 		return "Preview";
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.report.ReportInterface#closeReport(long)
+	 */
 	@Override
 	public void closeReport(long tabNo) throws SukuException {
 		if (reportClosed)

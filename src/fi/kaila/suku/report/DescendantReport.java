@@ -59,8 +59,6 @@ public class DescendantReport extends CommonReport {
 	/**
 	 * execute the report.
 	 * 
-	 * @throws SukuException
-	 *             the suku exception
 	 */
 	@Override
 	public void executeReport() {
@@ -183,6 +181,7 @@ public class DescendantReport extends CommonReport {
 	 * @param tab
 	 *            the tab
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	protected void createDescendantTable(int idx, ReportUnit tab)
 			throws SukuException {

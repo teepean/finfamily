@@ -49,8 +49,6 @@ public class ConnectDialog extends JDialog implements ActionListener {
 	 *            the owner
 	 * @param kontroller
 	 *            the kontroller
-	 * @param isRemote
-	 *            the is remote
 	 */
 
 	public ConnectDialog(JFrame owner, SukuKontroller kontroller) {

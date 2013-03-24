@@ -37,6 +37,7 @@ public class Upload {
 	 * @throws SQLException
 	 *             the sQL exception
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	public static SukuData uploadFamilies(Connection con, SukuData families)
 			throws SQLException, SukuException {

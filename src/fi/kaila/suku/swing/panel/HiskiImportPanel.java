@@ -148,6 +148,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 	// private String [] sukuName = {null,null,null};
 	/** The y. */
 	int y = 20;
+	
+	/** The rh. */
 	int rh = 80;
 	/** The buttony. */
 	int buttony = 60;
@@ -464,6 +466,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 	/**
 	 * set a hiskipanel person.
 	 * 
+	 * @param idx
+	 *            the idx
 	 * @param pers
 	 *            the person
 	 */

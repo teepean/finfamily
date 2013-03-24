@@ -40,6 +40,18 @@ public class GraphvizReport extends CommonReport {
 	private static String FOLDER_NAME = "Graphviz_images";
 	private final String imageMagickPath;
 
+	/**
+	 * Instantiates a new graphviz report.
+	 * 
+	 * @param caller
+	 *            the caller
+	 * @param typesTable
+	 *            the types table
+	 * @param reportType
+	 *            the report type
+	 * @throws SukuException
+	 *             the suku exception
+	 */
 	public GraphvizReport(ReportWorkerDialog caller, SukuTypesTable typesTable,
 			int reportType) throws SukuException {
 		super(caller, typesTable, null);
@@ -59,9 +71,15 @@ public class GraphvizReport extends CommonReport {
 
 	}
 
+	/** The ident map. */
 	LinkedHashMap<String, PersonShortData> identMap = null;
+	
+	/** The rela map. */
 	LinkedHashMap<String, String> relaMap = null;
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.report.CommonReport#executeReport()
+	 */
 	@Override
 	public void executeReport() throws SukuException {
 		int descgen = caller.getDescendantPane().getGenerations();
@@ -384,7 +402,10 @@ public class GraphvizReport extends CommonReport {
 		}
 	}
 
+	/** The ancs. */
 	HashMap<Integer, PersonShortData> ancs = new HashMap<Integer, PersonShortData>();
+	
+	/** The commons. */
 	Vector<PersonShortData> commons = new Vector<PersonShortData>();
 
 	private void addRelations(GraphData subj) throws SukuException {
@@ -477,6 +498,7 @@ public class GraphvizReport extends CommonReport {
 	// }
 	// }
 
+	/** The remover. */
 	HashMap<Integer, Integer> remover = new HashMap<Integer, Integer>();
 
 	private void addAncestorRelatives(PersonShortData pers, int generation,
@@ -578,11 +600,20 @@ public class GraphvizReport extends CommonReport {
 	}
 
 	/**
+	 * Adds the parent data.
+	 * 
 	 * @param pers
 	 *            of original person
 	 * @param gdata
-	 * @param fatherPid
+	 *            the gdata
+	 * @param parePid
+	 *            the pare pid
+	 * @param generation
+	 *            the generation
+	 * @param includeFamily
+	 *            the include family
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	public void addParentData(PersonShortData pers, GraphData gdata,
 			int parePid, int generation, boolean includeFamily)
@@ -752,6 +783,9 @@ public class GraphvizReport extends CommonReport {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.report.CommonReport#setVisible(boolean)
+	 */
 	@Override
 	public void setVisible(boolean b) {
 
@@ -760,9 +794,16 @@ public class GraphvizReport extends CommonReport {
 	class GraphData extends PersonShortData {
 		/**  */
 		private static final long serialVersionUID = 1L;
+		
+		/** The relations. */
 		Relation[] relations;
+		
+		/** The rels. */
 		HashMap<Integer, PersonShortData> rels = new HashMap<Integer, PersonShortData>();
 
+		/* (non-Javadoc)
+		 * @see fi.kaila.suku.util.pojo.PersonShortData#getFatherPid()
+		 */
 		@Override
 		public int getFatherPid() {
 			String tag = "FATH";
@@ -814,6 +855,9 @@ public class GraphvizReport extends CommonReport {
 			return 0;
 		}
 
+		/* (non-Javadoc)
+		 * @see fi.kaila.suku.util.pojo.PersonShortData#getMotherPid()
+		 */
 		@Override
 		public int getMotherPid() {
 			String tag = "MOTH";
@@ -821,6 +865,12 @@ public class GraphvizReport extends CommonReport {
 			return getParent(tag);
 		}
 
+		/**
+		 * Instantiates a new graph data.
+		 * 
+		 * @param data
+		 *            the data
+		 */
 		public GraphData(SukuData data) {
 			super(data.persLong);
 			relations = data.relations;
@@ -835,6 +885,8 @@ public class GraphvizReport extends CommonReport {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
+		
+		/** The rel path. */
 		Vector<Integer> relPath = new Vector<Integer>();
 
 	}

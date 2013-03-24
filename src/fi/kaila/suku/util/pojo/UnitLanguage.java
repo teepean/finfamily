@@ -293,6 +293,7 @@ public class UnitLanguage implements Serializable {
 	}
 
 	/**
+	 * Gets the modified by.
 	 * 
 	 * @return userid of last modifier
 	 */
@@ -310,6 +311,7 @@ public class UnitLanguage implements Serializable {
 	}
 
 	/**
+	 * Gets the created by.
 	 * 
 	 * @return userid of creater
 	 */

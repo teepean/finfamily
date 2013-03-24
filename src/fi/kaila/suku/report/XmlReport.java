@@ -873,6 +873,11 @@ public class XmlReport implements ReportInterface {
 
 	}
 
+	/**
+	 * Gets the folder name.
+	 * 
+	 * @return the folder name
+	 */
 	public String getFolderName() {
 		if (folder == null) {
 			return null;
@@ -885,15 +890,26 @@ public class XmlReport implements ReportInterface {
 		return folder;
 	}
 
+	/**
+	 * Gets the report path.
+	 * 
+	 * @return the report path
+	 */
 	public String getReportPath() {
 		return report;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return report;
 	}
 
+	/* (non-Javadoc)
+	 * @see fi.kaila.suku.report.ReportInterface#closeReport(long)
+	 */
 	@Override
 	public void closeReport(long tabNo) throws SukuException {
 		PrintStream origErr = System.err;

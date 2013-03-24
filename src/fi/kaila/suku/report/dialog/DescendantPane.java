@@ -309,6 +309,11 @@ public class DescendantPane extends JPanel {
 		return adopted.isSelected();
 	}
 
+	/**
+	 * Checks if is both parents.
+	 * 
+	 * @return true, if is both parents
+	 */
 	public boolean isBothParents() {
 		return bothParents.isSelected();
 	}
@@ -324,6 +329,12 @@ public class DescendantPane extends JPanel {
 
 	}
 
+	/**
+	 * Sets the both parents.
+	 * 
+	 * @param value
+	 *            the new both parents
+	 */
 	void setBothParents(boolean value) {
 		bothParents.setSelected(value);
 

@@ -199,6 +199,8 @@ public class PersonView extends JPanel implements ChangeListener {
 	/**
 	 * set a hiskipanel person.
 	 * 
+	 * @param idx
+	 *            the idx
 	 * @param pers
 	 *            the person object
 	 */
@@ -280,6 +282,8 @@ public class PersonView extends JPanel implements ChangeListener {
 	 * 
 	 * @param pid
 	 *            the pid
+	 * @param sex
+	 *            the sex
 	 * @throws SukuException
 	 *             the suku exception
 	 */
@@ -394,6 +398,8 @@ public class PersonView extends JPanel implements ChangeListener {
 	 * 
 	 * @param pid
 	 *            the pid
+	 * @param sex
+	 *            the sex
 	 * @throws SukuException
 	 *             the suku exception
 	 */
@@ -450,6 +456,7 @@ public class PersonView extends JPanel implements ChangeListener {
 	}
 
 	/**
+	 * Gets the main person.
 	 * 
 	 * @return main person if open. null otherwise
 	 */
@@ -1055,6 +1062,12 @@ public class PersonView extends JPanel implements ChangeListener {
 
 	}
 
+	/**
+	 * Adds the child to person.
+	 * 
+	 * @param relativ
+	 *            the relativ
+	 */
 	public void addChildToPerson(PersonShortData relativ) {
 		int midx = getMainPaneIndex();
 		if (midx < 0)
@@ -1071,6 +1084,12 @@ public class PersonView extends JPanel implements ChangeListener {
 		}
 	}
 
+	/**
+	 * Adds the parent to person.
+	 * 
+	 * @param relativ
+	 *            the relativ
+	 */
 	public void addParentToPerson(PersonShortData relativ) {
 		int midx = getMainPaneIndex();
 		if (midx < 0)
@@ -1087,6 +1106,12 @@ public class PersonView extends JPanel implements ChangeListener {
 		}
 	}
 
+	/**
+	 * Adds the spouse to person.
+	 * 
+	 * @param relativ
+	 *            the relativ
+	 */
 	public void addSpouseToPerson(PersonShortData relativ) {
 		int midx = getMainPaneIndex();
 		if (midx < 0)
@@ -1227,6 +1252,9 @@ public class PersonView extends JPanel implements ChangeListener {
 		tabbedPane.setSelectedIndex(tabIndex);
 	}
 
+	/**
+	 * Delete notice.
+	 */
 	public void deleteNotice() {
 		int isele = tabbedPane.getSelectedIndex();
 

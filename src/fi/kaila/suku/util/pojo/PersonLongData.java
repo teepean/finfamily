@@ -175,6 +175,7 @@ public class PersonLongData implements Serializable {
 	}
 
 	/**
+	 * Gets the modified by.
 	 * 
 	 * @return userid of modifier
 	 */
@@ -183,6 +184,7 @@ public class PersonLongData implements Serializable {
 	}
 
 	/**
+	 * Gets the created by.
 	 * 
 	 * @return userid of creator
 	 */
@@ -360,6 +362,9 @@ public class PersonLongData implements Serializable {
 		return text;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

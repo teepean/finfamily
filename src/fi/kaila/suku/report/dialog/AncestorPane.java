@@ -37,6 +37,7 @@ public class AncestorPane extends JPanel {
 	 * Constructor sets up ths fields.
 	 * 
 	 * @param parent
+	 *            the parent
 	 */
 	public AncestorPane(ReportWorkerDialog parent) {
 

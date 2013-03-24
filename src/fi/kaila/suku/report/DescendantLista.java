@@ -328,11 +328,29 @@ public class DescendantLista extends CommonReport {
 	 * 
 	 */
 	class ListPerson {
+		
+		/** The ps. */
 		PersonShortData ps = null;
+		
+		/** The gene. */
 		int gene = 0;
+		
+		/** The tag. */
 		String tag = null;
+		
+		/** The no parent. */
 		boolean noParent = false;
 
+		/**
+		 * Instantiates a new list person.
+		 * 
+		 * @param ps
+		 *            the ps
+		 * @param gene
+		 *            the gene
+		 * @param tag
+		 *            the tag
+		 */
 		ListPerson(PersonShortData ps, int gene, String tag) {
 			this.ps = ps;
 			this.gene = gene;

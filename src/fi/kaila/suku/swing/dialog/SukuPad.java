@@ -39,9 +39,8 @@ public class SukuPad extends JDialog implements ActionListener {
 	 * 
 	 * @param owner
 	 *            frame
-	 * 
 	 * @param text
-	 * 
+	 *            the text
 	 */
 	public SukuPad(JFrame owner, String text) {
 		super(owner, Resurses.getString("SUKUOHJELMISTO"));
@@ -49,11 +48,12 @@ public class SukuPad extends JDialog implements ActionListener {
 	}
 
 	/**
-	 * Constructor from JDialog
+	 * Constructor from JDialog.
 	 * 
 	 * @param owner
 	 *            dialog
 	 * @param text
+	 *            the text
 	 */
 	public SukuPad(JDialog owner, String text) {
 		super(owner, Resurses.getString("SUKUOHJELMISTO"));

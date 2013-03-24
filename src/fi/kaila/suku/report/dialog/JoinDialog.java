@@ -25,6 +25,16 @@ public class JoinDialog extends JDialog implements ActionListener {
 	private final PersonShortData sub;
 	private final Suku parent;
 
+	/**
+	 * Instantiates a new join dialog.
+	 * 
+	 * @param owner
+	 *            the owner
+	 * @param main
+	 *            the main
+	 * @param sub
+	 *            the sub
+	 */
 	public JoinDialog(Suku owner, PersonShortData main, PersonShortData sub) {
 		super(owner, Resurses.getString("JOIN_MENU"), true);
 
@@ -74,6 +84,9 @@ public class JoinDialog extends JDialog implements ActionListener {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();

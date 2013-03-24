@@ -141,9 +141,10 @@ public class UnitNotice implements Serializable {
 	/** The create date. */
 	Timestamp createDate = null; // timestamp not null default now() --
 	// timestamp created
-	/** The modifiedBy userid */
+	/** The modifiedBy userid. */
 	String modifiedBy = null;
-	/** The createdBy userid */
+	
+	/** The createdBy userid. */
 	String createdBy = null;
 
 	private transient BufferedImage image = null;
@@ -229,6 +230,9 @@ public class UnitNotice implements Serializable {
 
 	/**
 	 * reset modifeid flag.
+	 * 
+	 * @param value
+	 *            the new modified
 	 */
 	public void setModified(boolean value) {
 		toBeUpdated = value;
@@ -839,6 +843,7 @@ public class UnitNotice implements Serializable {
 	 * 
 	 * @return image
 	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
 	 */
 	public BufferedImage getMediaImage() throws IOException {
 		if (mediaData == null)
@@ -1064,6 +1069,7 @@ public class UnitNotice implements Serializable {
 	}
 
 	/**
+	 * Gets the modified by.
 	 * 
 	 * @return user id of modifier
 	 */
@@ -1081,6 +1087,7 @@ public class UnitNotice implements Serializable {
 	}
 
 	/**
+	 * Gets the created by.
 	 * 
 	 * @return userid of creator
 	 */

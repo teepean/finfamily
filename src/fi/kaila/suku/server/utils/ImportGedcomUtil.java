@@ -104,6 +104,8 @@ public class ImportGedcomUtil {
 	/**
 	 * Import gedcom.
 	 * 
+	 * @param path
+	 *            the path
 	 * @param lang
 	 *            the lang
 	 * @return result in SukuData
@@ -824,6 +826,8 @@ public class ImportGedcomUtil {
 
 	/** The record count. */
 	int recordCount = 0;
+	
+	/** The error count. */
 	int errorCount = 0;
 	/** The owner info. */
 	String ownerInfo = null;
