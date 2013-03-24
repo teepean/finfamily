@@ -43,7 +43,8 @@ public class SuomiPlacesResolver {
 		sql.append("union ");
 		sql.append("select location[0],location[1],countrycode from placelocations where placename = ? ");
 
-		PreparedStatement pstm;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
 		String countryCode = null;
 		try {
 			pstm = con.prepareStatement(sql.toString());
@@ -53,7 +54,7 @@ public class SuomiPlacesResolver {
 				pstm.setString(1, response[idx].getName().toUpperCase());
 				pstm.setString(2, response[idx].getName().toUpperCase());
 
-				ResultSet rs = pstm.executeQuery();
+				rs = pstm.executeQuery();
 				while (rs.next()) {
 					countryCode = rs.getString(3);
 					if (countryCode.equalsIgnoreCase(response[idx]
@@ -70,6 +71,21 @@ public class SuomiPlacesResolver {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new SukuException("Placelocations error " + e.getMessage());
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException ex) {
+				// SQLException
+			}
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (SQLException ex) {
+				// SQLException
+			}
 		}
 		return response;
 

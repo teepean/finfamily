@@ -64,7 +64,7 @@ public class SukuUtility {
 			throws SukuException {
 		logger.fine("create db from " + sqlpath);
 		InputStreamReader in = null;
-		Statement stm;
+		Statement stm = null;
 		int lukuri = 0;
 		try {
 			in = new InputStreamReader(this.getClass().getResourceAsStream(
@@ -138,7 +138,16 @@ public class SukuUtility {
 			throw new SukuException(e);
 		} finally {
 			try {
-				in.close();
+				if (stm != null) {
+					stm.close();
+				}
+			} catch (SQLException ignored) {
+				// SQLException ignored
+			}
+			try {
+				if (in != null) {
+					in.close();
+				}
 			} catch (IOException ignored) {
 				// IOException ignored
 			}
