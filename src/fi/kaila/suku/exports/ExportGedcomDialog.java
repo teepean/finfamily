@@ -148,8 +148,8 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 
 		viewArray = lista;
 		viewList.addItem(Resurses.getString("EXPORT_ALL"));
-		for (int i = 0; i < viewArray.length; i++) {
-			String[] pp = viewArray[i].split(";");
+		for (String element : viewArray) {
+			String[] pp = element.split(";");
 			if (pp.length > 1) {
 				viewList.addItem(pp[1]);
 			}
@@ -199,7 +199,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 		this.cancel.addActionListener(this);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-		setBounds(d.width / 2 - 320, d.height / 2 - 100, 640, y + 100);
+		setBounds((d.width / 2) - 320, (d.height / 2) - 100, 640, y + 100);
 
 	}
 
@@ -425,7 +425,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 			progressBar.setValue(progress);
 			textContent.setText(kaksi[1]);
 			showCounter--;
-			if (progress > 0 && showCounter < 0 && timerText != null) {
+			if ((progress > 0) && (showCounter < 0) && (timerText != null)) {
 				showCounter = 10;
 				long nowTime = System.currentTimeMillis();
 				long usedTime = nowTime - startTime;

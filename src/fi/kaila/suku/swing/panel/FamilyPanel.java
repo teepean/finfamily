@@ -137,27 +137,27 @@ public class FamilyPanel extends JPanel implements MouseListener,
 				gg.setStroke(new BasicStroke(2));
 			}
 
-			drawSuretyLine(gg,
-					new Point(pp.x + dp.width / 2, cp.y - 6 - i * 4),
-					new Point(pp.x + dp.width / 2, pp.y + dp.height),
-					rel.getSurety());
+			drawSuretyLine(gg, new Point(pp.x + (dp.width / 2), cp.y - 6
+					- (i * 4)), new Point(pp.x + (dp.width / 2), pp.y
+					+ dp.height), rel.getSurety());
 
-			drawSuretyLine(gg,
-					new Point(pp.x + dp.width / 2, cp.y - 6 - i * 4),
-					new Point(cp.x + dd.width / 2, cp.y - 6 - i * 4),
-					rel.getSurety());
+			drawSuretyLine(gg, new Point(pp.x + (dp.width / 2), cp.y - 6
+					- (i * 4)), new Point(cp.x + (dd.width / 2), cp.y - 6
+					- (i * 4)), rel.getSurety());
 
-			drawSuretyLine(gg, new Point(cp.x + dd.width / 2, cp.y), new Point(
-					cp.x + dd.width / 2, cp.y - 6 - i * 4), rel.getSurety());
+			drawSuretyLine(gg, new Point(cp.x + (dd.width / 2), cp.y),
+					new Point(cp.x + (dd.width / 2), cp.y - 6 - (i * 4)),
+					rel.getSurety());
 
 		}
 		gg.setColor(Color.black);
 		gg.setStroke(new BasicStroke(2));
 		for (int i = tabs.size() - 1; i >= 0; i--) {
 			TableShortData t = tabs.get(i);
-			if (t == null || t.getSubject() == null
-					|| t.getSubject().getSex() == null)
+			if ((t == null) || (t.getSubject() == null)
+					|| (t.getSubject().getSex() == null)) {
 				return;
+			}
 			Color color = null;
 			if (t.getSubject().getSex().equals("M")) {
 				color = Color.blue;
@@ -181,10 +181,12 @@ public class FamilyPanel extends JPanel implements MouseListener,
 			TableShortData t = tabs.get(i);
 			int x = t.getLocation().x + t.getSize(g).width;
 			int y = t.getLocation().y + t.getSize(g).height;
-			if (prefd.width < x)
+			if (prefd.width < x) {
 				prefd.width = x;
-			if (prefd.height < y)
+			}
+			if (prefd.height < y) {
 				prefd.height = y;
+			}
 
 			logger.finer("END[" + i + "]=" + tabs.get(i));
 		}
@@ -209,8 +211,9 @@ public class FamilyPanel extends JPanel implements MouseListener,
 			gg.drawLine((int) ax, (int) ay, (int) bx, (int) by);
 		} else {
 
-			if (points.length < 2)
+			if (points.length < 2) {
 				return;
+			}
 			for (int i = 0; i < points.length; i++) {
 				points[i] = new Point();
 			}
@@ -220,20 +223,20 @@ public class FamilyPanel extends JPanel implements MouseListener,
 				piece = (surety == 40 ? 50 : 100);
 			}
 			piecelen = (int) hypoLen / (points.length - 1);
-			double lineLen = piece * piecelen / 100;
+			double lineLen = (piece * piecelen) / 100;
 			points[0].setLocation(ax, ay);
 
 			points[points.length - 1].setLocation(bx, by);
 
 			double aux = (bx - ax) / (points.length - 1);
 			double auy = (by - ay) / (points.length - 1);
-			for (int i = 1; i < points.length - 1; i++) {
+			for (int i = 1; i < (points.length - 1); i++) {
 				points[i].setLocation(points[i - 1].getX() + aux,
 						points[i - 1].getY() + auy);
 			}
 			// logger.info("surety=" + surety + "  (" + a.x + "," + a.y + ");("
 			// + b.x + "," + b.y + ")");
-			for (int i = 0; i < points.length - 1; i++) {
+			for (int i = 0; i < (points.length - 1); i++) {
 
 				double auxx = (points[i + 1].getX() - points[i].getX())
 						* (lineLen / piecelen);
@@ -353,7 +356,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
-		if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+		if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
 
 			Point pp = e.getPoint();
 			for (int i = 0; i < tabs.size(); i++) {
@@ -399,7 +402,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 	@Override
 	public void mouseExited(MouseEvent e) {
 
-		if (e.getButton() == 1 && presTab != null) {
+		if ((e.getButton() == 1) && (presTab != null)) {
 			// System.out.println("EXT: " + e.toString());
 			presTab = null;
 		}
@@ -443,7 +446,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (e.getButton() == 1 && presTab != null) {
+		if ((e.getButton() == 1) && (presTab != null)) {
 			// System.out.println("DROP IT HERE: " + e.toString());
 			Point p = e.getPoint();
 			p.x -= presFrom.x;
@@ -453,7 +456,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 			presTab = null;
 			presFrom = null;
 		}
-		if (e.getButton() == MouseEvent.BUTTON3 && e.getClickCount() == 1) {
+		if ((e.getButton() == MouseEvent.BUTTON3) && (e.getClickCount() == 1)) {
 
 			Point pp = e.getPoint();
 			for (int i = 0; i < tabs.size(); i++) {

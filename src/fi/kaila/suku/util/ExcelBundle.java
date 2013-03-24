@@ -80,8 +80,9 @@ public class ExcelBundle {
 	 * @return the lang list
 	 */
 	public static String[] getLangList() {
-		if (langNames == null)
+		if (langNames == null) {
 			return null;
+		}
 		Vector<String> vv = new Vector<String>();
 		// String tmp[] = new String[langNames.length];
 		for (int i = 0; i < langNames.length; i++) {
@@ -145,7 +146,7 @@ public class ExcelBundle {
 					header[col] = null;
 					if (x0 != null) {
 						header[col] = x0.getContents();
-						if (myLocale != null && myLocale.equals(header[col])) {
+						if ((myLocale != null) && myLocale.equals(header[col])) {
 							defCol = col;
 						}
 					}
@@ -161,10 +162,10 @@ public class ExcelBundle {
 
 					String a1 = ac1.getContents();
 
-					if (a1 != null && !a1.isEmpty()) {
+					if ((a1 != null) && !a1.isEmpty()) {
 						Cell xc1 = sheet.getCell(defCol, rivi);
 						String x1 = xc1.getContents();
-						if (x1 == null || x1.isEmpty()) {
+						if ((x1 == null) || x1.isEmpty()) {
 							xc1 = sheet.getCell(1, rivi);
 							x1 = xc1.getContents();
 						}

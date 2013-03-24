@@ -146,23 +146,24 @@ public class SukuTextArea extends JTextArea implements ActionListener,
 				int alk = me.getSelectionStart();
 				int lop = me.getSelectionEnd();
 
-				if (hiskiNumero > 0 && alk > 0 && lop > 0 && alk < lop
-						&& lop < aux.length() && lop == alk + selected.length()) {
+				if ((hiskiNumero > 0) && (alk > 0) && (lop > 0) && (alk < lop)
+						&& (lop < aux.length())
+						&& (lop == (alk + selected.length()))) {
 
 					char aca = aux.charAt(alk - 1);
 					char lca = aux.charAt(lop);
-					if (aca == '[' && lca == ']') {
-						if (hiskiIdx >= 0 && hiskiIdx < alk) {
+					if ((aca == '[') && (lca == ']')) {
+						if ((hiskiIdx >= 0) && (hiskiIdx < alk)) {
 							maybeHiski = true;
 						}
 					}
 				}
 			}
 
-			if (!maybeHiski && hiskiIdx >= 0) {
+			if (!maybeHiski && (hiskiIdx >= 0)) {
 				int icb = aux.indexOf('[', hiskiIdx);
 				int ice = aux.indexOf(']', hiskiIdx);
-				if (icb > hiskiIdx && ice > icb + 1) {
+				if ((icb > hiskiIdx) && (ice > (icb + 1))) {
 					try {
 						hiskiNumero = Long.parseLong(aux
 								.substring(icb + 1, ice));
@@ -198,8 +199,9 @@ public class SukuTextArea extends JTextArea implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 
 		if (cmd.equals("HISKI_OPEN")) {
 			Utils.openExternalFile("http://hiski.genealogia.fi/hiski?fi+t"

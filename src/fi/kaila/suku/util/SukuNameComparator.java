@@ -34,10 +34,10 @@ public class SukuNameComparator implements Comparator {
 
 	private String noAdel(String nime) {
 		int ll;
-		for (int i = 0; i < adels.length; i++) {
-			ll = adels[i].length();
+		for (String adel : adels) {
+			ll = adel.length();
 			if (nime.length() > ll) {
-				if (adels[i].equalsIgnoreCase(nime.substring(0, ll))) {
+				if (adel.equalsIgnoreCase(nime.substring(0, ll))) {
 					return nime.substring(ll + 1);
 				}
 			}
@@ -50,11 +50,13 @@ public class SukuNameComparator implements Comparator {
 	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public int compare(Object arg0, Object arg1) {
 		String uno = (String) arg0;
 		String duo = (String) arg1;
-		if (uno == null || duo == null)
+		if ((uno == null) || (duo == null)) {
 			return 0;
+		}
 
 		String nuno = noAdel(uno.trim()).replace(' ', '!');
 		String nduo = noAdel(duo.trim()).replace(' ', '!');

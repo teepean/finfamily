@@ -142,9 +142,9 @@ public class ConnectDialog extends JDialog implements ActionListener {
 			aux = this.kontroller.getPref(this, "DBNAMES", "");
 			if (aux != null) {
 				String[] names = aux.split(";");
-				for (int i = 0; i < names.length; i++) {
+				for (String name2 : names) {
 
-					dbname.addItem(names[i]);
+					dbname.addItem(name2);
 
 				}
 
@@ -168,7 +168,7 @@ public class ConnectDialog extends JDialog implements ActionListener {
 			rememberDatabase = "true".equals(aux) ? true : false;
 
 		}
-		setBounds(d.width / 2 - 200, d.height / 2 - 100, 380, y + 80);
+		setBounds((d.width / 2) - 200, (d.height / 2) - 100, 380, y + 80);
 		setResizable(false);
 
 	}
@@ -179,6 +179,7 @@ public class ConnectDialog extends JDialog implements ActionListener {
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 
@@ -242,8 +243,9 @@ public class ConnectDialog extends JDialog implements ActionListener {
 	 * @return host
 	 */
 	public String getHost() {
-		if (this.host == null)
+		if (this.host == null) {
 			return null;
+		}
 		return this.host.getText();
 	}
 
@@ -253,8 +255,9 @@ public class ConnectDialog extends JDialog implements ActionListener {
 	 * @return database name
 	 */
 	public String getDbName() {
-		if (this.dbname == null)
+		if (this.dbname == null) {
 			return null;
+		}
 
 		return (String) this.dbname.getSelectedItem();
 	}
@@ -275,8 +278,9 @@ public class ConnectDialog extends JDialog implements ActionListener {
 	 */
 	public String getPassword() {
 		String pwd = this.password.getText();
-		if (pwd.isEmpty())
+		if (pwd.isEmpty()) {
 			return null;
+		}
 		return pwd;
 	}
 

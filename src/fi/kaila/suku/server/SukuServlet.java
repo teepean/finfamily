@@ -203,13 +203,13 @@ public class SukuServlet extends HttpServlet {
 						break;
 					}
 
-					if (rivi.length() > 0 && (rivi.length() & 1) == 0) {
+					if ((rivi.length() > 0) && ((rivi.length() & 1) == 0)) {
 
 						int bi = 0;
 						int x1, x2;
 						if (hexi.indexOf(rivi.charAt(0)) >= 0) {
 
-							for (int j = 0; j < rivi.length() - 1; j += 2) {
+							for (int j = 0; j < (rivi.length() - 1); j += 2) {
 								x1 = Integer.parseInt(rivi.substring(j, j + 1),
 										16);
 								x2 = Integer.parseInt(
@@ -331,8 +331,9 @@ public class SukuServlet extends HttpServlet {
 			while (enu.hasMoreElements()) {
 				key = (String) enu.nextElement();
 				vpara.put(key, req.getParameter(key));
-				if (sbx.length() > 0)
+				if (sbx.length() > 0) {
 					sbx.append(";");
+				}
 				sbx.append(key + "=" + req.getParameter(key));
 			}
 
@@ -342,8 +343,8 @@ public class SukuServlet extends HttpServlet {
 			// vpara.remove("cmd");
 		} else {
 			String[] requs = sukuData.cmd.split("&");
-			for (int i = 0; i < requs.length; i++) {
-				String parms[] = requs[i].split("=");
+			for (String requ : requs) {
+				String parms[] = requ.split("=");
 				vpara.put(parms[0], parms[1]);
 			}
 
@@ -366,7 +367,7 @@ public class SukuServlet extends HttpServlet {
 			}
 		}
 
-		if (userid != null && passwd != null) {
+		if ((userid != null) && (passwd != null)) {
 			userno = ++usercount;
 			UserInfo ui = new UserInfo("" + userno, userid, passwd);
 			this.usermap.put("" + userno, ui);
@@ -395,7 +396,7 @@ public class SukuServlet extends HttpServlet {
 
 		params = v.toArray(new String[0]);
 
-		if (cmd == null || ui == null || userno == 0) {
+		if ((cmd == null) || (ui == null) || (userno == 0)) {
 			logger.info("cmd=null");
 			PrintWriter out = resp.getWriter();
 			resp.setHeader("Content-Type", "text/html");
@@ -559,13 +560,13 @@ public class SukuServlet extends HttpServlet {
 						break;
 					}
 
-					if (rivi.length() > 0 && (rivi.length() & 1) == 0) {
+					if ((rivi.length() > 0) && ((rivi.length() & 1) == 0)) {
 
 						int bi = 0;
 						int x1, x2;
 						if (hexi.indexOf(rivi.charAt(0)) >= 0) {
 
-							for (int j = 0; j < rivi.length() - 1; j += 2) {
+							for (int j = 0; j < (rivi.length() - 1); j += 2) {
 								x1 = Integer.parseInt(rivi.substring(j, j + 1),
 										16);
 								x2 = Integer.parseInt(

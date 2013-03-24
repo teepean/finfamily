@@ -237,7 +237,7 @@ public abstract class CommonReport {
 				ImageNotice inoti = imgNotices.get(i);
 				UnitNotice nn = inoti.nn;
 
-				float prose = i * 100f / imgNotices.size();
+				float prose = (i * 100f) / imgNotices.size();
 				caller.setRunnerValue("" + (int) prose + ";"
 						+ nn.getMediaFilename());
 
@@ -263,11 +263,11 @@ public abstract class CommonReport {
 								neww = imw;
 
 							} else {
-								newh = imh * neww / imw;
+								newh = (imh * neww) / imw;
 								neww = imw;
 							}
 						} else {
-							neww = imw * newh / imh;
+							neww = (imw * newh) / imh;
 						}
 
 						/*
@@ -430,7 +430,7 @@ public abstract class CommonReport {
 							nms.clear();
 						}
 					}
-					float prose = runnervalue * 100f / mapsize;
+					float prose = (runnervalue * 100f) / mapsize;
 					if (prose > 100) {
 						prose = 100;
 					}
@@ -521,8 +521,8 @@ public abstract class CommonReport {
 				//
 				if (caller.showIndexYears()) {
 					StringBuilder yrs = new StringBuilder();
-					if (pit.shortPerson.getBirtYear() > 0
-							|| pit.shortPerson.getDeatYear() > 0) {
+					if ((pit.shortPerson.getBirtYear() > 0)
+							|| (pit.shortPerson.getDeatYear() > 0)) {
 						yrs.append(" (");
 						if (pit.shortPerson.getBirtYear() > 0) {
 							yrs.append(pit.shortPerson.getBirtYear());
@@ -568,7 +568,7 @@ public abstract class CommonReport {
 				} else if (!pit.getOwnerString(tableOffset).isEmpty()) {
 					tt.append(pit.getOwnerString(tableOffset));
 				}
-				if (tt.length() == 0 && !cefe.isEmpty()) {
+				if ((tt.length() == 0) && !cefe.isEmpty()) {
 					tt.append(cefe);
 				}
 				if (!mefe.isEmpty()) {
@@ -706,7 +706,7 @@ public abstract class CommonReport {
 			tmp = "WIFE";
 		}
 
-		if (sdata.persLong.getPrivacy() != null
+		if ((sdata.persLong.getPrivacy() != null)
 				&& sdata.persLong.getPrivacy().equals("P")) {
 			return;
 		}
@@ -837,7 +837,7 @@ public abstract class CommonReport {
 					} catch (NumberFormatException ne) {
 						refTab = 0;
 					}
-					if (refTab > 0 && refTab < tabNo) {
+					if ((refTab > 0) && (refTab < tabNo)) {
 						referenceFoundEarlier = true;
 					}
 
@@ -906,7 +906,7 @@ public abstract class CommonReport {
 		SukuData ppdata = caller.getKontroller().getSukuData("cmd=person",
 				"pid=" + ppid, "mode=short", "lang=" + Resurses.getLanguage());
 
-		if (ppdata.pers != null && ppdata.pers.length > 0) {
+		if ((ppdata.pers != null) && (ppdata.pers.length > 0)) {
 
 			if (ppdata.pers[0].getPrivacy() != null) {
 				ppdata.pers[0] = new PersonShortData(ppdata.pers[0].getPid(),
@@ -916,9 +916,9 @@ public abstract class CommonReport {
 			}
 			if (ppdata.pers[0].getGivenname() != null) {
 				printGivenname(bt, ppdata.pers[0].getGivenname(), false);
-				if (ppdata.pers[0].getPrefix() != null
-						|| ppdata.pers[0].getSurname() != null
-						|| ppdata.pers[0].getPostfix() != null) {
+				if ((ppdata.pers[0].getPrefix() != null)
+						|| (ppdata.pers[0].getSurname() != null)
+						|| (ppdata.pers[0].getPostfix() != null)) {
 					bt.addText(" ");
 				}
 				if (ppdata.pers[0].getPrefix() != null) {
@@ -1002,10 +1002,10 @@ public abstract class CommonReport {
 			return "1";
 		}
 		if (!showGeneration) {
-			return "" + (1 + tableNo - hagerSize);
+			return "" + ((1 + tableNo) - hagerSize);
 		}
 
-		return Roman.int2roman(gen) + "." + (1 + tableNo - hagerSize);
+		return Roman.int2roman(gen) + "." + ((1 + tableNo) - hagerSize);
 
 	}
 
@@ -1036,10 +1036,10 @@ public abstract class CommonReport {
 				pareCount++;
 				long pareTab = ref.asChildren.get(i);
 				String partext = typesTable
-						.getTextValue(pareTab % 2 == 0 ? "Father" : "Mother");
+						.getTextValue((pareTab % 2) == 0 ? "Father" : "Mother");
 				if (caller.getAncestorPane().getAllBranches()) {
 					long fftab = ftab.getTableNo() * 2;
-					if (pareTab % 2 != 0) {
+					if ((pareTab % 2) != 0) {
 						fftab++;
 					}
 					sb.append(partext + " " + toPrintTable(fftab, true));
@@ -1085,8 +1085,8 @@ public abstract class CommonReport {
 
 		ReportUnit cu = personTables.get(pid);
 		// if has own table then refer only there
-		if (cu != null && momTable != cu.getTableNo()
-				&& dadTable != cu.getTableNo()) {
+		if ((cu != null) && (momTable != cu.getTableNo())
+				&& (dadTable != cu.getTableNo())) {
 
 			// bt.addText("(" + text + " " + cu.getTableNo() + "). ");
 			bt.addLink("(" + text + " " + cu.getTableNo() + "). ", false,
@@ -1108,7 +1108,7 @@ public abstract class CommonReport {
 
 			boolean addComma = false;
 			for (Long pif : ownerArray) {
-				if (pif != momTable && pif != dadTable) {
+				if ((pif != momTable) && (pif != dadTable)) {
 					if (addComma) {
 						sb.append(",");
 					}
@@ -1229,10 +1229,10 @@ public abstract class CommonReport {
 
 		if (showType.equals(ReportWorkerDialog.SET_SPOUSE_YEAR)
 				|| showType.equals(ReportWorkerDialog.SET_SPOUSE_DATE)) {
-			if (isBefore && rn.getTag().equals("MARR") || !isBefore) {
+			if ((isBefore && rn.getTag().equals("MARR")) || !isBefore) {
 				String yr = rn.getFromDate();
 				if (showType.equals(ReportWorkerDialog.SET_SPOUSE_YEAR)) {
-					if (yr != null && yr.length() >= 4) {
+					if ((yr != null) && (yr.length() >= 4)) {
 						if (addSpace) {
 							sb.append(" ");
 						}
@@ -1287,8 +1287,8 @@ public abstract class CommonReport {
 		}
 		if (rn.getNoteText() != null) {
 			if (addSpace) {
-				if (rn.getNoteText().charAt(0) != ','
-						&& rn.getNoteText().charAt(0) != '.') {
+				if ((rn.getNoteText().charAt(0) != ',')
+						&& (rn.getNoteText().charAt(0) != '.')) {
 					sb.append(" ");
 				}
 			}
@@ -1331,7 +1331,7 @@ public abstract class CommonReport {
 		String tag;
 		String occuTypes = "|OCCU|EDUC|TITL|";
 		int minSurety = caller.showMinSurety();
-		if (notices.length > 0 && caller.showOnSeparateLines()) {
+		if ((notices.length > 0) && caller.showOnSeparateLines()) {
 
 			repoWriter.addText(bt);
 		}
@@ -1343,9 +1343,9 @@ public abstract class CommonReport {
 			addDot = false;
 			tag = nn.getTag();
 			if (!tag.equals("NAME")) {
-				if ((nn.getPrivacy() == null || nn.getPrivacy().equals(
+				if (((nn.getPrivacy() == null) || nn.getPrivacy().equals(
 						Resurses.PRIVACY_TEXT))
-						&& nn.getSurety() >= minSurety) {
+						&& (nn.getSurety() >= minSurety)) {
 					if (typesTable.isType(tag, colType)) {
 						if (typesTable.isType(tag, 1)) {
 							String noType = nn.getNoticeType();
@@ -1353,7 +1353,7 @@ public abstract class CommonReport {
 								bt.addText(noType);
 							} else {
 								String tagText = typesTable.getTypeText(tag);
-								if (tagText != null && !tagText.isEmpty()) {
+								if ((tagText != null) && !tagText.isEmpty()) {
 									String parts[] = tagText.split(";");
 									if (parts.length == 1) {
 										bt.addText(tagText);
@@ -1373,7 +1373,7 @@ public abstract class CommonReport {
 						if (nn.getDescription() != null) {
 
 							if (nn.getTag().equals("TABLE")
-									&& bt.getCount() == 0) {
+									&& (bt.getCount() == 0)) {
 								// for TABLE notice the description contains a
 								// header if this is the first text piece for
 								// the notice
@@ -1419,8 +1419,9 @@ public abstract class CommonReport {
 							addDot = true;
 						}
 
-						if (nn.getPlace() != null || nn.getTag().equals("RESI")
-								&& nn.getPostOffice() != null) {
+						if ((nn.getPlace() != null)
+								|| (nn.getTag().equals("RESI") && (nn
+										.getPostOffice() != null))) {
 							if (addSpace) {
 								bt.addText(" ");
 							}
@@ -1432,12 +1433,10 @@ public abstract class CommonReport {
 
 						StringBuilder villageFarm = new StringBuilder();
 
-						if (caller.isShowVillageFarm()
-								&& (nn.getVillage() != null
-										|| nn.getFarm() != null || nn
-										.getCroft() != null)
-								|| nn.getState() != null
-								|| nn.getCountry() != null) {
+						if ((caller.isShowVillageFarm() && ((nn.getVillage() != null)
+								|| (nn.getFarm() != null) || (nn.getCroft() != null)))
+								|| (nn.getState() != null)
+								|| (nn.getCountry() != null)) {
 							if (addSpace) {
 								bt.addText(" ");
 								villageFarm.append(" ");
@@ -1446,13 +1445,13 @@ public abstract class CommonReport {
 							bt.addText("(");
 							villageFarm.append("(");
 							if (caller.isShowVillageFarm()
-									&& nn.getVillage() != null) {
+									&& (nn.getVillage() != null)) {
 								bt.addText(nn.getVillage());
 								villageFarm.append(nn.getVillage());
 								addSpace = true;
 							}
 							if (caller.isShowVillageFarm()
-									&& nn.getFarm() != null) {
+									&& (nn.getFarm() != null)) {
 								if (addSpace) {
 									bt.addText(" ");
 									villageFarm.append(" ");
@@ -1463,7 +1462,7 @@ public abstract class CommonReport {
 								addSpace = true;
 							}
 							if (caller.isShowVillageFarm()
-									&& nn.getCroft() != null) {
+									&& (nn.getCroft() != null)) {
 								if (addSpace) {
 									bt.addText(" ");
 									villageFarm.append(" ");
@@ -1500,19 +1499,19 @@ public abstract class CommonReport {
 								&& typesTable.isType(nn.getTag(), 5)) {
 
 							String place = nn.getPlace();
-							if (place != null && nn.getTag().equals("RESI")
-									&& nn.getPostOffice() != null) {
+							if ((place != null) && nn.getTag().equals("RESI")
+									&& (nn.getPostOffice() != null)) {
 								place = nn.getPostOffice();
 							}
-							if (place != null && caller.isShowVillageFarm()) {
+							if ((place != null) && caller.isShowVillageFarm()) {
 								place = place + villageFarm.toString();
 							}
 							int idx = -1;
 							while (idx > -2) {
 
 								if (idx >= 0) {
-									if (nn.getRefPlaces() != null
-											&& idx < nn.getRefPlaces().length) {
+									if ((nn.getRefPlaces() != null)
+											&& (idx < nn.getRefPlaces().length)) {
 										place = nn.getRefPlaces()[idx];
 
 									} else {
@@ -1571,11 +1570,11 @@ public abstract class CommonReport {
 											neww = imw;
 
 										} else {
-											newh = imh * neww / imw;
+											newh = (imh * neww) / imw;
 											neww = imw;
 										}
 									} else {
-										neww = imw * newh / imh;
+										neww = (imw * newh) / imh;
 									}
 
 									imageNumber++;
@@ -1617,9 +1616,9 @@ public abstract class CommonReport {
 								String trimmed = trim(nn.getNoteText());
 								if (addSpace) {
 
-									if (trimmed != null && !trimmed.isEmpty()) {
-										if (trimmed.charAt(0) != ','
-												&& trimmed.charAt(0) != '.') {
+									if ((trimmed != null) && !trimmed.isEmpty()) {
+										if ((trimmed.charAt(0) != ',')
+												&& (trimmed.charAt(0) != '.')) {
 											if (!bt.endsWithText(".")) {
 												bt.addText(". ");
 											} else {
@@ -1654,8 +1653,9 @@ public abstract class CommonReport {
 										String surPart = null;
 										int vonIndex = Utils
 												.isKnownPrefix(parts[0]);
-										if (vonIndex > 0
-												&& vonIndex < parts[0].length()) {
+										if ((vonIndex > 0)
+												&& (vonIndex < parts[0]
+														.length())) {
 											vonPart = parts[0].substring(0,
 													vonIndex);
 											surPart = parts[0]
@@ -1699,8 +1699,8 @@ public abstract class CommonReport {
 									bt.addText(parts[i]);
 									tlen = i + 1;
 								}
-								if (nn.getPostalCode() != null
-										|| nn.getPostOffice() != null) {
+								if ((nn.getPostalCode() != null)
+										|| (nn.getPostOffice() != null)) {
 									if (tlen++ > 0) {
 										bt.addText(",");
 									}
@@ -1746,7 +1746,7 @@ public abstract class CommonReport {
 
 							if (occuTypes.indexOf(tag) > 0) {
 								String nxttag = null;
-								if (j < notices.length - 1) {
+								if (j < (notices.length - 1)) {
 									nxttag = notices[j + 1].getTag();
 								}
 								if (nxttag != null) {
@@ -1809,7 +1809,7 @@ public abstract class CommonReport {
 	 */
 	protected String addSource(boolean addDot, String srcFormat, String src) {
 		StringBuilder sb = new StringBuilder();
-		if (src != null && !src.isEmpty()) {
+		if ((src != null) && !src.isEmpty()) {
 
 			if (srcFormat.equals(ReportWorkerDialog.SET_TX1)) {
 				if (addDot) {
@@ -1853,7 +1853,7 @@ public abstract class CommonReport {
 			return 0;
 		}
 
-		if (namesin != null && caller.showBoldNames()) {
+		if ((namesin != null) && caller.showBoldNames()) {
 			String names[] = new String[namesin.length];
 			for (int i = 0; i < names.length; i++) {
 				names[i] = namesin[i];
@@ -1868,8 +1868,8 @@ public abstract class CommonReport {
 				if (names[i] != null) {
 					txtPart = locateName(text, names[i]);
 
-					if (txtPart != null && txtPart.location >= 0) {
-						if (firstName < 0 || txtPart.location < firstName) {
+					if ((txtPart != null) && (txtPart.location >= 0)) {
+						if ((firstName < 0) || (txtPart.location < firstName)) {
 							firstName = txtPart.location;
 							nameTxt = txtPart.nameText;
 							nameIdx = i;
@@ -1905,7 +1905,7 @@ public abstract class CommonReport {
 		boolean wasNl = true;
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
-			if (c == ' ' || c == '\r' || c == '\t') {
+			if ((c == ' ') || (c == '\r') || (c == '\t')) {
 				if (!wasWhite) {
 					sb.append(' ');
 					wasWhite = true;
@@ -1932,10 +1932,10 @@ public abstract class CommonReport {
 		}
 		for (int i = 0; i < v.size(); i++) {
 			String aux = v.get(i);
-			if (i == 0 && aux.length() > 0 && aux.charAt(0) == '*') {
+			if ((i == 0) && (aux.length() > 0) && (aux.charAt(0) == '*')) {
 				repoWriter.addText(bt);
 				int fontSize = bt.getFontSize();
-				if (aux.length() > 2 && aux.substring(0, 2).equals("**")) {
+				if ((aux.length() > 2) && aux.substring(0, 2).equals("**")) {
 					bt.setFontSize(fontSize + 4);
 					bt.addText(aux.substring(2), true, false);
 				} else {
@@ -1977,7 +1977,7 @@ public abstract class CommonReport {
 					}
 					tnp.location = text.indexOf(compaName);
 
-					if (tnp.location >= 0 || compaName.length() < 10) {
+					if ((tnp.location >= 0) || (compaName.length() < 10)) {
 						tnp.nameText = compaName;
 						break;
 					}
@@ -1993,8 +1993,8 @@ public abstract class CommonReport {
 		if (tnp.location >= 0) {
 			int j = 0;
 			String origName = tnp.nameText;
-			for (j = 0; j < 5 + minusEnding; j++) {
-				if (text.length() == tnp.location + tnp.nameText.length()) {
+			for (j = 0; j < (5 + minusEnding); j++) {
+				if (text.length() == (tnp.location + tnp.nameText.length())) {
 					break;
 				}
 				char c = text.charAt(tnp.location + tnp.nameText.length());
@@ -2022,10 +2022,10 @@ public abstract class CommonReport {
 
 		if (datePrefix != null) {
 			framme = typesTable.getTextValue(datePrefix);
-			if (datePrefix.equals("FROM") && dateTo != null) {
+			if (datePrefix.equals("FROM") && (dateTo != null)) {
 				mellan = typesTable.getTextValue("TO");
 			}
-			if (datePrefix.equals("BET") && dateTo != null) {
+			if (datePrefix.equals("BET") && (dateTo != null)) {
 				mellan = typesTable.getTextValue("AND");
 			}
 		}
@@ -2034,7 +2034,7 @@ public abstract class CommonReport {
 			sb.append(" ");
 		}
 		sb.append(toRepoDate(dateFrom));
-		if (!mellan.isEmpty() && dateTo != null) {
+		if (!mellan.isEmpty() && (dateTo != null)) {
 			sb.append(" ");
 			sb.append(mellan);
 			sb.append(" ");
@@ -2127,13 +2127,13 @@ public abstract class CommonReport {
 			}
 			if (nn.getTag().equals("BIRT")) {
 				String bd = nn.getFromDate();
-				if (bd != null && bd.length() >= 4) {
+				if ((bd != null) && (bd.length() >= 4)) {
 
 					try {
 						int by = Integer.parseInt(bd.substring(0, 4));
 						Calendar rightNow = Calendar.getInstance();
 						int cy = rightNow.get(Calendar.YEAR);
-						if (cy > by + 115) {
+						if (cy > (by + 115)) {
 							isDead = true;
 						}
 					} catch (NumberFormatException ne) {
@@ -2147,12 +2147,12 @@ public abstract class CommonReport {
 		for (int j = 0; j < notices.length; j++) {
 			UnitNotice nn = notices[j];
 			if (nn.getTag().equals("NAME")) {
-				if ((nn.getPrivacy() == null || nn.getPrivacy().equals(
+				if (((nn.getPrivacy() == null) || nn.getPrivacy().equals(
 						Resurses.PRIVACY_TEXT))
-						&& nn.getSurety() >= minSurety) {
-					if (typesTable.isType("NAME", colType) || nameCount == 0) {
+						&& (nn.getSurety() >= minSurety)) {
+					if (typesTable.isType("NAME", colType) || (nameCount == 0)) {
 
-						if (nameCount > 0 && nn.getNoticeType() == null) {
+						if ((nameCount > 0) && (nn.getNoticeType() == null)) {
 							bt.addText(", ");
 							if (typesTable.isType("NAME", 1)) {
 								String[] parts = typesTable.getTypeText("NAME")
@@ -2160,15 +2160,15 @@ public abstract class CommonReport {
 								String part = null;
 								if (parts != null) {
 									if (parts.length > 1) {
-										if (j < notices.length - 1) {
+										if (j < (notices.length - 1)) {
 											if (notices[j + 1].getTag().equals(
 													"NAME")) {
 												part = parts[0];
 											}
 										}
 										if (part == null) {
-											if (parts.length < 3
-													|| isDead == false) {
+											if ((parts.length < 3)
+													|| (isDead == false)) {
 												part = parts[1];
 											} else {
 												part = parts[2];
@@ -2255,7 +2255,7 @@ public abstract class CommonReport {
 							}
 						}
 
-						if (nn.getNoticeType() != null
+						if ((nn.getNoticeType() != null)
 								&& nn.getNoticeType().equals("(")) {
 							bt.addText(")");
 						}
@@ -2287,11 +2287,11 @@ public abstract class CommonReport {
 			String namePart = nameParts[k];
 			String startChar = "";
 			String endChar = "";
-			if (namePart.length() > 2
-					&& (namePart.charAt(0) == '('
-							&& namePart.charAt(namePart.length() - 1) == ')' || namePart
-							.charAt(0) == '\"'
-							&& namePart.charAt(namePart.length() - 1) == '\"')) {
+			if ((namePart.length() > 2)
+					&& (((namePart.charAt(0) == '(') && (namePart
+							.charAt(namePart.length() - 1) == ')')) || ((namePart
+							.charAt(0) == '\"') && (namePart.charAt(namePart
+							.length() - 1) == '\"')))) {
 				char[] c = new char[1];
 				c[0] = namePart.charAt(0);
 				startChar = new String(c);
@@ -2307,16 +2307,16 @@ public abstract class CommonReport {
 
 			int astidx = namePart.indexOf("*");
 			int bstidx = namePart.indexOf("**");
-			if (bstidx > 0 || subParts.length == 1) {
+			if ((bstidx > 0) || (subParts.length == 1)) {
 				if (astidx > 0) {
 
-					if (astidx == namePart.length() - 1) {
+					if (astidx == (namePart.length() - 1)) {
 						bt.addText(namePart.substring(0, astidx), doBold,
 								caller.showUnderlineNames());
 					} else {
 
 						if (bstidx > 0) {
-							if (bstidx == namePart.length() - 2) {
+							if (bstidx == (namePart.length() - 2)) {
 
 								bt.addText(namePart.substring(0, bstidx),
 										doBold, caller.showUnderlineNames());
@@ -2334,7 +2334,7 @@ public abstract class CommonReport {
 					if (kk > 0) {
 						bt.addText("-", doBold, false);
 					}
-					if (cstidx >= 0 && cstidx == subPart.length() - 1) {
+					if ((cstidx >= 0) && (cstidx == (subPart.length() - 1))) {
 
 						bt.addText(subPart.substring(0, cstidx), doBold,
 								caller.showUnderlineNames());
@@ -2348,7 +2348,7 @@ public abstract class CommonReport {
 			if (!endChar.isEmpty()) {
 				bt.addText(endChar, doBold, false);
 			}
-			if (k != nameParts.length - 1) {
+			if (k != (nameParts.length - 1)) {
 				bt.addText(" ", doBold, false);
 			}
 		}
@@ -2368,7 +2368,7 @@ public abstract class CommonReport {
 		if (notice.getPlace() != null) {
 			place = notice.getPlace();
 		} else if (notice.getTag().equals("RESI")
-				&& notice.getPostOffice() != null) {
+				&& (notice.getPostOffice() != null)) {
 			place = toProper(notice.getPostOffice());
 		} else {
 			return null;
@@ -2399,7 +2399,7 @@ public abstract class CommonReport {
 					place = tmp;
 				} else {
 					tmp = typesTable.getTextValue("CNV_" + rule);
-					if (tmp != null && !tmp.isEmpty() && !tmp.equals("x")) {
+					if ((tmp != null) && !tmp.isEmpty() && !tmp.equals("x")) {
 						place = tmp + " " + place;
 					}
 				}
@@ -2445,10 +2445,10 @@ public abstract class CommonReport {
 		int lastSpace = -1;
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);
-			if (c != ' ' || sb.length() > 0) {
+			if ((c != ' ') || (sb.length() > 0)) {
 				sb.append(c);
 			}
-			if (c == ' ' || c == '\n' || c == '\r' || c == '\t') {
+			if ((c == ' ') || (c == '\n') || (c == '\r') || (c == '\t')) {
 				if (lastSpace < 0) {
 					lastSpace = sb.length() - 1;
 				}
@@ -2482,13 +2482,13 @@ public abstract class CommonReport {
 	}
 
 	class TextNamePart {
-		
+
 		/** The location. */
 		int location = -1;
-		
+
 		/** The name idx. */
 		int nameIdx = -1;
-		
+
 		/** The name text. */
 		String nameText = null;
 	}

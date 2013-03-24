@@ -27,7 +27,7 @@ public class AddNotice extends JDialog implements MouseListener {
 	/** The koko map. */
 	HashMap<String, String> kokoMap = new HashMap<String, String>();
 
-	private JList koko;
+	private final JList koko;
 
 	/** The koko tags. */
 	Vector<String> kokoTags = new Vector<String>();

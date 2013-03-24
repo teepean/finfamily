@@ -172,6 +172,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 	 * @param places
 	 *            the places
 	 */
+	@Override
 	public void displayMap(PlaceLocationData[] places) {
 		lukuri++;
 		this.places = places;
@@ -182,10 +183,9 @@ public class SuomiMap extends JFrame implements ActionListener,
 		// }
 		StringBuilder sb = new StringBuilder();
 
-		for (int xx = 0; xx < places.length; xx++) {
-			if (places[xx].getLatitude() == 0) {
-				sb.append(places[xx].getName() + "(" + places[xx].getCount()
-						+ ")\n");
+		for (PlaceLocationData place : places) {
+			if (place.getLatitude() == 0) {
+				sb.append(place.getName() + "(" + place.getCount() + ")\n");
 			}
 		}
 		missingPlacesList.setText(sb.toString());
@@ -295,10 +295,11 @@ public class SuomiMap extends JFrame implements ActionListener,
 			PointD pp = convertToPointD(xtude, ytude);
 
 			int displayCount = count;
-			if (count > 20)
+			if (count > 20) {
 				displayCount = 20;
-			return new Rectangle((int) (pp.x - displayCount * 2 / 2),
-					(int) (pp.y - displayCount * 2 / 2), displayCount * 2,
+			}
+			return new Rectangle((int) (pp.x - ((displayCount * 2) / 2)),
+					(int) (pp.y - ((displayCount * 2) / 2)), displayCount * 2,
 					displayCount * 2);
 		}
 
@@ -312,7 +313,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 			double YY = ytude - suomiBottom;
 
-			double y = 0.03 * YY * YY + 1.7 * YY;
+			double y = (0.03 * YY * YY) + (1.7 * YY);
 			double yoffset = y / 21.9; // (suomiTop - suomiLong);
 			double suomiy = suomiSize.getHeight();
 			double paikkaY = suomiy * yoffset;
@@ -379,7 +380,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 							}
 							for (int i = 0; i < rc; i++) {
 								if (!selectedPlace.equals(oldPlaces[i])) {
-									if (i == 0 && rc == 8) {
+									if ((i == 0) && (rc == 8)) {
 										// don't add
 									} else {
 										sb.append(oldPlaces[i]);

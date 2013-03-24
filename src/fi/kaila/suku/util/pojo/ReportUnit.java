@@ -65,7 +65,7 @@ public class ReportUnit implements Serializable {
 		int pares = asParent.size();
 		if (idx < pares) {
 			mem = asParent.get(idx);
-		} else if (idx - pares < asChild.size()) {
+		} else if ((idx - pares) < asChild.size()) {
 			mem = asChild.get(idx - pares);
 		}
 		return mem;

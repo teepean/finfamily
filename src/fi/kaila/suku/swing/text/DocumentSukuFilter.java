@@ -34,6 +34,7 @@ public class DocumentSukuFilter extends DocumentFilter implements Serializable {
 	 * javax.swing.text.DocumentFilter#insertString(javax.swing.text.DocumentFilter
 	 * .FilterBypass, int, java.lang.String, javax.swing.text.AttributeSet)
 	 */
+	@Override
 	public void insertString(FilterBypass fb, int offs, String str,
 			AttributeSet a) throws BadLocationException {
 		if (DEBUG) {
@@ -58,6 +59,7 @@ public class DocumentSukuFilter extends DocumentFilter implements Serializable {
 	 * javax.swing.text.DocumentFilter#replace(javax.swing.text.DocumentFilter
 	 * .FilterBypass, int, int, java.lang.String, javax.swing.text.AttributeSet)
 	 */
+	@Override
 	public void replace(FilterBypass fb, int offs, int length, String str,
 			AttributeSet a) throws BadLocationException {
 		if (DEBUG) {

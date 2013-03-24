@@ -209,7 +209,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/** The image. */
 	MyImage image;
-	
+
 	/** Image size. */
 	JLabel imageDetail;
 
@@ -681,67 +681,80 @@ public class NoticePane extends JPanel implements ActionListener,
 		surety.setSurety(notice.getSurety());
 
 		String tmp = notice.getNoticeType();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		noticeType.setText(tmp);
 
 		tmp = notice.getDescription();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		description.setText(tmp);
 
 		// setDate();
 		date.setDate(notice.getDatePrefix(), notice.getFromDate(),
 				notice.getToDate());
 		tmp = notice.getPlace();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		place.setText(tmp);
 
 		tmp = notice.getVillage();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		village.setText(tmp);
 
 		tmp = notice.getFarm();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		farm.setText(tmp);
 
 		tmp = notice.getCroft();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		croft.setText(tmp);
 
 		tmp = notice.getAddress();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		address.setText(tmp);
 
 		tmp = notice.getPostalCode();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		postalCode.setText(tmp);
 		tmp = notice.getPostOffice();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		postOffice.setText(tmp);
 		tmp = notice.getState();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		state.setText(tmp);
 		tmp = notice.getCountry();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		country.setText(tmp);
 		tmp = notice.getEmail();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		email.setText(tmp);
 
 		tmp = notice.getNoteText();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		noteText.setText(tmp);
 
 		if (notice.getLanguages() == null) {
@@ -750,13 +763,15 @@ public class NoticePane extends JPanel implements ActionListener,
 		}
 
 		tmp = notice.getMediaFilename();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		mediaFilename.setText(tmp);
 
 		tmp = notice.getMediaTitle();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		mediaTitle.setText(tmp);
 
 		try {
@@ -766,42 +781,49 @@ public class NoticePane extends JPanel implements ActionListener,
 		}
 
 		tmp = notice.getGivenname();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		givenname.setText(tmp);
 
 		tmp = notice.getPatronym();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		patronym.setText(tmp);
 
 		tmp = notice.getPrefix();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		prefix.setText(tmp);
 		tmp = notice.getSurname();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		surname.setText(tmp);
 		tmp = notice.getPostfix();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		postfix.setText(tmp);
 
 		tmp = notice.getSource();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		source.setText(tmp);
 		tmp = notice.getPrivateText();
-		if (tmp == null)
+		if (tmp == null) {
 			tmp = "";
+		}
 		privateText.setText(tmp);
 
 		String[] arra = notice.getRefNames();
 		if (arra != null) {
-			for (int i = 0; i < arra.length; i++) {
-				String[] vahasuku = arra[i].split("/");
-				String[] etusuku = arra[i].split(",");
+			for (String element : arra) {
+				String[] vahasuku = element.split("/");
+				String[] etusuku = element.split(",");
 				if (vahasuku.length > 1) {
 					etusuku = new String[2];
 					etusuku[0] = vahasuku[1];
@@ -821,8 +843,8 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		arra = notice.getRefPlaces();
 		if (arra != null) {
-			for (int i = 0; i < arra.length; i++) {
-				placesVector.add(arra[i]);
+			for (String element : arra) {
+				placesVector.add(element);
 			}
 		}
 
@@ -836,63 +858,84 @@ public class NoticePane extends JPanel implements ActionListener,
 	 */
 	boolean isPlain() {
 
-		if (surety.getSurety() != 100)
+		if (surety.getSurety() != 100) {
 			return false;
-		if (privacy.getSelectedIndex() > 0)
-			return false;
-		if (noticeType.getText().length() > 0)
-			return false;
-		if (description.getText().length() > 0) {
-			if (!notice.getTag().equals("OCCU"))
-				return false;
 		}
-		if (!date.isPlain())
+		if (privacy.getSelectedIndex() > 0) {
 			return false;
-		// if (datePref.getSelectedIndex() != 0) return false;
+		}
+		if (noticeType.getText().length() > 0) {
+			return false;
+		}
+		if (description.getText().length() > 0) {
+			if (!notice.getTag().equals("OCCU")) {
+				return false;
+			}
+		}
+		if (!date.isPlain()) {
+			return false;
+			// if (datePref.getSelectedIndex() != 0) return false;
+		}
 
 		// if (dateTo.getText().length() > 0) return false;
 		if (notice.getTag().equals("OCCU") || notice.getTag().equals("NOTE")) {
 			try {
 				String tmp = date.getFromDate();
-				if (nv(tmp).length() > 0)
+				if (nv(tmp).length() > 0) {
 					return false;
+				}
 			} catch (SukuDateException e) {
 				return false;
 			}
 		}
 
-		if (village.getText().length() > 0)
+		if (village.getText().length() > 0) {
 			return false;
-		if (farm.getText().length() > 0)
-			return false;
-		if (croft.getText().length() > 0)
-			return false;
-		if (address.getText().length() > 0)
-			return false;
-		if (postalCode.getText().length() > 0)
-			return false;
-		if (postOffice.getText().length() > 0)
-			return false;
-		if (state.getText().length() > 0)
-			return false;
-		if (country.getText().length() > 0)
-			return false;
-		if (email.getText().length() > 0)
-			return false;
-		if (!notice.getTag().equals("NOTE")) {
-			if (noteText.getText().length() > 0)
-				return false;
 		}
-		if (mediaFilename.getText().length() > 0)
+		if (farm.getText().length() > 0) {
 			return false;
-		if (mediaTitle.getText().length() > 0)
+		}
+		if (croft.getText().length() > 0) {
 			return false;
-		if (source.getText().length() > 0)
+		}
+		if (address.getText().length() > 0) {
 			return false;
-		if (privateText.getText().length() > 0)
+		}
+		if (postalCode.getText().length() > 0) {
 			return false;
-		if (image.img != null)
+		}
+		if (postOffice.getText().length() > 0) {
 			return false;
+		}
+		if (state.getText().length() > 0) {
+			return false;
+		}
+		if (country.getText().length() > 0) {
+			return false;
+		}
+		if (email.getText().length() > 0) {
+			return false;
+		}
+		if (!notice.getTag().equals("NOTE")) {
+			if (noteText.getText().length() > 0) {
+				return false;
+			}
+		}
+		if (mediaFilename.getText().length() > 0) {
+			return false;
+		}
+		if (mediaTitle.getText().length() > 0) {
+			return false;
+		}
+		if (source.getText().length() > 0) {
+			return false;
+		}
+		if (privateText.getText().length() > 0) {
+			return false;
+		}
+		if (image.img != null) {
+			return false;
+		}
 
 		return true;
 	}
@@ -907,7 +950,7 @@ public class NoticePane extends JPanel implements ActionListener,
 			double imw = img.getWidth();
 			imageSize = new Dimension((int) imw, (int) imh);
 			double neww = getRColWidth() * 2;
-			double newh = imh / imw * neww;
+			double newh = (imh / imw) * neww;
 			if (image.isVisible()) {
 				Image imgs = img.getScaledInstance((int) neww, (int) newh,
 						Image.SCALE_DEFAULT);
@@ -1088,8 +1131,9 @@ public class NoticePane extends JPanel implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 		// System.out.println("Notice closataan " + cmd);
 		if (cmd.equals("NOTE_LANG")) {
 
@@ -1242,8 +1286,9 @@ public class NoticePane extends JPanel implements ActionListener,
 		if (cmd.equals(Resurses.UPDATE)) {
 
 			int midx = personView.getMainPaneIndex();
-			if (midx < 0)
+			if (midx < 0) {
 				return;
+			}
 			SukuTabPane pan = personView.getPane(midx);
 			PersonMainPane main = (PersonMainPane) pan.pnl;
 			int personPid = main.getPersonPid();
@@ -1276,11 +1321,12 @@ public class NoticePane extends JPanel implements ActionListener,
 		} else if (cmd.equals(Resurses.CLOSE)) {
 
 			int midx = personView.getMainPaneIndex();
-			if (midx < 0)
+			if (midx < 0) {
 				return;
-			// SukuTabPane pan = personView.getPane(midx);
-			// PersonMainPane main = (PersonMainPane) pan.pnl;
-			// int personPid = main.getPersonPid();
+				// SukuTabPane pan = personView.getPane(midx);
+				// PersonMainPane main = (PersonMainPane) pan.pnl;
+				// int personPid = main.getPersonPid();
+			}
 
 			try {
 				verifyUnitNotice();
@@ -1354,10 +1400,11 @@ public class NoticePane extends JPanel implements ActionListener,
 	 * @return the string
 	 */
 	String nv(String text) {
-		if (text == null)
+		if (text == null) {
 			return "";
-		else
+		} else {
 			return text;
+		}
 	}
 
 	/*
@@ -1418,12 +1465,12 @@ public class NoticePane extends JPanel implements ActionListener,
 		int rwidth = 70;
 		if (currSize.width > 525) {
 			rwidth = currSize.width / 8;
-			lwidth = currSize.width - lcol - 10 - rwidth * 2;
+			lwidth = currSize.width - lcol - 10 - (rwidth * 2);
 
 			// setPreferredSize(new Dimension(rcol+rwidth*2, lrivi));
 		} else {
 			rwidth = 70;
-			lwidth = 525 - lcol - 10 - rwidth * 2;
+			lwidth = 525 - lcol - 10 - (rwidth * 2);
 		}
 
 		try {
@@ -1455,15 +1502,15 @@ public class NoticePane extends JPanel implements ActionListener,
 		}
 
 		boolean mustAddress = personView.getSuku().isShowAddress();
-		if (notice.getAddress() != null || notice.getPostalCode() != null
-				|| notice.getPostOffice() != null
-				|| notice.getCountry() != null || notice.getEmail() != null) {
+		if ((notice.getAddress() != null) || (notice.getPostalCode() != null)
+				|| (notice.getPostOffice() != null)
+				|| (notice.getCountry() != null) || (notice.getEmail() != null)) {
 			mustAddress = true;
 		}
 
 		boolean mustFarm = personView.getSuku().isShowFarm();
-		if (notice.getVillage() != null || notice.getFarm() != null
-				|| notice.getCroft() != null) {
+		if ((notice.getVillage() != null) || (notice.getFarm() != null)
+				|| (notice.getCroft() != null)) {
 			mustFarm = true;
 		}
 
@@ -1474,9 +1521,9 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		boolean mustImage = personView.getSuku().isShowImage();
 		try {
-			if (notice.getMediaFilename() != null
-					|| notice.getMediaImage() != null
-					|| notice.getMediaTitle() != null) {
+			if ((notice.getMediaFilename() != null)
+					|| (notice.getMediaImage() != null)
+					|| (notice.getMediaTitle() != null)) {
 				mustImage = true;
 			}
 		} catch (IOException e) {
@@ -1523,7 +1570,7 @@ public class NoticePane extends JPanel implements ActionListener,
 		int lrivi = 10;
 		typeLbl.setBounds(10, lrivi, 70, 20);
 
-		noticeType.setBounds(lcol, lrivi, lwidth * 90 / 100, 20);
+		noticeType.setBounds(lcol, lrivi, (lwidth * 90) / 100, 20);
 		// noteTextLang.setBounds(lcol + lwidth - 150, lrivi, 150, 20);
 		lrivi += 24;
 		descLbl.setBounds(10, lrivi, 70, 20);
@@ -1615,8 +1662,8 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		}
 
-		if ((showType == TagType.RESI || mustAddress)
-				&& (showType != TagType.NAME && showType != TagType.NOTE)) {
+		if (((showType == TagType.RESI) || mustAddress)
+				&& ((showType != TagType.NAME) && (showType != TagType.NOTE))) {
 			addressShow = true;
 
 			addressLbl.setBounds(10, lrivi, 70, 20);
@@ -1637,10 +1684,10 @@ public class NoticePane extends JPanel implements ActionListener,
 			lrivi += 24;
 
 			stateLbl.setBounds(10, lrivi, 70, 20);
-			countryLbl.setBounds(lcol + lwidth / 3 + 10, lrivi, 70, 20);
+			countryLbl.setBounds(lcol + (lwidth / 3) + 10, lrivi, 70, 20);
 			state.setBounds(lcol, lrivi, lwidth / 3, 20);
-			country.setBounds(lcol + lwidth / 3 + 80, lrivi,
-					lwidth * 2 / 3 - 80, 20);
+			country.setBounds(lcol + (lwidth / 3) + 80, lrivi,
+					((lwidth * 2) / 3) - 80, 20);
 			lrivi += 24;
 		}
 
@@ -1672,8 +1719,8 @@ public class NoticePane extends JPanel implements ActionListener,
 		addLabel.setVisible(showType == TagType.NOTE);
 
 		boolean mediaShow = false;
-		if ((showType == TagType.PHOT || mustImage)
-				&& (showType != TagType.NAME && showType != TagType.NOTE)) {
+		if (((showType == TagType.PHOT) || mustImage)
+				&& ((showType != TagType.NAME) && (showType != TagType.NOTE))) {
 
 			// if (!(notice.getTag().equals("NOTE") &&
 			// notice.getTag().equals("NAME")) &&
@@ -1809,7 +1856,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		lrivi += 64;
 
-		setPreferredSize(new Dimension(rcol + rwidth * 2, lrivi));
+		setPreferredSize(new Dimension(rcol + (rwidth * 2), lrivi));
 
 	}
 

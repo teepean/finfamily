@@ -156,11 +156,11 @@ public class PersonTextPane extends JTextPane {
 			doc.insertString(0, Resurses.getString("TEXT_HEADER") + "\n",
 					headerArial);
 
-			if (t || pers.getPrivacy() != null) {
+			if (t || (pers.getPrivacy() != null)) {
 				append(Resurses.getString("TEXT_PRIVACY") + "\n", bodyBold);
 			}
 
-			if (t || pers.getGroupId() != null) {
+			if (t || (pers.getGroupId() != null)) {
 				append(Resurses.getString("TEXT_GROUP") + " \t= "
 						+ pers.getGroupId() + "\n", bodyText);
 
@@ -170,19 +170,19 @@ public class PersonTextPane extends JTextPane {
 					+ Resurses.getString("SEX_" + pers.getSex()) + "\n",
 					bodyText);
 
-			if (t || pers.getSource() != null) {
+			if (t || (pers.getSource() != null)) {
 				sources.add(pers.getSource());
 				append(Resurses.getString("TEXT_SOURCE") + " \t= ["
 						+ sources.size() + "]\n", bodyText);
 
 			}
-			if (t || pers.getPrivateText() != null) {
+			if (t || (pers.getPrivateText() != null)) {
 				privateTexts.add(pers.getPrivateText());
 				append(Resurses.getString("TEXT_PRIVATE") + " \t= {"
 						+ privateTexts.size() + "}\n", bodyText);
 
 			}
-			if (t || pers.getRefn() != null) {
+			if (t || (pers.getRefn() != null)) {
 				append(Resurses.getString("TEXT_REFN") + " \t= "
 						+ pers.getRefn() + "\n", bodyText);
 
@@ -197,8 +197,7 @@ public class PersonTextPane extends JTextPane {
 
 			UnitNotice[] notices = pers.getNotices();
 			String bl = ""; // blank before next word
-			for (int i = 0; i < notices.length; i++) {
-				UnitNotice notice = notices[i];
+			for (UnitNotice notice : notices) {
 				append("[" + notice.getTag(), blueTag);
 				if (notice.getSurety() < 80) {
 					append(";" + Resurses.getString("TEXT_SURETY") + "="
@@ -365,12 +364,13 @@ public class PersonTextPane extends JTextPane {
 
 			// do relations now
 
-			if (relations != null && relations.length > 0 && namlist != null) {
+			if ((relations != null) && (relations.length > 0)
+					&& (namlist != null)) {
 
 				HashMap<Integer, PersonShortData> map = new HashMap<Integer, PersonShortData>();
 
-				for (int i = 0; i < namlist.length; i++) {
-					map.put(Integer.valueOf(namlist[i].getPid()), namlist[i]);
+				for (PersonShortData element : namlist) {
+					map.put(Integer.valueOf(element.getPid()), element);
 				}
 				append("\n", bodyText);
 
@@ -379,9 +379,9 @@ public class PersonTextPane extends JTextPane {
 				RelationNotice[] relNotices;
 				boolean activate = true;
 
-				for (int i = 0; i < relations.length; i++) {
+				for (Relation relation : relations) {
 
-					rel = relations[i];
+					rel = relation;
 					if (rel.getTag().equals("FATH")
 							|| rel.getTag().equals("MOTH")) {
 						if (activate) {
@@ -395,7 +395,7 @@ public class PersonTextPane extends JTextPane {
 						append("[" + rel.getTag() + "]", greenTag);
 						bl = " ";
 						relNotices = rel.getNotices();
-						if (relNotices != null && relNotices.length == 1) {
+						if ((relNotices != null) && (relNotices.length == 1)) {
 							append(" [" + relNotices[0].getTag() + "]", blueTag);
 							bl = " ";
 						}
@@ -411,8 +411,8 @@ public class PersonTextPane extends JTextPane {
 				}
 
 				int wifenum = 0;
-				for (int i = 0; i < relations.length; i++) {
-					rel = relations[i];
+				for (Relation relation : relations) {
+					rel = relation;
 					if (rel.getTag().equals("WIFE")
 							|| rel.getTag().equals("HUSB")) {
 						if (wifenum == 0) {
@@ -436,8 +436,8 @@ public class PersonTextPane extends JTextPane {
 						RelationNotice rn;
 						relNotices = rel.getNotices();
 						if (relNotices != null) {
-							for (int j = 0; j < relNotices.length; j++) {
-								rn = relNotices[j];
+							for (RelationNotice relNotice : relNotices) {
+								rn = relNotice;
 								append("[" + rn.getTag() + "]", blueTag);
 								if (rn.getType() != null) {
 									append(bl + rn.getType(), bodyText);
@@ -506,8 +506,8 @@ public class PersonTextPane extends JTextPane {
 				}
 
 				activate = true;
-				for (int i = 0; i < relations.length; i++) {
-					rel = relations[i];
+				for (Relation relation : relations) {
+					rel = relation;
 					if (rel.getTag().equals("CHIL")) {
 						if (activate) {
 							append("\n", bodyText);
@@ -520,7 +520,7 @@ public class PersonTextPane extends JTextPane {
 						append("[" + rel.getTag() + "]", greenTag);
 						bl = " ";
 						relNotices = rel.getNotices();
-						if (relNotices != null && relNotices.length == 1) {
+						if ((relNotices != null) && (relNotices.length == 1)) {
 							append(" [" + relNotices[0].getTag() + "]", blueTag);
 							bl = " ";
 						}

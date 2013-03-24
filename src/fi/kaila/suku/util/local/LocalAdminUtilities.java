@@ -165,8 +165,9 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 	private String postPassword = null;
 
 	private Connection getConnection() throws SQLException {
-		if (this.postPassword == null)
+		if (this.postPassword == null) {
 			return null;
+		}
 
 		String dbConne = "jdbc:postgresql://localhost/postgres?user=postgres";
 		dbConne += "&password=" + this.postPassword;
@@ -185,7 +186,7 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 		pdlg.setVisible(true);
 		postPassword = pdlg.getPassword();
 
-		if (postPassword != null && !postPassword.isEmpty()) {
+		if ((postPassword != null) && !postPassword.isEmpty()) {
 			// this.postPassword =
 			// JOptionPane.showInputDialog(Resurses.getString(Resurses.CONNEADMIN));
 			String[] datalista;
@@ -198,8 +199,8 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 
 				userlista = LocalDatabaseUtility.getListOfUsers(con);
 				this.userCombo.removeAllItems();
-				for (int i = 0; i < userlista.length; i++) {
-					this.userCombo.addItem(userlista[i]);
+				for (String element : userlista) {
+					this.userCombo.addItem(element);
 
 				}
 
@@ -239,8 +240,9 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 
 		if (cmd.equals(Resurses.NEWUSER)) {
 
@@ -253,13 +255,13 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 			newUser = Utils.toUsAscii(ladm.getUserid());
 			newPassword = ladm.getPassword();
 
-			if (newUser != null && newPassword != null && newUser.length() > 2
-					&& newPassword.length() > 2) {
+			if ((newUser != null) && (newPassword != null)
+					&& (newUser.length() > 2) && (newPassword.length() > 2)) {
 
 				for (int i = 0; i < this.userCombo.getItemCount(); i++) {
 					String aux = (String) this.userCombo.getItemAt(i);
 
-					if (aux != null && aux.equalsIgnoreCase(newUser)) {
+					if ((aux != null) && aux.equalsIgnoreCase(newUser)) {
 						JOptionPane.showMessageDialog(this,
 								Resurses.getString("ADMINUSEREXIST"));
 						return;
@@ -277,8 +279,8 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 					String[] userlista = LocalDatabaseUtility
 							.getListOfUsers(con);
 					this.userCombo.removeAllItems();
-					for (int i = 0; i < userlista.length; i++) {
-						this.userCombo.addItem(userlista[i]);
+					for (String element : userlista) {
+						this.userCombo.addItem(element);
 
 					}
 					stm.close();
@@ -329,7 +331,7 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 
 			String owner = (String) this.userCombo.getSelectedItem();
 
-			if (owner != null && newDb != null && newDb.length() > 0) {
+			if ((owner != null) && (newDb != null) && (newDb.length() > 0)) {
 				try {
 					String sql = "create database " + newDb + " owner = "
 							+ owner + " encoding = 'UTF8'";
@@ -355,8 +357,9 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 
 			String dbname = (String) this.dblista.getSelectedValue();
 
-			if (dbname == null)
+			if (dbname == null) {
 				return;
+			}
 
 			if (JOptionPane.showConfirmDialog(this,
 					Resurses.getString("ASKTODROP") + " " + dbname) == JOptionPane.YES_OPTION) {

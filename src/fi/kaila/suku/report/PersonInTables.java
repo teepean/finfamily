@@ -37,7 +37,7 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 	/** The sur name. */
 	public String surName = null;
-	
+
 	/** references as child. */
 	public Vector<Long> asChildren = new Vector<Long>();
 
@@ -129,10 +129,12 @@ public class PersonInTables implements Comparable<PersonInTables> {
 				}
 			}
 		}
-		if (firstTable == 0 || firstTable == table)
+		if ((firstTable == 0) || (firstTable == table)) {
 			return 2;
-		if (firstTable < table)
+		}
+		if (firstTable < table) {
 			return 2;
+		}
 		return 3;
 
 	}
@@ -165,8 +167,9 @@ public class PersonInTables implements Comparable<PersonInTables> {
 				Long lll = icheck.put(ll, ll);
 				if (lll == null) {
 					if (asChildren.get(i) != table) {
-						if (sx.length() > 0)
+						if (sx.length() > 0) {
 							sx.append(",");
+						}
 						sx.append((asChildren.get(i) + tableOffset));
 					}
 				}
@@ -180,8 +183,9 @@ public class PersonInTables implements Comparable<PersonInTables> {
 				if (lll == null) {
 
 					if (asParents.get(i) != table) {
-						if (sx.length() > 0)
+						if (sx.length() > 0) {
 							sx.append(",");
+						}
 						sx.append((asParents.get(i) + tableOffset));
 					}
 				}
@@ -271,22 +275,25 @@ public class PersonInTables implements Comparable<PersonInTables> {
 		sb.append("[" + pid + "]:");
 		sb.append("chils:(");
 		for (int i = 0; i < asChildren.size(); i++) {
-			if (i > 0)
+			if (i > 0) {
 				sb.append(",");
+			}
 			sb.append("" + asChildren.get(i));
 		}
 		sb.append(")");
 		sb.append(",pars:(");
 		for (int i = 0; i < asParents.size(); i++) {
-			if (i > 0)
+			if (i > 0) {
 				sb.append(",");
+			}
 			sb.append("" + asParents.get(i));
 		}
 		sb.append(")");
 		sb.append(",refs:(");
 		for (int i = 0; i < references.size(); i++) {
-			if (i > 0)
+			if (i > 0) {
 				sb.append(",");
+			}
 			sb.append("" + references.get(i));
 		}
 		sb.append(")\n");
@@ -303,8 +310,9 @@ public class PersonInTables implements Comparable<PersonInTables> {
 	 */
 	@Override
 	public int compareTo(PersonInTables o) {
-		if (shortPerson == null || o.shortPerson == null)
+		if ((shortPerson == null) || (o.shortPerson == null)) {
 			return 0;
+		}
 
 		int cl = compareFF(Utils.nv(shortPerson.getSurname()),
 				Utils.nv(o.shortPerson.getSurname()));
@@ -337,8 +345,9 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 	private int compareFF(String uno, String duo) {
 
-		if (uno == null || duo == null)
+		if ((uno == null) || (duo == null)) {
 			return 0;
+		}
 
 		String nuno = uno.trim().replace(' ', '!');
 		String nduo = duo.trim().replace(' ', '!');
@@ -353,8 +362,9 @@ public class PersonInTables implements Comparable<PersonInTables> {
 	}
 
 	private String collatable(String origin) {
-		if (origin == null)
+		if (origin == null) {
 			return null;
+		}
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < origin.length(); i++) {
 			char c = origin.charAt(i);

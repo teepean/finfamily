@@ -292,7 +292,7 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		// setBounds(d.width/2-200,d.height/2-200,600,300);
 
-		setLocation(d.width / 2 - 200, d.height / 2 - 250);
+		setLocation((d.width / 2) - 200, (d.height / 2) - 250);
 		Dimension sz = new Dimension(600, 500);
 		setSize(sz);
 
@@ -304,6 +304,7 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 		setVisible(true);
 
 		t = new javax.swing.Timer(1000, new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				updateSelectStatus();
 			}
@@ -332,8 +333,9 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 			addAncestors.setEnabled(pp != null);
 			if (pp == null) {
 				int pids[] = parent.getSelectedPids();
-				if (pids == null)
+				if (pids == null) {
 					return;
+				}
 				selectedName.setText(Resurses
 						.getString("DIALOG_GROUP_SELECTED_COUNT")
 						+ " "
@@ -379,8 +381,9 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 				ButtonModel model = removes.getSelection();
 				if (model != null) {
 					String remocmd = model.getActionCommand();
-					if (remocmd == null)
+					if (remocmd == null) {
 						return;
+					}
 					SukuData response = null;
 					if (remocmd.equals("ALL")) {
 						response = Suku.kontroller.getSukuData(request,
@@ -414,13 +417,13 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 					} else {
 						System.out.println("NOT HERE");
 					}
-					if (response == null || response.pidArray == null) {
+					if ((response == null) || (response.pidArray == null)) {
 						String messu = "Group remove Response missing";
 						logger.warning(messu);
 						JOptionPane.showMessageDialog(parent, messu);
 					} else {
-						for (int i = 0; i < response.pidArray.length; i++) {
-							parent.updateDbGroup(response.pidArray[i], null);
+						for (int element : response.pidArray) {
+							parent.updateDbGroup(element, null);
 						}
 						parent.refreshDbView();
 						String messu = Resurses
@@ -445,8 +448,9 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 				ButtonModel model = addes.getSelection();
 				if (model != null) {
 					String addcmd = model.getActionCommand();
-					if (addcmd == null)
+					if (addcmd == null) {
 						return;
+					}
 					String grp = groupId.getText();
 					if (grp.isEmpty()) {
 						JOptionPane.showMessageDialog(parent,
@@ -492,13 +496,13 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 							addedCount.setText("" + response.resuCount);
 						}
 					}
-					if (response == null || response.pidArray == null) {
+					if ((response == null) || (response.pidArray == null)) {
 						String messu = "Group add Response missing";
 						logger.warning(messu);
 						JOptionPane.showMessageDialog(parent, messu);
 					} else {
-						for (int i = 0; i < response.pidArray.length; i++) {
-							parent.updateDbGroup(response.pidArray[i], grp);
+						for (int element : response.pidArray) {
+							parent.updateDbGroup(element, grp);
 						}
 						parent.refreshDbView();
 						String messu = Resurses.getString("DIALOG_GROUP_ADDED")
@@ -516,8 +520,9 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 	}
 
 	private String nv(String text) {
-		if (text == null)
+		if (text == null) {
 			return "";
+		}
 		return text;
 	}
 

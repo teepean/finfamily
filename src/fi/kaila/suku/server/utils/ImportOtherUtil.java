@@ -222,14 +222,16 @@ public class ImportOtherUtil {
 			Integer newrid = entrx.getValue();
 
 			String[] parts = key.split(";");
-			if (parts.length != 2)
+			if (parts.length != 2) {
 				continue;
+			}
 			int orid = Integer.parseInt(parts[0]);
 			int opid = Integer.parseInt(parts[1]);
 			int npid = pidmap.get(opid);
 
-			if (npid == 0)
+			if (npid == 0) {
 				continue;
+			}
 
 			pst.setInt(1, newrid);
 			pst.setInt(2, npid);
@@ -242,8 +244,9 @@ public class ImportOtherUtil {
 			double prossa = counter++ / dbSize;
 			int prose = (int) (prossa * 100);
 
-			if (prose > 100)
+			if (prose > 100) {
 				prose = 100;
+			}
 			prose = prose / 2;
 			if (this.runner.setRunnerValue("" + prose + ";relation")) {
 
@@ -296,8 +299,9 @@ public class ImportOtherUtil {
 				double prossa = counter++ / dbSize;
 				int prose = (int) (prossa * 100);
 
-				if (prose > 100)
+				if (prose > 100) {
 					prose = 100;
+				}
 				prose = 50 + (prose / 2);
 				if (this.runner.setRunnerValue("" + prose + ";relationnotice")) {
 
@@ -425,8 +429,9 @@ public class ImportOtherUtil {
 			newpids[pidIdx++] = newpid;
 			double prossa = counter / dbSize;
 			int prose = (int) (prossa * 100);
-			if (prose > 100)
+			if (prose > 100) {
 				prose = 100;
+			}
 			if (this.runner.setRunnerValue("" + prose + ";unit")) {
 
 				throw new SukuException(Resurses.getString("IMPORT_CANCELLED"));

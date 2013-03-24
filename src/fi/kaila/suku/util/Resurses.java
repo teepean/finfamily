@@ -582,7 +582,7 @@ public class Resurses {
 			sets = Suku.kontroller.getSukuData("cmd=getsettings",
 					"type=country", "index=0");
 
-			if (sets.vvTypes != null && sets.vvTypes.size() > 0) {
+			if ((sets.vvTypes != null) && (sets.vvTypes.size() > 0)) {
 				String[] parts = sets.vvTypes.get(0);
 				return parts[1];
 			}

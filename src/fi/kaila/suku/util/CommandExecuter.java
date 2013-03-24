@@ -72,8 +72,9 @@ public class CommandExecuter {
 
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < cmd.length; i++) {
-			if (i > 0)
+			if (i > 0) {
 				sb.append(" ");
+			}
 			sb.append(cmd[i]);
 		}
 
@@ -86,6 +87,7 @@ public class CommandExecuter {
 			final StringBuffer buffer) {
 		new Thread(new Runnable() {
 
+			@Override
 			public void run() {
 				BufferedReader reader = null;
 				try {

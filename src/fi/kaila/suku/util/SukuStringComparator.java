@@ -14,9 +14,11 @@ public class SukuStringComparator implements Comparator {
 	 * 
 	 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
 	 */
+	@Override
 	public int compare(Object arg0, Object arg1) {
-		if (arg0 == null || arg1 == null)
+		if ((arg0 == null) || (arg1 == null)) {
 			return 0;
+		}
 		String a = arg0.toString();
 		String b = arg1.toString();
 

@@ -199,7 +199,7 @@ public class ImportGedcomUtil {
 			double dLen = dataLen;
 			int data = 0;
 			fileIndex = 4;
-			if (dataLen < 10 || !foundGedcom) {
+			if ((dataLen < 10) || !foundGedcom) {
 				resp.resu = Resurses.getString("GEDCOM_BAD_FORMAT");
 				return resp;
 			}
@@ -211,27 +211,27 @@ public class ImportGedcomUtil {
 
 			// int lineNumber = 0;
 			StringBuilder line = new StringBuilder();
-			if (data0 == 255 && data1 == 254) {
+			if ((data0 == 255) && (data1 == 254)) {
 				thisSet = GedSet.Set_Utf16le;
-				c = (char) (data3 * 256 + data2);
+				c = (char) ((data3 * 256) + data2);
 				line.append(c);
-			} else if (data1 == 0 && data0 == 48) {
+			} else if ((data1 == 0) && (data0 == 48)) {
 				thisSet = GedSet.Set_Utf16le;
 				c = (char) (data0);
 				line.append(c);
 				c = (char) (data2);
 				line.append(c);
-			} else if (data0 == 255 && data1 == 254) {
+			} else if ((data0 == 255) && (data1 == 254)) {
 				thisSet = GedSet.Set_Utf16be;
-				c = (char) (data2 * 256 + data3);
+				c = (char) ((data2 * 256) + data3);
 				line.append(c);
-			} else if (data0 == 0 && data1 == 48) {
+			} else if ((data0 == 0) && (data1 == 48)) {
 				thisSet = GedSet.Set_Utf16be;
 				c = (char) (data1);
 				line.append(c);
 				c = (char) (data3);
 				line.append(c);
-			} else if (data0 == 239 && data1 == 187 && data2 == 191) {
+			} else if ((data0 == 239) && (data1 == 187) && (data2 == 191)) {
 				thisSet = GedSet.Set_Utf8;
 				c = (char) data3;
 				line.append(c);
@@ -258,12 +258,12 @@ public class ImportGedcomUtil {
 				} else {
 					c = cnvToChar(data, bis);
 				}
-				if (c != '\n' && c != '\r') {
-					if (line.length() > 0 || c != ' ') {
+				if ((c != '\n') && (c != '\r')) {
+					if ((line.length() > 0) || (c != ' ')) {
 						line.append(c);
 					}
 				}
-				if ((c == '\n' || c == '\r') && line.length() > 0) {
+				if (((c == '\n') || (c == '\r')) && (line.length() > 0)) {
 
 					// System.out.println(line.toString());
 					// now we have next line
@@ -276,7 +276,7 @@ public class ImportGedcomUtil {
 
 					GedcomLine lineg = null;
 					String aux;
-					if (i1 > 0 && i1 < linex.length()) {
+					if ((i1 > 0) && (i1 < linex.length())) {
 						try {
 							ix = Integer.parseInt(linex.substring(0, i1));
 
@@ -313,11 +313,11 @@ public class ImportGedcomUtil {
 						}
 
 						i2 = linex.indexOf(' ', i1 + 1);
-						if (i2 > 0 && i2 < linex.length()) {
+						if ((i2 > 0) && (i2 < linex.length())) {
 							aux = linex.substring(i1 + 1, i2);
 							i3 = i2;
-							if (aux.charAt(0) == '@'
-									&& aux.charAt(aux.length() - 1) == '@') {
+							if ((aux.charAt(0) == '@')
+									&& (aux.charAt(aux.length() - 1) == '@')) {
 								lineg.id = aux;
 								i3 = linex.indexOf(' ', i2 + 1);
 								if (i3 > 0) {
@@ -337,10 +337,11 @@ public class ImportGedcomUtil {
 						// System.out.println("'" + lineg.level + "'" + lineg.id
 						// + "'" + lineg.tag + "'" + lineg.lineValue);
 					}
-					if (lineg == null || lineg.tag == null)
+					if ((lineg == null) || (lineg.tag == null)) {
 						continue;
+					}
 
-					if (lineg.lineValue != null && lineg.level == 1
+					if ((lineg.lineValue != null) && (lineg.level == 1)
 							&& lineg.tag.equals("CHAR")) {
 						if (thisSet == GedSet.Set_None) {
 							if (lineg.lineValue.equalsIgnoreCase("UNICODE")
@@ -362,8 +363,9 @@ public class ImportGedcomUtil {
 					line = new StringBuilder();
 
 				}
-				if (data < 0)
+				if (data < 0) {
 					break;
+				}
 			}
 			if (record == null) {
 				throw new SukuException(Resurses.getString("GEDCOM_MISSING"));
@@ -371,7 +373,7 @@ public class ImportGedcomUtil {
 			String key = record.getKey();
 			gedMap.put(key, record);
 
-			if (zipIn != null && isZipFile) {
+			if ((zipIn != null) && isZipFile) {
 				zipIn.closeEntry();
 
 				ZipEntry entry = null;
@@ -469,7 +471,7 @@ public class ImportGedcomUtil {
 			throws IOException, FileNotFoundException, SukuException {
 		int ldot = imgName.lastIndexOf(".");
 		String imgSuffix = null;
-		if (ldot > 0 && ldot > (imgName.length() - 6)) {
+		if ((ldot > 0) && (ldot > (imgName.length() - 6))) {
 			imgSuffix = imgName.substring(ldot);
 		}
 
@@ -524,10 +526,10 @@ public class ImportGedcomUtil {
 				lineWife = record.lines.get(i);
 			}
 		}
-		if (lineHusb != null && lineWife != null) {
+		if ((lineHusb != null) && (lineWife != null)) {
 			aid = gedPid.get(lineHusb.lineValue);
 			bid = gedPid.get(lineWife.lineValue);
-			if (aid != null && bid != null) {
+			if ((aid != null) && (bid != null)) {
 				if (ownerPid == 0) {
 					ownerPid = aid.pid;
 				}
@@ -597,7 +599,7 @@ public class ImportGedcomUtil {
 						rn.setSource(detail.lineValue);
 					} else if (detail.tag.equals("DATE")) {
 						String[] dparts = consumeGedcomDate(detail.lineValue);
-						if (dparts != null && dparts.length > 3) {
+						if ((dparts != null) && (dparts.length > 3)) {
 							rn.setDatePrefix(dparts[0]);
 							rn.setFromDate(dparts[1]);
 							rn.setToDate(dparts[2]);
@@ -650,7 +652,7 @@ public class ImportGedcomUtil {
 						if (adopt != null) {
 							for (int j = 0; j < adopt.lines.size(); j++) {
 								GedcomLine detail = adopt.lines.get(j);
-								if (detail.lineValue != null
+								if ((detail.lineValue != null)
 										&& record.id.equals(detail.lineValue)) {
 									boolean adoptedByFather = true; // as
 									// default
@@ -681,7 +683,7 @@ public class ImportGedcomUtil {
 						if (adopt != null) {
 							for (int j = 0; j < adopt.lines.size(); j++) {
 								GedcomLine detail = adopt.lines.get(j);
-								if (detail.lineValue != null
+								if ((detail.lineValue != null)
 										&& record.id.equals(detail.lineValue)) {
 									boolean adoptedByMother = true; // as
 									// default
@@ -724,7 +726,7 @@ public class ImportGedcomUtil {
 
 		int husbandNumber = 0;
 		int wifeNumber = 0;
-		if (aid != null && bid != null) {
+		if ((aid != null) && (bid != null)) {
 
 			GedcomFams fms = gedFams.get(aid.id);
 			wifeNumber = -1;
@@ -733,7 +735,7 @@ public class ImportGedcomUtil {
 				GedcomLine faw = gedFamMap.get(fam.lineValue);
 				for (int ffj = 0; ffj < faw.lines.size(); ffj++) {
 					GedcomLine fax = faw.lines.get(ffj);
-					if (fax.lineValue != null && fax.lineValue.equals(bid.id)) {
+					if ((fax.lineValue != null) && fax.lineValue.equals(bid.id)) {
 						wifeNumber = ffi;
 						break;
 					}
@@ -753,7 +755,7 @@ public class ImportGedcomUtil {
 				GedcomLine faw = gedFamMap.get(fam.lineValue);
 				for (int ffj = 0; ffj < faw.lines.size(); ffj++) {
 					GedcomLine fax = faw.lines.get(ffj);
-					if (fax.lineValue != null && fax.lineValue.equals(aid.id)) {
+					if ((fax.lineValue != null) && fax.lineValue.equals(aid.id)) {
 						husbandNumber = ffi;
 						break;
 					}
@@ -766,7 +768,7 @@ public class ImportGedcomUtil {
 				husbandNumber = 0;
 			}
 
-		} else if (aid != null && cid != null) {
+		} else if ((aid != null) && (cid != null)) {
 
 			GedcomFams fms = gedFams.get(aid.id);
 			wifeNumber = -1;
@@ -776,7 +778,8 @@ public class ImportGedcomUtil {
 				for (int ffj = 0; ffj < faw.lines.size(); ffj++) {
 					GedcomLine fax = faw.lines.get(ffj);
 
-					if (cid != null && fax != null && fax.lineValue != null
+					if ((cid != null) && (fax != null)
+							&& (fax.lineValue != null)
 							&& fax.lineValue.equals(cid.id)) {
 						wifeNumber = ffi;
 						break;
@@ -789,7 +792,7 @@ public class ImportGedcomUtil {
 			if (wifeNumber <= 0) {
 				wifeNumber = 0;
 			}
-		} else if (bid != null && cid != null) {
+		} else if ((bid != null) && (cid != null)) {
 
 			GedcomFams fms = gedFams.get(bid.id);
 			wifeNumber = -1;
@@ -799,7 +802,7 @@ public class ImportGedcomUtil {
 				for (int ffj = 0; ffj < faw.lines.size(); ffj++) {
 					GedcomLine fax = faw.lines.get(ffj);
 
-					if (fax != null && fax.lineValue != null
+					if ((fax != null) && (fax.lineValue != null)
 							&& fax.lineValue.equals(cid.id)) {
 						husbandNumber = ffi;
 						break;
@@ -826,7 +829,7 @@ public class ImportGedcomUtil {
 
 	/** The record count. */
 	int recordCount = 0;
-	
+
 	/** The error count. */
 	int errorCount = 0;
 	/** The owner info. */
@@ -886,8 +889,9 @@ public class ImportGedcomUtil {
 				sb.append(line.lineValue);
 			}
 		}
-		if (sb.length() == 0)
+		if (sb.length() == 0) {
 			return null;
+		}
 		return sb.toString();
 	}
 
@@ -904,12 +908,12 @@ public class ImportGedcomUtil {
 				pers.setSex(noti.lineValue);
 			} else if (noti.tag.equals("REFN")) {
 				pers.setUserRefn(noti.lineValue);
-			} else if (noti.tag.equals("ALIA") && sourceSystem != null
-					&& sourceSystem.toLowerCase().indexOf("sukujutut") >= 0
-					&& noti.lineValue != null) {
+			} else if (noti.tag.equals("ALIA") && (sourceSystem != null)
+					&& (sourceSystem.toLowerCase().indexOf("sukujutut") >= 0)
+					&& (noti.lineValue != null)) {
 
-				if (noti.lineValue.indexOf(" ") < 0
-						&& noti.lineValue.indexOf(",") < 0) {
+				if ((noti.lineValue.indexOf(" ") < 0)
+						&& (noti.lineValue.indexOf(",") < 0)) {
 					UnitNotice notice = new UnitNotice("NAME");
 					notices.add(notice);
 					notice.setGivenname(previousGivenName);
@@ -935,7 +939,7 @@ public class ImportGedcomUtil {
 							notice.setPatronym(Utils.extractPatronyme(parts[0],
 									true));
 						}
-						if (parts.length > 1 && parts[1].length() > 0) {
+						if ((parts.length > 1) && (parts[1].length() > 0)) {
 
 							int vonIndex = Utils.isKnownPrefix(parts[1]);
 							if (vonIndex > 0) {
@@ -948,7 +952,7 @@ public class ImportGedcomUtil {
 								notice.setSurname(parts[1]);
 							}
 						}
-						if (parts.length > 2 && parts[2].length() > 0) {
+						if ((parts.length > 2) && (parts[2].length() > 0)) {
 							notice.setPostfix(parts[2]);
 						}
 					}
@@ -956,7 +960,7 @@ public class ImportGedcomUtil {
 					for (int j = 0; j < noti.lines.size(); j++) {
 						GedcomLine detail = noti.lines.get(j);
 						if (detail.tag.equals("NSFX")) {
-							if ((notice.getPatronym() != null && !notice
+							if (((notice.getPatronym() != null) && !notice
 									.getPatronym().equals(detail.lineValue))) {
 								StringBuilder sb = new StringBuilder();
 								if (notice.getGivenname() != null) {
@@ -976,8 +980,8 @@ public class ImportGedcomUtil {
 										+ detail.lineValue);
 							}
 						} else if (detail.tag.equals("NICK")) {
-							if (notice.getPatronym() == null
-									&& detail.lineValue != null) {
+							if ((notice.getPatronym() == null)
+									&& (detail.lineValue != null)) {
 								String patro = Utils.extractPatronyme(
 										detail.lineValue, true);
 								if (patro != null) {
@@ -993,7 +997,7 @@ public class ImportGedcomUtil {
 							}
 						} else if (detail.tag.equals("GIVN")) {
 
-							if (notice.getGivenname() != null
+							if ((notice.getGivenname() != null)
 									&& !notice.getGivenname().equals(
 											detail.lineValue)) {
 								if (privSource.length() > 0) {
@@ -1003,7 +1007,7 @@ public class ImportGedcomUtil {
 								unknownLine.add(detail.toString());
 							}
 						} else if (detail.tag.equals("SURN")) {
-							if (notice.getSurname() != null
+							if ((notice.getSurname() != null)
 									&& !notice.getSurname().equals(
 											detail.lineValue)) {
 								if (privSource.length() > 0) {
@@ -1046,7 +1050,7 @@ public class ImportGedcomUtil {
 					UnitNotice notice = new UnitNotice("NOTE");
 					notices.add(notice);
 					if (noti.lineValue.startsWith("@")
-							&& noti.lineValue.indexOf('@', 1) > 1) {
+							&& (noti.lineValue.indexOf('@', 1) > 1)) {
 						GedcomLine notirec = gedMap.get(noti.lineValue);
 						if (notirec != null) {
 							notice.setNoteText(notirec.lineValue);
@@ -1063,9 +1067,9 @@ public class ImportGedcomUtil {
 				int topIdx = notices.size() - 1;
 				UnitNotice top = notices.get(topIdx);
 				if (sourceSystem.equals("FinFamily")
-						&& top.getMediaData() == null
-						&& top.getMediaFilename() == null
-						&& top.getMediaTitle() == null) {
+						&& (top.getMediaData() == null)
+						&& (top.getMediaFilename() == null)
+						&& (top.getMediaTitle() == null)) {
 					extractMultimedia(top, noti);
 				} else {
 					UnitNotice notice = new UnitNotice("PHOT");
@@ -1078,7 +1082,7 @@ public class ImportGedcomUtil {
 				f.fams.add(noti);
 			} else if (noti.tag.equals("SOUR")) {
 				if (noti.lineValue.startsWith("@")
-						&& noti.lineValue.indexOf('@', 1) > 1) {
+						&& (noti.lineValue.indexOf('@', 1) > 1)) {
 					GedcomLine dets = gedMap.get(noti.lineValue);
 					if (dets == null) {
 						pers.setSource(extractSourceText(noti));
@@ -1099,7 +1103,7 @@ public class ImportGedcomUtil {
 				if (noti.lineValue != null) {
 					gedAdopt.put(noti.lineValue, noti);
 				}
-			} else if (Resurses.gedcomTags.indexOf(noti.tag) > 0
+			} else if ((Resurses.gedcomTags.indexOf(noti.tag) > 0)
 
 			|| noti.tag.startsWith("_")) {
 
@@ -1109,11 +1113,12 @@ public class ImportGedcomUtil {
 						|| notiTag.equals("BASM") || notiTag.equals("BLES")) {
 					notiTag = "CHR";
 				}
-				if (notiTag.startsWith("_"))
+				if (notiTag.startsWith("_")) {
 					notiTag = noti.tag.substring(1);
+				}
 				UnitNotice notice = new UnitNotice(notiTag);
 				notices.add(notice);
-				if (noti.lineValue != null && !noti.lineValue.equals("Y")) {
+				if ((noti.lineValue != null) && !noti.lineValue.equals("Y")) {
 					notice.setDescription(noti.lineValue);
 				}
 				for (int j = 0; j < noti.lines.size(); j++) {
@@ -1150,7 +1155,7 @@ public class ImportGedcomUtil {
 										+ detail.lineValue);
 					} else if (detail.tag.equals("NOTE")) {
 						if (detail.lineValue.startsWith("@")
-								&& detail.lineValue.indexOf('@', 1) > 1) {
+								&& (detail.lineValue.indexOf('@', 1) > 1)) {
 							GedcomLine notirec = gedMap.get(detail.lineValue);
 							if (notirec != null) {
 								notice.setNoteText(notirec.lineValue);
@@ -1164,7 +1169,7 @@ public class ImportGedcomUtil {
 						}
 					} else if (detail.tag.equals("SOUR")) {
 						if (detail.lineValue.startsWith("@")
-								&& detail.lineValue.indexOf('@', 1) > 1) {
+								&& (detail.lineValue.indexOf('@', 1) > 1)) {
 							GedcomLine dets = gedMap.get(detail.lineValue);
 							notice.setSource(extractSourceText(dets));
 							notice.setSurety(extractGedcomSurety(dets));
@@ -1319,7 +1324,7 @@ public class ImportGedcomUtil {
 		for (int k = 0; k < detail.lines.size(); k++) {
 			GedcomLine item = detail.lines.get(k);
 
-			if (item.tag.equals("FILE") && item.lineValue != null) {
+			if (item.tag.equals("FILE") && (item.lineValue != null)) {
 				InputStream ins = null;
 				if (this.isZipFile) {
 					String tempFile = images.get(item.lineValue.replace('\\',
@@ -1371,8 +1376,9 @@ public class ImportGedcomUtil {
 								break;
 							}
 							imgSize += rdbytes;
-							if (rdbytes < 0)
+							if (rdbytes < 0) {
 								break;
+							}
 							bos.write(buff, 0, rdbytes);
 
 						}
@@ -1439,16 +1445,21 @@ public class ImportGedcomUtil {
 		for (int i = 0; i < record.lines.size(); i++) {
 			GedcomLine line = record.lines.get(i);
 			if (line.tag.equals("QUAY")) {
-				if (line.lineValue == null)
+				if (line.lineValue == null) {
 					return 100;
-				if (line.lineValue.equals("0"))
+				}
+				if (line.lineValue.equals("0")) {
 					return 40;
-				if (line.lineValue.equals("1"))
+				}
+				if (line.lineValue.equals("1")) {
 					return 60;
-				if (line.lineValue.equals("2"))
+				}
+				if (line.lineValue.equals("2")) {
 					return 80;
-				if (line.lineValue.equals("3"))
+				}
+				if (line.lineValue.equals("3")) {
 					return 100;
+				}
 
 			}
 		}
@@ -1456,8 +1467,9 @@ public class ImportGedcomUtil {
 	}
 
 	private String[] consumeGedcomDate(String lineValue) {
-		if (lineValue == null)
+		if (lineValue == null) {
 			return null;
+		}
 		String[] dateparts = new String[4];
 
 		int spIdx = lineValue.indexOf(" ");
@@ -1522,7 +1534,7 @@ public class ImportGedcomUtil {
 	private String toSukuDate(String gedcomDate) {
 		String[] parts = gedcomDate.split(" ");
 		int dl = parts.length - 1;
-		if (dl > 3 || dl < 0) {
+		if ((dl > 3) || (dl < 0)) {
 			return null;
 		}
 		StringBuilder sb = new StringBuilder();
@@ -1530,7 +1542,7 @@ public class ImportGedcomUtil {
 		try {
 			year = Integer.parseInt(parts[dl]);
 
-			if (year <= 0 || year >= 3000) {
+			if ((year <= 0) || (year >= 3000)) {
 				return null;
 			}
 			String aux = "0000" + year;
@@ -1567,7 +1579,7 @@ public class ImportGedcomUtil {
 
 				dd = Integer.parseInt(parts[dl]);
 
-				if (dd > 0 && dd <= 31) {
+				if ((dd > 0) && (dd <= 31)) {
 					dat = "000" + dd;
 					dat = dat.substring(dat.length() - 2, dat.length());
 				}
@@ -1590,8 +1602,9 @@ public class ImportGedcomUtil {
 	}
 
 	private String four(String text) {
-		if (text == null)
+		if (text == null) {
 			return "";
+		}
 		if (text.length() < 4) {
 			return text;
 		}
@@ -1605,7 +1618,8 @@ public class ImportGedcomUtil {
 		String name = null;
 		GedcomAddress address = null;
 
-		if (submitter == null || !submitter.equals(record.id) || submitterDone) {
+		if ((submitter == null) || !submitter.equals(record.id)
+				|| submitterDone) {
 			unknownLine.add(record.toString());
 			return;
 		}
@@ -1766,7 +1780,7 @@ public class ImportGedcomUtil {
 				continue;
 			} else if (notice1.tag.equals("DATE")) {
 				String[] dateParts = consumeGedcomDate(notice1.lineValue);
-				if (dateParts.length > 1 && dateParts[1].length() == 8) {
+				if ((dateParts.length > 1) && (dateParts[1].length() == 8)) {
 					createdDate = dateParts[1];
 				} else {
 					unknownLine.add(notice1.toString());
@@ -1792,13 +1806,13 @@ public class ImportGedcomUtil {
 		case Set_Utf16le:
 			datax = bis.read();
 			fileIndex++;
-			c = (char) (datax * 256 + data);
+			c = (char) ((datax * 256) + data);
 
 			break;
 		case Set_Utf16be:
 			datax = bis.read();
 			fileIndex++;
-			c = (char) (data * 256 + datax);
+			c = (char) ((data * 256) + datax);
 
 			break;
 		case Set_Utf8:
@@ -1844,182 +1858,189 @@ public class ImportGedcomUtil {
 				break;
 			}
 			if (data < 0xE0) {
-				if (data == 0xA4)
+				if (data == 0xA4) {
 					c = 'Þ';
-				else if (data == 0xA2)
+				} else if (data == 0xA2) {
 					c = 'Ø';
-				else if (data == 0xA5)
+				} else if (data == 0xA5) {
 					c = 'Æ';
-				else if (data == 0xA6)
+				} else if (data == 0xA6) {
 					c = 'Œ';
-				else if (data == 0xAA)
+				} else if (data == 0xAA) {
 					c = '®';
-
-				else if (data == 0xAB)
+				} else if (data == 0xAB) {
 					c = '±';
-				else if (data == 0xB2)
+				} else if (data == 0xB2) {
 					c = 'ø';
-				else if (data == 0xB4)
+				} else if (data == 0xB4) {
 					c = 'þ';
-				else if (data == 0xB5)
+				} else if (data == 0xB5) {
 					c = 'æ';
-				else if (data == 0xB6)
+				} else if (data == 0xB6) {
 					c = 'œ';
-				else if (data == 0xB9)
+				} else if (data == 0xB9) {
 					c = '£';
-				else if (data == 0xBA)
+				} else if (data == 0xBA) {
 					c = 'ð';
-				else if (data == 0xC3)
+				} else if (data == 0xC3) {
 					c = '©';
-				else if (data == 0xC5)
+				} else if (data == 0xC5) {
 					c = '¿';
-				else if (data == 0xC6)
+				} else if (data == 0xC6) {
 					c = '¡';
-				else if (data == 0xCF)
+				} else if (data == 0xCF) {
 					c = 'ß';
-				else
+				} else {
 					c = '?';
+				}
 
 			} else {
 				datax = bis.read();
 				fileIndex++;
 				switch (data) {
 				case 0xE1: // grave accent
-					if (datax == 'a')
+					if (datax == 'a') {
 						c = 'à';
-					else if (datax == 'A')
+					} else if (datax == 'A') {
 						c = 'À';
-					else if (datax == 'e')
+					} else if (datax == 'e') {
 						c = 'è';
-					else if (datax == 'E')
+					} else if (datax == 'E') {
 						c = 'È';
-					else if (datax == 'i')
+					} else if (datax == 'i') {
 						c = 'ì';
-					else if (datax == 'I')
+					} else if (datax == 'I') {
 						c = 'ì';
-					else if (datax == 'o')
+					} else if (datax == 'o') {
 						c = 'ò';
-					else if (datax == 'O')
+					} else if (datax == 'O') {
 						c = 'Ò';
-					else if (datax == 'u')
+					} else if (datax == 'u') {
 						c = 'ù';
-					else if (datax == 'U')
+					} else if (datax == 'U') {
 						c = 'Ù';
-					else
+					} else {
 						c = (char) datax;
+					}
 					break;
 				case 0xE2: // acute accent
-					if (datax == 'a')
+					if (datax == 'a') {
 						c = 'á';
-					else if (datax == 'A')
+					} else if (datax == 'A') {
 						c = 'Á';
-					else if (datax == 'e')
+					} else if (datax == 'e') {
 						c = 'é';
-					else if (datax == 'E')
+					} else if (datax == 'E') {
 						c = 'É';
-					else if (datax == 'i')
+					} else if (datax == 'i') {
 						c = 'í';
-					else if (datax == 'I')
+					} else if (datax == 'I') {
 						c = 'Í';
-					else if (datax == 'o')
+					} else if (datax == 'o') {
 						c = 'ó';
-					else if (datax == 'O')
+					} else if (datax == 'O') {
 						c = 'Ó';
-					else if (datax == 'u')
+					} else if (datax == 'u') {
 						c = 'ú';
-					else if (datax == 'U')
+					} else if (datax == 'U') {
 						c = 'Ú';
-					else
+					} else {
 						c = (char) datax;
+					}
 					break;
 				case 0xE3: // circumflex accent
-					if (datax == 'a')
+					if (datax == 'a') {
 						c = 'â';
-					else if (datax == 'A')
+					} else if (datax == 'A') {
 						c = 'Â';
-					else if (datax == 'e')
+					} else if (datax == 'e') {
 						c = 'ê';
-					else if (datax == 'E')
+					} else if (datax == 'E') {
 						c = 'Ê';
-					else if (datax == 'i')
+					} else if (datax == 'i') {
 						c = 'î';
-					else if (datax == 'I')
+					} else if (datax == 'I') {
 						c = 'Î';
-					else if (datax == 'o')
+					} else if (datax == 'o') {
 						c = 'ô';
-					else if (datax == 'O')
+					} else if (datax == 'O') {
 						c = 'Ô';
-					else if (datax == 'u')
+					} else if (datax == 'u') {
 						c = 'û';
-					else if (datax == 'U')
+					} else if (datax == 'U') {
 						c = 'Û';
-					else
+					} else {
 						c = (char) datax;
+					}
 					break;
 				case 0xE4: // tilde
-					if (datax == 'a')
+					if (datax == 'a') {
 						c = 'ã';
-					else if (datax == 'A')
+					} else if (datax == 'A') {
 						c = 'Ã';
-					else if (datax == 'n')
+					} else if (datax == 'n') {
 						c = 'ñ';
-					else if (datax == 'N')
+					} else if (datax == 'N') {
 						c = 'Ñ';
-					else if (datax == 'o')
+					} else if (datax == 'o') {
 						c = 'õ';
-					else if (datax == 'O')
+					} else if (datax == 'O') {
 						c = 'Õ';
-					else
+					} else {
 						c = (char) datax;
+					}
 					break;
 				case 0xF0: // cedilla
-					if (datax == 'c')
+					if (datax == 'c') {
 						c = 'ç';
-					else if (datax == 'C')
+					} else if (datax == 'C') {
 						c = 'Ç';
-					else if (datax == 'n')
+					} else if (datax == 'n') {
 						c = 'ñ';
-					else if (datax == 'N')
+					} else if (datax == 'N') {
 						c = 'Ñ';
-					else if (datax == 'o')
+					} else if (datax == 'o') {
 						c = 'õ';
-					else if (datax == 'O')
+					} else if (datax == 'O') {
 						c = 'Õ';
-					else
+					} else {
 						c = (char) datax;
+					}
 					break;
 
 				case 0xE8: // umlaut
-					if (datax == 'a')
+					if (datax == 'a') {
 						c = 'ä';
-					else if (datax == 'A')
+					} else if (datax == 'A') {
 						c = 'Ä';
-					else if (datax == 'o')
+					} else if (datax == 'o') {
 						c = 'ö';
-					else if (datax == 'O')
+					} else if (datax == 'O') {
 						c = 'Ö';
-					else if (datax == 'u')
+					} else if (datax == 'u') {
 						c = 'ü';
-					else if (datax == 'U')
+					} else if (datax == 'U') {
 						c = 'Ü';
-					else if (datax == 'e')
+					} else if (datax == 'e') {
 						c = 'ë';
-					else if (datax == 'E')
+					} else if (datax == 'E') {
 						c = 'Ë';
-					else if (datax == 'i')
+					} else if (datax == 'i') {
 						c = 'ï';
-					else if (datax == 'I')
+					} else if (datax == 'I') {
 						c = 'Ï';
-					else
+					} else {
 						c = (char) datax;
+					}
 					break;
 				case 0xEA: // ringabove
-					if (datax == 'a')
+					if (datax == 'a') {
 						c = 'å';
-					else if (datax == 'A')
+					} else if (datax == 'A') {
 						c = 'Å';
-					else
+					} else {
 						c = (char) datax;
+					}
 					break;
 
 				default:
@@ -2098,7 +2119,7 @@ public class ImportGedcomUtil {
 		 *            the line
 		 */
 		void add(GedcomLine line) {
-			if (line.level == level + 1) {
+			if (line.level == (level + 1)) {
 				if (line.tag.equals("CONT")) {
 					lineValue += "\n" + line.lineValue;
 				} else if (line.tag.equals("CONC")) {

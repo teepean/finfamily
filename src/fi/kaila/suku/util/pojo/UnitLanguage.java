@@ -320,8 +320,9 @@ public class UnitLanguage implements Serializable {
 	}
 
 	private String trim(String text) {
-		if (text == null)
+		if (text == null) {
 			return null;
+		}
 
 		String tek = text.trim();
 		if (tek.endsWith(".")) {
@@ -331,8 +332,9 @@ public class UnitLanguage implements Serializable {
 	}
 
 	private String nv(String text) {
-		if (text == null)
+		if (text == null) {
 			return "";
+		}
 		return text;
 	}
 

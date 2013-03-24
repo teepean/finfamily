@@ -15,7 +15,7 @@ import java.util.Set;
 public class PlaceInTables implements Comparable<PlaceInTables> {
 
 	private String place = null;
-	private LinkedHashMap<Long, Long> tableMap = new LinkedHashMap<Long, Long>();
+	private final LinkedHashMap<Long, Long> tableMap = new LinkedHashMap<Long, Long>();
 
 	/**
 	 * Instantiates a new place in tables.
@@ -78,8 +78,9 @@ public class PlaceInTables implements Comparable<PlaceInTables> {
 		long temp[] = getArray();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < temp.length; i++) {
-			if (i > 0)
+			if (i > 0) {
 				sb.append(",");
+			}
 			sb.append("" + temp[i]);
 		}
 		return sb.toString();

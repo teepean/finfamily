@@ -66,7 +66,7 @@ public class SukuPopupMenu {
 	 *            the name
 	 */
 	public void enableHiskiPerson(int idx, boolean b, String name) {
-		if (idx >= 0 && idx < pHiskiPerson.length) {
+		if ((idx >= 0) && (idx < pHiskiPerson.length)) {
 			pHiskiPerson[idx].setVisible(b);
 			if (name != null) {
 				pHiskiPerson[idx].setText(name + " [" + idx + "]");

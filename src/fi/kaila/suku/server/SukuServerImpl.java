@@ -110,7 +110,7 @@ public class SukuServerImpl implements SukuServer {
 			this.schema = "public";
 		}
 		logger.info("Connection: " + dbConne + ";schema: " + this.schema);
-		if (passwd != null && !passwd.isEmpty()) {
+		if ((passwd != null) && !passwd.isEmpty()) {
 
 			dbConne += "&password=" + passwd;
 		}
@@ -354,8 +354,8 @@ public class SukuServerImpl implements SukuServer {
 
 			pstm = this.con.prepareStatement(sql);
 
-			for (int i = 0; i < fam.rels.length; i++) {
-				int ipid = fam.rels[i].getRelationPid();
+			for (RelationShortData rel : fam.rels) {
+				int ipid = rel.getRelationPid();
 				// String memType=fam.rels[i].getTag();
 				if (ipid != pid) {
 					// if ("CHIL".equals(fam.rels[i].getTag())){
@@ -419,6 +419,7 @@ public class SukuServerImpl implements SukuServer {
 	 * fi.kaila.suku.server.SukuServer#getSukuData(fi.kaila.suku.util.pojo.SukuData
 	 * , java.lang.String[])
 	 */
+	@Override
 	public SukuData getSukuData(SukuData request, String... params)
 			throws SukuException {
 		String auxes[];
@@ -426,24 +427,26 @@ public class SukuServerImpl implements SukuServer {
 		int j;
 		StringBuilder sb = new StringBuilder();
 		for (j = 0; j < params.length; j++) {
-			if (j > 0)
+			if (j > 0) {
 				sb.append(";");
+			}
 			sb.append(params[j]);
 		}
 		logger.fine(sb.toString());
 
 		HashMap<String, String> map = new HashMap<String, String>();
 
-		for (int i = 0; i < params.length; i++) {
-			auxes = params[i].split("=");
+		for (String param : params) {
+			auxes = param.split("=");
 			if (auxes.length == 2) {
 				map.put(auxes[0], auxes[1]);
 			}
 		}
 		String cmd = map.get("cmd");
 
-		if (cmd == null)
+		if (cmd == null) {
 			return null;
+		}
 		SukuData fam = new SukuData();
 		if (cmd.equals("compare")) {
 			ImportOtherUtil inoth = new ImportOtherUtil(con);
@@ -536,7 +539,7 @@ public class SukuServerImpl implements SukuServer {
 		Vector<PersonShortData> ps = new Vector<PersonShortData>();
 		boolean sortAll = false;
 		String tmp = map.get("all");
-		if (tmp != null && tmp.equalsIgnoreCase("true")) {
+		if ((tmp != null) && tmp.equalsIgnoreCase("true")) {
 			sortAll = true;
 		}
 
@@ -607,7 +610,7 @@ public class SukuServerImpl implements SukuServer {
 		int vid = -1;
 		SukuData resp = new SukuData();
 
-		if (request == null || request.generalText == null) {
+		if ((request == null) || (request.generalText == null)) {
 			resp.resu = "sql command missing";
 			return resp;
 		}
@@ -622,7 +625,7 @@ public class SukuServerImpl implements SukuServer {
 
 		sql = request.generalText;
 
-		if (type == null || !type.equals("select")) {
+		if ((type == null) || !type.equals("select")) {
 			resp.resu = Resurses.getString("SQL_ILLEGAL_COMMAND");
 		} else {
 			if (!sql.toLowerCase().startsWith("select ")) {
@@ -638,9 +641,9 @@ public class SukuServerImpl implements SukuServer {
 
 					ResultSetMetaData rsMetaData = rs.getMetaData();
 
-					if (vid > 0 && rsMetaData.getColumnCount() == 1) {
+					if ((vid > 0) && (rsMetaData.getColumnCount() == 1)) {
 						String empty = map.get("empty");
-						if (empty != null && empty.equals("true")) {
+						if ((empty != null) && empty.equals("true")) {
 							stm.executeUpdate("delete from viewunits where vid = "
 									+ vid);
 
@@ -692,7 +695,7 @@ public class SukuServerImpl implements SukuServer {
 		tmp = map.get("pid");
 		if (tmp != null) {
 			pid = Integer.parseInt(tmp);
-			if (type == null || type.equals("counts")) {
+			if ((type == null) || type.equals("counts")) {
 				fam = getVirtualPerson(pid);
 			} else if (type.equals("relatives")) {
 				fam = getVirtualRelatives(pid);
@@ -724,7 +727,7 @@ public class SukuServerImpl implements SukuServer {
 					logger.log(Level.WARNING, "Bad view number", ne);
 				}
 			}
-		} else if ("remove".equals(action) && viewno != null) {
+		} else if ("remove".equals(action) && (viewno != null)) {
 			int viewId = Integer.parseInt(viewno);
 			if (key != null) {
 				if (key.equals("all")) {
@@ -748,7 +751,7 @@ public class SukuServerImpl implements SukuServer {
 				}
 			}
 		} else if ("add".equals(action)) {
-			if (viewno != null && key != null) {
+			if ((viewno != null) && (key != null)) {
 				int viewId = Integer.parseInt(viewno);
 				if (key.equals("pidarray")) {
 					// add pids to view
@@ -770,7 +773,7 @@ public class SukuServerImpl implements SukuServer {
 				fam.resu = Resurses.getString("GETSUKU_BAD_VIEW_COMMAND");
 			}
 
-		} else if ("get".equals(action) && pidg != null) {
+		} else if ("get".equals(action) && (pidg != null)) {
 			try {
 
 				fam = vv.getViews(Integer.parseInt(pidg));
@@ -992,8 +995,9 @@ public class SukuServerImpl implements SukuServer {
 
 		GroupUtil grp = new GroupUtil(con);
 		fam = new SukuData();
-		if (action == null)
+		if (action == null) {
 			return null;
+		}
 		fam.resu = Resurses.getString("DIALOG_GROUP_SERVER_BADCMD")
 				+ " action=" + action;
 		if (action.equals("remove")) {
@@ -1020,11 +1024,11 @@ public class SukuServerImpl implements SukuServer {
 			if (key != null) {
 				if (key.equals("pidarray")) {
 					fam = grp.addSelectedGroups(request.pidArray, group);
-				} else if (key.startsWith("DESC") && pidg != null) {
+				} else if (key.startsWith("DESC") && (pidg != null)) {
 					int pidb = Integer.parseInt(pidg);
 					fam = grp.addDescendantsToGroup(pidb, group, gen,
 							(!key.equals("DESC")));
-				} else if (key.equals("ANC") && pidg != null) {
+				} else if (key.equals("ANC") && (pidg != null)) {
 					int pidb = Integer.parseInt(pidg);
 					fam = grp.addAncestorsToGroup(pidb, group, gen);
 				} else {
@@ -1111,11 +1115,11 @@ public class SukuServerImpl implements SukuServer {
 			file = this.openFile;
 		}
 
-		if (type == null || type.equals("import")) {
+		if ((type == null) || type.equals("import")) {
 			fam = importExcelData(file, page);
 		} else if (type.equals("export")) {
 			fam = exportExcelData(file, page, lang,
-					(all != null && all.equals("true")) ? true : false);
+					((all != null) && all.equals("true")) ? true : false);
 		} else {
 			fam.resu = Resurses.getString("BAD_COMMAND_TYPE");
 		}
@@ -1373,7 +1377,7 @@ public class SukuServerImpl implements SukuServer {
 			String constring = "jdbc:postgresql://" + host + "/" + lista.get(i)
 					+ "?user=" + user;
 			logger.fine("Connection: " + constring);
-			if (password != null && !password.isEmpty()) {
+			if ((password != null) && !password.isEmpty()) {
 
 				constring += "&password=" + password;
 			}
@@ -2013,7 +2017,7 @@ public class SukuServerImpl implements SukuServer {
 			int spgen = Integer.parseInt(spouGen);
 			int chgen = Integer.parseInt(chilGen);
 			boolean adop = false;
-			if (adopted != null && adopted.equals("true")) {
+			if ((adopted != null) && adopted.equals("true")) {
 				adop = true;
 			}
 
@@ -2119,7 +2123,7 @@ public class SukuServerImpl implements SukuServer {
 		} catch (NumberFormatException ne) {
 			index = -1;
 		}
-		if (index > 11 || index < 0) {
+		if ((index > 11) || (index < 0)) {
 			index = 0;
 		}
 		logger.fine("savesett" + index);
@@ -2160,9 +2164,9 @@ public class SukuServerImpl implements SukuServer {
 			logger.fine(sql);
 			pstm = con.prepareStatement(sql);
 
-			for (int i = 0; i < request.generalArray.length; i++) {
+			for (String element : request.generalArray) {
 
-				String parts[] = request.generalArray[i].split("=");
+				String parts[] = element.split("=");
 				if (parts.length == 2) {
 					pstm.setString(1, type);
 					pstm.setInt(2, index);
@@ -2271,7 +2275,9 @@ public class SukuServerImpl implements SukuServer {
 		return getSukuData(null, params);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fi.kaila.suku.server.SukuServer#setLocalFile(java.lang.String)
 	 */
 	@Override

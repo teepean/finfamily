@@ -98,6 +98,7 @@ public class SukuTypesModel extends AbstractTableModel {
 	 * 
 	 * @see javax.swing.table.TableModel#getColumnCount()
 	 */
+	@Override
 	public int getColumnCount() {
 		return columnNames.length;
 	}
@@ -107,6 +108,7 @@ public class SukuTypesModel extends AbstractTableModel {
 	 * 
 	 * @see javax.swing.table.TableModel#getRowCount()
 	 */
+	@Override
 	public int getRowCount() {
 		return typesData.length;
 	}
@@ -126,6 +128,7 @@ public class SukuTypesModel extends AbstractTableModel {
 	 * 
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
+	@Override
 	public Object getValueAt(int row, int col) {
 		return typesData[row][col];
 	}

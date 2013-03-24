@@ -72,7 +72,7 @@ public class OrderChildren extends JDialog implements ActionListener,
 		int y = 0;
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-		setBounds(d.width / 2 - 150, d.height / 2 - 130, 300, 260);
+		setBounds((d.width / 2) - 150, (d.height / 2) - 130, 300, 260);
 		setResizable(false);
 		setLayout(null);
 
@@ -155,14 +155,18 @@ public class OrderChildren extends JDialog implements ActionListener,
 		return runner;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 		if (cmd.equals(CANCEL)) {
 			if (task == null) {
 				setVisible(false);
@@ -225,17 +229,19 @@ public class OrderChildren extends JDialog implements ActionListener,
 
 		/** The view id. */
 		int viewId = 0;
-		
+
 		/** The stop me now. */
 		boolean stopMeNow = false;
-		
+
 		/** The order all. */
 		boolean orderAll = false;
-		
+
 		/** The not ordered. */
 		int notOrdered = 0;
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see javax.swing.SwingWorker#doInBackground()
 		 */
 		@Override
@@ -294,7 +300,9 @@ public class OrderChildren extends JDialog implements ActionListener,
 			return null;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see javax.swing.SwingWorker#done()
 		 */
 		@Override
@@ -312,8 +320,11 @@ public class OrderChildren extends JDialog implements ActionListener,
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
+	 * PropertyChangeEvent)
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {

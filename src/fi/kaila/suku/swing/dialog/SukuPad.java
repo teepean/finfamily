@@ -89,7 +89,7 @@ public class SukuPad extends JDialog implements ActionListener {
 		txtArea.setWrapStyleWord(true);
 		getContentPane().add(sc);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds(d.width / 2 - 300, d.height / 2 - 200, 600, 400);
+		setBounds((d.width / 2) - 300, (d.height / 2) - 200, 600, 400);
 	}
 
 	/*
@@ -102,8 +102,9 @@ public class SukuPad extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent a) {
 		String cmd = a.getActionCommand();
 
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 		if (cmd.equals("CLOSE")) {
 			setVisible(false);
 		} else if (cmd.equals("PRINT")) {

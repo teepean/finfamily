@@ -73,7 +73,7 @@ public class ExportBackupUtil {
 		SukuData dat = new SukuData();
 		String root = "genealog";
 		this.dbName = dbName;
-		if (path == null || path.lastIndexOf(".") < 1) {
+		if ((path == null) || (path.lastIndexOf(".") < 1)) {
 			dat.resu = "output filename missing";
 			return dat;
 		}
@@ -530,8 +530,9 @@ public class ExportBackupUtil {
 
 			double prossa = relaCounter / dbSize;
 			int prose = (int) (prossa * 100);
-			if (prose > 100)
+			if (prose > 100) {
 				prose = 100;
+			}
 			setRunnerValue("" + prose + ";relation");
 			createRelationNoticesElement(document, relEle, rid);
 
@@ -898,8 +899,8 @@ public class ExportBackupUtil {
 
 			String email = rs.getString("email");
 			byte[] mediaData = rs.getBytes("mediadata");
-			if (address != null || postoff != null || postcode != null
-					|| state != null || country != null || email != null) {
+			if ((address != null) || (postoff != null) || (postcode != null)
+					|| (state != null) || (country != null) || (email != null)) {
 				Element addEle = document.createElement("address");
 				noticeEle.appendChild(addEle);
 				if (address != null) {
@@ -945,7 +946,7 @@ public class ExportBackupUtil {
 
 			String mediaTitle = rs.getString("mediatitle");
 
-			if (mediaFilename != null || mediaTitle != null) {
+			if ((mediaFilename != null) || (mediaTitle != null)) {
 				Element mediaEle = document.createElement("media");
 				String mediaFilename2 = "" + (imageCounter + 1) + "_"
 						+ mediaFilename;
@@ -974,8 +975,9 @@ public class ExportBackupUtil {
 				noticeEle.appendChild(nameEle);
 				tmp = rs.getString("prefix");
 				if (tmp != null) {
-					if (isFirstname)
+					if (isFirstname) {
 						firstPrefix = tmp;
+					}
 					ele = document.createElement("prefix");
 					ele.setTextContent(tmp);
 					nameEle.appendChild(ele);
@@ -985,8 +987,9 @@ public class ExportBackupUtil {
 
 				if (tmp != null) {
 					sbn.append(tmp);
-					if (isFirstname)
+					if (isFirstname) {
 						firstGivenname = tmp;
+					}
 					ele = document.createElement("firstname");
 					ele.setTextContent(tmp);
 					nameEle.appendChild(ele);
@@ -1016,16 +1019,18 @@ public class ExportBackupUtil {
 
 				tmp = rs.getString("surname");
 				if (tmp != null) {
-					if (isFirstname)
+					if (isFirstname) {
 						firstSurname = tmp;
+					}
 					ele = document.createElement("surname");
 					ele.setTextContent(tmp);
 					nameEle.appendChild(ele);
 				}
 				tmp = rs.getString("postfix");
 				if (tmp != null) {
-					if (isFirstname)
+					if (isFirstname) {
 						firstPostfix = tmp;
+					}
 					ele = document.createElement("postfix");
 					ele.setTextContent(tmp);
 					nameEle.appendChild(ele);
@@ -1045,9 +1050,9 @@ public class ExportBackupUtil {
 			if (refNames != null) {
 				Element namesEle = document.createElement("namelist");
 				noticeEle.appendChild(namesEle);
-				for (int i = 0; i < refNames.length; i++) {
+				for (String refName : refNames) {
 					ele = document.createElement("name");
-					ele.setTextContent(refNames[i]);
+					ele.setTextContent(refName);
 					namesEle.appendChild(ele);
 				}
 			}
@@ -1063,9 +1068,9 @@ public class ExportBackupUtil {
 			if (refPlaces != null) {
 				Element placesEle = document.createElement("placelist");
 				noticeEle.appendChild(placesEle);
-				for (int i = 0; i < refPlaces.length; i++) {
+				for (String refPlace : refPlaces) {
 					ele = document.createElement("place");
-					ele.setTextContent(refPlaces[i]);
+					ele.setTextContent(refPlace);
 					placesEle.appendChild(ele);
 				}
 			}

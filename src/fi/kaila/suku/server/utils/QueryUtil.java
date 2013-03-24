@@ -198,7 +198,7 @@ public class QueryUtil {
 					}
 				}
 
-				if (begdate != null || todate != null || place != null) {
+				if ((begdate != null) || (todate != null) || (place != null)) {
 					if (isFirstCriteria) {
 						fromSQL.append("where ");
 					} else {
@@ -206,22 +206,23 @@ public class QueryUtil {
 					}
 					isFirstCriteria = false;
 					fromSQL.append("u.pid in (select pid from unitnotice where ");
-					if (begdate != null && todate == null) {
+					if ((begdate != null) && (todate == null)) {
 						fromSQL.append("fromdate >= '");
 						fromSQL.append(begdate);
 						fromSQL.append("' ");
-					} else if (begdate == null && todate != null) {
+					} else if ((begdate == null) && (todate != null)) {
 						fromSQL.append("fromdate <= '");
 						fromSQL.append(todate);
 						fromSQL.append("9999' ");
-					} else if (begdate != null && todate != null) {
+					} else if ((begdate != null) && (todate != null)) {
 						fromSQL.append("fromdate between '");
 						fromSQL.append(begdate);
 						fromSQL.append("' and '");
 						fromSQL.append(todate);
 						fromSQL.append("9999' ");
 					}
-					if (begdate == null && todate == null && place != null) {
+					if ((begdate == null) && (todate == null)
+							&& (place != null)) {
 						fromSQL.append("place ilike '");
 						fromSQL.append(toQuery(place));
 						fromSQL.append("%' ");
@@ -249,7 +250,7 @@ public class QueryUtil {
 					}
 				}
 
-				if (begdate != null || todate != null || place != null) {
+				if ((begdate != null) || (todate != null) || (place != null)) {
 					if (isFirstCriteria) {
 						fromSQL.append("where ");
 					} else {
@@ -257,22 +258,23 @@ public class QueryUtil {
 					}
 					isFirstCriteria = false;
 					fromSQL.append("u.pid in (select pid from unitnotice where ");
-					if (begdate != null && todate == null) {
+					if ((begdate != null) && (todate == null)) {
 						fromSQL.append("fromdate >= '");
 						fromSQL.append(begdate);
 						fromSQL.append("' ");
-					} else if (begdate == null && todate != null) {
+					} else if ((begdate == null) && (todate != null)) {
 						fromSQL.append("fromdate <= '");
 						fromSQL.append(todate);
 						fromSQL.append("9999' ");
-					} else if (begdate != null && todate != null) {
+					} else if ((begdate != null) && (todate != null)) {
 						fromSQL.append("fromdate between '");
 						fromSQL.append(begdate);
 						fromSQL.append("' and '");
 						fromSQL.append(todate);
 						fromSQL.append("9999' ");
 					}
-					if (begdate == null && todate == null && place != null) {
+					if ((begdate == null) && (todate == null)
+							&& (place != null)) {
 						fromSQL.append("place ilike '");
 						fromSQL.append(toQuery(place));
 						fromSQL.append("' ");
@@ -295,7 +297,7 @@ public class QueryUtil {
 						todate = decod;
 					}
 				}
-				if (begdate != null || todate != null) {
+				if ((begdate != null) || (todate != null)) {
 					if (isFirstCriteria) {
 						fromSQL.append("where ");
 					} else {
@@ -341,18 +343,18 @@ public class QueryUtil {
 
 				}
 
-				if (searchPlace != null || searchVillage != null
-						|| searchFarm != null || searchCroft != null
-						|| searchNoticeTag != null) {
+				if ((searchPlace != null) || (searchVillage != null)
+						|| (searchFarm != null) || (searchCroft != null)
+						|| (searchNoticeTag != null)) {
 					if (isFirstCriteria) {
 						fromSQL.append("where ");
 					} else {
 						fromSQL.append("and ");
 					}
 					isFirstPlaceCriteria = true;
-					if ((searchPlace != null || searchVillage != null
-							|| searchFarm != null || searchCroft != null)
-							&& searchNoticeTag == null) {
+					if (((searchPlace != null) || (searchVillage != null)
+							|| (searchFarm != null) || (searchCroft != null))
+							&& (searchNoticeTag == null)) {
 						fromSQL.append("u.pid in (select pid from unitnotice where");
 						if (searchPlace != null) {
 							if (isFirstPlaceCriteria) {
@@ -395,9 +397,9 @@ public class QueryUtil {
 							fromSQL.append("%'");
 						}
 						fromSQL.append(") ");
-					} else if ((searchPlace != null || searchVillage != null
-							|| searchFarm != null || searchCroft != null)
-							&& searchNoticeTag != null) {
+					} else if (((searchPlace != null)
+							|| (searchVillage != null) || (searchFarm != null) || (searchCroft != null))
+							&& (searchNoticeTag != null)) {
 						fromSQL.append("u.pid in (select pid from unitnotice where");
 						if (searchPlace != null) {
 							if (isFirstPlaceCriteria) {
@@ -442,9 +444,9 @@ public class QueryUtil {
 						fromSQL.append(" and tag = '");
 						fromSQL.append(searchNoticeTag);
 						fromSQL.append("') ");
-					} else if (searchPlace == null && searchVillage == null
-							&& searchFarm == null && searchCroft == null
-							&& searchNoticeTag != null) {
+					} else if ((searchPlace == null) && (searchVillage == null)
+							&& (searchFarm == null) && (searchCroft == null)
+							&& (searchNoticeTag != null)) {
 						if (!searchNoNotice) {
 							fromSQL.append("u.pid in (select pid from unitnotice where tag = '");
 							fromSQL.append(searchNoticeTag);
@@ -571,7 +573,7 @@ public class QueryUtil {
 				dbmediafilename = rs.getString(19);
 				dbmediatitle = rs.getString(20);
 				dbCountry = rs.getString(21);
-				if (pid != currentPid && currentPid != 0 && perso != null) {
+				if ((pid != currentPid) && (currentPid != 0) && (perso != null)) {
 					personList.add(perso);
 
 					persMap.put(perso.getPid(), perso);
@@ -610,7 +612,8 @@ public class QueryUtil {
 
 					{
 
-						if (perso.getBirtTag() == null || dbntag.equals("BIRT")) {
+						if ((perso.getBirtTag() == null)
+								|| dbntag.equals("BIRT")) {
 							perso.setBirtTag(dbntag);
 							perso.setBirtDate(dbfromdate);
 							perso.setBirtPlace(dbplace);
@@ -625,7 +628,8 @@ public class QueryUtil {
 
 					{
 
-						if (perso.getDeatTag() == null || dbntag.equals("DEAT")) {
+						if ((perso.getDeatTag() == null)
+								|| dbntag.equals("DEAT")) {
 							perso.setDeatTag(dbntag);
 							perso.setDeatDate(dbfromdate);
 							perso.setDeatPlace(dbplace);

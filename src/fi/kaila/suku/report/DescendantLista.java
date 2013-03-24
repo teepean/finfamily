@@ -132,7 +132,7 @@ public class DescendantLista extends CommonReport {
 
 			int col = 0;
 			int tagcol = 5;
-			for (col = 0; col < tname.size() + 32; col++) {
+			for (col = 0; col < (tname.size() + 32); col++) {
 				wsh.setColumnView(col, 5);
 			}
 			for (col = 0; col < tname.size(); col++) {
@@ -171,7 +171,7 @@ public class DescendantLista extends CommonReport {
 								break;
 							}
 						}
-						if (mymp >= 0 && mymp < lspouses.size()) {
+						if ((mymp >= 0) && (mymp < lspouses.size())) {
 
 							ListPerson lps = lspouses.get(mymp);
 							lpp.add(lps);
@@ -198,9 +198,9 @@ public class DescendantLista extends CommonReport {
 					genpids[lp.gene] = lp.ps.getPid();
 					gensex[lp.gene] = lp.ps.getSex();
 
-					if (lp.gene > 0
-							&& lp.ps.getFatherPid() != genspids[lp.gene - 1]
-							&& lp.ps.getMotherPid() != genspids[lp.gene - 1]) {
+					if ((lp.gene > 0)
+							&& (lp.ps.getFatherPid() != genspids[lp.gene - 1])
+							&& (lp.ps.getMotherPid() != genspids[lp.gene - 1])) {
 						lp.noParent = true;
 					}
 				}
@@ -328,16 +328,16 @@ public class DescendantLista extends CommonReport {
 	 * 
 	 */
 	class ListPerson {
-		
+
 		/** The ps. */
 		PersonShortData ps = null;
-		
+
 		/** The gene. */
 		int gene = 0;
-		
+
 		/** The tag. */
 		String tag = null;
-		
+
 		/** The no parent. */
 		boolean noParent = false;
 

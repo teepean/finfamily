@@ -173,9 +173,9 @@ public class ViewUtil {
 			sql = "insert into viewunits (vid,pid) values (?,?)";
 			stm = con.prepareStatement(sql);
 
-			for (int i = 0; i < pidArray.length; i++) {
+			for (int element : pidArray) {
 				stm.setInt(1, vid);
-				stm.setInt(2, pidArray[i]);
+				stm.setInt(2, element);
 				stm.executeUpdate();
 				resu.resuCount++;
 			}
@@ -213,7 +213,7 @@ public class ViewUtil {
 		ArrayList<Integer> pidv = new ArrayList<Integer>();
 		resp.resuCount = 0;
 		int gen = 0;
-		if (gent != null && !gent.isEmpty()) {
+		if ((gent != null) && !gent.isEmpty()) {
 			gen = Integer.parseInt(gent);
 		}
 
@@ -282,7 +282,7 @@ public class ViewUtil {
 				from = firstChild;
 				to = lastChild;
 				currgen++;
-			} while (to > from && (gen == 0 || currgen < gen));
+			} while ((to > from) && ((gen == 0) || (currgen < gen)));
 
 			resp.pidArray = new int[pidv.size()];
 			sql = "insert into viewunits (vid,pid) values (?,?) ";
@@ -353,9 +353,9 @@ public class ViewUtil {
 			sql = "delete from viewunits where vid=? and pid = ?";
 			stm = con.prepareStatement(sql);
 
-			for (int i = 0; i < pidArray.length; i++) {
+			for (int element : pidArray) {
 				stm.setInt(1, vid);
-				stm.setInt(2, pidArray[i]);
+				stm.setInt(2, element);
 				stm.executeUpdate();
 
 			}
@@ -391,7 +391,7 @@ public class ViewUtil {
 		ArrayList<Integer> pidv = new ArrayList<Integer>();
 		resp.resuCount = 0;
 		int gen = 0;
-		if (gent != null && !gent.isEmpty()) {
+		if ((gent != null) && !gent.isEmpty()) {
 			gen = Integer.parseInt(gent);
 		}
 
@@ -446,7 +446,7 @@ public class ViewUtil {
 				from = firstPare;
 				to = lastPare;
 				currgen++;
-			} while (to > from && (gen == 0 || currgen < gen));
+			} while ((to > from) && ((gen == 0) || (currgen < gen)));
 
 			resp.pidArray = new int[pidv.size()];
 			sql = "insert into viewunits (vid,pid) values (?,?) ";

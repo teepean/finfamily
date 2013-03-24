@@ -248,7 +248,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	private JMenuItem mOwner;
 	private JMenuItem mDbUpdate;
 	private JMenu mToolsAuxProgram;
-	
+
 	/** The m tools aux graphviz. */
 	public JMenuItem mToolsAuxGraphviz;
 	private JMenuItem mListDatabases;
@@ -391,10 +391,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				}
 
 			} else {
-				if (args.length != 1 || !args[0].equals("web")) {
+				if ((args.length != 1) || !args[0].equals("web")) {
 
 					os = System.getProperty("os.name");
-					if (args.length > 0 && !args[0].equals("$1")) {
+					if ((args.length > 0) && !args[0].equals("$1")) {
 						// if you want to experiment with another look and feel
 						// you
 						// can
@@ -436,7 +436,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		}
 		Suku.setFinFamilyXls(kontroller.getPref(this, "FINFAMILY.XLS", ""));
 		String loca = kontroller.getPref(this, Resurses.LOCALE, "xx");
-		if (loca == null || loca.equals("xx")) {
+		if ((loca == null) || loca.equals("xx")) {
 			logger.info("Locale " + loca + " encountered.");
 			String languas[] = { "English", "Suomi", "Svenska", "Deutsch" };
 			String langabr[] = { "en", "fi", "sv", "de" };
@@ -845,10 +845,12 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		crit = SearchCriteria.getCriteria(this);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		if (d.width > 1024)
+		if (d.width > 1024) {
 			d.width = 1024;
-		if (d.height > 600)
+		}
+		if (d.height > 600) {
 			d.height = 600;
+		}
 		setLayout(null);
 		setLocation(0, 0);
 		setSize(d);
@@ -1029,8 +1031,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				this.scrollPane, this.personView);
 
 		getContentPane().add(this.splitPane);
-		this.currentSize = new Dimension(
-				getWidth() - SPLITTER_HORIZ_MARGIN * 3, 400);
+		this.currentSize = new Dimension(getWidth()
+				- (SPLITTER_HORIZ_MARGIN * 3), 400);
 		int splitterValue = currentSize.width / 2;
 		if (currentSize.width > 522) {
 			splitterValue = currentSize.width - 522;
@@ -1055,6 +1057,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			// this fixes on non windows versions problem with layout
 			javax.swing.Timer t = new javax.swing.Timer(4,
 					new ActionListener() {
+						@Override
 						public void actionPerformed(ActionEvent e) {
 							myFrame.setExtendedState(MAXIMIZED_BOTH);
 							myFrame.repaint();
@@ -1123,8 +1126,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	 * @return count of languages available
 	 */
 	public static int getRepoLanguageCount() {
-		if (repoLangList == null)
+		if (repoLangList == null) {
 			return 0;
+		}
 		return repoLangList.length;
 	}
 
@@ -1138,14 +1142,16 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	 * @return the tag or the name of the requested text
 	 */
 	public static String getRepoLanguage(int idx, boolean theCode) {
-		if (repoLangList == null || idx >= repoLangList.length)
+		if ((repoLangList == null) || (idx >= repoLangList.length)) {
 			return null;
+		}
 		String[] tmp = repoLangList[idx].split(";");
 		if (tmp.length != 2) {
 			System.out.println("kiinni");
 		}
-		if (theCode)
+		if (theCode) {
 			return tmp[0];
+		}
 		return tmp[1];
 	}
 
@@ -1159,8 +1165,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	public static int getRepoLanguageIndex(String langCode) {
 		for (int i = 0; i < repoLangList.length; i++) {
 			String[] tmp = repoLangList[i].split(";");
-			if (langCode.equals(tmp[0]))
+			if (langCode.equals(tmp[0])) {
 				return i;
+			}
 		}
 		return -1;
 	}
@@ -1235,8 +1242,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				int ii = yy / rh;
 				SukuRow row = (SukuRow) Suku.this.tableModel.getValueAt(ii,
 						SukuModel.SUKU_ROW);
-				if (row == null)
+				if (row == null) {
 					return null;
+				}
 				return row.getUnkn();
 			}
 		};
@@ -1609,7 +1617,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		SukuData res = Suku.kontroller.getSukuData("cmd=person", "mode=short",
 				"pid=" + joinPersonPid);
 
-		if (res.pers != null && res.pers.length == 1) {
+		if ((res.pers != null) && (res.pers.length == 1)) {
 			return res.pers[0];
 		}
 		return null;
@@ -1635,11 +1643,12 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			disconnectDb();
 		}
 
-		if (cdlg.getPassword() == null || !cdlg.hasDatabase()) {
+		if ((cdlg.getPassword() == null) || !cdlg.hasDatabase()) {
 
 			cdlg.setVisible(true);
-			if (!cdlg.wasOk())
+			if (!cdlg.wasOk()) {
 				return;
+			}
 		}
 		// if (cdlg.wasOk()) {
 		String name = cdlg.getHost();
@@ -1686,7 +1695,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 				schema = schemas.getSchema();
 
-				if (schema == null || schema.isEmpty()) {
+				if ((schema == null) || schema.isEmpty()) {
 					schemas.setVisible(true);
 
 				}
@@ -1711,7 +1720,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 					kontroller.putPref(cdlg, "DBNAMES", sb.toString());
 				}
 				schema = schemas.getSchema();
-				if (schema == null || schema.isEmpty()) {
+				if ((schema == null) || schema.isEmpty()) {
 
 					enableCommands();
 					cdlg.rememberDatabase(false);
@@ -1728,8 +1737,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			needle.clear();
 			if (resp.generalArray != null) {
 
-				for (int i = 0; i < resp.generalArray.length; i++) {
-					needle.add(resp.generalArray[i]);
+				for (String element : resp.generalArray) {
+					needle.add(element);
 				}
 				if (resp.generalArray.length > 0) {
 					tSubjectPButton.setEnabled(true);
@@ -1748,8 +1757,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			setTitle(null);
 			SukuData serverVersion = kontroller.getSukuData("cmd=dbversion");
 
-			if (serverVersion.generalArray != null
-					&& serverVersion.generalArray.length > 0) {
+			if ((serverVersion.generalArray != null)
+					&& (serverVersion.generalArray.length > 0)) {
 				postServerVersion = serverVersion.generalArray[0];
 				postServerVersion += " " + serverVersion.generalArray[1];
 			}
@@ -1785,7 +1794,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		SukuSenser sens = SukuSenser.getInstance();
 
-		if (dat != null && dat.vvTexts != null && dat.vvTexts.size() > 6) {
+		if ((dat != null) && (dat.vvTexts != null) && (dat.vvTexts.size() > 6)) {
 			sens.setPlaces(dat.vvTexts.get(0));
 			sens.setGivennames(dat.vvTexts.get(1));
 			sens.setPatronymes(dat.vvTexts.get(2));
@@ -1893,8 +1902,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						schema.setVisible(true);
 
 						selectedSchema = schema.getSchema();
-						if (selectedSchema == null)
+						if (selectedSchema == null) {
 							return;
+						}
 						if (!schema.isExistingSchema()) {
 							kontroller.getSukuData("cmd=schema", "type=create",
 									"name=" + selectedSchema);
@@ -2168,7 +2178,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				queryDb();
 			} else if (cmd.equals(Resurses.TOOLBAR_NEWPERSON_ACTION)) {
 
-				if (!tSubjectButton.isSelected() && activePersonPid > 0) {
+				if (!tSubjectButton.isSelected() && (activePersonPid > 0)) {
 
 					tSubjectButton.setSelected(true);
 					PersonShortData pp = tableMap.get(activePersonPid);
@@ -2466,8 +2476,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			String[] failedLines = dlg.getResult();
 			if (failedLines != null) {
 				StringBuilder sb = new StringBuilder();
-				for (int i = 0; i < failedLines.length; i++) {
-					sb.append(failedLines[i]);
+				for (String failedLine : failedLines) {
+					sb.append(failedLine);
 				}
 				if (sb.length() > 0) {
 
@@ -2566,10 +2576,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			setCursor(Cursor.getDefaultCursor());
 		}
 		// String[] statisticsLines = { "Some lines", "here", "and there" };
-		if (resp != null && resp.generalArray != null) {
+		if ((resp != null) && (resp.generalArray != null)) {
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < resp.generalArray.length; i++) {
-				sb.append(resp.generalArray[i] + "\n");
+			for (String element : resp.generalArray) {
+				sb.append(element + "\n");
 			}
 			if (sb.length() > 0) {
 
@@ -2649,8 +2659,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 					schema.setVisible(true);
 
 					selectedSchema = schema.getSchema();
-					if (selectedSchema == null)
+					if (selectedSchema == null) {
 						return;
+					}
 					if (!schema.isExistingSchema()) {
 						kontroller.getSukuData("cmd=schema", "type=create",
 								"name=" + selectedSchema);
@@ -2679,8 +2690,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			String[] failedLines = dlg.getResult();
 			if (failedLines != null) {
 				StringBuilder sb = new StringBuilder();
-				for (int i = 0; i < failedLines.length; i++) {
-					sb.append(failedLines[i]);
+				for (String failedLine : failedLines) {
+					sb.append(failedLine);
 				}
 				if (sb.length() > 0) {
 
@@ -2713,7 +2724,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			} else {
 				String[] dbl = needle.get(i).split(";");
 				int dblid = Integer.parseInt(dbl[0]);
-				if (pp.getPid() == dblid || i >= maxNeedle) {
+				if ((pp.getPid() == dblid) || (i >= maxNeedle)) {
 					needle.remove(i);
 				}
 			}
@@ -2750,8 +2761,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						"file=xls", "page=coordinates");
 				if (result.generalArray != null) {
 					StringBuilder sb = new StringBuilder();
-					for (int i = 0; i < result.generalArray.length; i++) {
-						sb.append(result.generalArray[i]);
+					for (String element : result.generalArray) {
+						sb.append(element);
 					}
 					if (sb.length() > 0) {
 
@@ -2971,16 +2982,18 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	public PersonShortData getSelectedPerson() {
 
 		int[] ii = table.getSelectedRows();
-		if (ii.length == 0)
+		if (ii.length == 0) {
 			return null;
+		}
 
 		int tabsize = table.getRowCount();
 		if (ii.length == 1) {
 			if (ii[0] < tabsize) {
 				SukuRow rivi = (SukuRow) table.getValueAt(ii[0],
 						SukuModel.SUKU_ROW);
-				if (rivi == null)
+				if (rivi == null) {
 					return null;
+				}
 				return rivi.getPerson();
 			}
 		}
@@ -3127,8 +3140,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				paikka = ppp[idx].getDeatPlace();
 				if (paikka != null) {
 					maa = ppp[idx].getDeatCountry();
-					if (maa != null)
+					if (maa != null) {
 						maa = maa.toUpperCase();
+					}
 
 					if (maa == null) {
 						ccode = defaultCountry;
@@ -3152,8 +3166,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				if (paikka != null) {
 
 					maa = ppp[idx].getBirthCountry();
-					if (maa != null)
+					if (maa != null) {
 						maa = maa.toUpperCase();
+					}
 
 					if (maa == null) {
 						ccode = defaultCountry;
@@ -3233,8 +3248,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	 * @return number of rows in databasewindow
 	 */
 	public int getDatabaseRowCount() {
-		if (databaseWindowPersons == null)
+		if (databaseWindowPersons == null) {
 			return 0;
+		}
 		return databaseWindowPersons.length;
 	}
 
@@ -3333,7 +3349,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			ArrayList<String> v = new ArrayList<String>();
 			v.add("cmd=plist");
 			for (i = 0; i < crit.getFieldCount(); i++) {
-				if (crit.getCriteriaField(i) != null
+				if ((crit.getCriteriaField(i) != null)
 						&& !crit.getCriteriaField(i).isEmpty()) {
 					v.add(crit.getFieldName(i)
 							+ "="
@@ -3433,7 +3449,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		SukuData resp = kontroller.getSukuData("cmd=virtual", "type=counts",
 				"pid=" + key);
 
-		if (resp.pidArray != null && resp.pidArray.length == 3) {
+		if ((resp.pidArray != null) && (resp.pidArray.length == 3)) {
 			p.setChildCount(resp.pidArray[0]);
 			p.setMarrCount(resp.pidArray[1]);
 			p.setPareCount(resp.pidArray[2]);
@@ -3443,15 +3459,15 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		SukuData resprela = kontroller.getSukuData("cmd=virtual",
 				"type=relatives", "pid=" + key);
 
-		for (int i = 0; i < resprela.pidArray.length; i++) {
+		for (int element : resprela.pidArray) {
 
 			SukuData rex = kontroller.getSukuData("cmd=virtual", "type=counts",
-					"pid=" + resprela.pidArray[i]);
+					"pid=" + element);
 
-			PersonShortData px = this.tableMap.get(resprela.pidArray[i]);
-			if (rex != null && px != null) {
+			PersonShortData px = this.tableMap.get(element);
+			if ((rex != null) && (px != null)) {
 
-				if (rex.pidArray != null && rex.pidArray.length == 3) {
+				if ((rex.pidArray != null) && (rex.pidArray.length == 3)) {
 					px.setChildCount(rex.pidArray[0]);
 					px.setMarrCount(rex.pidArray[1]);
 					px.setPareCount(rex.pidArray[2]);
@@ -3621,8 +3637,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			String[] failedLines = dlg.getResult();
 			if (failedLines != null) {
 				StringBuilder sb = new StringBuilder();
-				for (int i = 0; i < failedLines.length; i++) {
-					sb.append(failedLines[i] + "\n");
+				for (String failedLine : failedLines) {
+					sb.append(failedLine + "\n");
 				}
 				if (sb.length() > 0) {
 
@@ -3647,11 +3663,13 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	private Dimension currentSize = new Dimension();
 
 	private void calcSize() {
-		if (this.scrollPane == null)
+		if (this.scrollPane == null) {
 			return;
+		}
 		int lastLoc = this.splitPane.getDividerLocation();
-		if (lastLoc < 0)
+		if (lastLoc < 0) {
 			lastLoc = 100;
+		}
 		int lastWidth = this.currentSize.width;
 
 		if ((getExtendedState() & ICONIFIED) != 0) {
@@ -3663,7 +3681,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		Dimension splitterSize = new Dimension();
 
 		splitterSize.height = this.currentSize.height - 120;
-		splitterSize.width = this.currentSize.width - SPLITTER_HORIZ_MARGIN * 3;
+		splitterSize.width = this.currentSize.width
+				- (SPLITTER_HORIZ_MARGIN * 3);
 
 		int rooty = getRootPane().getLocation().y;
 		rooty += this.menubar.getSize().height;
@@ -3674,8 +3693,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				rootw - 3, 26);
 
 		int splitWidth = splitterSize.width;
-		if (splitWidth < 0)
+		if (splitWidth < 0) {
 			splitWidth = 10;
+		}
 		this.splitPane.setBounds(10, 30, splitWidth, splitterSize.height - 30);
 
 		this.toolbar.setBounds(10, 0, splitWidth, 30);
@@ -3845,10 +3865,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		int isele = personView.getSelectedIndex();
 		int mnotice = personView.getMainPaneIndex();
-		tAddNotice.setEnabled(kontroller.getSchema() != null
-				&& tNoticesButton.isSelected() && isele >= mnotice);
-		tDeleteNotice.setEnabled(kontroller.getSchema() != null
-				&& tNoticesButton.isSelected() && isele >= mnotice + 2);
+		tAddNotice.setEnabled((kontroller.getSchema() != null)
+				&& tNoticesButton.isSelected() && (isele >= mnotice));
+		tDeleteNotice.setEnabled((kontroller.getSchema() != null)
+				&& tNoticesButton.isSelected() && (isele >= (mnotice + 2)));
 
 	}
 
@@ -3862,13 +3882,15 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	public void mouseClicked(MouseEvent e) {
 
 		int ii = this.table.getSelectedRow();
-		if (ii < 0)
+		if (ii < 0) {
 			return;
-		if (e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1) {
+		}
+		if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
 			SukuRow row = (SukuRow) this.table.getValueAt(ii,
 					SukuModel.SUKU_ROW);
-			if (row == null)
+			if (row == null) {
 				return;
+			}
 			try {
 				this.personView.setSubjectForFamily(row.getPerson().getPid());
 			} catch (SukuException e1) {
@@ -4102,8 +4124,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				Point clickPoint = e.getPoint();
 
 				int rowAtPoint = table.rowAtPoint(clickPoint);
-				if (rowAtPoint < 0)
+				if (rowAtPoint < 0) {
 					return;
+				}
 
 				activeRow = (SukuRow) table.getValueAt(rowAtPoint,
 						SukuModel.SUKU_ROW);
@@ -4124,8 +4147,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand();
-			if (cmd == null)// || activeRow == null)
+			if (cmd == null) {
 				return;
+			}
 			SukuPopupMenu pop = SukuPopupMenu.getInstance();
 			if (pop.getSource() == MenuSource.familyView) {
 				// TODO:
@@ -4158,7 +4182,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						e1.printStackTrace();
 					}
 					//
-				} else if (cmd.startsWith("HISKI") && cmd.length() > 5) {
+				} else if (cmd.startsWith("HISKI") && (cmd.length() > 5)) {
 					int hiskino = Integer.parseInt(cmd.substring(5));
 					personView.setHiskiPerson(hiskino, pop.getPerson());
 				} else if (cmd.equals(Resurses.TOOLBAR_REMPERSON_ACTION)) {
@@ -4264,13 +4288,14 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						}
 
 						int[] ii = table.getSelectedRows();
-						if (ii.length == 0)
+						if (ii.length == 0) {
 							return;
+						}
 						StringBuilder sb = new StringBuilder();
 
 						sb.append(perso.getHeader() + "\n");
-						for (int i = 0; i < ii.length; i++) {
-							SukuRow rivi = (SukuRow) table.getValueAt(ii[i],
+						for (int element : ii) {
+							SukuRow rivi = (SukuRow) table.getValueAt(element,
 									SukuModel.SUKU_ROW);
 							PersonShortData pers = rivi.getPerson();
 
@@ -4556,7 +4581,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	 *            the new fin family xls
 	 */
 	public static void setFinFamilyXls(String path) {
-		if (path != null && path.isEmpty()) {
+		if ((path != null) && path.isEmpty()) {
 			finFamilyXls = null;
 		} else {
 			finFamilyXls = path;

@@ -29,8 +29,9 @@ public class SuomiPlacesResolver {
 	public static PlaceLocationData[] resolveSuomiPlaces(Connection con,
 			PlaceLocationData[] request) throws SukuException {
 
-		if (request == null)
+		if (request == null) {
 			return request;
+		}
 
 		int idx;
 
@@ -57,7 +58,7 @@ public class SuomiPlacesResolver {
 					countryCode = rs.getString(3);
 					if (countryCode.equalsIgnoreCase(response[idx]
 							.getCountryCode())
-							|| response[idx].getCountryCode() == null) {
+							|| (response[idx].getCountryCode() == null)) {
 						response[idx].setLongitude(rs.getDouble(1));
 						response[idx].setLatitude(rs.getDouble(2));
 					}

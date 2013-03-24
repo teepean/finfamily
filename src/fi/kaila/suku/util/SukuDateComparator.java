@@ -25,8 +25,9 @@ public class SukuDateComparator implements Comparator {
 	 */
 	@Override
 	public int compare(Object arg0, Object arg1) {
-		if (arg0 == null || arg1 == null)
+		if ((arg0 == null) || (arg1 == null)) {
 			return 0;
+		}
 
 		try {
 			String a = Utils.dbDate(arg0.toString());

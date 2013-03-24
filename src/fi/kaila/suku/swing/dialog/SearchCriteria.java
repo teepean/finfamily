@@ -341,7 +341,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 			tbl = this.coltables[idx];
 
 			boolean bb = true;
-			if (idx == 0 || idx == 5) {
+			if ((idx == 0) || (idx == 5)) {
 				tbl.getChkBox().setSelected(true);
 				tbl.getChkBox().setVisible(false);
 				tbl.setCurrentState(true);
@@ -585,7 +585,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		reset.setBounds(730, y, 140, 24);
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds(d.width / 2 - 450, d.height / 2 - 300, 900, y + 100);
+		setBounds((d.width / 2) - 450, (d.height / 2) - 300, 900, y + 100);
 		setResizable(false);
 		getRootPane().setDefaultButton(ok);
 
@@ -755,8 +755,8 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 			}
 
-			if (preferredIndex >= 0
-					&& preferredIndex < viewList.getItemCount() - 1) {
+			if ((preferredIndex >= 0)
+					&& (preferredIndex < (viewList.getItemCount() - 1))) {
 				viewList.setSelectedIndex(preferredIndex + 1);
 			}
 
@@ -780,11 +780,11 @@ public class SearchCriteria extends JDialog implements ActionListener {
 	}
 
 	private int getViewId() {
-		if (viewArray == null || viewArray.length == 0) {
+		if ((viewArray == null) || (viewArray.length == 0)) {
 			return 0;
 		}
 		int jidx = this.viewList.getSelectedIndex();
-		if (jidx > 0 && jidx <= viewArray.length) {
+		if ((jidx > 0) && (jidx <= viewArray.length)) {
 			String aux = viewArray[jidx - 1];
 			int ppidx = aux.indexOf(';');
 			if (ppidx > 0) {
@@ -1229,7 +1229,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 				v.add("surety=" + suretyValue);
 			}
 			int sexIndex = sex.getSelectedIndex();
-			if (sexIndex > 0 && sexIndex < sexcodes.length) {
+			if ((sexIndex > 0) && (sexIndex < sexcodes.length)) {
 
 				char sexValue = sexcodes[sexIndex];
 

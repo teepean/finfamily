@@ -166,8 +166,9 @@ public class NameArray implements Array {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
 		for (int i = 0; i < v.size(); i++) {
-			if (i > 0)
+			if (i > 0) {
 				sb.append(",");
+			}
 			sb.append("\"");
 			sb.append(toSqlString(v.get(i)));
 			sb.append("\"");
@@ -177,8 +178,9 @@ public class NameArray implements Array {
 	}
 
 	private String toSqlString(String text) {
-		if (text == null)
+		if (text == null) {
 			return null;
+		}
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < text.length(); i++) {
 			char c = text.charAt(i);

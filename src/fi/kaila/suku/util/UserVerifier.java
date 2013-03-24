@@ -25,8 +25,9 @@ public class UserVerifier {
 			throws SukuException {
 
 		String encrypted = encryptPassword(passwd);
-		if (encrypted.equals(mdPasswd))
+		if (encrypted.equals(mdPasswd)) {
 			return true;
+		}
 		return false;
 
 	}

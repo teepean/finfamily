@@ -65,9 +65,7 @@ public class Upload {
 
 					if (curPid < 0) {
 
-						for (int j = 0; j < families.relations.length; j++) {
-							Relation rel = families.relations[j];
-
+						for (Relation rel : families.relations) {
 							if (rel.getPid() == curPid) {
 								rel.setPid(respons.pidArray[i]);
 							}
@@ -82,8 +80,8 @@ public class Upload {
 		for (int i = 0; i < respons.pidArray.length; i++) {
 			if (families.persons[i].getPid() == 0) {
 				// TODO:
-			} else if (families.persons[i].getPid() <= 0
-					&& respons.pidArray[i] <= 0) {
+			} else if ((families.persons[i].getPid() <= 0)
+					&& (respons.pidArray[i] <= 0)) {
 				respons.pidArray[i] = nextSeq(con, "unitseq");
 			} else if (families.persons[i].getPid() > 0) {
 				respons.pidArray[i] = families.persons[i].getPid();
@@ -118,7 +116,7 @@ public class Upload {
 			String hiskiText = null;
 			PersonLongData person = families.persons[i];
 
-			if (person != null && person.getNotices() != null) {
+			if ((person != null) && (person.getNotices() != null)) {
 				if (person.getPid() <= 0) {
 					surety = 80;
 					person.setPid(respons.pidArray[i]);
@@ -168,7 +166,7 @@ public class Upload {
 
 				for (int j = 0; j < nots.length; j++) {
 					UnitNotice n = nots[j];
-					if (n.getTag().equals("HISKI") && hiskipnid > 0) {
+					if (n.getTag().equals("HISKI") && (hiskipnid > 0)) {
 						if (hiskiText != null) {
 							hiskiText += "\n\n" + n.getSource();
 							hiskiText += "\n" + n.getNoteText();
@@ -233,11 +231,11 @@ public class Upload {
 
 				ArrayList<UnitNotice> nns = new ArrayList<UnitNotice>();
 				StringBuilder sb = new StringBuilder();
-				for (int k = 0; k < orders.length; k++) {
+				for (String order : orders) {
 					for (UnitNotice n : fam.persLong.getNotices()) {
-						if (n.getTag().equals(orders[k])) {
+						if (n.getTag().equals(order)) {
 							nns.add(n);
-							sb.append("|" + orders[k]);
+							sb.append("|" + order);
 						}
 					}
 				}
@@ -255,8 +253,9 @@ public class Upload {
 			}
 		}
 
-		if (families.relations == null)
+		if (families.relations == null) {
 			return respons;
+		}
 
 		String sqlrn = "insert into relationnotice (rnid,rid,noticerow,tag,relationtype,"
 				+ "description,fromdate,place,notetext,sourcetext) values (?,?,?,?,?, ?,?,?,?,?) ";
@@ -272,9 +271,7 @@ public class Upload {
 		pstm = con.prepareStatement(sql);
 		int rid;
 		int foundrid = 0;
-		for (int i = 0; i < families.relations.length; i++) {
-			Relation rel = families.relations[i];
-
+		for (Relation rel : families.relations) {
 			if (rel.getTag().equals("WIFE")) {
 				relaSt.setInt(1, rel.getPid());
 				relaSt.setString(2, "WIFE");
@@ -452,7 +449,7 @@ public class Upload {
 		long starttime = System.currentTimeMillis();
 		stm.executeUpdate("vacuum");
 		long endtime = System.currentTimeMillis();
-		vers[1] = "Vacuum in [" + (endtime - starttime) / 1000 + "] secs";
+		vers[1] = "Vacuum in [" + ((endtime - starttime) / 1000) + "] secs";
 
 		return vers;
 	}

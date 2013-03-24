@@ -37,8 +37,8 @@ public class WorldMap extends JFrame implements ActionListener,
 
 	private static final long serialVersionUID = 1L;
 
-	private ISuku parent;
-	private WorldMap me;
+	private final ISuku parent;
+	private final WorldMap me;
 
 	private JXMapKit map;
 	private Waypoint centerWaypoint;
@@ -164,6 +164,7 @@ public class WorldMap extends JFrame implements ActionListener,
 	 * @param places
 	 *            the places
 	 */
+	@Override
 	public void displayMap(PlaceLocationData[] places) {
 		this.places = places;
 		int x = this.places.length;
@@ -184,6 +185,7 @@ public class WorldMap extends JFrame implements ActionListener,
 
 	private Object makeObj(final String item) {
 		return new Object() {
+			@Override
 			public String toString() {
 				return item;
 			}
@@ -205,7 +207,7 @@ public class WorldMap extends JFrame implements ActionListener,
 		int rightIdx = right;
 		PlaceLocationData temp;
 
-		if (right - left + 1 > 1) {
+		if (((right - left) + 1) > 1) {
 			int pivot = (left + right) / 2;
 			while ((leftIdx <= pivot) && (rightIdx >= pivot)) {
 				while ((array[leftIdx].getName().compareTo(
@@ -223,9 +225,9 @@ public class WorldMap extends JFrame implements ActionListener,
 				array[rightIdx] = temp;
 				leftIdx = leftIdx + 1;
 				rightIdx = rightIdx - 1;
-				if (leftIdx - 1 == pivot) {
+				if ((leftIdx - 1) == pivot) {
 					pivot = rightIdx = rightIdx + 1;
-				} else if (rightIdx + 1 == pivot) {
+				} else if ((rightIdx + 1) == pivot) {
 					pivot = leftIdx = leftIdx - 1;
 				}
 			}
@@ -248,16 +250,15 @@ public class WorldMap extends JFrame implements ActionListener,
 
 		Set<Waypoint> waypoints = new HashSet<Waypoint>();
 
-		for (int xx = 0; xx < places.length; xx++) {
-			if (places[xx].getLatitude() > 0) {
-				waypoints.add(new SpecialWaypoint(places[xx].getLatitude(),
-						places[xx].getLongitude(), places[xx].getCount()));
+		for (PlaceLocationData place : places) {
+			if (place.getLatitude() > 0) {
+				waypoints.add(new SpecialWaypoint(place.getLatitude(), place
+						.getLongitude(), place.getCount()));
 				if (xy == x) {
-					map.setCenterPosition(new GeoPosition(places[xx]
-							.getLatitude(), places[xx].getLongitude()));
-					centerWaypoint = new SpecialWaypoint(
-							places[xx].getLatitude(),
-							places[xx].getLongitude(), places[xx].getCount());
+					map.setCenterPosition(new GeoPosition(place.getLatitude(),
+							place.getLongitude()));
+					centerWaypoint = new SpecialWaypoint(place.getLatitude(),
+							place.getLongitude(), place.getCount());
 				}
 				xy++;
 			}
@@ -275,6 +276,7 @@ public class WorldMap extends JFrame implements ActionListener,
 
 	private class SpecialWaypointRenderer implements WaypointRenderer {
 
+		@Override
 		public boolean paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
 			SpecialWaypoint swp = (SpecialWaypoint) wp;
 			if (swp.getPosition() != null) {

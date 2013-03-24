@@ -93,7 +93,7 @@ public class LocalUserAdmin extends JDialog implements ActionListener {
 		cancel.setActionCommand(CANCEL);
 		cancel.addActionListener(this);
 
-		setBounds(d.width / 2 - 200, d.height / 2 - 100, 400, y + 70);
+		setBounds((d.width / 2) - 200, (d.height / 2) - 100, 400, y + 70);
 	}
 
 	//
@@ -103,6 +103,7 @@ public class LocalUserAdmin extends JDialog implements ActionListener {
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@Override
 	@SuppressWarnings("unqualified-field-access")
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
@@ -114,7 +115,7 @@ public class LocalUserAdmin extends JDialog implements ActionListener {
 		if (cmd.equals(OK)) {
 
 			if (password.getText().equals(verifyPassword.getText())
-					&& password.getText().length() > 2) {
+					&& (password.getText().length() > 2)) {
 				setVisible(false);
 			} else {
 				JOptionPane.showMessageDialog(this,
@@ -147,10 +148,11 @@ public class LocalUserAdmin extends JDialog implements ActionListener {
 	 * @return userid
 	 */
 	public String getUserid() {
-		if (isOldUser)
+		if (isOldUser) {
 			return null;
+		}
 		String usr = this.userid.getText();
-		if (usr != null && usr.length() > 2) {
+		if ((usr != null) && (usr.length() > 2)) {
 			return usr;
 		}
 		return null;
@@ -165,8 +167,8 @@ public class LocalUserAdmin extends JDialog implements ActionListener {
 		String pwd1 = this.password.getText();
 		String pwd2 = this.verifyPassword.getText();
 
-		if (pwd1 != null && pwd2 != null && pwd1.equals(pwd2)
-				&& pwd1.length() > 2) {
+		if ((pwd1 != null) && (pwd2 != null) && pwd1.equals(pwd2)
+				&& (pwd1.length() > 2)) {
 
 			return pwd1;
 		}

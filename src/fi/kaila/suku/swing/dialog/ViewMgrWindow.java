@@ -270,7 +270,7 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-		setLocation(d.width / 2 - 305, d.height / 2 - 250);
+		setLocation((d.width / 2) - 305, (d.height / 2) - 250);
 		Dimension sz = new Dimension(610, 500);
 		setSize(sz);
 
@@ -282,6 +282,7 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 		setVisible(true);
 
 		t = new javax.swing.Timer(1000, new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				updateSelectStatus();
 			}
@@ -335,8 +336,9 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 			addAncestors.setEnabled(pp != null);
 			if (pp == null) {
 				int pids[] = parent.getSelectedPids();
-				if (pids == null)
+				if (pids == null) {
 					return;
+				}
 				selectedName.setText(Resurses
 						.getString("DIALOG_VIEW_SELECTED_COUNT")
 						+ " "
@@ -347,10 +349,11 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 
 				StringBuilder sb = new StringBuilder();
 				if (resp.generalArray != null) {
-					for (int i = 0; i < resp.generalArray.length; i++) {
-						if (sb.length() > 0)
+					for (String element : resp.generalArray) {
+						if (sb.length() > 0) {
 							sb.append(";");
-						sb.append(resp.generalArray[i]);
+						}
+						sb.append(element);
 					}
 				}
 				selectedName.setText(Resurses
@@ -416,10 +419,11 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 			try {
 
 				String viewname = newViewName.getText();
-				if (viewname.isEmpty())
+				if (viewname.isEmpty()) {
 					return;
-				for (int i = 0; i < viewnames.length; i++) {
-					if (viewname.equals(viewnames[i])) {
+				}
+				for (String viewname2 : viewnames) {
+					if (viewname.equals(viewname2)) {
 						JOptionPane.showMessageDialog(parent,
 								Resurses.getString("DIALOG_VIEW_EXISTS") + " ["
 										+ viewname + "]");
@@ -461,8 +465,9 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 				ButtonModel model = removes.getSelection();
 				if (model != null) {
 					String remocmd = model.getActionCommand();
-					if (remocmd == null)
+					if (remocmd == null) {
 						return;
+					}
 					SukuData response = null;
 					if (remocmd.equals("ALL")) {
 
@@ -473,8 +478,8 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 					} else if (remocmd.equals("SELECTED")) {
 
 						request.pidArray = parent.getSelectedPids();
-						if (request.pidArray != null
-								&& request.pidArray.length > 0) {
+						if ((request.pidArray != null)
+								&& (request.pidArray.length > 0)) {
 							response = Suku.kontroller.getSukuData(request,
 									"cmd=view", "action=remove",
 									"key=pidarray", "viewid=" + seleview);
@@ -501,8 +506,9 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 				ButtonModel model = addes.getSelection();
 				if (model != null) {
 					String addcmd = model.getActionCommand();
-					if (addcmd == null)
+					if (addcmd == null) {
 						return;
+					}
 
 					SukuData response = null;
 					if (addcmd.equals("SELECTED")) {

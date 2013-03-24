@@ -118,8 +118,8 @@ public class Relation implements Serializable {
 	 */
 	public String getAdopted() {
 		if (notices != null) {
-			for (int i = 0; i < notices.length; i++) {
-				if (notices[i].getTag().equals("ADOP")) {
+			for (RelationNotice notice : notices) {
+				if (notice.getTag().equals("ADOP")) {
 					return "a";
 				}
 			}
@@ -155,9 +155,9 @@ public class Relation implements Serializable {
 		if (notices == null) {
 			return null;
 		}
-		for (int i = 0; i < notices.length; i++) {
-			if (notices[i].getTag().equals(tag)) {
-				return notices[i];
+		for (RelationNotice notice : notices) {
+			if (notice.getTag().equals(tag)) {
+				return notice;
 			}
 		}
 		return null;

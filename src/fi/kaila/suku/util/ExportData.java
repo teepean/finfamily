@@ -34,7 +34,9 @@ public class ExportData extends PersonShortData {
 		this.relations = relations;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fi.kaila.suku.util.pojo.PersonShortData#toString()
 	 */
 	@Override

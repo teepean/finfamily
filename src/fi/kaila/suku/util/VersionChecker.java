@@ -76,7 +76,7 @@ public class VersionChecker {
 			return;
 		}
 
-		if (lastTime + (60 * 60 * 1000) > nowTime) {
+		if ((lastTime + (60 * 60 * 1000)) > nowTime) {
 			return;
 		}
 
@@ -100,11 +100,11 @@ public class VersionChecker {
 				String aux = new String(b, 0, pit);
 				String auxes[] = aux.split("\n");
 
-				for (int i = 0; i < auxes.length; i++) {
-					String parts[] = auxes[i].split("=");
+				for (String auxe : auxes) {
+					String parts[] = auxe.split("=");
 					if (parts.length == 2) {
 						int plen = parts[1].length();
-						if (parts[1].charAt(plen - 1) == '\r' && plen > 1) {
+						if ((parts[1].charAt(plen - 1) == '\r') && (plen > 1)) {
 							parts[1] = parts[1].substring(0, plen - 1);
 						}
 
@@ -167,7 +167,9 @@ public class VersionChecker {
 
 	class VersionTask extends SwingWorker<Void, Void> {
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see javax.swing.SwingWorker#doInBackground()
 		 */
 		@Override

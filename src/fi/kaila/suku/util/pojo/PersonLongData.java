@@ -350,19 +350,22 @@ public class PersonLongData implements Serializable {
 	}
 
 	private String nv(String text) {
-		if (text == null)
+		if (text == null) {
 			return "";
+		}
 		return text;
 	}
 
 	private String vn(String text) {
-		if (text == null || text.length() == 0) {
+		if ((text == null) || (text.length() == 0)) {
 			text = null;
 		}
 		return text;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

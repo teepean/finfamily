@@ -68,7 +68,9 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		isConnected = true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#resetConnection()
 	 */
 	@Override
@@ -264,8 +266,9 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		}
 
 		String filename = f.getAbsolutePath();
-		if (filename == null)
+		if (filename == null) {
 			return false;
+		}
 		if (f.exists()) {
 			int answer = JOptionPane.showConfirmDialog(host,
 					Resurses.getString("FILE_EXISTS") + " [" + filename
@@ -278,7 +281,7 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		}
 		if (filters.length > 0) {
 			int typeIdx = filename.lastIndexOf(".");
-			if (typeIdx <= filename.length() - 10) {
+			if (typeIdx <= (filename.length() - 10)) {
 
 				if (!filename.toLowerCase().endsWith(filters[0].toLowerCase())) {
 					filename += "." + filters[0];
@@ -324,8 +327,9 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 
 		if (openFile(path)) {
 			if (path != null) {
-				if (file == null)
+				if (file == null) {
 					return null;
+				}
 
 				String mainPath = file.getAbsolutePath();
 
@@ -350,7 +354,9 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		return file.getAbsolutePath().replace("\\", "/");
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#isRemote()
 	 */
 	@Override
@@ -359,8 +365,11 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see fi.kaila.suku.kontroller.SukuKontroller#saveFile(java.lang.String, java.io.InputStream)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#saveFile(java.lang.String,
+	 * java.io.InputStream)
 	 */
 	@Override
 	public boolean saveFile(String filter, InputStream in) {
@@ -387,7 +396,9 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#isWebStart()
 	 */
 	@Override
@@ -396,7 +407,9 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#isConnected()
 	 */
 	@Override
@@ -405,7 +418,9 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		return isConnected;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#getSchema()
 	 */
 	@Override
@@ -416,7 +431,9 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#setSchema(java.lang.String)
 	 */
 	@Override

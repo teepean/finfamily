@@ -30,15 +30,15 @@ public class OwnerDialog extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static final String CANCEL = "CANCEL";
 
-	private JTextField name;
-	private JTextField address;
-	private JTextField postalCode;
-	private JTextField postOffice;
-	private JTextField state;
-	private JTextField country;
-	private JTextField email;
-	private JTextField web;
-	private JTextArea text;
+	private final JTextField name;
+	private final JTextField address;
+	private final JTextField postalCode;
+	private final JTextField postOffice;
+	private final JTextField state;
+	private final JTextField country;
+	private final JTextField email;
+	private final JTextField web;
+	private final JTextArea text;
 
 	/**
 	 * Instantiates a new tools dialog.
@@ -51,7 +51,7 @@ public class OwnerDialog extends JDialog implements ActionListener {
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-		setBounds(d.width / 2 - 210, d.height / 2 - 230, 420, 460);
+		setBounds((d.width / 2) - 210, (d.height / 2) - 230, 420, 460);
 		setResizable(false);
 		setLayout(null);
 

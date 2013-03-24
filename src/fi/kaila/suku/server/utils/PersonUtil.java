@@ -62,7 +62,7 @@ public class PersonUtil {
 
 		String insPers;
 		String userid = Utils.toUsAscii(usertext);
-		if (userid != null && userid.length() > 16) {
+		if ((userid != null) && (userid.length() > 16)) {
 			userid = userid.substring(0, 16);
 		}
 		StringBuilder sb = new StringBuilder();
@@ -360,7 +360,7 @@ public class PersonUtil {
 								+ n.getPid() + " tag=" + n.getTag();
 						// System.out.println(text);
 						logger.fine(text);
-					} else if (n.getPnid() == 0 || n.isToBeUpdated()) {
+					} else if ((n.getPnid() == 0) || n.isToBeUpdated()) {
 
 						if (n.getPnid() == 0) {// is this new i.e. insert
 
@@ -388,7 +388,7 @@ public class PersonUtil {
 							pnid = n.getPnid();
 						}
 
-						if (n.isToBeUpdated() || n.getPnid() == 0) {
+						if (n.isToBeUpdated() || (n.getPnid() == 0)) {
 
 							pst.setInt(1, n.getSurety());
 							pst.setString(2, n.getPrivacy());
@@ -569,8 +569,7 @@ public class PersonUtil {
 			if (req.relations != null) {
 				if (req.persLong.getPid() == 0) {
 					req.persLong.setPid(pid);
-					for (int i = 0; i < req.relations.length; i++) {
-						Relation r = req.relations[i];
+					for (Relation r : req.relations) {
 						if (r.getPid() == 0) {
 							r.setPid(pid);
 						}
@@ -687,10 +686,9 @@ public class PersonUtil {
 		String delRelNoti = "delete from relationnotice where rid = ?";
 		String delRelLangu = "delete from relationlanguage where rid = ?";
 
-		for (int i = 0; i < req.relations.length; i++) {
-			Relation r = req.relations[i];
+		for (Relation r : req.relations) {
 			int rid = r.getRid();
-			if (req.relations[i].isToBeDeleted()) {
+			if (r.isToBeDeleted()) {
 				if (rid > 0) {
 
 					pst = con.prepareStatement(delRelLangu);
@@ -707,7 +705,7 @@ public class PersonUtil {
 							+ " result [" + laskRel + "/" + laskNoti + "/"
 							+ laskLang + "]");
 				}
-			} else if (req.relations[i].isToBeUpdated()) {
+			} else if (r.isToBeUpdated()) {
 
 				if (rid == 0) {
 					stm = con.createStatement();
@@ -802,11 +800,9 @@ public class PersonUtil {
 						ffmm = getFullPerson(r.getRelative(), null);
 						ArrayList<Relation> ffvec = new ArrayList<Relation>();
 						Relation newrel = null;
-						for (int j = 0; j < ffmm.relations.length; j++) {
-							Relation rfm = ffmm.relations[j];
+						for (Relation rfm : ffmm.relations) {
 							if (rfm.getTag().equals("CHIL")) {
-								for (int k = 0; k < ffmm.pers.length; k++) {
-									PersonShortData pfm = ffmm.pers[k];
+								for (PersonShortData pfm : ffmm.pers) {
 									if (pfm.getPid() == rfm.getRelative()) {
 										rfm.setShortPerson(pfm);
 									}
@@ -818,17 +814,17 @@ public class PersonUtil {
 								}
 							}
 						}
-						if (newrel == null
-								|| newrel.getShortPerson() == null
-								|| newrel.getShortPerson().getBirtDate() == null
+						if ((newrel == null)
+								|| (newrel.getShortPerson() == null)
+								|| (newrel.getShortPerson().getBirtDate() == null)
 								|| newrel.getShortPerson().getBirtDate()
 										.isEmpty()) {
 							newrel = null;
 						} else {
 							for (int j = 0; j < ffvec.size(); j++) {
 								Relation rfm = ffvec.get(j);
-								if (rfm.getShortPerson() == null
-										|| rfm.getShortPerson().getBirtDate() == null
+								if ((rfm.getShortPerson() == null)
+										|| (rfm.getShortPerson().getBirtDate() == null)
 										|| rfm.getShortPerson().getBirtDate()
 												.isEmpty()) {
 									ffvec.add(j, newrel);
@@ -901,15 +897,15 @@ public class PersonUtil {
 							+ r.getRid() + " cnt " + rner);
 				}
 			}
-			if (req.relations[i].getNotices() != null) {
+			if (r.getNotices() != null) {
 
 				String updnorder = "update relationNotice set noticerow = ? where rnid = ?";
 				PreparedStatement rorder = con.prepareStatement(updnorder);
 
-				for (int j = 0; j < req.relations[i].getNotices().length; j++) {
-					RelationNotice rn = req.relations[i].getNotices()[j];
+				for (int j = 0; j < r.getNotices().length; j++) {
+					RelationNotice rn = r.getNotices()[j];
 					int rnid = rn.getRnid();
-					if (rn.isToBeDeleted() && rnid > 0) {
+					if (rn.isToBeDeleted() && (rnid > 0)) {
 
 						String sqlNoti = "delete from relationnotice where rnid = ?";
 						String sqlRelLangu = "delete from relationlanguage where rnid = ?";
@@ -926,7 +922,7 @@ public class PersonUtil {
 								+ r.getRelative() + " result [" + laskNoti
 								+ "/" + laskLang);
 					} else {
-						if (rn.isToBeUpdated() || rnid == 0) {
+						if (rn.isToBeUpdated() || (rnid == 0)) {
 
 							if (rn.getRnid() == 0) {
 								stm = con.createStatement();
@@ -1070,8 +1066,7 @@ public class PersonUtil {
 		int spouseRow = 0;
 		int thisRow = 0;
 
-		for (int i = 0; i < req.relations.length; i++) {
-			Relation r = req.relations[i];
+		for (Relation r : req.relations) {
 			if (r.getPid() == req.persLong.getPid()) {
 				if (r.getTag().equals("CHIL")) {
 					thisRow = ++childRow;
@@ -1326,7 +1321,7 @@ public class PersonUtil {
 					rid = rs.getInt("rid");
 					if (rid != curid) {
 						rel = relmap.get(Integer.valueOf(curid));
-						if (rel != null && relNotices.size() > 0) {
+						if ((rel != null) && (relNotices.size() > 0)) {
 							rel.setNotices(relNotices
 									.toArray(new RelationNotice[0]));
 						}
@@ -1371,10 +1366,10 @@ public class PersonUtil {
 				// lets still pick up the language variants
 				//
 
-				for (int i = 0; i < pers.relations.length; i++) {
-					if (pers.relations[i].getNotices() != null) {
-						for (int j = 0; j < pers.relations[i].getNotices().length; j++) {
-							RelationNotice rn = pers.relations[i].getNotices()[j];
+				for (Relation relation : pers.relations) {
+					if (relation.getNotices() != null) {
+						for (int j = 0; j < relation.getNotices().length; j++) {
+							RelationNotice rn = relation.getNotices()[j];
 							ArrayList<RelationLanguage> rl = new ArrayList<RelationLanguage>();
 
 							sql = "select rnid,rid,langcode,relationtype,description,place,notetext,modified,createdate "
@@ -1463,8 +1458,7 @@ public class PersonUtil {
 			// int aid=0;
 			// int bid=0;
 
-			for (int i = 0; i < relations.length; i++) {
-				Relation r = relations[i];
+			for (Relation r : relations) {
 				int rid = r.getRid();
 
 				stm = con.createStatement();
@@ -1524,10 +1518,10 @@ public class PersonUtil {
 							+ lukuri);
 				}
 				pst.close();
-				if (relations[i].getNotices() != null) {
+				if (r.getNotices() != null) {
 
-					for (int j = 0; j < relations[i].getNotices().length; j++) {
-						RelationNotice rn = relations[i].getNotices()[j];
+					for (int j = 0; j < r.getNotices().length; j++) {
+						RelationNotice rn = r.getNotices()[j];
 						int rnid = rn.getRnid();
 
 						stm = con.createStatement();
@@ -1586,8 +1580,9 @@ public class PersonUtil {
 			throws SQLException {
 
 		String sql = "update unitnotice set noticerow = ? where pnid = ?";
-		if (longPerson == null || longPerson.getNotices() == null)
+		if ((longPerson == null) || (longPerson.getNotices() == null)) {
 			return;
+		}
 		PreparedStatement pst = con.prepareStatement(sql);
 
 		for (int i = 0; i < longPerson.getNotices().length; i++) {
@@ -1630,7 +1625,7 @@ public class PersonUtil {
 
 				res.generalArray = v.toArray(new String[0]);
 
-			} else if (name == null && index != null) {
+			} else if ((name == null) && (index != null)) {
 				int settingIndex = 0;
 				try {
 					settingIndex = Integer.parseInt(index);
@@ -1649,7 +1644,7 @@ public class PersonUtil {
 					int idx = rs.getInt(1);
 					String nam = rs.getString(2);
 
-					if (idx >= 0 && idx < 12) {
+					if ((idx >= 0) && (idx < 12)) {
 						vv[idx] = nam;
 					}
 

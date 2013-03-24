@@ -67,8 +67,9 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 	public void actionPerformed(ActionEvent a) {
 
 		String cmd = a.getActionCommand();
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 		try {
 			if (cmd.equals(Resurses.TAB_PERSON)) {
 				doTabPerson(false);
@@ -273,8 +274,9 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 		showTable = null;
 		showRela = null;
 		this.relativesPane.pop.setMousePerson(null);
-		if (e.getButton() != 3)
+		if (e.getButton() != 3) {
 			return;
+		}
 
 		String asRelative = null;
 		PersonShortData showNewPerson = null;
@@ -319,8 +321,8 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 					}
 				}
 				for (int i = 0; i < this.relativesPane.pop.getParentCount(); i++) {
-					this.relativesPane.pop.showParent(i, ppid == 0
-							&& i < this.relativesPane.spouses.list.size());
+					this.relativesPane.pop.showParent(i, (ppid == 0)
+							&& (i < this.relativesPane.spouses.list.size()));
 				}
 			}
 
@@ -382,8 +384,9 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 			this.relativesPane.pop.show(e, e.getX(), e.getY());
 			return;
 		}
-		if (showTable == null)
+		if (showTable == null) {
 			return;
+		}
 		if (e.isPopupTrigger()) {
 
 			this.relativesPane.pop.setPerson(showNewPerson, asRelative);

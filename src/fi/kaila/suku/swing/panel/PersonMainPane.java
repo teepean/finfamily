@@ -270,8 +270,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 	}
 
 	private String toFullSurname(String prefix, String surname) {
-		if (prefix == null)
+		if (prefix == null) {
 			return surname;
+		}
 		if (prefix.isEmpty()) {
 			return surname.trim();
 		} else {
@@ -371,8 +372,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 				} else {
 					chrDate.setText(pane.date.getTextFromDate());
 					chrPlace.setText(sPlace.toString());
-					if (!pane.isPlain())
+					if (!pane.isPlain()) {
 						chrCount++;
+					}
 				}
 				if (chrDate.getText().equals("")
 						&& chrPlace.getText().equals("")) {
@@ -392,8 +394,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 					deatDate.setText(pane.date.getTextFromDate());
 					deatPlace.setText(sPlace.toString());
-					if (!pane.isPlain())
+					if (!pane.isPlain()) {
 						deatCount++;
+					}
 				}
 				if (deatDate.getText().equals("")
 						&& deatPlace.getText().equals("")) {
@@ -412,8 +415,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 				} else {
 					buriDate.setText(pane.date.getTextFromDate());
 					buriPlace.setText(sPlace.toString());
-					if (!pane.isPlain())
+					if (!pane.isPlain()) {
 						buriCount++;
+					}
 				}
 				if (buriDate.getText().equals("")
 						&& buriPlace.getText().equals("")) {
@@ -427,8 +431,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 				occuCount++;
 
-				if (!pane.isPlain())
+				if (!pane.isPlain()) {
 					occuCount += 100;
+				}
 			}
 			if (pane.notice.getTag().equals("NOTE")) {
 				noteCount++;
@@ -437,8 +442,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 					notetext.setText(pane.noteText.getText());
 
 				}
-				if (!pane.isPlain())
+				if (!pane.isPlain()) {
 					noteCount++;
+				}
 			}
 		}
 
@@ -481,8 +487,8 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		int datelen = 80;
 		int colbet = 2;
 		int placlen = 213;
-		int rcol = lcol + datelen + placlen + colbet * 2; // 460; //
-		int biglen = datelen + placlen + colbet * 2 + rwidth * 2;
+		int rcol = lcol + datelen + placlen + (colbet * 2); // 460; //
+		int biglen = datelen + placlen + (colbet * 2) + (rwidth * 2);
 		String[] privacies = Resurses.getString("MAIN_PRIVACY_LEVEL")
 				.split(";");
 		privacy = new JComboBox(privacies);
@@ -908,21 +914,24 @@ public class PersonMainPane extends JPanel implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 		try {
 			if (cmd.equals(Resurses.CLOSE)) {
 				try {
-					if (persLong == null)
+					if (persLong == null) {
 						return;
+					}
 
 					updateNameNotices();
 					updateRestNotices();
 					SukuData chnged = null;
 					try {
 						chnged = checkIfPersonStructureChanged();
-						if (chnged == null)
+						if (chnged == null) {
 							return;
+						}
 					} catch (SukuDateException ee) {
 						JOptionPane.showMessageDialog(this, ee.getMessage());
 						return;
@@ -1029,8 +1038,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 	 *             the suku date exception
 	 */
 	SukuData checkIfPersonStructureChanged() throws SukuDateException {
-		if (persLong == null)
+		if (persLong == null) {
 			return null;
+		}
 		// listNoticePanels();
 		SukuData resp = null;
 		// personView.updateNotices();
@@ -1075,7 +1085,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		String prit = privateText.getText();
 		persLong.setPrivateText(prit);
 
-		if (persLong.getNotices().length != tabCount - noticeFirst) {
+		if (persLong.getNotices().length != (tabCount - noticeFirst)) {
 			persLong.setOrderModified();
 			foundModification = true;
 		} else {
@@ -1214,7 +1224,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		SukuData req = checkIfPersonStructureChanged();
 		SukuData resp = null;
 
-		if (req != null && (req.resu != null || force)) {
+		if ((req != null) && ((req.resu != null) || force)) {
 			// req.persLong = persLong;
 			//
 			// req.persLong.setNotices(un.toArray(new UnitNotice[0]));
@@ -1223,7 +1233,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 				resp = Suku.kontroller.getSukuData(req, "cmd=update",
 						"type=person");
 				Utils.println(this, "fromUpdate [" + resp + "]");
-				if (resp.pers != null && resp.pers.length > 0) {
+				if ((resp.pers != null) && (resp.pers.length > 0)) {
 
 					PersonShortData shh = resp.pers[0];
 					personPid = shh.getPid();
@@ -1240,12 +1250,12 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 						if (unn != null) {
 
-							for (int i = 0; i < unn.length; i++) {
-								unn[i].setModified(false);
-								UnitLanguage[] ull = unn[i].getLanguages();
+							for (UnitNotice element : unn) {
+								element.setModified(false);
+								UnitLanguage[] ull = element.getLanguages();
 								if (ull != null) {
-									for (int j = 0; j < ull.length; j++) {
-										ull[j].resetModified();
+									for (UnitLanguage element2 : ull) {
+										element2.resetModified();
 									}
 								}
 							}
@@ -1254,16 +1264,17 @@ public class PersonMainPane extends JPanel implements ActionListener,
 				}
 				Relation[] rr = req.relations;
 				if (rr != null) {
-					for (int i = 0; i < rr.length; i++) {
-						rr[i].resetModified();
-						RelationNotice[] rnn = rr[i].getNotices();
+					for (Relation element : rr) {
+						element.resetModified();
+						RelationNotice[] rnn = element.getNotices();
 						if (rnn != null) {
-							for (int j = 0; j < rnn.length; j++) {
-								rnn[j].resetModified();
-								RelationLanguage[] rll = rnn[j].getLanguages();
+							for (RelationNotice element2 : rnn) {
+								element2.resetModified();
+								RelationLanguage[] rll = element2
+										.getLanguages();
 								if (rll != null) {
-									for (int k = 0; k < rll.length; k++) {
-										rll[k].resetModified();
+									for (RelationLanguage element3 : rll) {
+										element3.resetModified();
 									}
 								}
 							}
@@ -1316,7 +1327,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			String names[] = surname.getText().split(";");
 
 			boolean hasName = false;
-			if (names.length > 1 || !names[0].equals("")) {
+			if ((names.length > 1) || !names[0].equals("")) {
 				hasName = true;
 			}
 			if (!givenname.getText().isEmpty()) {
@@ -1356,7 +1367,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 				firstNameidx = noticeFirst;
 			}
 			int namesCount = names.length;
-			if (namesCount == 1 && names[0].equals("")) {
+			if ((namesCount == 1) && names[0].equals("")) {
 				if (givenname.getText().isEmpty()
 						&& patronym.getText().isEmpty()) {
 					namesCount = 0;
@@ -1365,14 +1376,14 @@ public class PersonMainPane extends JPanel implements ActionListener,
 				}
 			}
 			if (hasName) {
-				for (int i = lastNameidx + 1; i < firstNameidx + namesCount; i++) {
+				for (int i = lastNameidx + 1; i < (firstNameidx + namesCount); i++) {
 					insertNamePane(i, "NAME");
 				}
 			}
 			tabCount = personView.getTabCount();
 			String tmp = null;
-			for (int i = noticeFirst; i < tabCount
-					&& i < noticeFirst + names.length; i++) {
+			for (int i = noticeFirst; (i < tabCount)
+					&& (i < (noticeFirst + names.length)); i++) {
 				NoticePane pane = (NoticePane) personView.getPane(i).pnl;
 				if (pane.notice.getTag().equals("NAME")) {
 					pane.givenname.setText(Utils.toProper(givenname.getText()));
@@ -1385,7 +1396,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 					String name = names[i - noticeFirst];
 
 					int vonIndex = Utils.isKnownPrefix(name);
-					if (vonIndex > 0 && vonIndex < name.length()) {
+					if ((vonIndex > 0) && (vonIndex < name.length())) {
 						pane.prefix.setText(name.substring(0, vonIndex));
 						name = name.substring(vonIndex + 1);
 					} else {
@@ -1412,10 +1423,10 @@ public class PersonMainPane extends JPanel implements ActionListener,
 	/**
 	 * used for debugging to check sync of main and notices
 	 */
-	@SuppressWarnings("unused")
 	private void debugNoticePanels() {
-		if (!listPanels)
+		if (!listPanels) {
 			return;
+		}
 		int midx = personView.getMainPaneIndex();
 		int noteCount = personView.getTabCount();
 		for (int i = midx + 2; i < noteCount; i++) {
@@ -1485,22 +1496,29 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 		for (int i = noticeFirst; i < tabCount; i++) {
 			NoticePane pane = (NoticePane) personView.getPane(i).pnl;
-			if (pane.notice.getTag().equals("BIRT"))
+			if (pane.notice.getTag().equals("BIRT")) {
 				birtCount++;
-			if (pane.notice.getTag().equals("CHR"))
+			}
+			if (pane.notice.getTag().equals("CHR")) {
 				chrCount++;
-			if (pane.notice.getTag().equals("DEAT"))
+			}
+			if (pane.notice.getTag().equals("DEAT")) {
 				deatCount++;
-			if (pane.notice.getTag().equals("BURI"))
+			}
+			if (pane.notice.getTag().equals("BURI")) {
 				buriCount++;
-			if (pane.notice.getTag().equals("OCCU"))
+			}
+			if (pane.notice.getTag().equals("OCCU")) {
 				occuCount++;
-			if (pane.notice.getTag().equals("NOTE"))
+			}
+			if (pane.notice.getTag().equals("NOTE")) {
 				noteCount++;
+			}
 
 			if (pane.notice.getTag().equals("NAME")) {
-				if (i > lastNameIndex)
+				if (i > lastNameIndex) {
 					lastNameIndex = i;
+				}
 			}
 
 		}
@@ -1511,7 +1529,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		// }
 
 		if (birtDate.isEnabled()) {
-			if (birtCount == 0
+			if ((birtCount == 0)
 					&& (!birtDate.getText().isEmpty() || !birtPlace.getText()
 							.isEmpty())) {
 				insertNamePane(idx++, "BIRT");
@@ -1519,7 +1537,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			}
 		}
 		if (chrDate.isEnabled()) {
-			if (chrCount == 0
+			if ((chrCount == 0)
 					&& (!chrDate.getText().isEmpty() || !chrPlace.getText()
 							.isEmpty())) {
 				insertNamePane(idx++, "CHR");
@@ -1527,7 +1545,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			}
 		}
 		if (deatDate.isEnabled()) {
-			if (deatCount == 0
+			if ((deatCount == 0)
 					&& (!deatDate.getText().isEmpty() || !deatPlace.getText()
 							.isEmpty())) {
 				insertNamePane(idx++, "DEAT");
@@ -1535,7 +1553,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			}
 		}
 		if (buriDate.isEnabled()) {
-			if (buriCount == 0
+			if ((buriCount == 0)
 					&& (!buriDate.getText().isEmpty() || !buriPlace.getText()
 							.isEmpty())) {
 				insertNamePane(idx++, "BURI");
@@ -1551,7 +1569,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			}
 		}
 		if (notetext.isEnabled()) {
-			if (noteCount == 0 && !notetext.getText().isEmpty()) {
+			if ((noteCount == 0) && !notetext.getText().isEmpty()) {
 				insertNamePane(idx++, "NOTE");
 				noteCount++;
 			}
@@ -1561,32 +1579,32 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		for (int i = noticeFirst; i < tabCount; i++) {
 			NoticePane pane = (NoticePane) personView.getPane(i).pnl;
 			String tag = pane.notice.getTag();
-			if (birtCount == 1 && tag.equals("BIRT") && birtDate.isEnabled()) {
+			if ((birtCount == 1) && tag.equals("BIRT") && birtDate.isEnabled()) {
 				pane.setToBeDeleted(birtDate.getText().isEmpty()
 						&& birtPlace.getText().isEmpty(), true);
 				pane.date.setTextFromDate(birtDate.getText());
 				pane.place.setText(birtPlace.getText().trim());
 			}
-			if (chrCount == 1 && tag.equals("CHR") && chrDate.isEnabled()) {
+			if ((chrCount == 1) && tag.equals("CHR") && chrDate.isEnabled()) {
 				pane.setToBeDeleted(chrDate.getText().isEmpty()
 						&& chrPlace.getText().isEmpty(), true);
 				pane.date.setTextFromDate(chrDate.getText());
 				pane.place.setText(chrPlace.getText().trim());
 			}
-			if (deatCount == 1 && tag.equals("DEAT") && deatDate.isEnabled()) {
+			if ((deatCount == 1) && tag.equals("DEAT") && deatDate.isEnabled()) {
 				pane.setToBeDeleted(deatDate.getText().isEmpty()
 						&& deatPlace.getText().isEmpty(), true);
 				pane.date.setTextFromDate(deatDate.getText());
 				pane.place.setText(deatPlace.getText().trim());
 			}
-			if (buriCount == 1 && tag.equals("BURI") && buriDate.isEnabled()) {
+			if ((buriCount == 1) && tag.equals("BURI") && buriDate.isEnabled()) {
 				pane.setToBeDeleted(buriDate.getText().isEmpty()
 						&& buriPlace.getText().isEmpty(), true);
 				pane.date.setTextFromDate(buriDate.getText());
 				pane.place.setText(buriPlace.getText().trim());
 			}
 			if (tag.equals("OCCU")) {
-				if (pane.notice.isToBeDeleted() || occuIndex >= occus.length) {
+				if (pane.notice.isToBeDeleted() || (occuIndex >= occus.length)) {
 					pane.setToBeDeleted(true, false);
 				} else {
 					pane.setToBeDeleted(occus[occuIndex].equals(""), true);
@@ -1618,9 +1636,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		int lastCheckedIndex = -1;
 
 		boolean hasSorted = false;
-		for (int tagIdx = 0; tagIdx < wn.length; tagIdx++) {
-			String tag = wn[tagIdx];
-
+		for (String tag : wn) {
 			for (int i = 0; i < unotices.size(); i++) {
 				UnitNotice un = unotices.get(i);
 				if (un.getTag().equals(tag)) {
@@ -1696,12 +1712,12 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 			int birthYear = shortie.getBirtYear();
 			int deathYear = shortie.getDeatYear();
-			if (birthYear > 0 && deathYear > 0) {
+			if ((birthYear > 0) && (deathYear > 0)) {
 				if (birthYear > deathYear) {
 					throw new SukuDateException(
 							Resurses.getString("ERROR_DEAT_BEF_BIRT"));
 				}
-				if (deathYear > birthYear + 150) {
+				if (deathYear > (birthYear + 150)) {
 					throw new SukuDateException(
 							Resurses.getString("ERROR_TOO_OLD"));
 				}
@@ -1741,13 +1757,13 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 		int datelen = 80;
 		int colbet = 2;
-		int biglen = datelen + placlen + colbet * 2 + rwidth * 2;
+		int biglen = datelen + placlen + (colbet * 2) + (rwidth * 2);
 		// System.out.println("LEVEYS: "+currSize.width);
 		if (currSize.width > 525) {
 
 			rwidth = currSize.width / 8;
-			lwidth = currSize.width - lcol - colbet - rwidth * 2;
-			gnlen = lwidth / 2 - colbet;
+			lwidth = currSize.width - lcol - colbet - (rwidth * 2);
+			gnlen = (lwidth / 2) - colbet;
 			surlen = lwidth - postlen - colbet;
 			placlen = lwidth - datelen - colbet;
 			rwidth -= 2;
@@ -1755,7 +1771,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			gnlen = 150;
 			placlen = 213;
 			rwidth = 70;
-			lwidth = 525 - lcol - 10 - rwidth * 2;
+			lwidth = 525 - lcol - 10 - (rwidth * 2);
 
 		}
 		rcol = lwidth + lcol + 5;
@@ -1849,15 +1865,15 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 		rivi += 24;
 
-		scrollNote.setBounds(lcol, rivi, lwidth + rwidth * 2, 80);
+		scrollNote.setBounds(lcol, rivi, lwidth + (rwidth * 2), 80);
 
 		rivi += 85;
 
-		scrollSource.setBounds(lcol, rivi, lwidth + rwidth * 2, 80);
+		scrollSource.setBounds(lcol, rivi, lwidth + (rwidth * 2), 80);
 
 		rivi += 85;
 
-		scrollPrivate.setBounds(lcol, rivi, lwidth + rwidth * 2, 80);
+		scrollPrivate.setBounds(lcol, rivi, lwidth + (rwidth * 2), 80);
 
 		rivi += 100;
 

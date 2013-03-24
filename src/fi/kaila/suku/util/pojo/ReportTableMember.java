@@ -89,8 +89,9 @@ public class ReportTableMember implements Serializable {
 	 */
 	public void addAsChild(long asChild) {
 		for (int i = 0; i < alsoAsChild.size(); i++) {
-			if (asChild == alsoAsChild.get(i))
+			if (asChild == alsoAsChild.get(i)) {
 				return;
+			}
 		}
 		alsoAsChild.add(asChild);
 	}
@@ -118,8 +119,8 @@ public class ReportTableMember implements Serializable {
 
 		Arrays.sort(subarray);
 		subs = new Vector<SubPersonMember>();
-		for (int i = 0; i < subarray.length; i++) {
-			subs.add(subarray[i]);
+		for (SubPersonMember element : subarray) {
+			subs.add(element);
 		}
 	}
 
@@ -184,10 +185,11 @@ public class ReportTableMember implements Serializable {
 		while (strado > 1) {
 			jako = strado % 2;
 			strado = strado / 2;
-			if (jako == 1)
+			if (jako == 1) {
 				sb.append(mor);
-			else
+			} else {
 				sb.append(far);
+			}
 		}
 		String wrong = sb.toString();
 		sb = new StringBuilder();
@@ -215,8 +217,9 @@ public class ReportTableMember implements Serializable {
 	public String getChildTables() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < alsoAsChild.size(); i++) {
-			if (sb.length() > 0)
+			if (sb.length() > 0) {
 				sb.append(",");
+			}
 			sb.append(alsoAsChild.get(i));
 		}
 		return sb.toString();
@@ -511,17 +514,21 @@ public class ReportTableMember implements Serializable {
 			return "sub[" + pid + "/" + sex + "/" + stradoNum + "]";
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
 		@Override
 		public int compareTo(SubPersonMember oth) {
 
 			long othernum = oth.stradoNum;
-			if (stradoNum < othernum)
+			if (stradoNum < othernum) {
 				return -1;
-			if (stradoNum > othernum)
+			}
+			if (stradoNum > othernum) {
 				return 1;
+			}
 			return 0;
 
 		}

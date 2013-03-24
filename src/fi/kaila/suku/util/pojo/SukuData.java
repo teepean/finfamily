@@ -85,7 +85,9 @@ public class SukuData implements Serializable {
 	/** answer as a pid. */
 	public int resultPid = 0;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

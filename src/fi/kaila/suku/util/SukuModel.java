@@ -109,9 +109,11 @@ public class SukuModel implements TableModel {
 	 * 
 	 * @see javax.swing.table.TableModel#getRowCount()
 	 */
+	@Override
 	public int getRowCount() {
-		if (this.tab == null)
+		if (this.tab == null) {
 			return 0;
+		}
 
 		return this.tab.size();
 	}
@@ -142,6 +144,7 @@ public class SukuModel implements TableModel {
 	 * 
 	 * @see javax.swing.table.TableModel#getColumnCount()
 	 */
+	@Override
 	public int getColumnCount() {
 
 		return this.crit.getColumnCount();
@@ -153,11 +156,13 @@ public class SukuModel implements TableModel {
 	 * 
 	 * @see javax.swing.table.TableModel#getColumnName(int)
 	 */
+	@Override
 	public String getColumnName(int idx) {
 		ColTable col = this.crit.getCurrentColTable(idx);
 
-		if (col == null)
+		if (col == null) {
 			return null;
+		}
 		// System.out.println("getcolu:[" + idx + "]" + col.getColName());
 		return Resurses.getString(col.getColName());
 
@@ -168,11 +173,12 @@ public class SukuModel implements TableModel {
 	 * 
 	 * @see javax.swing.table.TableModel#getColumnClass(int)
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public Class getColumnClass(int idx) {
 		ColTable col = this.crit.getColTable(idx);
 
-		if (idx == 0 && col.getCurrentState()) {
+		if ((idx == 0) && col.getCurrentState()) {
 			return womanIcon.getClass();
 		}
 		return "".getClass();
@@ -184,6 +190,7 @@ public class SukuModel implements TableModel {
 	 * 
 	 * @see javax.swing.table.TableModel#isCellEditable(int, int)
 	 */
+	@Override
 	public boolean isCellEditable(int arg0, int arg1) {
 		return false;
 	}
@@ -201,14 +208,17 @@ public class SukuModel implements TableModel {
 	 * @return the value at
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
+	@Override
 	public Object getValueAt(int argr, int argc) {
-		if (argr >= getRowCount())
+		if (argr >= getRowCount()) {
 			return null;
+		}
 		if (argc == SUKU_ROW) {
 			return this.tab.get(argr);
 		}
-		if (argc >= getColumnCount())
+		if (argc >= getColumnCount()) {
 			return null;
+		}
 
 		this.row = this.tab.get(argr);
 		return this.row.get(argc);
@@ -258,6 +268,7 @@ public class SukuModel implements TableModel {
 	 * 
 	 * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
 	 */
+	@Override
 	public void setValueAt(Object arg0, int argr, int argc) {
 
 		if (argr < getRowCount()) {
@@ -278,6 +289,7 @@ public class SukuModel implements TableModel {
 	 * javax.swing.table.TableModel#addTableModelListener(javax.swing.event.
 	 * TableModelListener)
 	 */
+	@Override
 	public void addTableModelListener(TableModelListener arg0) {
 		// required by interface but not used here
 	}
@@ -289,6 +301,7 @@ public class SukuModel implements TableModel {
 	 * javax.swing.table.TableModel#removeTableModelListener(javax.swing.event
 	 * .TableModelListener)
 	 */
+	@Override
 	public void removeTableModelListener(TableModelListener arg0) {
 		// required by interface but not used here
 	}

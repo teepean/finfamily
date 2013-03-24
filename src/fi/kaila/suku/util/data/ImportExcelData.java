@@ -161,7 +161,7 @@ public class ImportExcelData {
 						}
 					}
 				}
-				if (nameIdx < 0 || latiIdx < 0 || longIdx < 0) {
+				if ((nameIdx < 0) || (latiIdx < 0) || (longIdx < 0)) {
 					throw new SukuException(
 							"Incorrect columns in coordinates page");
 				}
@@ -262,7 +262,7 @@ public class ImportExcelData {
 						}
 					}
 				}
-				if (otherIdx < 0 || placeIdx < 0) {
+				if ((otherIdx < 0) || (placeIdx < 0)) {
 					throw new SukuException(
 							"Incorrect columns in muutname page");
 				}

@@ -44,6 +44,7 @@ public class JoinDialog extends JDialog implements ActionListener {
 		this.sub = sub;
 
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				// Turn off metal's use of bold fonts
 				// UIManager.put("swing.boldMetal", Boolean.FALSE);
@@ -64,7 +65,7 @@ public class JoinDialog extends JDialog implements ActionListener {
 		setLayout(null);
 
 		int x1 = 20;
-		int x2 = sz.width / 2 + 20;
+		int x2 = (sz.width / 2) + 20;
 		int y1 = 20;
 		int y2 = 20;
 
@@ -84,8 +85,11 @@ public class JoinDialog extends JDialog implements ActionListener {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {

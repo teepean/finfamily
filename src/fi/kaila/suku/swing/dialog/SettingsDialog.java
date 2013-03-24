@@ -408,7 +408,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		int myheight = y + 80;
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds(d.width / 2 - 300, d.height / 2 - myheight / 2, 540, myheight);
+		setBounds((d.width / 2) - 300, (d.height / 2) - (myheight / 2), 540,
+				myheight);
 		setResizable(false);
 		getRootPane().setDefaultButton(ok);
 
@@ -425,8 +426,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
 		String cmd = e.getActionCommand();
 		boolean askRestart = false;
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 		if (cmd.equals("GRAPHVIZ")) {
 
 			JFileChooser chooser = new JFileChooser();
@@ -446,7 +448,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 			}
 			String filename = f.getAbsolutePath();
 
-			if (filename == null || filename.isEmpty()) {
+			if ((filename == null) || filename.isEmpty()) {
 				Suku.kontroller.putPref(owner, "GRAPHVIZ", "");
 				graphVizPath.setText("");
 				owner.mToolsAuxGraphviz.setEnabled(false);
@@ -477,7 +479,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 			}
 			String filename = f.getAbsolutePath();
 
-			if (filename == null || filename.isEmpty()) {
+			if ((filename == null) || filename.isEmpty()) {
 				Suku.kontroller.putPref(owner, "IMAGEMAGICK", "");
 				imageMagickPath.setText("");
 
@@ -507,7 +509,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 			}
 			String filename = f.getAbsolutePath();
 
-			if (filename == null || filename.isEmpty()) {
+			if ((filename == null) || filename.isEmpty()) {
 				Suku.kontroller.putPref(owner, "FINFAMILY.XLS", "");
 				excelPath.setText("");
 
@@ -563,7 +565,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				if (resp != null && resp.toLowerCase().startsWith("finfamily")) {
+				if ((resp != null)
+						&& resp.toLowerCase().startsWith("finfamily")) {
 					Suku.kontroller.putPref(owner, "SERVERURL", input);
 					if (!input.equals(originUrl)) {
 						askRestart = true;
@@ -645,7 +648,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
 			setVisible(false);
 			if (askRestart) {
-				if (missingKeys != null && !missingKeys.isEmpty()) {
+				if ((missingKeys != null) && !missingKeys.isEmpty()) {
 					SukuPad pad = new SukuPad(this, missingKeys);
 					pad.setVisible(true);
 				}

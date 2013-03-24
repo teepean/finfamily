@@ -50,7 +50,7 @@ public class SukuSuretyField extends JPanel {
 	 *            surety value [0,20,40,60,80,100]
 	 */
 	public void setSurety(int value) {
-		int idx = 5 - (value + 10) / 20;
+		int idx = 5 - ((value + 10) / 20);
 		surety.setSelectedIndex(idx);
 
 	}

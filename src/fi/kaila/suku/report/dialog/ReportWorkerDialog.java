@@ -173,7 +173,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 	private JProgressBar progressBar;
 	private Task task;
-	
+
 	/** The cancel requested. */
 	boolean cancelRequested = false;
 	private TaskLista taskLista;
@@ -300,6 +300,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 		self = this;
 
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				// Turn off metal's use of bold fonts
 				// UIManager.put("swing.boldMetal", Boolean.FALSE);
@@ -1331,7 +1332,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		if (cmd.equals(ACTION_INDEX)) {
 			int selectedIndex = settingsName.getSelectedIndex();
-			if (!isLoadingTheSettings && selectedIndex >= 0) {
+			if (!isLoadingTheSettings && (selectedIndex >= 0)) {
 				settingsIndex = selectedIndex;
 				loadReportSettings();
 
@@ -1539,7 +1540,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 				v.add("ancAllBranches=true");
 			}
 			String tmp = ancestorPanel.getShowDescGen();
-			if (tmp != null && tmp.length() > 0) {
+			if ((tmp != null) && (tmp.length() > 0)) {
 				v.add("ancDesc=" + tmp);
 			}
 		} else {
@@ -1619,8 +1620,8 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 				reportFormatidx = commonReportFormatList.getSelectedIndex();
 				int paneIdx = reportTypePane.getSelectedIndex();
 				boolean isExportReport = false;
-				if ((pers == null && paneIdx == 1) || pers != null
-						&& paneIdx == 2) {
+				if (((pers == null) && (paneIdx == 1))
+						|| ((pers != null) && (paneIdx == 2))) {
 					isExportReport = true;
 					reportFormatidx = 2;
 				}
@@ -1654,8 +1655,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 						dr = new ImagesLista(self, typesTable, repo);
 					} else {
 						tabOffset = self.getDescendantPane().getStartTable();
-						if (tabOffset > 0)
+						if (tabOffset > 0) {
 							tabOffset--;
+						}
 						dr = new DescendantReport(self, typesTable, repo);
 
 					}
@@ -1929,7 +1931,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 									arial0);
 							sheet.addCell(label);
 
-							int idx = 5 - (notice.getSurety() + 10) / 20;
+							int idx = 5 - ((notice.getSurety() + 10) / 20);
 							String aux = "";
 							if (idx < sureties.length) {
 								aux = sureties[idx];
@@ -1984,8 +1986,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 						}
 
 					}
-					for (int j = 0; j < relas.length; j++) {
-						Relation rela = relas[j];
+					for (Relation rela : relas) {
 						if (rela.getSurety() < 100) {
 							String thisRela = "" + rela.getPid() + "_"
 									+ rela.getRelative();
@@ -2013,7 +2014,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 										arial0);
 								sheet.addCell(label);
 
-								int idx = 5 - (rela.getSurety() + 10) / 20;
+								int idx = 5 - ((rela.getSurety() + 10) / 20);
 								String aux = "";
 								if (idx < sureties.length) {
 									aux = sureties[idx];
@@ -2078,7 +2079,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 													arial0);
 											sheet.addCell(label);
 
-											int idx = 5 - (relnoti.getSurety() + 10) / 20;
+											int idx = 5 - ((relnoti.getSurety() + 10) / 20);
 											String aux = "";
 											if (idx < sureties.length) {
 												aux = sureties[idx];
@@ -2294,7 +2295,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 						}
 					}
 
-					if (address != null && name != null) {
+					if ((address != null) && (name != null)) {
 						rivi++;
 						nume = new jxl.write.Number(0, rivi, name.getPid());
 						sheet.addCell(nume);
@@ -2361,7 +2362,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 						label = new Label(4, rivi, sb.toString(), arial0);
 						sheet.addCell(label);
 
-						if (birt != null && birt.getFromDate() != null) {
+						if ((birt != null) && (birt.getFromDate() != null)) {
 							label = new Label(5, rivi, Utils.textDate(
 									birt.getFromDate(), true), arial0);
 							sheet.addCell(label);
@@ -2551,8 +2552,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 					Relation[] rr = relas[i];
 
 					// first round = for parents
-					for (int k = 0; k < rr.length; k++) {
-						Relation r = rr[k];
+					for (Relation r : rr) {
 						if (r.getTag().equals("FATH")
 								|| r.getTag().equals("MOTH")) {
 
@@ -2580,8 +2580,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 						}
 					}
 
-					for (int k = 0; k < rr.length; k++) {
-						Relation r = rr[k];
+					for (Relation r : rr) {
 						if (r.getTag().equals("WIFE")
 								|| r.getTag().equals("HUSB")) {
 
@@ -2610,8 +2609,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 						}
 					}
 
-					for (int k = 0; k < rr.length; k++) {
-						Relation r = rr[k];
+					for (Relation r : rr) {
 						if (r.getTag().equals("CHIL")) {
 							rivi++;
 							rivi++;
@@ -2658,8 +2656,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 			RelationNotice[] rnn = r.getNotices();
 
 			if (rnn != null) {
-				for (int l = 0; l < rnn.length; l++) {
-					RelationNotice rn = rnn[l];
+				for (RelationNotice rn : rnn) {
 					label = new Label(1, ++rivi, typesTable.getTextValue(rn
 							.getTag()));
 					sheet.addCell(label);
@@ -2694,16 +2691,18 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 			boolean deatFound = false;
 			boolean occuFound = false;
 
-			for (int j = 0; j < unn.length; j++) {
+			for (UnitNotice n : unn) {
 
-				UnitNotice n = unn[j];
 				String tag = n.getTag();
-				if (tag.equals("BIRT"))
+				if (tag.equals("BIRT")) {
 					birtFound = true;
-				if (tag.equals("DEAT"))
+				}
+				if (tag.equals("DEAT")) {
 					deatFound = true;
-				if (tag.equals("OCCU"))
+				}
+				if (tag.equals("OCCU")) {
 					occuFound = true;
+				}
 
 				boolean showTag = typesTable.isType(tag, 2);
 
@@ -2905,7 +2904,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		/** The index tab offset. */
 		int indexTabOffset = 0;
-		
+
 		/** The alla. */
 		boolean alla = true;
 
@@ -2936,7 +2935,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 						arial10bold);
 				WritableCellFormat arial0 = new WritableCellFormat(arial10);
 
-				if (commonIndexNames.isSelected() && dr != null) {
+				if (commonIndexNames.isSelected() && (dr != null)) {
 					WritableSheet sheet = workbook.createSheet(
 							typesTable.getTextValue("INDEX_NAMES"), sheetNo++);
 
@@ -3055,8 +3054,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 							}
 							float prose = (runnervalue * 100f) / mapsize;
-							if (prose > 100)
+							if (prose > 100) {
 								prose = 100;
+							}
 							setRunnerValue("" + (int) prose + ";"
 									+ pit.shortPerson.getAlfaName());
 							runnervalue++;
@@ -3083,7 +3083,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 						String mefe = pit.getReferences(0, false, false, true,
 								indexTabOffset);
 
-						if (alla || pit.getOwnerArray().length > 0
+						if (alla || (pit.getOwnerArray().length > 0)
 								|| !mefe.isEmpty()) {
 							Number numero = new Number(0, row, row, arial0);
 							sheet.addCell(numero);
@@ -3162,7 +3162,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 									.isEmpty()) {
 								tstr.append(pit.getOwnerString(indexTabOffset));
 							}
-							if (tstr.length() == 0 && !cefe.isEmpty()) {
+							if ((tstr.length() == 0) && !cefe.isEmpty()) {
 								tstr.append(cefe);
 							}
 							if (!mefe.isEmpty()) {
@@ -3268,8 +3268,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 					PlaceInTables[] places = dr.getPlaceReferences();
 					int row = 1;
-					for (int i = 0; i < places.length; i++) {
-						PlaceInTables pit = places[i];
+					for (PlaceInTables pit : places) {
 						label = new Label(0, row, pit.getPlace(), arial0);
 						sheet.addCell(label);
 						label = new Label(1, row, pit.toString(), arial0);
@@ -3294,8 +3293,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 					String[] refs = dr.getSourceList();
 
 					int row = 1;
-					for (int i = 0; i < refs.length; i++) {
-						String src = refs[i];
+					for (String src : refs) {
 						label = new Label(0, row, "" + row, arial0);
 						sheet.addCell(label);
 						label = new Label(1, row, src, arial0);
@@ -3336,7 +3334,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 	class TaskGeneral extends SwingWorker<Void, Void> {
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see javax.swing.SwingWorker#doInBackground()
 		 */
 		@Override
@@ -3450,8 +3450,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 					int mama = 0;
 
 					if (sdata.pers != null) {
-						for (int j = 0; j < sdata.pers.length; j++) {
-							PersonShortData sd = sdata.pers[j];
+						for (PersonShortData sd : sdata.pers) {
 							if ("M".equals(sd.getSex())) {
 								dada = sd.getPid();
 							} else {
@@ -3675,7 +3674,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see javax.swing.SwingWorker#done()
 		 */
 		@Override
@@ -3690,7 +3691,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		// XmlReport repo = null;
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see javax.swing.SwingWorker#doInBackground()
 		 */
 		@Override
@@ -3710,7 +3713,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 			return null;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see javax.swing.SwingWorker#done()
 		 */
 		@Override
@@ -3724,7 +3729,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 	class TaskRelation extends SwingWorker<Void, Void> {
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see javax.swing.SwingWorker#doInBackground()
 		 */
 		@Override
@@ -3740,7 +3747,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 			return null;
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see javax.swing.SwingWorker#done()
 		 */
 		@Override

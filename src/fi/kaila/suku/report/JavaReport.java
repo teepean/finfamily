@@ -111,9 +111,10 @@ public class JavaReport extends JFrame implements ActionListener,
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
 		int dd = d.width - 100;
-		if (dd > 800)
+		if (dd > 800) {
 			dd = 800;
-		setBounds(d.width / 2 - dd / 2, 20, dd, d.height - 100);
+		}
+		setBounds((d.width / 2) - (dd / 2), 20, dd, d.height - 100);
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -177,7 +178,7 @@ public class JavaReport extends JFrame implements ActionListener,
 			StyleConstants.setUnderline(myStyle, bt.isUnderline(j));
 			StyleConstants.setItalic(myStyle, bt.isItalic(j));
 			String imgTitle = "";
-			if (bt.getImage() != null && j == 0) {
+			if ((bt.getImage() != null) && (j == 0)) {
 				ImageText it = (ImageText) bt;
 				int imgWidth = it.getWidth();
 				int imgHeight = it.getHeight();
@@ -189,7 +190,7 @@ public class JavaReport extends JFrame implements ActionListener,
 				}
 				float w;
 				float h;
-				if (maxSize.width == 0 && maxSize.height == 0) {
+				if ((maxSize.width == 0) && (maxSize.height == 0)) {
 					w = imgWidth;
 					h = imgHeight;
 				} else if (maxSize.height == 0) {
@@ -292,8 +293,9 @@ public class JavaReport extends JFrame implements ActionListener,
 	 */
 	@Override
 	public void closeReport() {
-		if (reportClosed)
+		if (reportClosed) {
 			return;
+		}
 		reportClosed = true;
 		setVisible(true);
 	}
@@ -314,8 +316,9 @@ public class JavaReport extends JFrame implements ActionListener,
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
 
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 		if (cmd.equals(Resurses.EXIT)) {
 			// parent.ReportFrameClosing();
 			setVisible(false);
@@ -391,7 +394,9 @@ public class JavaReport extends JFrame implements ActionListener,
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.Component#toString()
 	 */
 	@Override
@@ -399,13 +404,16 @@ public class JavaReport extends JFrame implements ActionListener,
 		return "Preview";
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fi.kaila.suku.report.ReportInterface#closeReport(long)
 	 */
 	@Override
 	public void closeReport(long tabNo) throws SukuException {
-		if (reportClosed)
+		if (reportClosed) {
 			return;
+		}
 		reportClosed = true;
 		setVisible(true);
 

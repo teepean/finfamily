@@ -103,8 +103,9 @@ public class SukuDateField extends JPanel implements ActionListener {
 	 */
 	public String getDatePrefText() {
 		int idx = datePref.getSelectedIndex();
-		if (idx <= 0)
+		if (idx <= 0) {
 			return null;
+		}
 		return (String) datePref.getSelectedItem();
 	}
 
@@ -114,8 +115,9 @@ public class SukuDateField extends JPanel implements ActionListener {
 	 * @return true if no prefix exists for date
 	 */
 	public boolean isPlain() {
-		if (datePref.getSelectedIndex() == 0)
+		if (datePref.getSelectedIndex() == 0) {
 			return true;
+		}
 		return false;
 	}
 
@@ -168,20 +170,27 @@ public class SukuDateField extends JPanel implements ActionListener {
 			return;
 		}
 		if (pre != null) {
-			if (pre.equals("ABT"))
+			if (pre.equals("ABT")) {
 				preIdx = 1;
-			if (pre.equals("CAL"))
+			}
+			if (pre.equals("CAL")) {
 				preIdx = 2;
-			if (pre.equals("EST"))
+			}
+			if (pre.equals("EST")) {
 				preIdx = 3;
-			if (pre.equals("BET"))
+			}
+			if (pre.equals("BET")) {
 				preIdx = 4;
-			if (pre.equals("FROM"))
+			}
+			if (pre.equals("FROM")) {
 				preIdx = 5;
-			if (pre.equals("BEF"))
+			}
+			if (pre.equals("BEF")) {
 				preIdx = 6;
-			if (pre.equals("AFT"))
+			}
+			if (pre.equals("AFT")) {
 				preIdx = 7;
+			}
 
 		}
 		datePref.setSelectedIndex(preIdx);
@@ -204,12 +213,15 @@ public class SukuDateField extends JPanel implements ActionListener {
 
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e != null && e.getSource() == datePref) {
+		if ((e != null) && (e.getSource() == datePref)) {
 
 			int idx = datePref.getSelectedIndex();
 			if (idx == 4) {

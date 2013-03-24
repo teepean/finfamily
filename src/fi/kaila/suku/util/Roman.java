@@ -31,7 +31,7 @@ public class Roman {
 	 * @return number as roman numeral
 	 */
 	public static String int2roman(int n) {
-		if (n >= 4000 || n < 1) {
+		if ((n >= 4000) || (n < 1)) {
 			throw new NumberFormatException("Numbers must be in range 1-3999");
 		}
 		StringBuilder result = new StringBuilder(10);

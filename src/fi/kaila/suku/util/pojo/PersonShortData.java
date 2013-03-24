@@ -125,7 +125,7 @@ public class PersonShortData implements Serializable, Transferable,
 	public int getGraphRowCount() {
 		int count = 1;
 
-		if (occu != null || dDate != null || dPlace != null) {
+		if ((occu != null) || (dDate != null) || (dPlace != null)) {
 			count++;
 		}
 		return count;
@@ -552,7 +552,7 @@ public class PersonShortData implements Serializable, Transferable,
 				sn.add(nn);
 
 			} else if (n.getTag().equals("BIRT") || n.getTag().equals("CHR")) {
-				if (birtTag == null || !birtTag.equals("BIRT")) {
+				if ((birtTag == null) || !birtTag.equals("BIRT")) {
 					birtTag = n.getTag();
 					bDate = n.getFromDate();
 					bPlace = n.getPlace();
@@ -562,7 +562,7 @@ public class PersonShortData implements Serializable, Transferable,
 					bCountry = n.getCountry();
 				}
 			} else if (n.getTag().equals("DEAT") || n.getTag().equals("BURI")) {
-				if (deatTag == null || !deatTag.equals("DEAT")) {
+				if ((deatTag == null) || !deatTag.equals("DEAT")) {
 					deatTag = n.getTag();
 					dDate = n.getFromDate();
 					dPlace = n.getPlace();
@@ -688,7 +688,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 					if (tag.equals("BIRT") || tag.equals("CHR")) {
 
-						if (this.birtTag == null || tag.equals("BIRT")) {
+						if ((this.birtTag == null) || tag.equals("BIRT")) {
 							this.birtTag = tag;
 							this.bDate = rs.getString(12);
 							this.bPlace = rs.getString(13);
@@ -705,7 +705,7 @@ public class PersonShortData implements Serializable, Transferable,
 					}
 					if (tag.equals("DEAT") || tag.equals("BURI")) {
 
-						if (this.deatTag == null || tag.equals("DEAT")) {
+						if ((this.deatTag == null) || tag.equals("DEAT")) {
 							this.deatTag = tag;
 							this.dDate = rs.getString(12);
 							this.dPlace = rs.getString(13);
@@ -873,7 +873,7 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return givenname idx
 	 */
 	public String getGivenname(int idx) {
-		if (names == null || names.length == 0) {
+		if ((names == null) || (names.length == 0)) {
 			return null;
 		}
 		return names[idx].getGivenname();
@@ -897,7 +897,7 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return patronyme for name idx
 	 */
 	public String getPatronym(int idx) {
-		if (names == null || names.length == 0) {
+		if ((names == null) || (names.length == 0)) {
 			return null;
 		}
 		return names[idx].getPatronyme();
@@ -921,7 +921,7 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return prefix for name idx
 	 */
 	public String getPrefix(int idx) {
-		if (names == null || names.length == 0) {
+		if ((names == null) || (names.length == 0)) {
 			return null;
 		}
 		return names[idx].getPrefix();
@@ -945,7 +945,7 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return surname for name idx
 	 */
 	public String getSurname(int idx) {
-		if (names == null || names.length == 0) {
+		if ((names == null) || (names.length == 0)) {
 			return null;
 		}
 		return names[idx].getSurname();
@@ -969,7 +969,7 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return postfix for name idx
 	 */
 	public String getPostfix(int idx) {
-		if (names == null || names.length == 0) {
+		if ((names == null) || (names.length == 0)) {
 			return null;
 		}
 		return names[idx].getPostfix();
@@ -981,7 +981,7 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return morenames
 	 */
 	public String getMorenames() {
-		if (names == null || names.length < 2) {
+		if ((names == null) || (names.length < 2)) {
 			return null;
 		}
 		StringBuilder sb = new StringBuilder();

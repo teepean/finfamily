@@ -299,8 +299,9 @@ public class BodyText {
 	 * @return true if the indexed text element is bold
 	 */
 	public boolean isBold(int idx) {
-		if ((fontStyle & Font.BOLD) != 0)
+		if ((fontStyle & Font.BOLD) != 0) {
 			return true;
+		}
 
 		Text t = txt.get(idx);
 		return t.isBold;
@@ -411,7 +412,9 @@ public class BodyText {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

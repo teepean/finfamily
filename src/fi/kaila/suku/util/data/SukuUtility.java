@@ -103,10 +103,10 @@ public class SukuUtility {
 							wasDashDash = false;
 							wasDash = false;
 						}
-					} else if (!wasDash && c == '-') {
+					} else if (!wasDash && (c == '-')) {
 						wasDash = true;
 
-					} else if (wasDash && c == '-') {
+					} else if (wasDash && (c == '-')) {
 						wasDashDash = true;
 						wasDash = false;
 					} else if (c == ';') {

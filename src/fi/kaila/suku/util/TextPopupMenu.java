@@ -16,9 +16,9 @@ public class TextPopupMenu {
 	private static TextPopupMenu me = null;
 
 	private JPopupMenu pMenu = null;
-	private JMenuItem pOpenHiskiPage;
+	private final JMenuItem pOpenHiskiPage;
 
-	private JMenuItem pCopy;
+	private final JMenuItem pCopy;
 
 	/**
 	 * add all action listeners for menu commands

@@ -59,7 +59,7 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 
 	/** The ok. */
 	JButton ok = null;
-	
+
 	/** The cancel. */
 	JButton cancel = null;
 
@@ -81,7 +81,7 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 		getRootPane().addComponentListener(this);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension size = new Dimension(650, 500);
-		setBounds(d.width / 2 - 325, d.height / 2 - 250, size.width,
+		setBounds((d.width / 2) - 325, (d.height / 2) - 250, size.width,
 				size.height);
 		String loca = Suku.kontroller.getPref(parent, Resurses.LOCALE, "xx");
 		int y = 30;
@@ -211,12 +211,12 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 				break;
 			}
 			if (nextByte != '\r') {
-				if (bout.size() > 0 || nextByte != ' ') {
+				if ((bout.size() > 0) || (nextByte != ' ')) {
 					bout.write(nextByte);
 				}
 			}
 		}
-		if (bout.size() == 0 && nextByte < 0) {
+		if ((bout.size() == 0) && (nextByte < 0)) {
 			return null;
 		}
 		return bout.toString("UTF-8");
@@ -258,14 +258,14 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 						String[] ss = resu.vvTexts.get(i);
 						if (i == 0) {
 
-							for (int j = 0; j < ss.length; j++) {
-								columnNames.add(ss[j]);
+							for (String element : ss) {
+								columnNames.add(element);
 							}
 
 						} else {
 							Vector<String> row = new Vector<String>();
-							for (int j = 0; j < ss.length; j++) {
-								row.add(ss[j]);
+							for (String element : ss) {
+								row.add(element);
 							}
 							rowData.add(row);
 
@@ -304,8 +304,11 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -325,8 +328,11 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
+	 * ComponentEvent)
 	 */
 	@Override
 	public void componentResized(ComponentEvent e) {
@@ -346,30 +352,41 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 				this.splitPane.getWidth() - 200, 24);
 		resetView.setBounds(this.splitPane.getWidth() - 190,
 				30 + this.splitPane.getHeight() + 64, 190, 24);
-		ok.setBounds(rootx + size.width - 250, rooty + size.height - 95, 100,
-				24);
-		cancel.setBounds(rootx + size.width - 140, rooty + size.height - 95,
+		ok.setBounds((rootx + size.width) - 250, (rooty + size.height) - 95,
 				100, 24);
+		cancel.setBounds((rootx + size.width) - 140,
+				(rooty + size.height) - 95, 100, 24);
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent
+	 * )
 	 */
 	@Override
 	public void componentMoved(ComponentEvent e) {
 		// not used
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent
+	 * )
 	 */
 	@Override
 	public void componentShown(ComponentEvent e) {
 		// not used
 	}
 
-	/* (non-Javadoc)
-	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
+	 * ComponentEvent)
 	 */
 	@Override
 	public void componentHidden(ComponentEvent e) {

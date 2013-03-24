@@ -274,7 +274,7 @@ public class ReportUtil {
 		rs.close();
 		stm.close();
 
-		if (fatherPid == 0 && motherPid == 0) {
+		if ((fatherPid == 0) && (motherPid == 0)) {
 			return;
 		}
 
@@ -290,9 +290,9 @@ public class ReportUtil {
 		if (motherPid > 0) {
 
 			if (personReferences.get(motherPid) == null) {
-				member.addSub(motherPid, "F", strado * 2 + 1);
-				addMemberParents(unit, member, motherPid, strado * 2 + 1, "F",
-						gen + 1, maxGen);
+				member.addSub(motherPid, "F", (strado * 2) + 1);
+				addMemberParents(unit, member, motherPid, (strado * 2) + 1,
+						"F", gen + 1, maxGen);
 			}
 		}
 
@@ -337,7 +337,7 @@ public class ReportUtil {
 		ReportUnit unit = createOneTable(nexttab, chi, gen, adopted, true,
 				false);
 
-		if (nexttab == 0 && unit.getChild().size() == 0) {
+		if ((nexttab == 0) && (unit.getChild().size() == 0)) {
 			unitMap.put(unit.getPid(), unit);
 			return 0;
 		}
@@ -438,7 +438,7 @@ public class ReportUtil {
 
 						// halonmi 20130311 >>>
 						j = 0;
-						for (j = 0; j < ksize && j < jsize; j++) {
+						for (j = 0; (j < ksize) && (j < jsize); j++) {
 							if (unit.getChild().get(j).getPid() != pareUnits
 									.getChild().get(j).getPid()) {
 								break;
@@ -468,9 +468,9 @@ public class ReportUtil {
 			}
 		}
 
-		if (females != null
+		if ((females != null)
 				&& ReportWorkerDialog.SET_ORDER_NEWMALE.equals(order)
-				&& females.get(chi.getPid()) != null) {
+				&& (females.get(chi.getPid()) != null)) {
 			return nexttab;
 		}
 
@@ -501,10 +501,10 @@ public class ReportUtil {
 					|| order.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE)
 					|| order.equals(ReportWorkerDialog.SET_ORDER_NEWMALE)
 					|| order.equals(ReportWorkerDialog.SET_ORDER_REG)
-					|| order.equals(ReportWorkerDialog.SET_ORDER_MALE)
-					&& "M".equals(chix.getSex())
-					|| order.equals(ReportWorkerDialog.SET_ORDER_FEMALE)
-					&& "F".equals(chix.getSex())) {
+					|| (order.equals(ReportWorkerDialog.SET_ORDER_MALE) && "M"
+							.equals(chix.getSex()))
+					|| (order.equals(ReportWorkerDialog.SET_ORDER_FEMALE) && "F"
+							.equals(chix.getSex()))) {
 
 				nxttab = createDescendantTables(tableNo, tableNo, chix,
 						gen + 1, generations, order, adopted, round);
@@ -546,7 +546,7 @@ public class ReportUtil {
 		if (unit.getMotherPid() > 0) {
 			ReportTableMember chim = new ReportTableMember();
 			chim.setPid(unit.getMotherPid());
-			createAncestorTables(nexttab * 2 + 1, chim, gen + 1, generations,
+			createAncestorTables((nexttab * 2) + 1, chim, gen + 1, generations,
 					family, order);
 		}
 
@@ -945,7 +945,8 @@ public class ReportUtil {
 				for (int i = 0; i < curvec.size(); i++) {
 					ReportUnit cux = curvec.get(i);
 					if (cux.getTableNo() == 0) {
-						if (cux.getFatherPid() == 0 && cux.getMotherPid() == 0) {
+						if ((cux.getFatherPid() == 0)
+								&& (cux.getMotherPid() == 0)) {
 							continue;
 						}
 						epsotab++;
@@ -994,7 +995,7 @@ public class ReportUtil {
 						int fid = cux.getFatherPid();
 						if (fid > 0) {
 							ReportUnit cuf = unitMap.get(fid);
-							if (cuf != null && cuf.getTableNo() == 0) {
+							if ((cuf != null) && (cuf.getTableNo() == 0)) {
 								cuf.setTableNo(cux.getTableNo() * 2);
 								cuf.setGen(cux.getGen() + 1);
 								// tables.add(cuf);
@@ -1006,8 +1007,8 @@ public class ReportUtil {
 						int mid = cux.getMotherPid();
 						if (mid > 0) {
 							ReportUnit cum = unitMap.get(mid);
-							if (cum != null && cum.getTableNo() == 0) {
-								cum.setTableNo(cux.getTableNo() * 2 + 1);
+							if ((cum != null) && (cum.getTableNo() == 0)) {
+								cum.setTableNo((cux.getTableNo() * 2) + 1);
 								cum.setGen(cux.getGen() + 1);
 								// tables.add(cum);
 								nxtvec.add(cum);

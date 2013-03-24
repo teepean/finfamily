@@ -6,6 +6,7 @@ package fi.kaila.suku.util.pojo;
  * @author Kalle
  * @deprecated
  */
+@Deprecated
 public class ReportTable {
 	private int tid = 0;
 	private int tableNo = 0;

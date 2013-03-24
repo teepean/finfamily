@@ -10,7 +10,7 @@ import java.io.IOException;
  * The Class ImageSelection.
  */
 public class ImageSelection implements Transferable {
-	private Image image;
+	private final Image image;
 
 	/**
 	 * Instantiates a new image selection.
@@ -28,6 +28,7 @@ public class ImageSelection implements Transferable {
 	 * 
 	 * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
 	 */
+	@Override
 	public DataFlavor[] getTransferDataFlavors() {
 		return new DataFlavor[] { DataFlavor.imageFlavor };
 	}

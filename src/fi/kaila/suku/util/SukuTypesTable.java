@@ -172,7 +172,7 @@ public class SukuTypesTable extends JTable {
 	 * @return true if settings is on
 	 */
 	public boolean isType(String tag, int col) {
-		if (col < 1 || col > 5) {
+		if ((col < 1) || (col > 5)) {
 			return false;
 		}
 		Integer idxInt = model.getTypeText(tag);
@@ -231,7 +231,7 @@ public class SukuTypesTable extends JTable {
 					"cmd=savesettings", "type=" + type, "index="
 							+ settingsIndex);
 
-			if (reposet.resu != null && !reposet.resu.equals(Resurses.OK)) {
+			if ((reposet.resu != null) && !reposet.resu.equals(Resurses.OK)) {
 				JOptionPane.showMessageDialog(this, reposet.resu,
 						Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);

@@ -110,7 +110,7 @@ public class AboutDialog extends JDialog implements ActionListener {
 		ok.setDefaultCapable(true);
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds(d.width / 2 - 200, d.height / 2 - 200, 600, 300);
+		setBounds((d.width / 2) - 200, (d.height / 2) - 200, 600, 300);
 		setResizable(false);
 
 		getRootPane().setDefaultButton(ok);
@@ -122,6 +122,7 @@ public class AboutDialog extends JDialog implements ActionListener {
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		this.setVisible(false);
 

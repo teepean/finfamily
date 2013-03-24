@@ -79,7 +79,7 @@ public class KontrollerUtils {
 				dos.writeBytes(rivi.toString() + lineEnd);
 				rivi = new StringBuilder();
 			}
-			rivi.append(hexi.charAt(nextByte >> 4 & 0xf));
+			rivi.append(hexi.charAt((nextByte >> 4) & 0xf));
 			rivi.append(hexi.charAt(nextByte & 0xf));
 
 		}
@@ -301,7 +301,7 @@ public class KontrollerUtils {
 					dos.writeBytes(rivi.toString() + lineEnd);
 					rivi = new StringBuilder();
 				}
-				rivi.append(hexi.charAt(nextByte >> 4 & 0xf));
+				rivi.append(hexi.charAt((nextByte >> 4) & 0xf));
 				rivi.append(hexi.charAt(nextByte & 0xf));
 
 			}

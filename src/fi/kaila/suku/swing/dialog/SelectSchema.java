@@ -83,15 +83,16 @@ public class SelectSchema extends JDialog implements ActionListener,
 	private void constructMe(boolean allowNew) throws SukuException {
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-		setBounds(d.width / 2 - 150, d.height / 2 - 170, 300, 340);
+		setBounds((d.width / 2) - 150, (d.height / 2) - 170, 300, 340);
 		setLayout(null);
 		int y = 10;
 		if (postDb != null) {
 			setTitle(postDb);
 		}
 		String labelValue = "SCHEMA_SELECT";
-		if (allowNew)
+		if (allowNew) {
 			labelValue = "SCHEMA_SELECTNEW";
+		}
 
 		JLabel lbl = new JLabel(Resurses.getString(labelValue));
 		getContentPane().add(lbl);
@@ -159,8 +160,8 @@ public class SelectSchema extends JDialog implements ActionListener,
 		String aux = getSchema();
 		if (aux != null) {
 
-			for (int i = 0; i < schemaList.length; i++) {
-				if (aux.equalsIgnoreCase(schemaList[i])) {
+			for (String element : schemaList) {
+				if (aux.equalsIgnoreCase(element)) {
 					return true;
 				}
 			}
@@ -177,8 +178,9 @@ public class SelectSchema extends JDialog implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 		if (cmd.equals("OK")) {
 			okSelected = true;
 

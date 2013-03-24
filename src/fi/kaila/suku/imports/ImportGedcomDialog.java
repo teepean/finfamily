@@ -164,7 +164,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 		this.cancel.addActionListener(this);
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-		setBounds(d.width / 2 - 200, d.height / 2 - 100, 400, y + 100);
+		setBounds((d.width / 2) - 200, (d.height / 2) - 100, 400, y + 100);
 
 		SukuData resp;
 
@@ -336,7 +336,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 			progressBar.setValue(progress);
 			textContent.setText(kaksi[1]);
 			showCounter--;
-			if (progress > 0 && showCounter < 0 && timerText != null) {
+			if ((progress > 0) && (showCounter < 0) && (timerText != null)) {
 				showCounter = 10;
 				long nowTime = System.currentTimeMillis();
 				long usedTime = nowTime - startTime;

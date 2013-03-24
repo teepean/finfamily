@@ -95,11 +95,11 @@ public class GroupUtil {
 					.prepareStatement("update unit set groupid = null where pid = ? and groupid is not null");
 			// int lukuri =
 			// stm.executeUpdate("update unit set groupid = null where groupid is not null");
-			for (int i = 0; i < pids.length; i++) {
-				stm.setInt(1, pids[i]);
+			for (int pid : pids) {
+				stm.setInt(1, pid);
 				int lukuri = stm.executeUpdate();
 				if (lukuri == 1) {
-					pidv.add(pids[i]);
+					pidv.add(pid);
 				}
 
 			}
@@ -239,12 +239,12 @@ public class GroupUtil {
 					.prepareStatement("update unit set groupid = ? where pid = ? and groupid is null");
 			// int lukuri =
 			// stm.executeUpdate("update unit set groupid = null where groupid is not null");
-			for (int i = 0; i < pidArray.length; i++) {
+			for (int element : pidArray) {
 				stm.setString(1, group);
-				stm.setInt(2, pidArray[i]);
+				stm.setInt(2, element);
 				int lukuri = stm.executeUpdate();
 				if (lukuri == 1) {
-					pidv.add(pidArray[i]);
+					pidv.add(element);
 				}
 
 			}
@@ -337,7 +337,7 @@ public class GroupUtil {
 		resp.resuCount = 0;
 		ArrayList<Integer> pidv = new ArrayList<Integer>();
 		int gen = 0;
-		if (gent != null && !gent.isEmpty()) {
+		if ((gent != null) && !gent.isEmpty()) {
 			gen = Integer.parseInt(gent);
 		}
 
@@ -395,7 +395,7 @@ public class GroupUtil {
 				from = firstChild;
 				to = lastChild;
 				currGen++;
-			} while (to > from && (gen == 0 || currGen < gen));
+			} while ((to > from) && ((gen == 0) || (currGen < gen)));
 			if (!includeSubject) {
 				pidv.remove(0);
 			}
@@ -440,7 +440,7 @@ public class GroupUtil {
 		resp.resuCount = 0;
 		ArrayList<Integer> pidv = new ArrayList<Integer>();
 		int gen = 0;
-		if (gent != null && !gent.isEmpty()) {
+		if ((gent != null) && !gent.isEmpty()) {
 			gen = Integer.parseInt(gent);
 		}
 
@@ -484,7 +484,7 @@ public class GroupUtil {
 				from = firstChild;
 				to = lastChild;
 				currGen++;
-			} while (to > from && (gen == 0 || currGen < gen));
+			} while ((to > from) && ((gen == 0) || (currGen < gen)));
 			if (!includeSubject) {
 				pidv.remove(0);
 			}

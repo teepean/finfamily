@@ -126,8 +126,8 @@ public class GenGraphReport extends CommonReport {
 				if (vlist.relations != null) {
 					// this is a sample demo to show how to get father for
 					// person in vlist
-					for (int j = 0; j < vlist.relations.length; j++) {
-						Relation r = vlist.relations[j]; // here is relation j
+					for (Relation relation : vlist.relations) {
+						Relation r = relation; // here is relation j
 						if (r.getTag().equals("FATH") && !isAdopted(r)) {
 							// now r contains the Relation for father
 							SukuData fdata = caller.getKontroller()
@@ -208,11 +208,13 @@ public class GenGraphReport extends CommonReport {
 	 * @return true if relation describes an adoption
 	 */
 	private boolean isAdopted(Relation rela) {
-		if (rela.getNotices() == null)
+		if (rela.getNotices() == null) {
 			return false; // adoption is in the RelationNotice
+		}
 		for (int i = 0; i < rela.getNotices().length; i++) {
-			if (rela.getNotices()[i].getTag().equals("ADOP"))
+			if (rela.getNotices()[i].getTag().equals("ADOP")) {
 				return true;
+			}
 		}
 		return false;
 	}

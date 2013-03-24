@@ -27,7 +27,7 @@ public class AddRelationNotice extends JDialog implements ActionListener,
 	/** The koko map. */
 	HashMap<String, String> kokoMap = new HashMap<String, String>();
 
-	private JList koko;
+	private final JList koko;
 
 	/** The koko lista. */
 	String[] kokoLista = null;

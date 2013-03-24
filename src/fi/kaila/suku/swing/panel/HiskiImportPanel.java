@@ -148,7 +148,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 	// private String [] sukuName = {null,null,null};
 	/** The y. */
 	int y = 20;
-	
+
 	/** The rh. */
 	int rh = 80;
 	/** The buttony. */
@@ -157,7 +157,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 	private void initMe() {
 		int ydiff = 24;
 		int ylabdiff = 20;
-		rh = ydiff * 3 + 10;
+		rh = (ydiff * 3) + 10;
 
 		setLayout(null);
 
@@ -381,72 +381,72 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 			hiskiPers[i] = null;
 			pSukuPid[i] = new JLabel();
 			add(pSukuPid[i]);
-			pSukuPid[i].setBounds(150, y + i * rh, 100, 20);
+			pSukuPid[i].setBounds(150, y + (i * rh), 100, 20);
 
 			pSukuName[i] = new JLabel();
 			add(pSukuName[i]);
-			pSukuName[i].setBounds(200, y + i * rh, 200, 20);
+			pSukuName[i].setBounds(200, y + (i * rh), 200, 20);
 
 			pNumero[i] = new JLabel();
 			add(pNumero[i]);
-			pNumero[i].setBounds(40, y + 0 + i * rh, 40, 20);
+			pNumero[i].setBounds(40, y + 0 + (i * rh), 40, 20);
 
 			pTypeName[i] = null;
 
 			pType[i] = new JLabel();
 			add(pType[i]);
-			pType[i].setBounds(60, y + 0 + i * rh, 100, 20);
+			pType[i].setBounds(60, y + 0 + (i * rh), 100, 20);
 
 			pSex[i] = new JComboBox(sexes);
 			add(pSex[i]);
-			pSex[i].setBounds(100, y + 66 + i * rh, 80, 20);
+			pSex[i].setBounds(100, y + 66 + (i * rh), 80, 20);
 
 			rOccu[i] = new JTextField();
 			rOccu[i].setEditable(false);
 			add(rOccu[i]);
-			rOccu[i].setBounds(40, y + 22 + i * rh, 150, 20);
+			rOccu[i].setBounds(40, y + 22 + (i * rh), 150, 20);
 
 			rGivenname[i] = new JTextField();
 			rGivenname[i].setEditable(false);
 			add(rGivenname[i]);
-			rGivenname[i].setBounds(200, y + 22 + i * rh, 150, 20);
+			rGivenname[i].setBounds(200, y + 22 + (i * rh), 150, 20);
 
 			rPatronym[i] = new JTextField();
 			rPatronym[i].setEditable(false);
 			add(rPatronym[i]);
-			rPatronym[i].setBounds(360, y + 22 + i * rh, 150, 20);
+			rPatronym[i].setBounds(360, y + 22 + (i * rh), 150, 20);
 
 			rSurname[i] = new JTextField();
 			rSurname[i].setEditable(false);
 			add(rSurname[i]);
-			rSurname[i].setBounds(520, y + 22 + i * rh, 150, 20);
+			rSurname[i].setBounds(520, y + 22 + (i * rh), 150, 20);
 
 			pOccu[i] = new JTextField();
 			add(pOccu[i]);
-			pOccu[i].setBounds(40, y + 44 + i * rh, 150, 20);
+			pOccu[i].setBounds(40, y + 44 + (i * rh), 150, 20);
 
 			pGivenname[i] = new JTextField();
 			add(pGivenname[i]);
-			pGivenname[i].setBounds(200, y + 44 + i * rh, 150, 20);
+			pGivenname[i].setBounds(200, y + 44 + (i * rh), 150, 20);
 
 			pPatronym[i] = new JTextField();
 			add(pPatronym[i]);
-			pPatronym[i].setBounds(360, y + 44 + i * rh, 150, 20);
+			pPatronym[i].setBounds(360, y + 44 + (i * rh), 150, 20);
 
 			pSurname[i] = new JTextField();
 			add(pSurname[i]);
-			pSurname[i].setBounds(520, y + 44 + i * rh, 150, 20);
+			pSurname[i].setBounds(520, y + 44 + (i * rh), 150, 20);
 
 			pAgeVillage[i] = new JTextField();
 			add(pAgeVillage[i]);
-			pAgeVillage[i].setBounds(200, y + 66 + i * rh, 150, 20);
+			pAgeVillage[i].setBounds(200, y + 66 + (i * rh), 150, 20);
 
 			pReasonFarm[i] = new JTextField();
 			add(pReasonFarm[i]);
-			pReasonFarm[i].setBounds(360, y + 66 + i * rh, 310, 20);
+			pReasonFarm[i].setBounds(360, y + 66 + (i * rh), 310, 20);
 
 		}
-		Dimension panelSize = new Dimension(740, y + 45 + i * rh);
+		Dimension panelSize = new Dimension(740, y + 45 + (i * rh));
 		this.setPreferredSize(panelSize);
 		updateUI();
 	}
@@ -472,7 +472,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 	 *            the person
 	 */
 	public void setHiskiPerson(int idx, PersonShortData pers) {
-		if (idx >= 0 && idx < hiskiPid.length) {
+		if ((idx >= 0) && (idx < hiskiPid.length)) {
 			hiskiPers[idx] = pers;
 			hiskiPid[idx] = pers.getPid();
 			// sukuName[idx]=nimi;
@@ -492,8 +492,9 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		String cmd = e.getActionCommand();
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 
 		if (cmd.equals(Resurses.GET_HISKI)) {
 
@@ -790,8 +791,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 			SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
 
-			for (int i = 0; i < response.pers.length; i++) {
-				suku.updatePerson(response.pers[i]);
+			for (PersonShortData per : response.pers) {
+				suku.updatePerson(per);
 			}
 		} catch (SukuException e) {
 			JOptionPane.showMessageDialog(this, "Hiski :" + e.getMessage());
@@ -945,7 +946,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 					}
 
 				}
-				if (kdate.length() > 0 || !reason.isEmpty()) {
+				if ((kdate.length() > 0) || !reason.isEmpty()) {
 					if (hasDeath) {
 						if (hbh.length() > 0) {
 							hbh.append(".\n");
@@ -999,7 +1000,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 					bdate = null;
 				}
 
-				if (bdate != null && !bdate.isEmpty()) {
+				if ((bdate != null) && !bdate.isEmpty()) {
 					if (hasBirth) {
 						if (hbh.length() > 0) {
 							hbh.append(".\n");
@@ -1100,8 +1101,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		try {
 			SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
 
-			for (int i = 0; i < response.pers.length; i++) {
-				suku.updatePerson(response.pers[i]);
+			for (PersonShortData per : response.pers) {
+				suku.updatePerson(per);
 			}
 
 		} catch (SukuException e) {
@@ -1232,11 +1233,13 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 				}
 				int puoliso = -1 - i;
 				if ("mies".equals(aux)) {
-					if (hiskiPid[0] > 0)
+					if (hiskiPid[0] > 0) {
 						puoliso = hiskiPid[0];
+					}
 				} else {
-					if (hiskiPid[1] > 0)
+					if (hiskiPid[1] > 0) {
 						puoliso = hiskiPid[1];
+					}
 				}
 
 				kast.persons[i] = new PersonLongData(puoliso, "INDI", sex);
@@ -1377,7 +1380,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		Relation rel;
 
 		RelationNotice[] rNotices = new RelationNotice[1];
-		if (miesId != 0 && vaimoId != 0) {
+		if ((miesId != 0) && (vaimoId != 0)) {
 			rel = new Relation(0, miesId, vaimoId, "WIFE", hiskiSurety, null,
 					null, null, null);
 			relations.add(rel);
@@ -1394,8 +1397,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		try {
 			SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
 
-			for (int i = 0; i < response.pers.length; i++) {
-				suku.updatePerson(response.pers[i]);
+			for (PersonShortData per : response.pers) {
+				suku.updatePerson(per);
 			}
 
 		} catch (SukuException e) {
@@ -1523,8 +1526,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 							String vk = null;
 							String pv = null;
 
-							for (int j = 0; j < parts.length; j++) {
-								String tmp[] = parts[j].split("=");
+							for (String part : parts) {
+								String tmp[] = part.split("=");
 								if (tmp.length == 2) {
 									if (tmp[0].equals("vv")) {
 										vv = tmp[1];
@@ -1541,7 +1544,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 								}
 							}
 							String auxdate = toBirthDate(datex, vv, kk, vk, pv);
-							if (auxdate != null && !auxdate.isEmpty()) {
+							if ((auxdate != null) && !auxdate.isEmpty()) {
 								if (kast.persons[i].getPid() > 0) {
 									if (hbp.length() > 0) {
 										hbp.append(".\n");
@@ -1629,7 +1632,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 				String dat = toDbDate(eventFirstDate.getText());
 				if (dat != null) {
 
-					if (kast.persons[i].getPid() > 0 && lapsiBirth) {
+					if ((kast.persons[i].getPid() > 0) && lapsiBirth) {
 						if (noteBuf.length() > 0) {
 							noteBuf.append(".\n");
 						}
@@ -1753,17 +1756,17 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		}
 		ArrayList<Relation> relations = new ArrayList<Relation>();
 		Relation rel;
-		if (isaId != 0 && lapsiId != 0 && (isaId < 0 || lapsiId < 0)) {
+		if ((isaId != 0) && (lapsiId != 0) && ((isaId < 0) || (lapsiId < 0))) {
 			rel = new Relation(0, lapsiId, isaId, "FATH", hiskiSurety, null,
 					null, null, null);
 			relations.add(rel);
 		}
-		if (aitiId != 0 && lapsiId != 0 && (aitiId < 0 || lapsiId < 0)) {
+		if ((aitiId != 0) && (lapsiId != 0) && ((aitiId < 0) || (lapsiId < 0))) {
 			rel = new Relation(0, lapsiId, aitiId, "MOTH", hiskiSurety, null,
 					null, null, null);
 			relations.add(rel);
 		}
-		if (isaId != 0 && aitiId != 0) {
+		if ((isaId != 0) && (aitiId != 0)) {
 			rel = new Relation(0, isaId, aitiId, "WIFE", hiskiSurety, null,
 					null, null, null);
 			relations.add(rel);
@@ -1775,9 +1778,9 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 			SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
 
-			for (int i = 0; i < response.pers.length; i++) {
-				if (response.pers[i].getSex() != null) {
-					suku.updatePerson(response.pers[i]);
+			for (PersonShortData per : response.pers) {
+				if (per.getSex() != null) {
+					suku.updatePerson(per);
 				}
 			}
 
@@ -2074,7 +2077,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 						String tmp = ele.getTextContent();
 						int llidx = tmp.indexOf("-");
 						if (llidx > 0) {
-							if (ll.equals("sv") && llidx < tmp.length() + 1) {
+							if (ll.equals("sv") && (llidx < (tmp.length() + 1))) {
 								tmp = tmp.substring(llidx + 1).trim();
 							} else {
 								tmp = tmp.substring(0, llidx).trim();
@@ -2112,7 +2115,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 						if ("haudatut".equals(bookName)
 								&& ((vv + kk + vk + pv).length() > 0)) {
 							String aux = toBirthDate(datex, vv, kk, vk, pv);
-							if (aux != null && !aux.isEmpty()) {
+							if ((aux != null) && !aux.isEmpty()) {
 								eventExtraType.setVisible(true);
 								eventExtraDate.setVisible(true);
 								// eventExtraDate.setText(aux);
@@ -2162,7 +2165,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		int month = 0;
 		int day = 0;
 		int yy, mm, wk, dy;
-		if (auxDate == null || auxDate.length() < 4) {
+		if ((auxDate == null) || (auxDate.length() < 4)) {
 			return "";
 		}
 		try {
@@ -2202,7 +2205,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 			} catch (NumberFormatException ne) {
 				dy = 0;
 			}
-			if (yy == 0 && mm == 0 && wk == 0 && dy == 0) {
+			if ((yy == 0) && (mm == 0) && (wk == 0) && (dy == 0)) {
 				return "";
 			}
 
@@ -2235,7 +2238,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 						// dy += mm2;
 					}
 
-					if (day > 0 && dy > 0) {
+					if ((day > 0) && (dy > 0)) {
 						while (dy >= day) {
 							if (month > 1) {
 								month--;
@@ -2285,20 +2288,22 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 	}
 
 	private String toDbDate(String hiskiDate) {
-		if (hiskiDate == null || hiskiDate.isEmpty())
+		if ((hiskiDate == null) || hiskiDate.isEmpty()) {
 			return null;
+		}
 		String[] parts = hiskiDate.split("\\.");
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = parts.length - 1; i >= 0; i--) {
 			if (sb.length() == 0) { // year
 				sb.append(parts[i]);
-				if (parts.length == 3
+				if ((parts.length == 3)
 						&& (parts[0].equals("") || parts[0].equals("0"))
-						&& (parts[1].equals("") || parts[1].equals("0")))
+						&& (parts[1].equals("") || parts[1].equals("0"))) {
 					break;
+				}
 			} else {
-				if (i == 0 && parts[i].equals("") || parts[i].equals("0")) {
+				if (((i == 0) && parts[i].equals("")) || parts[i].equals("0")) {
 					// if date missing dont add it
 				} else {
 					String aux = "00" + parts[i];

@@ -152,9 +152,9 @@ public class AncestorTableReport extends CommonReport {
 							if (rpux != null) {
 								page[i * 2] = rpux;
 
-								if (i > 7
-										&& rpux.getFatherPid()
-												+ rpux.getMotherPid() > 0) {
+								if ((i > 7)
+										&& ((rpux.getFatherPid() + rpux
+												.getMotherPid()) > 0)) {
 									tabNext.add(rpux);
 								}
 							} else {
@@ -164,17 +164,17 @@ public class AncestorTableReport extends CommonReport {
 							}
 						}
 						if (rpu.getMotherPid() > 0) {
-							rpux = tabMap.get(currTab * 2 + 1);
+							rpux = tabMap.get((currTab * 2) + 1);
 							if (rpux != null) {
-								page[i * 2 + 1] = rpux;
-								if (i > 7
-										&& rpux.getFatherPid()
-												+ rpux.getMotherPid() > 0) {
+								page[(i * 2) + 1] = rpux;
+								if ((i > 7)
+										&& ((rpux.getFatherPid() + rpux
+												.getMotherPid()) > 0)) {
 									tabNext.add(rpux);
 								}
 							} else {
-								page[i * 2 + 1] = new ReportUnit();
-								page[i * 2 + 1].setPid(rpu.getMotherPid());
+								page[(i * 2) + 1] = new ReportUnit();
+								page[(i * 2) + 1].setPid(rpu.getMotherPid());
 
 							}
 						}
@@ -258,14 +258,14 @@ public class AncestorTableReport extends CommonReport {
 						curgen = uu.getGen();
 						bdate = pp.getBirtDate() == null ? null : Utils
 								.textDate(pp.getBirtDate(), false);
-						if (bdate != null && pp.getBirtPlace() != null) {
+						if ((bdate != null) && (pp.getBirtPlace() != null)) {
 							bdate += " " + pp.getBirtPlace();
 						} else if (pp.getBirtPlace() != null) {
 							bdate = pp.getBirtPlace();
 						}
 						ddate = pp.getDeatDate() == null ? null : Utils
 								.textDate(pp.getDeatDate(), false);
-						if (ddate != null && pp.getDeatPlace() != null) {
+						if ((ddate != null) && (pp.getDeatPlace() != null)) {
 							ddate += " " + pp.getDeatPlace();
 						} else if (pp.getDeatPlace() != null) {
 							ddate = pp.getDeatPlace();
@@ -280,7 +280,7 @@ public class AncestorTableReport extends CommonReport {
 						if (i > 15) {
 
 							// lets check if we continue
-							if (uu.getFatherPid() + uu.getMotherPid() > 0) {
+							if ((uu.getFatherPid() + uu.getMotherPid()) > 0) {
 								// yes we do
 								addTable++;
 								int qsize = mySize;
@@ -420,7 +420,8 @@ public class AncestorTableReport extends CommonReport {
 					wsh.getWritableCell(col, row).setCellFormat(wrall);
 					if (tabno == 1) {
 						ReportUnit rru = vlist.reportUnits.get(pid);
-						if (rru != null && rru.getPageNo() > 0 && xpage > 1) {
+						if ((rru != null) && (rru.getPageNo() > 0)
+								&& (xpage > 1)) {
 
 							label = new Label(0, 2,
 									typesTable.getTextValue("ANC_FROM") + " "
@@ -475,9 +476,9 @@ public class AncestorTableReport extends CommonReport {
 				IndexPerson ipp = ipx[i];
 
 				if (ipprevious.pu.getPid() > 0) {
-					if (i == ipx.length - 1
-							|| ipp.pu.getPid() != ipprevious.pu.getPid()) {
-						if (i == ipx.length - 1) {
+					if ((i == (ipx.length - 1))
+							|| (ipp.pu.getPid() != ipprevious.pu.getPid())) {
+						if (i == (ipx.length - 1)) {
 							ipprevious = ipp;
 						}
 
@@ -592,12 +593,14 @@ public class AncestorTableReport extends CommonReport {
 		public int compareTo(IndexPerson o) {
 			int resu = Utils.nv(pu.getSurname()).compareToIgnoreCase(
 					Utils.nv(o.pu.getSurname()));
-			if (resu != 0)
+			if (resu != 0) {
 				return resu;
+			}
 			resu = Utils.nv(pu.getGivenname()).compareToIgnoreCase(
 					Utils.nv(o.pu.getGivenname()));
-			if (resu != 0)
+			if (resu != 0) {
 				return resu;
+			}
 			return Utils.nv(pu.getPatronym()).compareToIgnoreCase(
 					Utils.nv(o.pu.getPatronym()));
 

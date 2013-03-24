@@ -109,7 +109,7 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-		setBounds(d.width / 2 - 200, d.height / 2 - 100, 400, 230);
+		setBounds((d.width / 2) - 200, (d.height / 2) - 100, 400, 230);
 		setLayout(null);
 		int y = 20;
 
@@ -125,7 +125,7 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 		this.oldLangS = new String[apu.length / 3];
 		String langNames[] = new String[apu.length / 3];
 		int j = 0;
-		for (int i = 0; i < apu.length / 3; i++) {
+		for (int i = 0; i < (apu.length / 3); i++) {
 			j++;
 			this.oldLangS[i] = apu[j++];
 			langNames[i] = apu[j++];
@@ -375,7 +375,7 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 			}
 
 			showCounter--;
-			if (progress > 0 && showCounter < 0 && timerText != null) {
+			if ((progress > 0) && (showCounter < 0) && (timerText != null)) {
 				showCounter = 10;
 				long nowTime = System.currentTimeMillis();
 				long usedTime = nowTime - startTime;

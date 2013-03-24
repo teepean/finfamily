@@ -194,8 +194,9 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 		this.compToSchema.setActionCommand("OK");
 		this.compToSchema.addActionListener(this);
 
-		if (yy > y)
+		if (yy > y) {
 			y = yy;
+		}
 		this.copyAndComp = new JButton(Resurses.getString("SCHEMA_COPY"));
 		pna.add(this.copyAndComp);
 		this.copyAndComp.setBounds(10, y, 128, 24);
@@ -221,7 +222,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 		pnb.setBounds(300, 10, 280, yy + 40);
 		y += 100;
-		setBounds(d.width / 2 - 300, d.height / 2 - 200, 600, y);
+		setBounds((d.width / 2) - 300, (d.height / 2) - 200, 600, y);
 
 		this.setVisible(true);
 
@@ -257,8 +258,9 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 	public int getViewId() {
 
 		if (wasOk) {
-			if (selectedView >= 0 && selectedView < viewIds.length)
+			if ((selectedView >= 0) && (selectedView < viewIds.length)) {
 				return viewIds[selectedView];
+			}
 		}
 		return -1;
 	}
@@ -269,7 +271,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 	 * @return the view name
 	 */
 	public String getViewName() {
-		if (wasOk && selectedView >= 0) {
+		if (wasOk && (selectedView >= 0)) {
 			return viewNames[selectedView];
 		}
 		return null;
@@ -285,8 +287,9 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 	public void actionPerformed(ActionEvent arg) {
 
 		Object activator = arg.getSource();
-		if (activator == null)
+		if (activator == null) {
 			return;
+		}
 
 		ArrayList<String> parms = new ArrayList<String>();
 		parms.add("cmd=compare");
@@ -415,8 +418,9 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 	public void valueChanged(ListSelectionEvent arg) {
 
 		String schema = schemaList[scList.getSelectedIndex()];
-		if (schema.equals(selectedSchema))
+		if (schema.equals(selectedSchema)) {
 			return;
+		}
 		selectedSchema = schema;
 
 		scViews.setSelectedIndices(new int[0]);
@@ -506,7 +510,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 		}
 	}
 
-	private boolean isCancelled = false;
+	private final boolean isCancelled = false;
 	private long startTime = 0;
 	private String timerText = null;
 	private int showCounter = 0;
@@ -549,7 +553,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 			progressBar.setValue(progress);
 			textContent.setText(kaksi[1]);
 			showCounter--;
-			if (progress > 0 && showCounter < 0 && timerText != null) {
+			if ((progress > 0) && (showCounter < 0) && (timerText != null)) {
 				showCounter = 10;
 				long nowTime = System.currentTimeMillis();
 				long usedTime = nowTime - startTime;

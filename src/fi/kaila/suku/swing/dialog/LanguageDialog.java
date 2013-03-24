@@ -187,14 +187,14 @@ public class LanguageDialog extends JDialog implements ActionListener,
 	 */
 	public UnitLanguage[] getLanguages() {
 		Vector<UnitLanguage> ulv = new Vector<UnitLanguage>();
-		for (int i = 0; i < languages.length; i++) {
-			UnitLanguage u = languages[i];
-			if (u.getNoticeType() == null && u.getMediaTitle() == null
-					&& u.getDescription() == null && u.getPlace() == null
-					&& u.getNoteText() == null) {
+		for (UnitLanguage language : languages) {
+			UnitLanguage u = language;
+			if ((u.getNoticeType() == null) && (u.getMediaTitle() == null)
+					&& (u.getDescription() == null) && (u.getPlace() == null)
+					&& (u.getNoteText() == null)) {
 				u.setToBeDeleted(true);
 			}
-			if (u.getPid() > 0 && !u.isToBeDeleted()) {
+			if ((u.getPid() > 0) && !u.isToBeDeleted()) {
 				ulv.add(u);
 			}
 		}
@@ -213,16 +213,16 @@ public class LanguageDialog extends JDialog implements ActionListener,
 	public void setLanguages(String tag, UnitLanguage[] languages) {
 		this.tag = tag;
 		if (languages != null) {
-			for (int i = 0; i < languages.length; i++) {
-				int idx = Suku.getRepoLanguageIndex(languages[i].getLangCode());
+			for (UnitLanguage language : languages) {
+				int idx = Suku.getRepoLanguageIndex(language.getLangCode());
 				if (idx >= 0) {
-					this.languages[idx] = languages[i];
-					if (languages[i].getPid() > 0
-							|| languages[i].isToBeUpdated())
+					this.languages[idx] = language;
+					if ((language.getPid() > 0) || language.isToBeUpdated()) {
 						langxx[idx].setForeground(Color.RED);
+					}
 				} else {
 					logger.warning("language code not known ["
-							+ languages[i].getLangCode() + "]");
+							+ language.getLangCode() + "]");
 				}
 			}
 
@@ -263,8 +263,9 @@ public class LanguageDialog extends JDialog implements ActionListener,
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		if (cmd == null)
+		if (cmd == null) {
 			return;
+		}
 		langTextToPojo(cmd);
 		if (cmd.equals("OK")) {
 			setVisible(false);

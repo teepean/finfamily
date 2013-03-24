@@ -113,12 +113,12 @@ public class ExportReport extends CommonReport {
 
 		UnitNotice[] notices = pdata.persLong.getNotices();
 
-		for (int j = 0; j < notices.length; j++) {
-			UnitNotice nn = notices[j];
+		for (UnitNotice nn : notices) {
 			if (nn.getTag().equals("NAME")) {
 				tabOwner.append(nn.getSurname());
-				if (tabOwner.length() > 0)
+				if (tabOwner.length() > 0) {
 					tabOwner.append(" ");
+				}
 				tabOwner.append(nn.getGivenname());
 				// break;
 			}

@@ -479,8 +479,9 @@ public class RelationNotice implements Serializable {
 	}
 
 	private String trimx(String text) {
-		if (text == null)
+		if (text == null) {
 			return null;
+		}
 
 		String tek = text.trim();
 		if (tek.endsWith(".")) {
@@ -509,14 +510,16 @@ public class RelationNotice implements Serializable {
 	}
 
 	private String nv(String text) {
-		if (text == null)
+		if (text == null) {
 			return "";
+		}
 		return text;
 	}
 
 	private String vn(String text) {
-		if (text == null || text.isEmpty())
+		if ((text == null) || text.isEmpty()) {
 			return null;
+		}
 		return text;
 	}
 

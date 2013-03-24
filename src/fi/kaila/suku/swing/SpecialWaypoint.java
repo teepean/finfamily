@@ -11,7 +11,7 @@ import org.jdesktop.swingx.mapviewer.Waypoint;
  *         Extended Waypoint for WorldMap
  */
 public class SpecialWaypoint extends Waypoint {
-	private int count;
+	private final int count;
 
 	/**
 	 * Instantiates a new special waypoint.

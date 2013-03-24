@@ -69,7 +69,7 @@ public class AdminConnectDialog extends JDialog implements ActionListener {
 		cancel.setActionCommand(CANCEL);
 		cancel.addActionListener(this);
 
-		setBounds(d.width / 2 - 200, d.height / 2 - 100, 400, y + 70);
+		setBounds((d.width / 2) - 200, (d.height / 2) - 100, 400, y + 70);
 		setResizable(false);
 
 	}
@@ -81,6 +81,7 @@ public class AdminConnectDialog extends JDialog implements ActionListener {
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@Override
 	@SuppressWarnings("unqualified-field-access")
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();

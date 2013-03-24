@@ -104,8 +104,9 @@ public class Utils {
 	 */
 	public static void putBooleanPref(Object o, String key, boolean value) {
 		String svalue = "false";
-		if (value)
+		if (value) {
 			svalue = "true";
+		}
 		SukuKontroller kontroller = Suku.getKontroller();
 
 		kontroller.putPref(o, key, svalue);
@@ -122,8 +123,9 @@ public class Utils {
 	 */
 	public static String textDate(String dbDate, boolean trimDate) {
 		String df = Resurses.getDateFormat();
-		if (dbDate == null)
+		if (dbDate == null) {
 			return null;
+		}
 		if (dbDate.length() == 4) {
 			return dbDate;
 		}
@@ -190,8 +192,9 @@ public class Utils {
 	 * @return in text format
 	 */
 	public static int textDateMonth(String dbDate) {
-		if (dbDate == null)
+		if (dbDate == null) {
 			return 0;
+		}
 		if (dbDate.length() == 4) {
 			return 0;
 		}
@@ -237,8 +240,9 @@ public class Utils {
 	 *             if bad dateformat
 	 */
 	public static String dbDate(String textDate) throws SukuDateException {
-		if (textDate == null || textDate.isEmpty())
+		if ((textDate == null) || textDate.isEmpty()) {
 			return null;
+		}
 		String df = Resurses.getDateFormat();
 
 		StringBuilder sb = new StringBuilder();
@@ -312,12 +316,12 @@ public class Utils {
 					+ " [" + textDate + "]");
 		}
 
-		if (m >= 0 && (m == 0 || m > 12)) {
+		if ((m >= 0) && ((m == 0) || (m > 12))) {
 			throw new SukuDateException(Resurses.getString("ERROR_MONTH")
 					+ " [" + textDate + "]");
 		}
 		if (d >= 0) {
-			if (d > 0 && d <= 31) {
+			if ((d > 0) && (d <= 31)) {
 				switch (m) {
 				case 1:
 				case 3:
@@ -386,10 +390,12 @@ public class Utils {
 	 * @return the proper name
 	 */
 	public static String toProper(String names) {
-		if (names == null)
+		if (names == null) {
 			return null;
-		if (names.isEmpty())
+		}
+		if (names.isEmpty()) {
 			return "";
+		}
 		String name[] = names.split(" ");
 
 		StringBuilder sb = new StringBuilder();
@@ -411,8 +417,9 @@ public class Utils {
 	}
 
 	private static String strl(int i, int len) {
-		if (i == 0)
+		if (i == 0) {
 			return null;
+		}
 		String text = "" + i;
 
 		if (text.length() == len) {
@@ -476,8 +483,8 @@ public class Utils {
 				if (member.getSpouses() != null) {
 					ReportTableMember[] spouseMembers = member.getSpouses();
 					ReportTableMember spouseMember;
-					for (int k = 0; k < spouseMembers.length; k++) {
-						spouseMember = spouseMembers[k];
+					for (ReportTableMember spouseMember2 : spouseMembers) {
+						spouseMember = spouseMember2;
 						ref = personReferences.get(spouseMember.getPid());
 						if (ref == null) {
 							ref = new PersonInTables(spouseMember.getPid());
@@ -561,8 +568,9 @@ public class Utils {
 	 * @return empty string if null or text
 	 */
 	public static String nv(String text) {
-		if (text == null)
+		if (text == null) {
 			return "";
+		}
 		return text;
 	}
 
@@ -574,8 +582,9 @@ public class Utils {
 	 * @return null if empty string or text
 	 */
 	public static String vn(String text) {
-		if (text == null || text.isEmpty())
+		if ((text == null) || text.isEmpty()) {
 			return null;
+		}
 		return text;
 	}
 
@@ -587,10 +596,12 @@ public class Utils {
 	 * @return 4 first chars of string if exist
 	 */
 	public static String nv4(String text) {
-		if (text == null)
+		if (text == null) {
 			return "";
-		if (text.length() < 4)
+		}
+		if (text.length() < 4) {
 			return text;
+		}
 		return text.substring(0, 4);
 	}
 
@@ -610,20 +621,20 @@ public class Utils {
 		while (ii > 0) {
 
 			len++;
-			for (int j = 0; j < prexesu.length; j++) {
-				if (prexesu[j].length() == len) {
+			for (String element : prexesu) {
+				if (element.length() == len) {
 					ii--;
-					prexes[ii] = prexesu[j];
+					prexes[ii] = element;
 				}
 			}
 		}
 
-		for (int i = 0; i < prexes.length; i++) {
-			if (name.equalsIgnoreCase(prexes[i])) {
-				return prexes[i].length();
+		for (String prexe : prexes) {
+			if (name.equalsIgnoreCase(prexe)) {
+				return prexe.length();
 			}
-			if (name.toLowerCase().startsWith(prexes[i] + " ")) {
-				return prexes[i].length();
+			if (name.toLowerCase().startsWith(prexe + " ")) {
+				return prexe.length();
 			}
 		}
 		return 0;
@@ -648,32 +659,36 @@ public class Utils {
 			String tmp = Resurses.getString("PATRONYM_ENDINGS");
 			patronymeEnds = tmp.split(";");
 		}
-		if (noticeGivenName == null)
+		if (noticeGivenName == null) {
 			return null;
+		}
 		int j;
 		String trimmedName = null;
 		int nl = noticeGivenName.length();
-		if (noticeGivenName.endsWith(".") && nl > 1) {
+		if (noticeGivenName.endsWith(".") && (nl > 1)) {
 			trimmedName = noticeGivenName.substring(0, nl - 1);
 		} else {
 			trimmedName = noticeGivenName;
 		}
-		for (int i = 0; i < patronymeEnds.length; i++) {
-			if (trimmedName.endsWith(patronymeEnds[i])) {
+		for (String patronymeEnd : patronymeEnds) {
+			if (trimmedName.endsWith(patronymeEnd)) {
 				j = trimmedName.lastIndexOf(' ');
 				if (j > 0) {
-					if (patronymePart)
+					if (patronymePart) {
 						return noticeGivenName.substring(j + 1);
+					}
 					return noticeGivenName.substring(0, j).trim();
 				} else {
-					if (patronymePart)
+					if (patronymePart) {
 						return noticeGivenName;
+					}
 					return noticeGivenName;
 				}
 			}
 		}
-		if (patronymePart)
+		if (patronymePart) {
 			return null;
+		}
 
 		return noticeGivenName.trim();
 	}
@@ -783,17 +798,20 @@ public class Utils {
 	 */
 	public static String tidyFileName(String name) {
 
-		if (name == null)
+		if (name == null) {
 			return null;
+		}
 		int idx = 0;
 		int point = name.lastIndexOf(".");
-		if (point < 0)
+		if (point < 0) {
 			return name;
+		}
 		while ((idx = name.indexOf("_")) > 0) {
 
 			point = name.lastIndexOf(".");
-			if (idx >= point)
+			if (idx >= point) {
 				return name;
+			}
 
 			try {
 				Integer.parseInt(name.substring(0, idx));
@@ -864,7 +882,7 @@ public class Utils {
 			thumbWidth = (int) (thumbHeight * imageRatio);
 		}
 
-		if (immPath != null && !immPath.isEmpty()) {
+		if ((immPath != null) && !immPath.isEmpty()) {
 			return magickScaled(immPath, image, thumbWidth, thumbHeight,
 					trailer_height);
 		}
@@ -1020,28 +1038,30 @@ public class Utils {
 	 * @return the string
 	 */
 	public static String toUsAscii(String text) {
-		if (text == null)
+		if (text == null) {
 			return null;
+		}
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < text.length(); i++) {
 			String c = text.substring(i, i + 1);
-			if (c.equals("å"))
+			if (c.equals("å")) {
 				c = "a";
-			else if (c.equals("ä"))
+			} else if (c.equals("ä")) {
 				c = "a";
-			else if (c.equals("ö"))
+			} else if (c.equals("ö")) {
 				c = "o";
-			else if (c.equals("Å"))
+			} else if (c.equals("Å")) {
 				c = "A";
-			else if (c.equals("Ä"))
+			} else if (c.equals("Ä")) {
 				c = "A";
-			else if (c.equals("Ö"))
+			} else if (c.equals("Ö")) {
 				c = "O";
-			else if (c.compareTo(" ") <= 0)
+			} else if (c.compareTo(" ") <= 0) {
 				c = "_";
-			else if (c.compareTo("z") > 0)
+			} else if (c.compareTo("z") > 0) {
 				c = "x";
+			}
 			sb.append(c);
 
 		}
@@ -1136,7 +1156,7 @@ public class Utils {
 		int exitVal = pr.waitFor();
 
 		logger.info("conversion to " + endi + " resulted in " + exitVal);
-		if (exitVal != 0 || respo.length() > 0) {
+		if ((exitVal != 0) || (respo.length() > 0)) {
 			SukuPad pad = new SukuPad(parent, "Graphviz response [" + exitVal
 					+ "]\n\n" + respo.toString());
 			pad.setVisible(true);

@@ -123,7 +123,7 @@ public class ExportGedcomUtil {
 		families = new LinkedHashMap<String, MinimumFamily>();
 		famById = new HashMap<Integer, MinimumFamily>();
 		SukuData result = new SukuData();
-		if (path == null || path.lastIndexOf(".") < 1) {
+		if ((path == null) || (path.lastIndexOf(".") < 1)) {
 			result.resu = "output filename missing";
 			return result;
 		}
@@ -253,44 +253,43 @@ public class ExportGedcomUtil {
 			sb.append("1 REFN " + persLong.getRefn() + "\r\n");
 		}
 		UnitNotice[] notices = persLong.getNotices();
-		for (int i = 0; i < notices.length; i++) {
-			if (notices[i].getTag().equals("NAME")
-					&& surety >= notices[i].getSurety()) {
+		for (UnitNotice notice : notices) {
+			if (notice.getTag().equals("NAME")
+					&& (surety >= notice.getSurety())) {
 				StringBuilder nm = new StringBuilder();
-				if (notices[i].getGivenname() != null) {
-					nm.append(notices[i].getGivenname());
+				if (notice.getGivenname() != null) {
+					nm.append(notice.getGivenname());
 				}
-				if (notices[i].getPatronym() != null) {
+				if (notice.getPatronym() != null) {
 					if (nm.length() > 0) {
 						nm.append(" ");
 					}
-					nm.append(notices[i].getPatronym());
+					nm.append(notice.getPatronym());
 				}
 				nm.append("/");
-				if (notices[i].getPrefix() != null) {
-					nm.append(notices[i].getPrefix());
+				if (notice.getPrefix() != null) {
+					nm.append(notice.getPrefix());
 					nm.append(" ");
 				}
-				if (notices[i].getSurname() != null) {
-					nm.append(notices[i].getSurname());
+				if (notice.getSurname() != null) {
+					nm.append(notice.getSurname());
 				}
 				nm.append("/");
-				if (notices[i].getPostfix() != null) {
-					nm.append(notices[i].getPostfix());
+				if (notice.getPostfix() != null) {
+					nm.append(notice.getPostfix());
 				}
 
 				sb.append("1 NAME " + nm.toString() + "\r\n");
-				if (notices[i].getSource() != null) {
-					sb.append(getNoteStructure(2, "SOUR",
-							notices[i].getSource()));
+				if (notice.getSource() != null) {
+					sb.append(getNoteStructure(2, "SOUR", notice.getSource()));
 
 				}
-				if (notices[i].getNoticeType() != null) {
-					sb.append("2 TYPE " + notices[i].getNoticeType() + "\r\n");
+				if (notice.getNoticeType() != null) {
+					sb.append("2 TYPE " + notice.getNoticeType() + "\r\n");
 				}
-				if (notices[i].getDescription() != null) {
+				if (notice.getDescription() != null) {
 					sb.append(getNoteStructure(2, "NOTE",
-							notices[i].getDescription()));
+							notice.getDescription()));
 
 				}
 			}
@@ -299,7 +298,7 @@ public class ExportGedcomUtil {
 		for (int i = 0; i < notices.length; i++) {
 
 			if (!notices[i].getTag().equals("NAME")
-					&& surety >= notices[i].getSurety()) {
+					&& (surety >= notices[i].getSurety())) {
 				UnitNotice notice = notices[i];
 				StringBuilder nm = new StringBuilder();
 				String gedTag = notice.getTag();
@@ -345,16 +344,16 @@ public class ExportGedcomUtil {
 								notice.getNoteText()));
 					}
 
-					if (notice.getAddress() != null
-							|| notice.getPostOffice() != null) {
+					if ((notice.getAddress() != null)
+							|| (notice.getPostOffice() != null)) {
 						if (notice.getAddress() != null) {
 							if (notice.getState() == null) {
 
 								nm.append(getNoteStructure(2, "ADDR",
 										notice.getAddress(), 1));
 								if (notice.getPostOffice() != null) {
-									if (notice.getPostalCode() != null
-											&& notice.getPostOffice() != null) {
+									if ((notice.getPostalCode() != null)
+											&& (notice.getPostOffice() != null)) {
 										nm.append("3 CONT "
 												+ notice.getPostalCode() + " "
 												+ notice.getPostOffice()
@@ -388,8 +387,8 @@ public class ExportGedcomUtil {
 						if (notice.getCountry() != null) {
 							nm.append("3 CONT " + notice.getCountry() + "\r\n");
 						}
-					} else if (notice.getCountry() != null
-							|| notice.getState() != null) {
+					} else if ((notice.getCountry() != null)
+							|| (notice.getState() != null)) {
 						if (notice.getState() != null) {
 							nm.append("2 ADDR " + notice.getState() + "\r\n");
 							if (notice.getCountry() != null) {
@@ -425,8 +424,8 @@ public class ExportGedcomUtil {
 								+ "\r\n");
 					}
 					if (includeImages) {
-						if (notice.getMediaFilename() != null
-								&& notice.getMediaData() != null) {
+						if ((notice.getMediaFilename() != null)
+								&& (notice.getMediaData() != null)) {
 							MinimumImage minimg = new MinimumImage(
 									notice.getMediaFilename(),
 									notice.getMediaData());
@@ -476,7 +475,7 @@ public class ExportGedcomUtil {
 		if (fromdate != null) {
 			nm.append(gedDate(fromdate));
 		}
-		if (prefix != null && todate != null) {
+		if ((prefix != null) && (todate != null)) {
 			if (prefix.equals("BET")) {
 				nm.append(" AND ");
 				nm.append(gedDate(todate));
@@ -527,11 +526,11 @@ public class ExportGedcomUtil {
 		for (int i = 0; i < relNotices.size(); i++) {
 			notice = relNotices.get(i);
 			if (notice.getRnid() != 0) {
-				for (int j = 0; j < asChild.length; j++) {
-					if (asChild[j] != 0) {
-						MinimumFamily mfam = famById.get(asChild[j]);
-						if (mfam.dad == notice.getRnid()
-								|| mfam.mom == notice.getRnid()) {
+				for (Integer element : asChild) {
+					if (element != 0) {
+						MinimumFamily mfam = famById.get(element);
+						if ((mfam.dad == notice.getRnid())
+								|| (mfam.mom == notice.getRnid())) {
 							if (mfam.dad == notice.getRnid()) {
 								dadFam = mfam.id;
 								relNotices.set(i, minimot);
@@ -544,7 +543,7 @@ public class ExportGedcomUtil {
 				}
 			}
 
-			if (dadFam != 0 || momFam != 0) {
+			if ((dadFam != 0) || (momFam != 0)) {
 				String who = null;
 				String fam = null;
 				String other = null;
@@ -594,7 +593,7 @@ public class ExportGedcomUtil {
 				}
 
 				fam = "@F" + childFam + "@";
-				if (dadFam == 0 || momFam == 0) {
+				if ((dadFam == 0) || (momFam == 0)) {
 
 					if (dadFam != 0) {
 						who = "FATH";
@@ -622,7 +621,7 @@ public class ExportGedcomUtil {
 					if (adop2.who != null) {
 						if (adop2.fam.equals(adop.fam)
 								&& (Utils.nv(adop2.other).equals(
-										Utils.nv(adop.other)) || (adop.other == null || adop2.other == null))) {
+										Utils.nv(adop.other)) || ((adop.other == null) || (adop2.other == null)))) {
 							adop.who = "BOTH";
 							if (adop.other == null) {
 								adop.other = adop2.other;
@@ -648,12 +647,15 @@ public class ExportGedcomUtil {
 	}
 
 	private int suretyToQuay(int surety) {
-		if (surety >= 100)
+		if (surety >= 100) {
 			return 100;
-		if (surety < 100 && surety >= 80)
+		}
+		if ((surety < 100) && (surety >= 80)) {
 			return 2;
-		if (surety < 80 && surety >= 60)
+		}
+		if ((surety < 80) && (surety >= 60)) {
 			return 1;
+		}
 		return 0;
 
 	}
@@ -666,7 +668,7 @@ public class ExportGedcomUtil {
 
 			try {
 				int m = Integer.parseInt(dbDate.substring(4, 6));
-				if (m > 0 && m <= 12) {
+				if ((m > 0) && (m <= 12)) {
 					mon = months[m - 1] + " ";
 				}
 			} catch (NumberFormatException ne) {
@@ -690,8 +692,9 @@ public class ExportGedcomUtil {
 
 		int linelen = 73;
 
-		if (text == null)
+		if (text == null) {
 			return null;
+		}
 		StringBuilder sb = new StringBuilder();
 		char prevc = 0;
 		int emptyCount = 0;
@@ -748,7 +751,7 @@ public class ExportGedcomUtil {
 						last = linelen;
 						last--;
 					} else {
-						if (last < linelen / 2) {
+						if (last < (linelen / 2)) {
 							last = linelen;
 						}
 					}
@@ -1081,21 +1084,22 @@ public class ExportGedcomUtil {
 		MinimumIndividual mini = new MinimumIndividual(0, "U", 0);
 
 		MinimumIndividual child = units.get(childId);
-		if (child == null)
+		if (child == null) {
 			return;
+		}
 		child.addChildRid(chilrid);
 
 		//
 		// first try to find family with mama and papa for child
 		//
-		for (int i = 0; i < p.size() - 1; i++) {
+		for (int i = 0; i < (p.size() - 1); i++) {
 			for (int j = i + 1; j < p.size(); j++) {
 				MinimumIndividual pi = p.get(i);
 				MinimumIndividual pj = p.get(j);
 
 				int dada = pi.pid;
 				int mama = pj.pid;
-				if (mama > 0 && dada > 0) {
+				if ((mama > 0) && (dada > 0)) {
 					ParentPair pp = new ParentPair(dada, mama);
 					fm = families.get(pp.toString());
 					if (fm == null) {
@@ -1145,8 +1149,9 @@ public class ExportGedcomUtil {
 	}
 
 	private byte[] gedBytes(String text) {
-		if (text == null)
+		if (text == null) {
 			return null;
+		}
 		try {
 			switch (thisSet) {
 			case Set_Ascii:
@@ -1230,13 +1235,15 @@ public class ExportGedcomUtil {
 				} else {
 					iIndex = uCurr - 0xc0;
 					u0 = toAnsel[iIndex * 2];
-					u1 = toAnsel[iIndex * 2 + 1];
-					if (u0 == 0)
+					u1 = toAnsel[(iIndex * 2) + 1];
+					if (u0 == 0) {
 						st.append('?');
-					else
+					} else {
 						st.append(u0);
-					if (u1 != 0)
+					}
+					if (u1 != 0) {
 						st.append(u1);
+					}
 				}
 			}
 		}
@@ -1320,8 +1327,9 @@ public class ExportGedcomUtil {
 		}
 
 		int getDada() {
-			if (dad == 0)
+			if (dad == 0) {
 				return 0;
+			}
 			MinimumIndividual mm = units.get(dad);
 			if (mm == null) {
 				logger.warning("person for " + dad + "does not exist");
@@ -1331,8 +1339,9 @@ public class ExportGedcomUtil {
 		}
 
 		int getMama() {
-			if (mom == 0)
+			if (mom == 0) {
 				return 0;
+			}
 			MinimumIndividual mm = units.get(mom);
 			if (mm == null) {
 				logger.warning("person for " + mom + "does not exist");

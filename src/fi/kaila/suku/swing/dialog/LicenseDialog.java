@@ -81,7 +81,7 @@ public class LicenseDialog extends JDialog implements ActionListener {
 		ok.setDefaultCapable(true);
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds(d.width / 2 - 325, d.height / 2 - 250, 650, 500);
+		setBounds((d.width / 2) - 325, (d.height / 2) - 250, 650, 500);
 		setResizable(false);
 
 		getRootPane().setDefaultButton(ok);
@@ -93,6 +93,7 @@ public class LicenseDialog extends JDialog implements ActionListener {
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		this.setVisible(false);
 

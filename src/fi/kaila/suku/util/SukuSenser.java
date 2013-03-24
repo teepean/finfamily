@@ -167,50 +167,47 @@ public class SukuSenser implements MouseListener {
 			model.clear();
 			switch (fld) {
 			case Fld_Place:
-				for (int i = 0; i < paikat.length; i++) {
-					if (paikat[i].toLowerCase().startsWith(txt.toLowerCase())) {
-						model.add(paikat[i]);
+				for (String element : paikat) {
+					if (element.toLowerCase().startsWith(txt.toLowerCase())) {
+						model.add(element);
 					}
 				}
 				break;
 			case Fld_Givenname:
-				for (int i = 0; i < givennames.length; i++) {
-					if (givennames[i].toLowerCase().startsWith(
-							txt.toLowerCase())) {
-						model.add(givennames[i]);
+				for (String givenname : givennames) {
+					if (givenname.toLowerCase().startsWith(txt.toLowerCase())) {
+						model.add(givenname);
 					}
 				}
 				break;
 			case Fld_Patronyme:
-				for (int i = 0; i < patronymes.length; i++) {
-					if (patronymes[i].toLowerCase().startsWith(
-							txt.toLowerCase())) {
-						model.add(patronymes[i]);
+				for (String patronyme : patronymes) {
+					if (patronyme.toLowerCase().startsWith(txt.toLowerCase())) {
+						model.add(patronyme);
 					}
 				}
 				break;
 			case Fld_Surname:
-				for (int i = 0; i < surnames.length; i++) {
-					if (surnames[i].toLowerCase().startsWith(txt.toLowerCase())) {
-						model.add(surnames[i]);
+				for (String surname : surnames) {
+					if (surname.toLowerCase().startsWith(txt.toLowerCase())) {
+						model.add(surname);
 					}
 				}
 				break;
 			case Fld_Type:
-				for (int i = 0; i < noticeTypes.length; i++) {
-					if (noticeTypes[i].toLowerCase().startsWith(
-							txt.toLowerCase())) {
-						model.add(noticeTypes[i]);
+				for (String noticeType : noticeTypes) {
+					if (noticeType.toLowerCase().startsWith(txt.toLowerCase())) {
+						model.add(noticeType);
 					}
 				}
 				break;
 			case Fld_Description:
 				if (tag != null) {
-					for (int i = 0; i < descriptions.length; i++) {
-						int iix = descriptions[i].indexOf(';');
+					for (String description : descriptions) {
+						int iix = description.indexOf(';');
 						if (iix > 0) {
-							String myTag = descriptions[i].substring(0, iix);
-							String myText = descriptions[i].substring(iix + 1);
+							String myTag = description.substring(0, iix);
+							String myText = description.substring(iix + 1);
 							if (myTag.equals(tag)) {
 
 								if (myText.toLowerCase().startsWith(
@@ -223,9 +220,9 @@ public class SukuSenser implements MouseListener {
 				}
 				break;
 			case Fld_Group:
-				for (int i = 0; i < groups.length; i++) {
-					if (groups[i].toLowerCase().startsWith(txt.toLowerCase())) {
-						model.add(groups[i]);
+				for (String group : groups) {
+					if (group.toLowerCase().startsWith(txt.toLowerCase())) {
+						model.add(group);
 					}
 				}
 				break;
@@ -293,7 +290,7 @@ public class SukuSenser implements MouseListener {
 			listIndex--;
 		} else if (direction == 10) {
 			int indexi = lista.getSelectedIndex();
-			if (indexi >= 0 && indexi < model.size()) {
+			if ((indexi >= 0) && (indexi < model.size())) {
 				String aux = (String) lista.getSelectedValue();
 				if (parent != null) {
 					parent.setText(aux);
@@ -327,7 +324,7 @@ public class SukuSenser implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent m) {
 		int indexi = lista.getSelectedIndex();
-		if (indexi >= 0 && indexi < model.size()) {
+		if ((indexi >= 0) && (indexi < model.size())) {
 			String aux = (String) lista.getSelectedValue();
 			if (parent != null) {
 				parent.setText(aux);

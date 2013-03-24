@@ -472,7 +472,7 @@ public class Read2004XML extends DefaultHandler {
 	LinkedHashMap<String, String> images = null;
 	/** The is zip file. */
 	boolean isZipFile = false;
-	
+
 	/** The zip in. */
 	ZipInputStream zipIn = null;
 	private Import2004Dialog runner = null;
@@ -755,7 +755,7 @@ public class Read2004XML extends DefaultHandler {
 
 			this.noticeRow = attributes.getValue("row");
 			String ntag = attributes.getValue("tag");
-			if (finFamilyVersion != null && ntag.equals("INDI")) {
+			if ((finFamilyVersion != null) && ntag.equals("INDI")) {
 				ntag = "NAME";
 			}
 			this.noticeTag = ntag;
@@ -1255,7 +1255,8 @@ public class Read2004XML extends DefaultHandler {
 		if (this.currentEle.equals(sourceTG)) {
 			this.sourceNoteText = this.currentChars.toString();
 
-			if (this.sourceNoteText != null && this.sourceNoteText.length() > 0) {
+			if ((this.sourceNoteText != null)
+					&& (this.sourceNoteText.length() > 0)) {
 				try {
 					int sid;
 					try {
@@ -1404,9 +1405,10 @@ public class Read2004XML extends DefaultHandler {
 		}
 
 		if (this.currentEle.equals(conversionTG)) {
-			if (this.conversionsFrom != null && this.conversionsLang != null
-					&& this.conversionsRule != null
-					&& this.conversionsTo != null) {
+			if ((this.conversionsFrom != null)
+					&& (this.conversionsLang != null)
+					&& (this.conversionsRule != null)
+					&& (this.conversionsTo != null)) {
 				String newLang = this.conversionsLang.toLowerCase();
 				if (newLang.equals("se")) {
 					newLang = "sv";
@@ -1458,7 +1460,7 @@ public class Read2004XML extends DefaultHandler {
 		int vid;
 
 		if (this.currentEle.equals(viewTG)) {
-			if (this.viewId != null && this.viewId.length() > 1) {
+			if ((this.viewId != null) && (this.viewId.length() > 1)) {
 				try {
 
 					try {
@@ -1500,9 +1502,9 @@ public class Read2004XML extends DefaultHandler {
 		}
 
 		if (this.currentEle.equals(viewUnitTG)) {
-			if (this.viewId != null && this.viewId.length() > 1
-					&& this.viewUnitPid != null
-					&& this.viewUnitPid.length() > 1) {
+			if ((this.viewId != null) && (this.viewId.length() > 1)
+					&& (this.viewUnitPid != null)
+					&& (this.viewUnitPid.length() > 1)) {
 				try {
 					int vpid;
 					try {
@@ -2013,10 +2015,10 @@ public class Read2004XML extends DefaultHandler {
 					//
 					// }
 
-					if (this.relationBegDateFrom != null
-							|| this.relationBegPlace != null
-							|| this.relationBegType != null
-							|| this.relationDescription != null) {
+					if ((this.relationBegDateFrom != null)
+							|| (this.relationBegPlace != null)
+							|| (this.relationBegType != null)
+							|| (this.relationDescription != null)) {
 
 						StringBuilder allText = new StringBuilder();
 						if (this.relationBegType != null) {
@@ -2092,7 +2094,7 @@ public class Read2004XML extends DefaultHandler {
 						pst.executeUpdate();
 						laskuriRelations++;
 
-						if (langus != null && langus.length > 1) {
+						if ((langus != null) && (langus.length > 1)) {
 							for (i = 0; i < langus.length; i++) {
 								if (!langus[i].equals(this.oldCode)) {
 
@@ -2132,9 +2134,9 @@ public class Read2004XML extends DefaultHandler {
 						}
 					}
 
-					if (this.relationEndDateFrom != null
-							|| this.relationEndPlace != null
-							|| this.relationEndType != null) {
+					if ((this.relationEndDateFrom != null)
+							|| (this.relationEndPlace != null)
+							|| (this.relationEndType != null)) {
 
 						String allText = "";
 						if (this.relationEndType != null) {
@@ -2189,7 +2191,7 @@ public class Read2004XML extends DefaultHandler {
 
 						pst.executeUpdate();
 
-						if (langus != null && langus.length > 1) {
+						if ((langus != null) && (langus.length > 1)) {
 							for (i = 0; i < langus.length; i++) {
 								if (!langus[i].equals(this.oldCode)) {
 
@@ -2221,12 +2223,12 @@ public class Read2004XML extends DefaultHandler {
 				}
 			}
 
-			if (lastUnitId != null && lastUnitId.length() > 1) {
+			if ((lastUnitId != null) && (lastUnitId.length() > 1)) {
 				int last = Integer.parseInt(lastUnitId.substring(1));
 				if (aid >= lastMaxAid) {
 					lastMaxAid = aid;
 				}
-				double prose = lastMaxAid * 100 / last;
+				double prose = (lastMaxAid * 100) / last;
 				int intprose = (int) prose;
 				if (intprose < 100) {
 
@@ -2425,9 +2427,10 @@ public class Read2004XML extends DefaultHandler {
 			pst.executeUpdate();
 			pst.close();
 
-			if (this.placeCollector.size() > 0 || this.nameCollector.size() > 0
-					|| this.namelist != null && this.namelist.size() > 0
-					|| this.placelist != null && this.placelist.size() > 0) {
+			if ((this.placeCollector.size() > 0)
+					|| (this.nameCollector.size() > 0)
+					|| ((this.namelist != null) && (this.namelist.size() > 0))
+					|| ((this.placelist != null) && (this.placelist.size() > 0))) {
 
 				NameArray asn = new NameArray();
 				Iterator<String> it = this.nameCollector.keySet().iterator();
@@ -2495,7 +2498,7 @@ public class Read2004XML extends DefaultHandler {
 							+ this.sukuMediaFolder + "/"
 							+ this.noticeMediaFilename);
 				}
-				if (file != null && file.exists() && file.isFile()) {
+				if ((file != null) && file.exists() && file.isFile()) {
 					BufferedImage sourceImage = ImageIO.read(file);
 					if (sourceImage == null) {
 						String wrn = "Image file: " + this.databaseFolder + "/"
@@ -2549,7 +2552,7 @@ public class Read2004XML extends DefaultHandler {
 
 			}
 
-			if (langus != null && langus.length > 1) {
+			if ((langus != null) && (langus.length > 1)) {
 				for (i = 0; i < langus.length; i++) {
 					if (!langus[i].equals(this.oldCode)) {
 
@@ -2718,7 +2721,7 @@ public class Read2004XML extends DefaultHandler {
 			}
 		}
 		if (finFamilyVersion == null) {
-			if (this.unitGivenName != null || this.unitSurName != null) {
+			if ((this.unitGivenName != null) || (this.unitSurName != null)) {
 				try {
 					pst = this.con
 							.prepareStatement("select nextval('unitnoticeseq')");
@@ -2902,7 +2905,7 @@ public class Read2004XML extends DefaultHandler {
 				String val;
 				while (apu != null) {
 					ix = apu.indexOf("}");
-					if (ix < 0 || ix > 5) {
+					if ((ix < 0) || (ix > 5)) {
 						break;
 					}
 					lan = apu.substring(2, ix);
@@ -2966,13 +2969,13 @@ public class Read2004XML extends DefaultHandler {
 				break;
 			}
 			if (kieli.charAt(i1) == 'O') {
-				if (i2 > i1 + 5) {
+				if (i2 > (i1 + 5)) {
 					String tmp = kieli.substring(i1 + 3, i2 - 1);
 					this.placeCollector.put(tmp, tmp);
 					sb.append(tmp);
 				}
 			} else if (kieli.charAt(i1) == 'P') {
-				if (i2 > i1 + 5) {
+				if (i2 > (i1 + 5)) {
 					String nimi = kieli.substring(i1 + 1, i2);
 					StringBuilder tnimi = new StringBuilder();
 					String etu = null, suku = null;
@@ -3008,7 +3011,7 @@ public class Read2004XML extends DefaultHandler {
 							}
 						}
 
-						if (etu != null || suku != null) {
+						if ((etu != null) || (suku != null)) {
 							if (suku != null) {
 								tnimi.append(suku);
 							}
@@ -3119,7 +3122,7 @@ public class Read2004XML extends DefaultHandler {
 
 	private int idToInt(String numero) {
 		int id;
-		if (numero == null || numero.length() < 2) {
+		if ((numero == null) || (numero.length() < 2)) {
 			return 0;
 		}
 		try {
@@ -3154,7 +3157,7 @@ public class Read2004XML extends DefaultHandler {
 			throws IOException, FileNotFoundException, SukuException {
 		int ldot = imgName.lastIndexOf(".");
 		String imgSuffix = null;
-		if (ldot > 0 && ldot > imgName.length() - 6) {
+		if ((ldot > 0) && (ldot > (imgName.length() - 6))) {
 			imgSuffix = imgName.substring(ldot);
 		}
 

@@ -151,8 +151,8 @@ public class GenStat extends JDialog implements ActionListener {
 		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
-		for (int xy = 0; xy < this.persons.length; xy++) {
-			x = this.persons[xy].getChildCount();
+		for (PersonShortData person : this.persons) {
+			x = person.getChildCount();
 			if (x < 16) {
 				switch (x) {
 				case 0:
@@ -244,8 +244,8 @@ public class GenStat extends JDialog implements ActionListener {
 				"{0}: {2} ({1} " + Resurses.getString("STAT_PIECES") + " )"));
 		plot.setNoDataMessage(Resurses.getString("STAT_NO_DATA"));
 
-		for (int xy = 0; xy < this.persons.length; xy++) {
-			x = this.persons[xy].getChildCount();
+		for (PersonShortData person : this.persons) {
+			x = person.getChildCount();
 			if (x == 0) {
 				x0++;
 			} else {
@@ -273,8 +273,8 @@ public class GenStat extends JDialog implements ActionListener {
 				"{0}: {2} ({1} " + Resurses.getString("STAT_PIECES") + " )"));
 		plot.setNoDataMessage(Resurses.getString("STAT_NO_DATA"));
 
-		for (int xy = 0; xy < this.persons.length; xy++) {
-			x = this.persons[xy].getSex();
+		for (PersonShortData person : this.persons) {
+			x = person.getSex();
 			if (x.equals("M")) {
 				x0++;
 			} else if (x.equals("F")) {
@@ -306,8 +306,8 @@ public class GenStat extends JDialog implements ActionListener {
 				"{0}: {2} ({1} " + Resurses.getString("STAT_PIECES") + " )"));
 		plot.setNoDataMessage(Resurses.getString("STAT_NO_DATA"));
 
-		for (int xy = 0; xy < this.persons.length; xy++) {
-			x = this.persons[xy].getMarrCount();
+		for (PersonShortData person : this.persons) {
+			x = person.getMarrCount();
 			if (x == 0) {
 				x0++;
 			} else {
@@ -345,11 +345,11 @@ public class GenStat extends JDialog implements ActionListener {
 		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
-		for (int xy = 0; xy < this.persons.length; xy++) {
+		for (PersonShortData person : this.persons) {
 			if (birth) {
-				x = Utils.textDateMonth(this.persons[xy].getBirtDate());
+				x = Utils.textDateMonth(person.getBirtDate());
 			} else {
-				x = Utils.textDateMonth(this.persons[xy].getDeatDate());
+				x = Utils.textDateMonth(person.getDeatDate());
 			}
 
 			switch (x) {
@@ -474,8 +474,9 @@ public class GenStat extends JDialog implements ActionListener {
 				} else {
 					maa = persons[idx].getDeatCountry();
 				}
-				if (maa != null)
+				if (maa != null) {
 					maa = maa.toUpperCase();
+				}
 
 				if (maa == null) {
 					ccode = defaultCountry;
@@ -611,7 +612,7 @@ public class GenStat extends JDialog implements ActionListener {
 		int rightIdx = right;
 		PlaceLocationData temp;
 
-		if (right - left + 1 > 1) {
+		if (((right - left) + 1) > 1) {
 			int pivot = (left + right) / 2;
 			while ((leftIdx <= pivot) && (rightIdx >= pivot)) {
 				while ((array[leftIdx].getCount() < array[pivot].getCount())
@@ -627,9 +628,9 @@ public class GenStat extends JDialog implements ActionListener {
 				array[rightIdx] = temp;
 				leftIdx = leftIdx + 1;
 				rightIdx = rightIdx - 1;
-				if (leftIdx - 1 == pivot) {
+				if ((leftIdx - 1) == pivot) {
 					pivot = rightIdx = rightIdx + 1;
-				} else if (rightIdx + 1 == pivot) {
+				} else if ((rightIdx + 1) == pivot) {
 					pivot = leftIdx = leftIdx - 1;
 				}
 			}
@@ -653,7 +654,7 @@ public class GenStat extends JDialog implements ActionListener {
 		int rightIdx = right;
 		NameData temp;
 
-		if (right - left + 1 > 1) {
+		if (((right - left) + 1) > 1) {
 			int pivot = (left + right) / 2;
 			while ((leftIdx <= pivot) && (rightIdx >= pivot)) {
 				while ((array[leftIdx].getCount() < array[pivot].getCount())
@@ -669,9 +670,9 @@ public class GenStat extends JDialog implements ActionListener {
 				array[rightIdx] = temp;
 				leftIdx = leftIdx + 1;
 				rightIdx = rightIdx - 1;
-				if (leftIdx - 1 == pivot) {
+				if ((leftIdx - 1) == pivot) {
 					pivot = rightIdx = rightIdx + 1;
-				} else if (rightIdx + 1 == pivot) {
+				} else if ((rightIdx + 1) == pivot) {
 					pivot = leftIdx = leftIdx - 1;
 				}
 			}

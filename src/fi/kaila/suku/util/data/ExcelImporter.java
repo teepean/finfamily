@@ -86,7 +86,7 @@ public class ExcelImporter {
 					if (header[col].length() == 2) {
 
 						for (int j = col + 1; j < colCount; j++) {
-							if (header[j] != null
+							if ((header[j] != null)
 									&& header[j].equals("text_" + header[col])) {
 								text_col[col] = j;
 								break;
@@ -140,7 +140,7 @@ public class ExcelImporter {
 
 								pst.setString(1, a1);
 								pst.setString(2, b1);
-								if (c1 != null && c1.length() == 0) {
+								if ((c1 != null) && (c1.length() == 0)) {
 									c1 = null;
 								}
 								pst.setString(3, c1);
@@ -164,10 +164,10 @@ public class ExcelImporter {
 				}
 			}
 
-			for (int i = 0; i < names.length; i++) {
-				if (names[i].length() == 2) {
+			for (String name : names) {
+				if (name.length() == 2) {
 					// let's check if it's a conversion sheet
-					sheet = workbook.getSheet(names[i]);
+					sheet = workbook.getSheet(name);
 					if (sheet != null) {
 
 						colCount = sheet.getColumns();
@@ -197,8 +197,8 @@ public class ExcelImporter {
 
 							}
 						}
-						if (placeCol >= 0 && inCol >= 0 && toCol >= 0
-								&& fromCol >= 0) {
+						if ((placeCol >= 0) && (inCol >= 0) && (toCol >= 0)
+								&& (fromCol >= 0)) {
 							suk.resu = null;
 
 							//
@@ -232,33 +232,33 @@ public class ExcelImporter {
 								String c1 = cc1.getContents();
 								String d1 = dc1.getContents();
 
-								if (a1 != null && !a1.isEmpty()) {
+								if ((a1 != null) && !a1.isEmpty()) {
 
 									pstdel.setString(1, a1);
 									pstdel.executeUpdate();
 
-									if (b1 != null && !b1.isEmpty()
+									if ((b1 != null) && !b1.isEmpty()
 											&& !b1.equals("XXX")) {
 
 										pst.setString(1, a1);
-										pst.setString(2, names[i].toLowerCase());
+										pst.setString(2, name.toLowerCase());
 										pst.setString(3, "IN");
 										pst.setString(4, b1);
 										pst.executeUpdate();
 									}
 
-									if (c1 != null && !c1.isEmpty()
+									if ((c1 != null) && !c1.isEmpty()
 											&& !c1.equals("XXX")) {
 										pst.setString(1, a1);
-										pst.setString(2, names[i].toLowerCase());
+										pst.setString(2, name.toLowerCase());
 										pst.setString(3, "TO");
 										pst.setString(4, c1);
 										pst.executeUpdate();
 									}
-									if (d1 != null && !d1.isEmpty()
+									if ((d1 != null) && !d1.isEmpty()
 											&& !d1.equals("XXX")) {
 										pst.setString(1, a1);
-										pst.setString(2, names[i].toLowerCase());
+										pst.setString(2, name.toLowerCase());
 										pst.setString(3, "FROM");
 										pst.setString(4, d1);
 										pst.executeUpdate();
@@ -371,7 +371,7 @@ public class ExcelImporter {
 					String b1 = bc1.getContents();
 					String c1 = cc1.getContents();
 
-					if (placeName != null && b1 != null && c1 != null
+					if ((placeName != null) && (b1 != null) && (c1 != null)
 							&& !b1.isEmpty() && !c1.isEmpty()) {
 
 						String b2 = b1.replace(',', '.');
@@ -416,7 +416,7 @@ public class ExcelImporter {
 						Cell bc1 = sheet.getCell(colo, rivi);
 						if (bc1 != null) {
 							otherName = bc1.getContents();
-							if (otherName != null && !otherName.isEmpty()) {
+							if ((otherName != null) && !otherName.isEmpty()) {
 								try {
 									pstOther.setString(1,
 											otherName.toUpperCase());

@@ -176,8 +176,8 @@ public class XmlReport implements ReportInterface {
 
 							String[] files = d.list();
 
-							for (int i = 0; i < files.length; i++) {
-								File df = new File(folder + "/" + files[i]);
+							for (String file : files) {
+								File df = new File(folder + "/" + file);
 								df.delete();
 							}
 
@@ -218,8 +218,9 @@ public class XmlReport implements ReportInterface {
 		}
 
 		String filename = f.getAbsolutePath();
-		if (filename == null)
+		if (filename == null) {
 			return null;
+		}
 		if (filters.length == 1) {
 			if (!filename.toLowerCase().endsWith(filters[0].toLowerCase())) {
 				filename += "." + filters[0];
@@ -276,20 +277,20 @@ public class XmlReport implements ReportInterface {
 			if (widthMultiplier > 5) {
 				widthMultiplier = 0;
 			}
-			if (maxSize.width == 0 && maxSize.height == 0) {
+			if ((maxSize.width == 0) && (maxSize.height == 0)) {
 				w = imgWidth;
 				h = imgHeight;
 				displaySize.width = imgWidth;
 				displaySize.height = imgHeight;
 
 			} else if (maxSize.width > 0) {
-				if (imgWidth > maxSize.width * widthMultiplier) {
+				if (imgWidth > (maxSize.width * widthMultiplier)) {
 
 					float mw = maxSize.width;
 					float multip = mw / imgWidth;
 					float mh = maxSize.height;
 					float multih = mh / imgHeight;
-					if (multih > 0 && multih < multip) {
+					if ((multih > 0) && (multih < multip)) {
 						multip = multih;
 					}
 
@@ -308,7 +309,7 @@ public class XmlReport implements ReportInterface {
 
 					float mh = maxSize.height;
 					float multih = mh / imgHeight;
-					if (multih > 0 && multih < multip) {
+					if ((multih > 0) && (multih < multip)) {
 						multip = multih;
 					}
 
@@ -391,7 +392,7 @@ public class XmlReport implements ReportInterface {
 			}
 
 		} else {
-			if (style != null && !"NameIndexText".equals(style)) {
+			if ((style != null) && !"NameIndexText".equals(style)) {
 				nameIndex = null;
 
 			}
@@ -429,7 +430,7 @@ public class XmlReport implements ReportInterface {
 				ele.appendChild(anc);
 			}
 			String currStyle;
-			if (value != null && !value.isEmpty()) {
+			if ((value != null) && !value.isEmpty()) {
 				if (bt.isBold(i) && bt.isUnderline(i) && bt.isItalic(i)) {
 					currStyle = "bui";
 				} else if (bt.isBold(i) && bt.isUnderline(i)) {
@@ -703,8 +704,9 @@ public class XmlReport implements ReportInterface {
 			return "";
 		}
 
-		if (imageScaleIndex == 0 || (it.getImage().getHeight()) <= outHeight
-				&& it.getImage().getWidth() <= outWidth) {
+		if ((imageScaleIndex == 0)
+				|| (((it.getImage().getHeight()) <= outHeight) && (it
+						.getImage().getWidth() <= outWidth))) {
 			outWidth = 0;
 		}
 
@@ -760,8 +762,9 @@ public class XmlReport implements ReportInterface {
 						// it.getData()[indata];
 						indata++;
 						insize--;
-					} else
+					} else {
 						ibuf[i] = 0;
+					}
 				}
 
 				obuf[0] = (byte) ((ibuf[0] & 0xFC) >> 2);
@@ -825,8 +828,9 @@ public class XmlReport implements ReportInterface {
 						ibuf[i] = it.getData()[indata];
 						indata++;
 						insize--;
-					} else
+					} else {
 						ibuf[i] = 0;
+					}
 				}
 
 				obuf[0] = (byte) ((ibuf[0] & 0xFC) >> 2);
@@ -899,7 +903,9 @@ public class XmlReport implements ReportInterface {
 		return report;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -907,7 +913,9 @@ public class XmlReport implements ReportInterface {
 		return report;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see fi.kaila.suku.report.ReportInterface#closeReport(long)
 	 */
 	@Override
@@ -916,8 +924,9 @@ public class XmlReport implements ReportInterface {
 		ByteArrayOutputStream barray = new ByteArrayOutputStream();
 		int dotPos = report.lastIndexOf(".");
 		int slashPos = report.replace("\\", "/").lastIndexOf("/");
-		if (folder == null || slashPos <= 0 || dotPos < slashPos)
+		if ((folder == null) || (slashPos <= 0) || (dotPos < slashPos)) {
 			return;
+		}
 		String myreport;
 
 		if (dotPos > 0) {

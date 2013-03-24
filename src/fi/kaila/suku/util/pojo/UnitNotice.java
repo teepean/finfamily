@@ -143,7 +143,7 @@ public class UnitNotice implements Serializable {
 	// timestamp created
 	/** The modifiedBy userid. */
 	String modifiedBy = null;
-	
+
 	/** The createdBy userid. */
 	String createdBy = null;
 
@@ -253,14 +253,16 @@ public class UnitNotice implements Serializable {
 	 * @return true if this is to be updated
 	 */
 	public boolean isToBeUpdated() {
-		if (toBeUpdated)
+		if (toBeUpdated) {
 			return true;
-		if (unitlanguages == null)
+		}
+		if (unitlanguages == null) {
 			return false;
-		for (int i = 0; i < unitlanguages.length; i++) {
-			if (unitlanguages[i].isToBeUpdated()
-					|| unitlanguages[i].isToBeDeleted())
+		}
+		for (UnitLanguage unitlanguage : unitlanguages) {
+			if (unitlanguage.isToBeUpdated() || unitlanguage.isToBeDeleted()) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -846,8 +848,9 @@ public class UnitNotice implements Serializable {
 	 *             Signals that an I/O exception has occurred.
 	 */
 	public BufferedImage getMediaImage() throws IOException {
-		if (mediaData == null)
+		if (mediaData == null) {
 			return null;
+		}
 		ByteArrayInputStream bb = new ByteArrayInputStream(mediaData);
 
 		if (this.image != null) {
@@ -1100,13 +1103,14 @@ public class UnitNotice implements Serializable {
 	}
 
 	private String nv(String text) {
-		if (text == null)
+		if (text == null) {
 			return "";
+		}
 		return text;
 	}
 
 	private String vn(String text) {
-		if (text == null || text.length() == 0) {
+		if ((text == null) || (text.length() == 0)) {
 			text = null;
 		}
 
@@ -1120,65 +1124,94 @@ public class UnitNotice implements Serializable {
 	 * @return true, if is empty
 	 */
 	public boolean isEmpty() {
-		if (privacy != null)
+		if (privacy != null) {
 			return false;
-		if (noticeType != null)
+		}
+		if (noticeType != null) {
 			return false;
-		if (description != null)
+		}
+		if (description != null) {
 			return false;
-		if (datePrefix != null)
+		}
+		if (datePrefix != null) {
 			return false;
-		if (fromDate != null)
+		}
+		if (fromDate != null) {
 			return false;
-		if (toDate != null)
+		}
+		if (toDate != null) {
 			return false;
-		if (place != null)
+		}
+		if (place != null) {
 			return false;
-		if (village != null)
+		}
+		if (village != null) {
 			return false;
-		if (farm != null)
+		}
+		if (farm != null) {
 			return false;
-		if (croft != null)
+		}
+		if (croft != null) {
 			return false;
-		if (address != null)
+		}
+		if (address != null) {
 			return false;
-		if (postOffice != null)
+		}
+		if (postOffice != null) {
 			return false;
-		if (postalCode != null)
+		}
+		if (postalCode != null) {
 			return false;
-		if (state != null)
+		}
+		if (state != null) {
 			return false;
-		if (country != null)
+		}
+		if (country != null) {
 			return false;
-		if (email != null)
+		}
+		if (email != null) {
 			return false;
-		if (noteText != null)
+		}
+		if (noteText != null) {
 			return false;
-		if (mediaFilename != null)
+		}
+		if (mediaFilename != null) {
 			return false;
-		if (mediaData != null)
+		}
+		if (mediaData != null) {
 			return false;
-		if (mediaTitle != null)
+		}
+		if (mediaTitle != null) {
 			return false;
-		if (prefix != null)
+		}
+		if (prefix != null) {
 			return false;
-		if (surname != null)
+		}
+		if (surname != null) {
 			return false;
-		if (givenname != null)
+		}
+		if (givenname != null) {
 			return false;
+		}
 
-		if (patronym != null)
+		if (patronym != null) {
 			return false;
-		if (postFix != null)
+		}
+		if (postFix != null) {
 			return false;
-		if (refNames != null)
+		}
+		if (refNames != null) {
 			return false;
-		if (refPlaces != null)
+		}
+		if (refPlaces != null) {
 			return false;
-		if (sourceText != null)
+		}
+		if (sourceText != null) {
 			return false;
-		if (privateText != null)
+		}
+		if (privateText != null) {
 			return false;
+		}
 
 		return true;
 	}

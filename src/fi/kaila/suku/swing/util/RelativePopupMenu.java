@@ -44,8 +44,8 @@ public class RelativePopupMenu {
 		// pPaste.addActionListener(l);
 		// pPasteBefore.addActionListener(l);
 		// pPasteAfter.addActionListener(l);
-		for (int i = 0; i < pAddParent.length; i++) {
-			pAddParent[i].addActionListener(l);
+		for (JMenuItem element : pAddParent) {
+			element.addActionListener(l);
 		}
 	}
 
@@ -55,8 +55,9 @@ public class RelativePopupMenu {
 	 * @return no pf parents
 	 */
 	public int getParentCount() {
-		if (pAddParent == null)
+		if (pAddParent == null) {
 			return 0;
+		}
 		return pAddParent.length;
 	}
 

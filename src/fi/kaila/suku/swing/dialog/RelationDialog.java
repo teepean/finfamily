@@ -315,10 +315,10 @@ public class RelationDialog extends JDialog implements ActionListener,
 			String lan = Suku.getRepoLanguage(i, true);
 			fixed[i] = new RelationLanguage(lan);
 			if (rr != null) {
-				for (int j = 0; j < rr.length; j++) {
-					if (lan.equals(rr[j].getLangCode())) {
-						if (rr[j].isToBeUpdated() || rr[j].getRid() > 0) {
-							fixed[i] = rr[j];
+				for (RelationLanguage element : rr) {
+					if (lan.equals(element.getLangCode())) {
+						if (element.isToBeUpdated() || (element.getRid() > 0)) {
+							fixed[i] = element;
 							langxx[i].setForeground(Color.RED);
 						}
 						break;
@@ -333,8 +333,9 @@ public class RelationDialog extends JDialog implements ActionListener,
 	 * display the relationDialog.
 	 */
 	public void showMe() {
-		if (rela == null)
+		if (rela == null) {
 			return;
+		}
 		if (rela.isToBeDeleted()) {
 			delete.setText(Resurses.getString("DATA_DELETED"));
 			delete.setEnabled(false);
@@ -414,10 +415,12 @@ public class RelationDialog extends JDialog implements ActionListener,
 	 *             the suku date exception
 	 */
 	public boolean updateData() throws SukuDateException {
-		if (rela == null)
+		if (rela == null) {
 			return false;
-		if (rela.isToBeDeleted())
+		}
+		if (rela.isToBeDeleted()) {
 			return true;
+		}
 
 		rela.setType(relationType.getText());
 
@@ -477,7 +480,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 			}
 		}
 
-		if (langcode != null && !langcode.equals(oldLanguage)) {
+		if ((langcode != null) && !langcode.equals(oldLanguage)) {
 
 			showLanguage(langcode);
 			// oldLanguage=cmd;
@@ -558,8 +561,9 @@ public class RelationDialog extends JDialog implements ActionListener,
 	 * update language to pojo.
 	 */
 	public void updateLanguage() {
-		if (oldLanguage == null)
+		if (oldLanguage == null) {
 			return;
+		}
 		RelationLanguage rl = null;
 		boolean toBeDeleted = true;
 		for (int i = 0; i < rela.getLanguages().length; i++) {
@@ -568,26 +572,31 @@ public class RelationDialog extends JDialog implements ActionListener,
 				break;
 			}
 		}
-		if (rl == null)
+		if (rl == null) {
 			return;
+		}
 		String tmp = relationTypeLang.getText();
 		rl.setRelationType(tmp);
 
-		if (!tmp.isEmpty())
+		if (!tmp.isEmpty()) {
 			toBeDeleted = false;
+		}
 
 		tmp = descriptionLang.getText();
 		rl.setDescription(tmp);
-		if (!tmp.isEmpty())
+		if (!tmp.isEmpty()) {
 			toBeDeleted = false;
+		}
 		tmp = placeLang.getText();
 		rl.setPlace(tmp);
-		if (!tmp.isEmpty())
+		if (!tmp.isEmpty()) {
 			toBeDeleted = false;
+		}
 		tmp = noteTextLang.getText();
 		rl.setNoteText(tmp);
-		if (!tmp.isEmpty())
+		if (!tmp.isEmpty()) {
 			toBeDeleted = false;
+		}
 		rl.setToBeDeleted(toBeDeleted);
 	}
 

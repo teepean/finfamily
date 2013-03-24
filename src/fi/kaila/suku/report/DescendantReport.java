@@ -252,7 +252,7 @@ public class DescendantReport extends CommonReport {
 				break;
 			}
 		}
-		float prose = idx * 100f / tables.size();
+		float prose = (idx * 100f) / tables.size();
 		caller.setRunnerValue("" + (int) prose + ";"
 				+ (tab.getTableNo() + tableOffset) + ":" + tabOwner);
 
@@ -287,11 +287,11 @@ public class DescendantReport extends CommonReport {
 			bt.addText(genText);
 			bt.addText(". ");
 		}
-		if (caller.showRefn() && pdata.persLong.getRefn() != null) {
+		if (caller.showRefn() && (pdata.persLong.getRefn() != null)) {
 			bt.addText(pdata.persLong.getRefn());
 			bt.addText(" ");
 		}
-		if (caller.showGroup() && pdata.persLong.getGroupId() != null) {
+		if (caller.showGroup() && (pdata.persLong.getGroupId() != null)) {
 			bt.addText(pdata.persLong.getGroupId());
 			bt.addText(" ");
 		}
@@ -388,7 +388,7 @@ public class DescendantReport extends CommonReport {
 								}
 							}
 						}
-						if (ppdata.pers != null && ppdata.pers.length > 0) {
+						if ((ppdata.pers != null) && (ppdata.pers.length > 0)) {
 							bt.addText(" ");
 							bt.addLink(typesTable.getTextValue("FROMTABLE")
 									.toLowerCase() + " " + refTab, true, false,
@@ -565,8 +565,8 @@ public class DescendantReport extends CommonReport {
 						"pid=" + childMember.getPid());
 				ref = personReferences.get(childMember.getPid());
 
-				boolean hasSpouses = childMember.getSpouses() != null
-						&& childMember.getSpouses().length > 0;
+				boolean hasSpouses = (childMember.getSpouses() != null)
+						&& (childMember.getSpouses().length > 0);
 
 				toTable = "";
 				hasOwnTable = false;
@@ -575,7 +575,7 @@ public class DescendantReport extends CommonReport {
 					toTable = ref.getReferences(0, true, false, false,
 							tableOffset);
 					if (!toTable.isEmpty()) { // && ref.getMyTable() > 0) {
-						if (ref.getMyTable() > 0 || !hasSpouses) {
+						if ((ref.getMyTable() > 0) || !hasSpouses) {
 							hasOwnTable = true;
 						}
 						if (childMember.getMyTable() > 0) {
@@ -650,13 +650,13 @@ public class DescendantReport extends CommonReport {
 										}
 									} else {
 										if ("NOTE".equals(aux)
-												&& rn.getNoteText() != null) {
+												&& (rn.getNoteText() != null)) {
 											if (adopTag.length() > 0) {
 												adopTag.append(", ");
 											}
 											adopTag.append(rn.getNoteText());
 										} else if ("SOUR".equals(aux)
-												&& rn.getSource() != null) {
+												&& (rn.getSource() != null)) {
 											String srcFormat = caller
 													.getSourceFormat();
 											if (!ReportWorkerDialog.SET_NO
@@ -737,8 +737,9 @@ public class DescendantReport extends CommonReport {
 								fromSubTable = ref.getReferences(
 										tab.getTableNo(), true, true, true,
 										tableOffset);
-								if (ref.getMyTable() > 0
-										&& tab.getTableNo() != ref.getMyTable()) {
+								if ((ref.getMyTable() > 0)
+										&& (tab.getTableNo() != ref
+												.getMyTable())) {
 									fromsTable.append(ref.getMyTable());
 								} else {
 									String[] froms = fromSubTable.split(",");
@@ -774,8 +775,8 @@ public class DescendantReport extends CommonReport {
 
 				if (hasSpouses) {
 
-					if (childMember.getSpouses() != null
-							&& childMember.getSpouses().length > 0) {
+					if ((childMember.getSpouses() != null)
+							&& (childMember.getSpouses().length > 0)) {
 
 						for (int j = 0; j < childMember.getSpouses().length; j++) {
 							childSpouseMember = childMember.getSpouses()[j];

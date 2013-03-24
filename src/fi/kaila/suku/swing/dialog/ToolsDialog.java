@@ -106,7 +106,7 @@ public class ToolsDialog extends JDialog implements ActionListener,
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
-		setBounds(d.width / 2 - 170, d.height / 2 - 250, 340, 500);
+		setBounds((d.width / 2) - 170, (d.height / 2) - 250, 340, 500);
 		setResizable(false);
 		setLayout(null);
 
@@ -130,8 +130,8 @@ public class ToolsDialog extends JDialog implements ActionListener,
 			settiLista.add(kokoMap.get("NAME"));
 			settiMap.put("NAME", kokoMap.get("NAME"));
 
-			for (int i = 0; i < notorder.length; i++) {
-				String tag = notorder[i];
+			for (String element : notorder) {
+				String tag = element;
 				if (!tag.equals("NAME")) {
 					settiTags.add(tag);
 					String value = kokoMap.get(tag);
@@ -449,7 +449,7 @@ public class ToolsDialog extends JDialog implements ActionListener,
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		if (e.getClickCount() == 2 && e.getButton() == 1) {
+		if ((e.getClickCount() == 2) && (e.getButton() == 1)) {
 
 			if (e.getSource() == koko) {
 				int rivi = koko.getSelectedIndex();
