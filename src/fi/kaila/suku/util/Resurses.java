@@ -485,7 +485,7 @@ public class Resurses {
 	private static String dateFormat = "FI";
 
 	/** The UPDATEDB. */
-	public static String UPDATEDB = "MENU_UPDATEDB";
+	public static String updateDb = "MENU_UPDATEDB";
 
 	/** recognized gedcom events/attributes. */
 	public static String gedcomTags = "|OCCU|EDUC|TITL|RESI|PROP|FACT"

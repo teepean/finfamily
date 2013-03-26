@@ -478,18 +478,6 @@ public class RelationNotice implements Serializable {
 		return text;
 	}
 
-	private String trimx(String text) {
-		if (text == null) {
-			return null;
-		}
-
-		String tek = text.trim();
-		if (tek.endsWith(".")) {
-			tek = tek.substring(0, tek.length() - 1);
-		}
-		return tek.trim();
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -232,14 +232,14 @@ public class GenStat extends JDialog implements ActionListener {
 
 		// add the chart to a panel...
 		final DefaultPieDataset dataset = new DefaultPieDataset();
-		final JFreeChart ChildrenVsNoChildrenChart = ChartFactory
+		final JFreeChart childrenVsNoChildrenChart = ChartFactory
 				.createPieChart(
 						Resurses.getString("STAT_CHILDREN_VS_NO_CHILDREN"),
 						dataset, false, true, false);
 
-		chartPanel.setChart(ChildrenVsNoChildrenChart);
+		chartPanel.setChart(childrenVsNoChildrenChart);
 
-		final PiePlot plot = (PiePlot) ChildrenVsNoChildrenChart.getPlot();
+		final PiePlot plot = (PiePlot) childrenVsNoChildrenChart.getPlot();
 		plot.setLabelGenerator(new StandardPieSectionLabelGenerator(
 				"{0}: {2} ({1} " + Resurses.getString("STAT_PIECES") + " )"));
 		plot.setNoDataMessage(Resurses.getString("STAT_NO_DATA"));

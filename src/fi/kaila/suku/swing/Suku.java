@@ -732,9 +732,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		this.mExecSql.setActionCommand("MENU_TOOLS_SQL");
 		this.mExecSql.addActionListener(this);
 
-		this.mDbUpdate = new JMenuItem(Resurses.getString(Resurses.UPDATEDB));
+		this.mDbUpdate = new JMenuItem(Resurses.getString(Resurses.updateDb));
 		this.mTools.add(this.mDbUpdate);
-		this.mDbUpdate.setActionCommand(Resurses.UPDATEDB);
+		this.mDbUpdate.setActionCommand(Resurses.updateDb);
 		this.mDbUpdate.addActionListener(this);
 
 		this.mGroupMgr = new JMenuItem(
@@ -1875,7 +1875,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				// }
 
 			}
-			if (cmd.equals(Resurses.UPDATEDB)) {
+			if (cmd.equals(Resurses.updateDb)) {
 				SukuData resp = kontroller.getSukuData("cmd=initdb",
 						"path=/sql/dbupdates.sql");
 				String resu = "OK";

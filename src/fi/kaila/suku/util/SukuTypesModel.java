@@ -162,9 +162,8 @@ public class SukuTypesModel extends AbstractTableModel {
 		// no matter where the cell appears on screen.
 		if (col < 1) {
 			return false;
-		} else {
-			return true;
 		}
+		return true;
 	}
 
 	/*

@@ -29,35 +29,35 @@ public class UnitLanguage implements Serializable {
 	/** The lang code. */
 	String langCode = null;
 
-	/** The tag. */
-	String tag = null; // -- Tag of the Notice, Mostly Level 1 GEDCOM tags
+	/** The tag -- Tag of the Notice, Mostly Level 1 GEDCOM tags. */
+	String tag = null;
 
-	/** The notice type. */
-	String noticeType = null; // -- Notice type (L)
+	/** The notice type -- Notice type (L). */
+	String noticeType = null;
 
-	/** The description. */
-	String description = null; // -- Description or remark (L)
+	/** The description -- Description or remark (L). */
+	String description = null;
 
-	/** The place. */
-	String place = null; // -- Place
+	/** The place -- Place. */
+	String place = null;
 
-	/** The note text. */
-	String noteText = null; // varchar, -- Note textfield (L)
+	/** The note text - varchar, -- Note textfield (L). */
+	String noteText = null;
 
-	/** The media title. */
-	String mediaTitle = null; // varchar, -- text describing the multimedia file
-	// (L)
-	/** The modified. */
-	Timestamp modified = null; // timestamp, -- timestamp modified
+	/** The media title - varchar, -- text describing the multimedia file (L). */
+	String mediaTitle = null;
+	//
+	/** The modified - timestamp, -- timestamp modified. */
+	Timestamp modified = null;
 
-	/** The create date. */
-	Timestamp createDate = null; // timestamp not null default now() --
+	/** The create date - timestamp not null default now() -- timestamp created. */
+	Timestamp createDate = null;
+
 	/** The modified by userid. */
 	String modifiedBy = null;
+
 	/** The creater userid. */
 	String createdBy = null;
-
-	// timestamp created
 
 	/**
 	 * Instantiates a new unit language.

@@ -831,17 +831,17 @@ public class Utils {
 	 *            the imm path
 	 * @param image
 	 *            the image
-	 * @param p_width
+	 * @param pWidth
 	 *            the p_width
-	 * @param p_height
+	 * @param pHeight
 	 *            the p_height
 	 * @return the buffered image
 	 * @throws Exception
 	 *             the exception
 	 */
 	public static BufferedImage scaleImage(String immPath, BufferedImage image,
-			int p_width, int p_height) throws Exception {
-		return scaleImage(immPath, image, p_width, p_height, 0);
+			int pWidth, int pHeight) throws Exception {
+		return scaleImage(immPath, image, pWidth, pHeight, 0);
 	}
 
 	//
@@ -855,21 +855,21 @@ public class Utils {
 	 *            the imm path
 	 * @param image
 	 *            the image
-	 * @param p_width
+	 * @param pWidth
 	 *            the p_width
-	 * @param p_height
+	 * @param pHeight
 	 *            the p_height
-	 * @param trailer_height
+	 * @param trailerHeight
 	 *            the trailer_height
 	 * @return the scaled image
 	 * @throws Exception
 	 *             the exception
 	 */
 	public static BufferedImage scaleImage(String immPath, BufferedImage image,
-			int p_width, int p_height, int trailer_height) throws Exception {
+			int pWidth, int pHeight, int trailerHeight) throws Exception {
 
-		int thumbWidth = p_width;
-		int thumbHeight = p_height;
+		int thumbWidth = pWidth;
+		int thumbHeight = pHeight;
 
 		// Make sure the aspect ratio is maintained, so the image is not skewed
 		double thumbRatio = (double) thumbWidth / (double) thumbHeight;
@@ -884,12 +884,12 @@ public class Utils {
 
 		if ((immPath != null) && !immPath.isEmpty()) {
 			return magickScaled(immPath, image, thumbWidth, thumbHeight,
-					trailer_height);
+					trailerHeight);
 		}
 
 		// Draw the scaled image
 		BufferedImage thumbImage = new BufferedImage(thumbWidth, thumbHeight
-				+ trailer_height, BufferedImage.TYPE_INT_RGB);
+				+ trailerHeight, BufferedImage.TYPE_INT_RGB);
 		Graphics2D graphics2D = thumbImage.createGraphics();
 		graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
 				RenderingHints.VALUE_INTERPOLATION_BICUBIC);
@@ -930,7 +930,7 @@ public class Utils {
 	}
 
 	private static BufferedImage magickScaled(String immPath,
-			BufferedImage image, int p_width, int p_height, int trailer_height)
+			BufferedImage image, int pWidth, int pHeight, int trailerHeight)
 			throws IOException, InterruptedException {
 
 		File fin = File.createTempFile("Finfamily", ".jpg");
@@ -964,14 +964,14 @@ public class Utils {
 			stv.append(immPath);
 			stv.append(" ");
 		}
-		if (trailer_height == 0) {
-			stv.append("-resize " + p_width);
+		if (trailerHeight == 0) {
+			stv.append("-resize " + pWidth);
 		} else {
-			stv.append("-resize " + p_width);
-			stv.append("x" + (p_height));
+			stv.append("-resize " + pWidth);
+			stv.append("x" + (pHeight));
 			stv.append(" -background white");
-			stv.append(" -extent " + p_width + "x"
-					+ (p_height + trailer_height));
+			stv.append(" -extent " + pWidth + "x"
+					+ (pHeight + trailerHeight));
 		}
 		stv.append(" ");
 		stv.append(fin.getAbsolutePath());

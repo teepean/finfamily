@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -656,8 +657,9 @@ public class PersonShortData implements Serializable, Transferable,
 				+ "left join relationnotice as n on a.rid=n.rid "
 				+ "where a.pid=? and a.tag in ('FATH','MOTH') and n.tag is null";
 		PreparedStatement ppstm = null;
-
-		PreparedStatement pstm;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		ResultSet pprs = null;
 
 		try {
 
@@ -665,7 +667,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 			pstm = con.prepareStatement(sql.toString());
 			pstm.setInt(1, pid);
-			ResultSet rs = pstm.executeQuery();
+			rs = pstm.executeQuery();
 			String tag;
 			String content = "X";
 			while (rs.next()) {
@@ -732,7 +734,7 @@ public class PersonShortData implements Serializable, Transferable,
 				}
 				if (withParentIds) {
 					ppstm.setInt(1, pid);
-					ResultSet pprs = ppstm.executeQuery();
+					pprs = ppstm.executeQuery();
 					int fid = 0;
 					int mid = 0;
 					while (pprs.next()) {
@@ -754,12 +756,38 @@ public class PersonShortData implements Serializable, Transferable,
 				}
 
 			}
-			rs.close();
-			pstm.close();
-			ppstm.close();
 			names = sn.toArray(new ShortName[0]);
 		} catch (Exception e) {
 			throw new SukuException(e);
+		} finally {
+			try {
+				if (rs != null) {
+					rs.close();
+				}
+			} catch (SQLException rse) {
+				// SQLException
+			}
+			try {
+				if (pprs != null) {
+					pprs.close();
+				}
+			} catch (SQLException pprse) {
+				// SQLException
+			}
+			try {
+				if (pstm != null) {
+					pstm.close();
+				}
+			} catch (SQLException pstme) {
+				// SQLException
+			}
+			try {
+				if (ppstm != null) {
+					ppstm.close();
+				}
+			} catch (SQLException ppstme) {
+				// SQLException
+			}
 		}
 
 	}

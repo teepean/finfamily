@@ -33,114 +33,114 @@ public class UnitNotice implements Serializable {
 	/** The pid. */
 	int pid = 0;
 
-	/** The surety. */
-	int surety = 100; // -- surety indicator
+	/** The surety indicator. */
+	int surety = 100;
 
-	/** The notice row. */
-	int noticeRow = 0; // -- Row # of the Notice for the unit
+	/** The Row # of the Notice for the unit. */
+	int noticeRow = 0;
 
-	/** The tag. */
-	String tag = null; // -- Tag of the Notice, Mostly Level 1 GEDCOM tags
+	/** The tag of the Notice, Mostly Level 1 GEDCOM tags. */
+	String tag = null;
 
-	/** The privacy. */
-	String privacy = null; // -- Privacy indicator, null = Public
+	/** The privacy indicator, null = Public. */
+	String privacy = null;
 
-	/** The notice type. */
-	String noticeType = null; // -- Notice type (L)
+	/** The notice type (L). */
+	String noticeType = null;
 
-	/** The description. */
-	String description = null; // -- Description or remark (L)
+	/** The description or remark (L). */
+	String description = null;
 
-	/** The date prefix. */
-	String datePrefix = null; // -- Prefix for the date (beginning date if date
-	// period)
-	/** The from date. */
-	String fromDate = null; // -- Date for the event described in this notice
+	/** The Prefix for the date (beginning date if date period). */
+	String datePrefix = null;
 
-	/** The to date. */
-	String toDate = null; // -- Date for the event described in this notice
+	/** The Date for the event described in this notice. */
+	String fromDate = null;
+
+	/** The Date for the event described in this notice. */
+	String toDate = null;
 
 	/** The place. */
-	String place = null; // -- Place
+	String place = null;
 
-	/** The village. */
-	String village = null; // varchar, -- Kyl NEW
+	/** The village - varchar, -- Kyl NEW. */
+	String village = null;
 
-	/** The farm. */
-	String farm = null; // varchar, -- Talo NEW
+	/** The farm - varchar, -- Talo NEW. */
+	String farm = null;
 
-	/** The croft. */
-	String croft = null; // varchar, -- Torppa NEW
+	/** The croft - varchar, -- Torppa NEW. */
+	String croft = null;
 
-	/** The address. */
-	String address = null; // varchar, -- Address line 1 / Village/Kylä
+	/** The address - varchar, -- Address line 1 / Village/Kylä. */
+	String address = null;
 
-	/** The post office. */
-	String postOffice = null; // varchar, -- Place of the event, Postoffice,
-	// City
-	/** The postal code. */
-	String postalCode = null; // varchar, -- Postal Code
+	/** The post office - varchar, -- Place of the event, Postoffice, City. */
+	String postOffice = null;
 
-	/** The state. */
-	String state = null; // varchar, -- State
+	/** The postal code - varchar, -- Postal Code. */
+	String postalCode = null;
 
-	/** The country. */
-	String country = null; // varchar, -- Country
+	/** The state - varchar, -- State. */
+	String state = null;
 
-	/** The email. */
-	String email = null; // varchar, -- Email-address or web-page of person
+	/** The country - varchar, -- Country. */
+	String country = null;
 
-	/** The note text. */
-	String noteText = null; // varchar, -- Note textfield (L)
+	/** The email - varchar, -- Email-address or web-page of person. */
+	String email = null;
 
-	/** The media filename. */
-	String mediaFilename = null; // varchar, -- Filename of the multimedia file
+	/** The note text - varchar, -- Note textfield (L). */
+	String noteText = null;
 
-	/** The media data. */
-	byte[] mediaData = null; // bytea, -- Container of image
+	/** The media filename - varchar, -- Filename of the multimedia file. */
+	String mediaFilename = null;
 
-	/** The media title. */
-	String mediaTitle = null; // varchar, -- text describing the multimedia file
-	// (L)
-	/** The media width. */
-	int mediaWidth = 0; // integer, -- media width in pixels
+	/** The media data - bytea, -- Container of image. */
+	byte[] mediaData = null;
 
-	/** The media height. */
-	int mediaHeight = 0; // integer, -- media height in pixels
+	/** The media title - varchar, -- text describing the multimedia file (L). */
+	String mediaTitle = null;
 
-	/** The prefix. */
-	String prefix = null; // varchar, -- Prefix of the surname
+	/** The media width - integer, -- media width in pixels. */
+	int mediaWidth = 0;
 
-	/** The surname. */
-	String surname = null; // varchar, -- Surname
+	/** The media height - integer, -- media height in pixels. */
+	int mediaHeight = 0;
 
-	/** The givenname. */
-	String givenname = null; // varchar, -- Givenname
+	/** The prefix - varchar, -- Prefix of the surname. */
+	String prefix = null;
 
-	/** The patronym. */
-	String patronym = null; // varchar, -- Patronyymi NEW
+	/** The surname - varchar, -- Surname. */
+	String surname = null;
 
-	/** The post fix. */
-	String postFix = null; // varchar, -- Name Postfix
+	/** The givenname - varchar, -- Givenname. */
+	String givenname = null;
 
-	/** The ref names. */
-	String[] refNames = null; // varchar, -- List of names within notice for
-	// index
-	/** The ref places. */
-	String[] refPlaces = null; // varchar, -- List of places within notice for
-	// index
-	/** The source text. */
-	String sourceText = null; // varchar , -- Source as text
+	/** The patronym - varchar, -- Patronyymi NEW. */
+	String patronym = null;
 
-	/** The private text. */
-	String privateText = null; // varchar, -- Private researcher information
+	/** The post fix - varchar, -- Name Postfix. */
+	String postFix = null;
 
-	/** The modified. */
-	Timestamp modified = null; // timestamp, -- timestamp modified
+	/** The ref names - varchar, -- List of names within notice for index. */
+	String[] refNames = null;
 
-	/** The create date. */
-	Timestamp createDate = null; // timestamp not null default now() --
-	// timestamp created
+	/** The ref places - varchar, -- List of places within notice for index. */
+	String[] refPlaces = null;
+
+	/** The source text - varchar , -- Source as text. */
+	String sourceText = null;
+
+	/** The private text - varchar, -- Private researcher information. */
+	String privateText = null;
+
+	/** The modified - timestamp, -- timestamp modified. */
+	Timestamp modified = null;
+
+	/** The create date - timestamp not null default now() -- timestamp created. */
+	Timestamp createDate = null;
+
 	/** The modifiedBy userid. */
 	String modifiedBy = null;
 

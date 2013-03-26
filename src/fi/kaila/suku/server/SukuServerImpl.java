@@ -762,7 +762,7 @@ public class SukuServerImpl implements SukuServer {
 					fam = vv.addViewDesc(viewId, Integer.parseInt(pidg), gen,
 							(key.toUpperCase().equals("DESC_SPOUSES")),
 							(empty.equalsIgnoreCase("true")));
-				} else if (key.toLowerCase().equals("anc")) {
+				} else if (key.equalsIgnoreCase("anc")) {
 					fam = vv.addViewAnc(viewId, Integer.parseInt(pidg), gen,
 							(empty.equalsIgnoreCase("true")));
 				} else {

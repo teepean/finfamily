@@ -174,7 +174,12 @@ public class VersionChecker {
 		 */
 		@Override
 		protected Void doInBackground() throws Exception {
-			runMe();
+			//
+			// No version checks because www.sukuohjelmisto.fi site is not
+			// active anymore (halonmi 20130326).
+			//
+
+			// runMe();
 			return null;
 		}
 

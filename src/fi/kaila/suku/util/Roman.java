@@ -14,7 +14,7 @@ public class Roman {
 	// This could be alternatively be done with parallel arrays.
 	// Another alternative would be Pair<Integer, String>
 	/** The Constant ROMAN_VALUE_TABLE. */
-	final static RomanValue[] ROMAN_VALUE_TABLE = { new RomanValue(1000, "M"),
+	static final RomanValue[] ROMAN_VALUE_TABLE = { new RomanValue(1000, "M"),
 			new RomanValue(900, "CM"), new RomanValue(500, "D"),
 			new RomanValue(400, "CD"), new RomanValue(100, "C"),
 			new RomanValue(90, "XC"), new RomanValue(50, "L"),

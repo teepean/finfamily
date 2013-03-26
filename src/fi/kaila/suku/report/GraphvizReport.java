@@ -37,7 +37,7 @@ public class GraphvizReport extends CommonReport {
 	private int reportType = 0;
 
 	private String filePath = null;
-	private static String FOLDER_NAME = "Graphviz_images";
+	private static String folderName = "Graphviz_images";
 	private final String imageMagickPath;
 
 	/**
@@ -107,7 +107,7 @@ public class GraphvizReport extends CommonReport {
 			pictShow = false;
 		}
 		if (pictShow) {
-			File d = new File(filePath + "/" + FOLDER_NAME);
+			File d = new File(filePath + "/" + folderName);
 			if (d.exists()) {
 
 				if (d.isDirectory()) {
@@ -310,7 +310,7 @@ public class GraphvizReport extends CommonReport {
 
 								String imgName = pp.getMediaFilename();
 
-								File ff = new File(filePath + "/" + FOLDER_NAME
+								File ff = new File(filePath + "/" + folderName
 										+ "/" + imgName);
 
 								FileOutputStream fos;
@@ -329,7 +329,7 @@ public class GraphvizReport extends CommonReport {
 							}
 
 							sb.append(",image=\"");
-							sb.append(FOLDER_NAME);
+							sb.append(folderName);
 							sb.append("/");
 							sb.append(pp.getMediaFilename());
 							sb.append("\"");
@@ -377,7 +377,7 @@ public class GraphvizReport extends CommonReport {
 						File f = new File(pathgv);
 						f.delete();
 						if (pictShow) {
-							File d = new File(filePath + "/" + FOLDER_NAME);
+							File d = new File(filePath + "/" + folderName);
 							if (d.exists()) {
 								if (d.isDirectory()) {
 									if (!pathjpg.toLowerCase().endsWith(".svg")) {

@@ -340,16 +340,16 @@ public class JavaReport extends JFrame implements ActionListener,
 	 * /63227-image-resizing-in-java.html#post301529 made by Rick Palmer
 	 * 
 	 * @param image
-	 * @param p_width
-	 * @param p_height
+	 * @param pWidth
+	 * @param pHeight
 	 * @return the scaled image
 	 * @throws Exception
 	 */
-	private Image scaleImage(Image image, int p_width, int p_height)
+	private Image scaleImage(Image image, int pWidth, int pHeight)
 			throws Exception {
 
-		int thumbWidth = p_width;
-		int thumbHeight = p_height;
+		int thumbWidth = pWidth;
+		int thumbHeight = pHeight;
 
 		// Make sure the aspect ratio is maintained, so the image is not skewed
 		double thumbRatio = (double) thumbWidth / (double) thumbHeight;
