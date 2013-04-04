@@ -1130,7 +1130,23 @@ public class ImportGedcomUtil {
 					} else if (detail.tag.equals("FAMC")) {
 						// TODO:
 					} else if (detail.tag.equals("PLAC")) {
-						notice.setPlace(detail.lineValue);
+						String parts[] = detail.lineValue.split(",");
+						if (parts.length > 3) {
+							if (parts[0].length() > 0) {
+								notice.setCroft(parts[0].trim());
+							}
+							if (parts[1].length() > 0) {
+								notice.setFarm(parts[1].trim());
+							}
+							if (parts[2].length() > 0) {
+								notice.setVillage(parts[2].trim());
+							}
+							if (parts[3].length() > 0) {
+								notice.setPlace(parts[3].trim());
+							}
+						} else {
+							notice.setPlace(detail.lineValue);
+						}
 					} else if (detail.tag.equals("ADDR")) {
 						extractAddressData(notice, detail);
 					} else if (detail.tag.equals("EMAIL")) {

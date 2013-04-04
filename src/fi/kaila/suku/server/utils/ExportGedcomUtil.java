@@ -336,8 +336,27 @@ public class ExportGedcomUtil {
 								notice.getFromDate(), notice.getToDate()));
 						nm.append("\r\n");
 					}
-					if (notice.getPlace() != null) {
-						nm.append("2 PLAC " + notice.getPlace() + "\r\n");
+					if ((notice.getCroft() != null)
+							|| (notice.getFarm() != null)
+							|| (notice.getVillage() != null)
+							|| (notice.getPlace() != null)) {
+						nm.append("2 PLAC ");
+						if (notice.getCroft() != null) {
+							nm.append(notice.getCroft());
+						}
+						nm.append(", ");
+						if (notice.getFarm() != null) {
+							nm.append(notice.getFarm());
+						}
+						nm.append(", ");
+						if (notice.getVillage() != null) {
+							nm.append(notice.getVillage());
+						}
+						nm.append(", ");
+						if (notice.getPlace() != null) {
+							nm.append(notice.getPlace());
+						}
+						nm.append("\r\n");
 					}
 					if (notice.getNoteText() != null) {
 						nm.append(getNoteStructure(2, "NOTE",
@@ -401,15 +420,6 @@ public class ExportGedcomUtil {
 					}
 					if (notice.getEmail() != null) {
 						nm.append("2 EMAIL " + notice.getEmail() + "\r\n");
-					}
-					if (notice.getVillage() != null) {
-						nm.append("2 _VILLAGE " + notice.getVillage() + "\r\n");
-					}
-					if (notice.getFarm() != null) {
-						nm.append("2 _FARM " + notice.getFarm() + "\r\n");
-					}
-					if (notice.getCroft() != null) {
-						nm.append("2 _CROFT " + notice.getCroft() + "\r\n");
 					}
 					if (notice.getSource() != null) {
 						nm.append(getNoteStructure(2, "SOUR",
