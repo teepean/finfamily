@@ -636,7 +636,7 @@ public class PersonShortData implements Serializable, Transferable,
 				+ "u.tag,u.privacy,n.tag,n.givenname,");
 		sql.append("n.patronym,n.prefix,n.surname,n.postfix,");
 		sql.append("n.fromdate,n.Place,n.Description,"
-				+ "n.pnid,n.mediadata,n.mediafilename,n.mediatitle,n.email ");
+				+ "n.pnid,n.mediadata,n.mediafilename,n.mediatitle,n.email,n.village,n.farm,n.croft ");
 		sql.append("from unit as u left join unitnotice "
 				+ "as n on u.pid = n.pid ");
 		// if (!withAllTags) {
@@ -694,6 +694,9 @@ public class PersonShortData implements Serializable, Transferable,
 							this.birtTag = tag;
 							this.bDate = rs.getString(12);
 							this.bPlace = rs.getString(13);
+							this.bVillage = rs.getString(20);
+							this.bFarm = rs.getString(21);
+							this.bCroft = rs.getString(22);
 						}
 					}
 					if (tag.equals("RESI")) {
@@ -711,6 +714,9 @@ public class PersonShortData implements Serializable, Transferable,
 							this.deatTag = tag;
 							this.dDate = rs.getString(12);
 							this.dPlace = rs.getString(13);
+							this.dVillage = rs.getString(20);
+							this.dFarm = rs.getString(21);
+							this.dCroft = rs.getString(22);
 						}
 					}
 
@@ -1072,6 +1078,46 @@ public class PersonShortData implements Serializable, Transferable,
 	}
 
 	/**
+	 * Gets the complete birt place.
+	 * 
+	 * @return complete birt place
+	 */
+	public String getBirtPlaceComplete() {
+		String complete = "";
+
+		if (this.bPlace != null) {
+			if ((this.bVillage != null) || (this.bFarm != null)
+					|| (this.bCroft != null)) {
+				complete = " (";
+
+				if (this.bVillage != null) {
+					complete = complete + this.bVillage;
+				}
+
+				complete = complete + ";";
+
+				if (this.bFarm != null) {
+					complete = complete + this.bFarm;
+				}
+
+				complete = complete + ";";
+
+				if (this.bCroft != null) {
+					complete = complete + this.bCroft;
+				}
+
+				complete = complete + ")";
+
+				complete = this.bPlace + complete;
+			} else {
+				complete = this.bPlace;
+			}
+		}
+
+		return complete;
+	}
+
+	/**
 	 * Gets the birt place.
 	 * 
 	 * @return birt place
@@ -1132,6 +1178,46 @@ public class PersonShortData implements Serializable, Transferable,
 	 */
 	public String getDeatTag() {
 		return this.deatTag;
+	}
+
+	/**
+	 * Gets the complete death place.
+	 * 
+	 * @return complete death place
+	 */
+	public String getDeatPlaceComplete() {
+		String complete = "";
+
+		if (this.dPlace != null) {
+			if ((this.dVillage != null) || (this.dFarm != null)
+					|| (this.dCroft != null)) {
+				complete = " (";
+
+				if (this.dVillage != null) {
+					complete = complete + this.dVillage;
+				}
+
+				complete = complete + ";";
+
+				if (this.dFarm != null) {
+					complete = complete + this.dFarm;
+				}
+
+				complete = complete + ";";
+
+				if (this.dCroft != null) {
+					complete = complete + this.dCroft;
+				}
+
+				complete = complete + ")";
+
+				complete = this.dPlace + complete;
+			} else {
+				complete = this.dPlace;
+			}
+		}
+
+		return complete;
 	}
 
 	/**
@@ -1353,7 +1439,7 @@ public class PersonShortData implements Serializable, Transferable,
 				+ nv(getMorenames()) + "\t" + nv(getGivenname()) + "\t"
 				+ nv(getPatronym()) + "\t" + nv(getPostfix()) + "\t"
 				+ nv(Utils.textDate(getBirtDate(), false)) + "\t"
-				+ nv(getBirtPlace()) + "\t"
+				+ nv(getBirtPlace()) + "\t" + nv(getBirtVillage()) + "\t"
 				+ nv(Utils.textDate(getDeatDate(), false)) + "\t"
 				+ nv(getDeatPlace()) + nv(getOccupation()));
 		int ii = getMarrCount();

@@ -183,19 +183,20 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 			g.drawString(person.getOccupation(), p.x, y);
 			y += rowHeight;
 		}
-		if (person.getBirtPlace() != null) {
-			g.drawString("  " + person.getBirtPlace(), p.x + xdatew, y);
+		if (person.getBirtPlaceComplete() != null) {
+			g.drawString("  " + person.getBirtPlaceComplete(), p.x + xdatew, y);
 		}
 
 		if (person.getBirtDate() != null) {
 			g.drawString("* " + Utils.textDate(person.getBirtDate(), false),
 					p.x, y);
 		}
-		if ((person.getBirtDate() != null) || (person.getBirtPlace() != null)) {
+		if ((person.getBirtDate() != null)
+				|| (person.getBirtPlaceComplete() != null)) {
 			y += rowHeight;
 		}
-		if (person.getDeatPlace() != null) {
-			g.drawString("  " + person.getDeatPlace(), p.x + xdatew, y);
+		if (person.getDeatPlaceComplete() != null) {
+			g.drawString("  " + person.getDeatPlaceComplete(), p.x + xdatew, y);
 		}
 
 		if (person.getDeatDate() != null) {
@@ -203,7 +204,8 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 					p.x, y);
 		}
 
-		if ((person.getDeatDate() != null) || (person.getDeatPlace() != null)) {
+		if ((person.getDeatDate() != null)
+				|| (person.getDeatPlaceComplete() != null)) {
 			y += rowHeight;
 		}
 
@@ -298,17 +300,18 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 			g.drawString("* " + Utils.textDate(person.getBirtDate(), false),
 					p.x + xdate, y);
 		}
-		if (person.getBirtPlace() != null) {
-			g.drawString("  " + person.getBirtPlace(), p.x + xdate + datew, y);
+		if (person.getBirtPlaceComplete() != null) {
+			g.drawString("  " + person.getBirtPlaceComplete(), p.x + xdate
+					+ datew, y);
 		}
 		if (person.getDeatDate() != null) {
 
 			g.drawString("† " + Utils.textDate(person.getDeatDate(), false),
 					p.x + xdate, y + rowHeight);
 		}
-		if (person.getDeatPlace() != null) {
-			g.drawString("  " + person.getDeatPlace(), p.x + xdate + datew
-					+ xmargin, y + rowHeight);
+		if (person.getDeatPlaceComplete() != null) {
+			g.drawString("  " + person.getDeatPlaceComplete(), p.x + xdate
+					+ datew + xmargin, y + rowHeight);
 		}
 		if (person.getOccupation() != null) {
 
@@ -335,18 +338,18 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 						"* " + Utils.textDate(person.getBirtDate(), false), p.x
 								+ xdate, y);
 			}
-			if (person.getBirtPlace() != null) {
-				g.drawString("  " + person.getBirtPlace(), p.x + xdate + datew,
-						y);
+			if (person.getBirtPlaceComplete() != null) {
+				g.drawString("  " + person.getBirtPlaceComplete(), p.x + xdate
+						+ datew, y);
 			}
 			if (person.getDeatDate() != null) {
 				g.drawString(
 						"† " + Utils.textDate(person.getDeatDate(), false), p.x
 								+ xdate, y + rowHeight);
 			}
-			if (person.getDeatPlace() != null) {
-				g.drawString("  " + person.getDeatPlace(), p.x + xdate + datew,
-						y + rowHeight);
+			if (person.getDeatPlaceComplete() != null) {
+				g.drawString("  " + person.getDeatPlaceComplete(), p.x + xdate
+						+ datew, y + rowHeight);
 			}
 			if (person.getOccupation() != null) {
 				g.drawString(person.getOccupation(), p.x + xmargin, y
@@ -436,18 +439,18 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 						"* " + Utils.textDate(person.getBirtDate(), false), p.x
 								+ xdate, y);
 			}
-			if (person.getBirtPlace() != null) {
-				g.drawString("  " + person.getBirtPlace(), p.x + xdate + datew,
-						y);
+			if (person.getBirtPlaceComplete() != null) {
+				g.drawString("  " + person.getBirtPlaceComplete(), p.x + xdate
+						+ datew, y);
 			}
 			if (person.getDeatDate() != null) {
 				g.drawString(
 						"† " + Utils.textDate(person.getDeatDate(), false), p.x
 								+ xdate, y + rowHeight);
 			}
-			if (person.getDeatPlace() != null) {
-				g.drawString("  " + person.getDeatPlace(), p.x + xdate + datew,
-						y + rowHeight);
+			if (person.getDeatPlaceComplete() != null) {
+				g.drawString("  " + person.getDeatPlaceComplete(), p.x + xdate
+						+ datew, y + rowHeight);
 			}
 			if (person.getChildCount() > 0) {
 
@@ -539,11 +542,13 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		}
 
 		height += getSubjectRows() * rowHeight;
-		if ((person.getBirtDate() != null) || (person.getBirtPlace() != null)) {
+		if ((person.getBirtDate() != null)
+				|| (person.getBirtPlaceComplete() != null)) {
 			height += rowHeight;
 		}
 
-		if ((person.getDeatDate() != null) || (person.getDeatPlace() != null)) {
+		if ((person.getDeatDate() != null)
+				|| (person.getDeatPlaceComplete() != null)) {
 			height += rowHeight;
 		}
 
@@ -569,12 +574,12 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		if (person.getBirtDate() != null) {
 			sb.append(" * 13.04.1944 ");
 		}
-		if (person.getBirtPlace() != null) {
-			placew = fm.stringWidth(person.getBirtPlace());
+		if (person.getBirtPlaceComplete() != null) {
+			placew = fm.stringWidth(person.getBirtPlaceComplete());
 			if (placew > xdate) {
 				xdate = placew;
 			}
-			sb.append(person.getBirtPlace());
+			sb.append(person.getBirtPlaceComplete());
 		}
 		birtw = fm.stringWidth(sb.toString());
 		if ((birtw > 0) && (birtw < (xdatew + placew))) {
@@ -585,13 +590,13 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		if (person.getDeatDate() != null) {
 			sb.append(" * 13.04.1944 ");
 		}
-		if (person.getDeatPlace() != null) {
-			placew = fm.stringWidth(person.getDeatPlace());
+		if (person.getDeatPlaceComplete() != null) {
+			placew = fm.stringWidth(person.getDeatPlaceComplete());
 			if (placew > xdate) {
 				xdate = placew;
 			}
 
-			sb.append(person.getDeatPlace());
+			sb.append(person.getDeatPlaceComplete());
 		}
 		deatw = fm.stringWidth(sb.toString());
 		if ((deatw > 0) && (deatw < (xdatew + placew))) {
@@ -641,6 +646,8 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		height += rowHeight + separatorHeight;
 
 		int datew = 0;
+		int birtw = 0;
+		int deatw = 0;
 		FontMetrics fm = g.getFontMetrics(textFont);
 		int namew = 0;
 		int occuw = 0;
@@ -660,22 +667,40 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 			if (txt == null) {
 				txt = "";
 			}
+
 			xx = fm.stringWidth(txt);
 			if (xx > occuw) {
 				occuw = xx;
 			}
+
+			if (person.getBirtPlaceComplete() != null) {
+				xx = fm.stringWidth(person.getBirtPlaceComplete());
+			}
+			if (xx > birtw) {
+				birtw = xx;
+			}
+
+			if (person.getDeatPlaceComplete() != null) {
+				xx = fm.stringWidth(person.getDeatPlaceComplete());
+			}
+			if (xx > deatw) {
+				deatw = xx;
+			}
 		}
 
+		if (deatw > birtw) {
+			birtw = deatw;
+		}
 		if (occuw > namew) {
 			namew = occuw;
 		}
 		imagew += separatorWidth;
 		xdate = namew + xmargin;
 
-		if ((namew + datew) < imagew) {
+		if ((namew + datew + birtw) < imagew) {
 			namew = imagew;
 		} else {
-			namew = namew + datew;
+			namew = namew + datew + birtw;
 		}
 
 		namew += datew;
