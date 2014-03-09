@@ -2,6 +2,24 @@ FinFamily Release notes
 
 Releases follow the Subversion revision numbers. 
 
+Release 1214 on 9 mar 2014
+* Places list is shown now in reports
+* Possibility to search using village, farm and croft.
+* Fixed roman numbering in ancestor and descendant reports
+* Firstmale report doesn't worked correctly
+* Descendant reports didn't worked correctly when there was repetitions
+* Possibility to add birth and death village, farm and croft to result set in search window.
+* Added tooltip to search window notice exist field
+* Comment is now an independent sentence in descendant reports.
+* The jurisdictional name of the place where the event took place changed in Gedcom export and import. 
+  Jurisdictions are separated by commas, for example, "Cove, Cache, Utah, USA" and ("_CROFT, _FARM, _VILLAGE, PLAC").
+  Import still supports old looking Gedcoms where _CROFT, _FARM, _VILLAGE and PLAC are in separate lines.
+* Croft, farm and village in family tree.
+* Technical fixes and changes
+
+Release 1182 on 27 feb 2011
+* Fixes to search group
+
 Release 1177 on 28 feb 2011
 
 * Fix to gedcom with missing source record. recover after bad character encoding
