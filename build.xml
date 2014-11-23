@@ -67,7 +67,7 @@
 	<manifest >
     <attribute name="Built-By" value="${user.name}"/>
 	<attribute name="Main-Class" value="fi.kaila.suku.swing.Suku"/>
-	<attribute name="Class-Path" value="lib/postgresql-9.0-801.jdbc4.jar lib/jfreechart-1.0.13.jar lib/jcommon-1.0.16.jar lib/jxl.jar lib/jcalendarbutton-1.4.5.jar lib/looks-2.3.1.jar lib/swingx-1.6.jar lib/swingx-ws-1.0.jar  resources/"/>
+	<attribute name="Class-Path" value="lib/postgresql-9.0-801.jdbc4.jar lib/jfreechart-1.0.17.jar lib/jcommon-1.0.21.jar lib/jxl.jar lib/jcalendarbutton-1.4.5.jar lib/swingx-all-1.6.4.jar lib/swingx-ws-1.0.jar  resources/"/>
     <section name="common">
       <attribute name="Specification-Title" value="Example"/>
       <attribute name="Specification-Version" value="${app.version}.${revision.version}"/>
@@ -91,8 +91,8 @@
 	<copy file="${web.home}/WEB-INF/lib/finfamily.jar" tofile="${web.home}/suku.jar" />
 	<copy file="${lib.home}/jxl.jar" tofile="${web.home}/jxl.jar" />	
 	<copy file="${lib.home}/jcalendarbutton-1.4.5.jar" tofile="${web.home}/jcalendarbutton-1.4.5.jar" />	
-	<copy file="${lib.home}/jfreechart-1.0.13.jar" tofile="${web.home}/jfreechart-1.0.13.jar" />	
-	<copy file="${lib.home}/jcommon-1.0.16.jar" tofile="${web.home}/jcommon-1.0.16.jar" />	
+	<copy file="${lib.home}/jfreechart-1.0.17.jar" tofile="${web.home}/jfreechart-1.0.17.jar" />	
+	<copy file="${lib.home}/jcommon-1.0.21.jar" tofile="${web.home}/jcommon-1.0.21.jar" />	
 	<war destfile="${dist.home}/finfamily.war" basedir="${basedir}/WebContent">	 		
 	</war>
 	
@@ -115,7 +115,7 @@
 			<manifest >
 		    <attribute name="Built-By" value="${user.name}"/>
 			<attribute name="Main-Class" value="fi.kaila.suku.swing.Suku"/>
-			<attribute name="Class-Path" value="jfreechart-1.0.13.jar jcommon-1.0.16.jar lib/jxl.jar jcalendarbutton-1.4.5.jar looks-2.3.1.jar swingx-1.6.jar swingx-ws-1.0.jar  resources/"/>
+			<attribute name="Class-Path" value="jfreechart-1.0.17.jar jcommon-1.0.21.jar lib/jxl.jar jcalendarbutton-1.4.5.jar swingx-all-1.6.4.jar swingx-ws-1.0.jar  resources/"/>
 		    <section name="common">
 		      <attribute name="Specification-Title" value="Example"/>
 		      <attribute name="Specification-Version" value="${app.version}.${revision.version}"/>
@@ -137,8 +137,8 @@
 				<include name="resources/xml/**"/>
 				<include name="resources/sql/**"/>
 				
-				<include name="lib/jfreechart-1.0.13.jar"/>
-				<include name="lib/jcommon-1.0.16.jar"/>
+				<include name="lib/jfreechart-1.0.17.jar"/>
+				<include name="lib/jcommon-1.0.21.jar"/>
 				<include name="lib/jcalendarbutton-1.4.5.jar"/>
 				<include name="lib/jxl.jar"/>
 					
@@ -181,8 +181,8 @@
 	
 	<zip destfile="${swing.home}/finfamily${revision.version}.zip" basedir="${dist.home}"
 	  includes="suku.jar suku.sh SukuMac lib/postgresql-9.0-801.jdbc4.jar 
-	  lib/jxl.jar lib/jcalendarbutton-1.4.5.jar lib/jfreechart-1.0.13.jar lib/jcommon-1.0.16.jar lib/swingx-1.6.jar lib/swingx-ws-1.0.jar
-	  lib/looks-2.3.1.jar properties/* 
+	  lib/jxl.jar lib/jcalendarbutton-1.4.5.jar lib/jfreechart-1.0.17.jar lib/jcommon-1.0.21.jar lib/swingx-all-1.6.4.jar lib/swingx-ws-1.0.jar
+	  properties/* 
 	  resources/excel/FinFamily.xls resources/excel/Taivut_fi.xls 
 	  resources/xml/*">
 	
@@ -342,7 +342,7 @@ Filename: "{app}\Suku.exe"; Description: "{cm:LaunchProgram,FinFamily}"; Flags: 
 
 
     <target name="javadoc">
-        <javadoc access="public" encoding="UTF-8" author="true" classpath="lib/servlet.jar;lib/postgresql-9.0-801.jdbc4.jar;lib/jxl.jar;resources;lib/junit-4.4.jar;lib/jnlp.jar;lib/swingx-1.6.jar;lib/swingx-ws-1.0.jar" 
+        <javadoc access="public" encoding="UTF-8" author="true" classpath="lib/servlet.jar;lib/postgresql-9.0-801.jdbc4.jar;lib/jxl.jar;resources;lib/junit-4.4.jar;lib/jnlp.jar;lib/swingx-all-1.6.4.jar;lib/swingx-ws-1.0.jar" 
 		destdir="guide/javadoc" doctitle="FinFamily" nodeprecated="false" 
 		nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" 
 		overview="src\overview.html" source="1.6"  sourcepath="src;junit" excludepackagenames="components"
