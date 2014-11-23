@@ -277,6 +277,7 @@ public class SukuServlet extends HttpServlet {
 		processRequest(null, req, resp);
 	}
 
+	@SuppressWarnings("rawtypes")
 	private void processRequest(SukuData sukuData, HttpServletRequest req,
 			HttpServletResponse resp) throws IOException {
 

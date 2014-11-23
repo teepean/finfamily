@@ -7,6 +7,7 @@ import java.util.Comparator;
  * 
  * @author FIKAAKAIL
  */
+@SuppressWarnings("rawtypes")
 public class SukuPidComparator implements Comparator {
 
 	/*

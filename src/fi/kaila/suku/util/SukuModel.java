@@ -174,7 +174,7 @@ public class SukuModel implements TableModel {
 	 * @see javax.swing.table.TableModel#getColumnClass(int)
 	 */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Class getColumnClass(int idx) {
 		ColTable col = this.crit.getColTable(idx);
 

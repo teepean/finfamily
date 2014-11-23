@@ -282,7 +282,18 @@ public class ExportGedcomUtil {
 				sb.append("1 NAME " + nm.toString() + "\r\n");
 				if (notice.getSource() != null) {
 					sb.append(getNoteStructure(2, "SOUR", notice.getSource()));
+					if (notice.getPrivateText() != null) {
+						sb.append(getNoteStructure(3, "NOTE",
+								notice.getPrivateText()));
 
+					}
+				} else {
+					sb.append("2 SOUR \r\n");
+					if (notice.getPrivateText() != null) {
+						sb.append(getNoteStructure(3, "NOTE",
+								notice.getPrivateText()));
+
+					}
 				}
 				if (notice.getNoticeType() != null) {
 					sb.append("2 TYPE " + notice.getNoticeType() + "\r\n");
@@ -309,6 +320,24 @@ public class ExportGedcomUtil {
 					if (notice.getNoteText() != null) {
 						nm.append(getNoteStructure(1, "NOTE",
 								notice.getNoteText()));
+					}
+					if (notice.getSource() != null) {
+						nm.append(getNoteStructure(2, "SOUR",
+								notice.getSource()));
+
+						if (notice.getPrivateText() != null) {
+							nm.append(getNoteStructure(3, "NOTE",
+									notice.getPrivateText()));
+
+						}
+					} else {
+						nm.append("2 SOUR \r\n");
+
+						if (notice.getPrivateText() != null) {
+							nm.append(getNoteStructure(3, "NOTE",
+									notice.getPrivateText()));
+
+						}
 					}
 				} else {
 					String caus = null;
@@ -373,12 +402,14 @@ public class ExportGedcomUtil {
 								if (notice.getPostOffice() != null) {
 									if ((notice.getPostalCode() != null)
 											&& (notice.getPostOffice() != null)) {
-										nm.append("3 CONT "
-												+ notice.getPostalCode() + " "
+										nm.append("3 CITY "
 												+ notice.getPostOffice()
 												+ "\r\n");
+										nm.append("3 POST "
+												+ notice.getPostalCode()
+												+ "\r\n");
 									} else {
-										nm.append("3 CONT "
+										nm.append("3 CITY "
 												+ notice.getPostOffice()
 												+ "\r\n");
 									}
@@ -388,15 +419,16 @@ public class ExportGedcomUtil {
 								nm.append(getNoteStructure(2, "ADDR",
 										notice.getAddress(), 1));
 								if (notice.getPostOffice() != null) {
-									nm.append("3 CONT "
+									nm.append("3 CITY "
 											+ notice.getPostOffice() + "\r\n");
 								}
 								if (notice.getPostalCode() != null) {
-									nm.append("3 CONT " + notice.getState()
-											+ " " + notice.getPostOffice()
+									nm.append("3 STAE " + notice.getState()
 											+ "\r\n");
+									nm.append("3 POST "
+											+ notice.getPostalCode() + "\r\n");
 								} else {
-									nm.append("3 CONT " + notice.getState()
+									nm.append("3 STAE " + notice.getState()
 											+ "\r\n");
 								}
 
@@ -404,18 +436,18 @@ public class ExportGedcomUtil {
 
 						}
 						if (notice.getCountry() != null) {
-							nm.append("3 CONT " + notice.getCountry() + "\r\n");
+							nm.append("3 CTRY " + notice.getCountry() + "\r\n");
 						}
 					} else if ((notice.getCountry() != null)
 							|| (notice.getState() != null)) {
 						if (notice.getState() != null) {
-							nm.append("2 ADDR " + notice.getState() + "\r\n");
+							nm.append("2 STAE " + notice.getState() + "\r\n");
 							if (notice.getCountry() != null) {
-								nm.append("3 CONT " + notice.getCountry()
+								nm.append("3 CTRY " + notice.getCountry()
 										+ "\r\n");
 							}
 						} else {
-							nm.append("2 ADDR " + notice.getCountry() + "\r\n");
+							nm.append("2 CTRY " + notice.getCountry() + "\r\n");
 						}
 					}
 					if (notice.getEmail() != null) {
@@ -424,12 +456,20 @@ public class ExportGedcomUtil {
 					if (notice.getSource() != null) {
 						nm.append(getNoteStructure(2, "SOUR",
 								notice.getSource()));
+						if (notice.getPrivateText() != null) {
+							nm.append(getNoteStructure(3, "NOTE",
+									notice.getPrivateText()));
+						}
 						if (notice.getSurety() < 100) {
 							nm.append("3 QUAY "
 									+ suretyToQuay(notice.getSurety()) + "\r\n");
 						}
 					} else if (notice.getSurety() < 100) {
 						nm.append("2 SOUR\r\n");
+						if (notice.getPrivateText() != null) {
+							nm.append(getNoteStructure(3, "NOTE",
+									notice.getPrivateText()));
+						}
 						nm.append("3 QUAY " + suretyToQuay(notice.getSurety())
 								+ "\r\n");
 					}
@@ -458,6 +498,17 @@ public class ExportGedcomUtil {
 
 				sb.append(nm.toString());
 
+			}
+		}
+		if (persLong.getSource() != null) {
+			sb.append("1 SOUR " + persLong.getSource() + "\r\n");
+			if (persLong.getPrivateText() != null) {
+				sb.append("2 NOTE " + persLong.getPrivateText() + "\r\n");
+			}
+		} else {
+			sb.append("1 SOUR \r\n");
+			if (persLong.getPrivateText() != null) {
+				sb.append("2 NOTE " + persLong.getPrivateText() + "\r\n");
 			}
 		}
 
@@ -806,7 +857,7 @@ public class ExportGedcomUtil {
 					+ "coalesce(l.description,r.description) as description,"
 					+ "coalesce(l.relationtype,r.relationtype) as relationtype,"
 					+ "dateprefix,fromdate,todate,coalesce(l.place,r.place) as place,"
-					+ "coalesce(l.notetext,r.notetext) as notetext,sourcetext "
+					+ "coalesce(l.notetext,r.notetext) as notetext,sourcetext,privatetext "
 					+ "from relationnotice as r left join relationlanguage as l "
 					+ "on r.rnid = l.rnid and l.langcode = ? where r.rid=? "
 					+ "order by noticerow ";
@@ -817,7 +868,7 @@ public class ExportGedcomUtil {
 
 		} else {
 			sql = "select surety,tag,description,relationtype,"
-					+ "dateprefix,fromdate,todate,place,notetext,sourcetext "
+					+ "dateprefix,fromdate,todate,place,notetext,sourcetext,privatetext "
 					+ "from relationnotice where rid=? "
 					+ "order by noticerow ";
 			pst = con.prepareStatement(sql);
@@ -833,8 +884,10 @@ public class ExportGedcomUtil {
 			String pre = rs.getString(5);
 			String fromdate = rs.getString(6);
 			String todate = rs.getString(7);
-			String notetext = rs.getString(8);
-			String sourcetext = rs.getString(9);
+			String place = rs.getString(8);
+			String notetext = rs.getString(9);
+			String sourcetext = rs.getString(10);
+			String privatetext = rs.getString(11);
 
 			sb.append("1 " + tag + "\r\n");
 			if (type != null) {
@@ -849,16 +902,26 @@ public class ExportGedcomUtil {
 			if (desc != null) {
 				sb.append("2 CAUS " + desc + "\r\n");
 			}
+			if (place != null) {
+				sb.append("2 PLAC " + place + "\r\n");
+			}
 			if (notetext != null) {
 				sb.append(getNoteStructure(2, "NOTE", notetext));
 			}
 			if (sourcetext != null) {
 				sb.append(getNoteStructure(2, "SOUR", sourcetext));
+				if (privatetext != null) {
+					sb.append(getNoteStructure(3, "NOTE", privatetext));
+				}
 				if (surety < 100) {
 					sb.append("3 QUAY " + suretyToQuay(surety) + "\r\n");
 				}
 			} else if (surety < 100) {
 				sb.append("2 SOUR\r\n");
+				sb.append("3 QUAY " + suretyToQuay(surety) + "\r\n");
+			} else if (privatetext != null) {
+				sb.append("2 SOUR\r\n");
+				sb.append(getNoteStructure(3, "NOTE", privatetext));
 				sb.append("3 QUAY " + suretyToQuay(surety) + "\r\n");
 			}
 

@@ -11,6 +11,7 @@ import java.util.Locale;
  * 
  *         Comparator for names
  */
+@SuppressWarnings("rawtypes")
 public class SukuNameComparator implements Comparator {
 
 	/** The colli. */

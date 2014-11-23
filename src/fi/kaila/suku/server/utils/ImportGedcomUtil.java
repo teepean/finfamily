@@ -597,6 +597,7 @@ public class ImportGedcomUtil {
 						rn.setPlace(detail.lineValue);
 					} else if (detail.tag.equals("SOUR")) {
 						rn.setSource(detail.lineValue);
+						rn.setPrivateText(extractGedcomSourceNote(detail));
 					} else if (detail.tag.equals("DATE")) {
 						String[] dparts = consumeGedcomDate(detail.lineValue);
 						if ((dparts != null) && (dparts.length > 3)) {
@@ -882,11 +883,72 @@ public class ImportGedcomUtil {
 		sb.append(record.lineValue);
 		for (int i = 0; i < record.lines.size(); i++) {
 			GedcomLine line = record.lines.get(i);
-			if (line.tag.equals("TEXT") || line.tag.equals("NOTE")) {
+			if (line.tag.equals("TEXT")) {
 				if (sb.length() > 0) {
 					sb.append(" ");
 				}
 				sb.append(line.lineValue);
+			}
+		}
+		if (sb.length() == 0) {
+			return null;
+		}
+		return sb.toString();
+	}
+
+	private String extractGedcomSourceNote(GedcomLine record) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < record.lines.size(); i++) {
+			GedcomLine line = record.lines.get(i);
+			if (line.tag.equals("NOTE")) {
+				if (sb.length() > 0) {
+					sb.append(" ");
+				}
+				sb.append(line.lineValue);
+			}
+		}
+		if (sb.length() == 0) {
+			return null;
+		}
+		return sb.toString();
+	}
+
+	private String extractGedcomNoteSource(GedcomLine record) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < record.lines.size(); i++) {
+			GedcomLine line = record.lines.get(i);
+			if (line.tag.equals("SOUR")) {
+				if (sb.length() > 0) {
+					sb.append(" ");
+				}
+				sb.append(line.lineValue);
+			}
+		}
+		if (sb.length() == 0) {
+			return null;
+		}
+		return sb.toString();
+	}
+
+	private String extractGedcomNoteSourceNote(GedcomLine record) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < record.lines.size(); i++) {
+			GedcomLine line = record.lines.get(i);
+			if (line.tag.equals("NOTE")) {
+				if (sb.length() > 0) {
+					sb.append(" ");
+				}
+				sb.append(line.lineValue);
+			} else {
+				for (int j = 0; j < line.lines.size(); j++) {
+					GedcomLine line2 = line.lines.get(j);
+					if (line2.tag.equals("NOTE")) {
+						if (sb.length() > 0) {
+							sb.append(" ");
+						}
+						sb.append(line2.lineValue);
+					}
+				}
 			}
 		}
 		if (sb.length() == 0) {
@@ -1025,7 +1087,9 @@ public class ImportGedcomUtil {
 							}
 						} else if (detail.tag.equals("SOUR")) {
 							if (notice.getSource() == null) {
-								notice.setSource(detail.lineValue);
+								String src = extractGedcomSource(detail);
+								notice.setSource(src);
+								notice.setPrivateText(extractGedcomSourceNote(detail));
 							} else {
 								notice.setSource(notice.getSource() + " "
 										+ detail.lineValue);
@@ -1057,6 +1121,9 @@ public class ImportGedcomUtil {
 						}
 					} else {
 						notice.setNoteText(noti.lineValue);
+						String src = extractGedcomNoteSource(noti);
+						notice.setSource(src);
+						notice.setPrivateText(extractGedcomNoteSourceNote(noti));
 					}
 				}
 			} else if (noti.tag.equals("ADDR")) {
@@ -1092,6 +1159,7 @@ public class ImportGedcomUtil {
 				} else {
 					String src = extractGedcomSource(noti);
 					pers.setSource(src);
+					pers.setPrivateText(extractGedcomSourceNote(noti));
 				}
 			} else if (noti.tag.equals("CHAN")) {
 				// TODO:
@@ -1190,9 +1258,9 @@ public class ImportGedcomUtil {
 							notice.setSource(extractSourceText(dets));
 							notice.setSurety(extractGedcomSurety(dets));
 						} else {
-
 							String src = extractGedcomSource(detail);
 							notice.setSource(src);
+							notice.setPrivateText(extractGedcomSourceNote(detail));
 							notice.setSurety(extractGedcomSurety(detail));
 						}
 					} else if (detail.tag.equals("DATE")) {
