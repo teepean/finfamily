@@ -288,8 +288,8 @@ public class ExportGedcomUtil {
 
 					}
 				} else {
-					sb.append("2 SOUR \r\n");
 					if (notice.getPrivateText() != null) {
+						sb.append("2 SOUR \r\n");
 						sb.append(getNoteStructure(3, "NOTE",
 								notice.getPrivateText()));
 
@@ -331,12 +331,10 @@ public class ExportGedcomUtil {
 
 						}
 					} else {
-						nm.append("2 SOUR \r\n");
-
 						if (notice.getPrivateText() != null) {
+							nm.append("2 SOUR \r\n");
 							nm.append(getNoteStructure(3, "NOTE",
 									notice.getPrivateText()));
-
 						}
 					}
 				} else {
@@ -506,8 +504,8 @@ public class ExportGedcomUtil {
 				sb.append("2 NOTE " + persLong.getPrivateText() + "\r\n");
 			}
 		} else {
-			sb.append("1 SOUR \r\n");
 			if (persLong.getPrivateText() != null) {
+				sb.append("1 SOUR \r\n");
 				sb.append("2 NOTE " + persLong.getPrivateText() + "\r\n");
 			}
 		}
