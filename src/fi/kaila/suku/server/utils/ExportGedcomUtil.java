@@ -248,9 +248,11 @@ public class ExportGedcomUtil {
 		MinimumIndividual indi = units.get(persLong.getPid());
 		StringBuilder sb = new StringBuilder();
 		sb.append("0 @I" + indi.gid + "@ INDI\r\n");
-		sb.append("1 SEX " + indi.sex + "\r\n");
+		sb.append("1 SEX " + indi.sex);
+		sb.append("\r\n");
 		if (persLong.getRefn() != null) {
-			sb.append("1 REFN " + persLong.getRefn() + "\r\n");
+			sb.append("1 REFN " + persLong.getRefn());
+			sb.append("\r\n");
 		}
 		UnitNotice[] notices = persLong.getNotices();
 		for (UnitNotice notice : notices) {
@@ -279,7 +281,8 @@ public class ExportGedcomUtil {
 					nm.append(notice.getPostfix());
 				}
 
-				sb.append("1 NAME " + nm.toString() + "\r\n");
+				sb.append("1 NAME " + nm.toString());
+				sb.append("\r\n");
 				if (notice.getSource() != null) {
 					sb.append(getNoteStructure(2, "SOUR", notice.getSource()));
 					if (notice.getPrivateText() != null) {
@@ -296,7 +299,8 @@ public class ExportGedcomUtil {
 					}
 				}
 				if (notice.getNoticeType() != null) {
-					sb.append("2 TYPE " + notice.getNoticeType() + "\r\n");
+					sb.append("2 TYPE " + notice.getNoticeType());
+					sb.append("\r\n");
 				}
 				if (notice.getDescription() != null) {
 					sb.append(getNoteStructure(2, "NOTE",
@@ -346,16 +350,19 @@ public class ExportGedcomUtil {
 							caus = notice.getDescription();
 							nm.append("\r\n");
 						} else {
-							nm.append(" " + notice.getDescription() + "\r\n");
+							nm.append(" " + notice.getDescription());
+							nm.append("\r\n");
 						}
 					} else {
 						nm.append("\r\n");
 					}
 					if (notice.getNoticeType() != null) {
-						nm.append("2 TYPE " + notice.getNoticeType() + "\r\n");
+						nm.append("2 TYPE " + notice.getNoticeType());
+						nm.append("\r\n");
 					}
 					if (caus != null) {
-						nm.append("2 CAUS " + caus + "\r\n");
+						nm.append("2 CAUS " + caus);
+						nm.append("\r\n");
 					}
 					if (notice.getFromDate() != null) {
 						nm.append("2 DATE ");
@@ -401,15 +408,15 @@ public class ExportGedcomUtil {
 									if ((notice.getPostalCode() != null)
 											&& (notice.getPostOffice() != null)) {
 										nm.append("3 CITY "
-												+ notice.getPostOffice()
-												+ "\r\n");
+												+ notice.getPostOffice());
+										nm.append("\r\n");
 										nm.append("3 POST "
-												+ notice.getPostalCode()
-												+ "\r\n");
+												+ notice.getPostalCode());
+										nm.append("\r\n");
 									} else {
 										nm.append("3 CITY "
-												+ notice.getPostOffice()
-												+ "\r\n");
+												+ notice.getPostOffice());
+										nm.append("\r\n");
 									}
 
 								}
@@ -418,38 +425,44 @@ public class ExportGedcomUtil {
 										notice.getAddress(), 1));
 								if (notice.getPostOffice() != null) {
 									nm.append("3 CITY "
-											+ notice.getPostOffice() + "\r\n");
+											+ notice.getPostOffice());
+									nm.append("\r\n");
 								}
 								if (notice.getPostalCode() != null) {
-									nm.append("3 STAE " + notice.getState()
-											+ "\r\n");
+									nm.append("3 STAE " + notice.getState());
+									nm.append("\r\n");
 									nm.append("3 POST "
-											+ notice.getPostalCode() + "\r\n");
+											+ notice.getPostalCode());
+									nm.append("\r\n");
 								} else {
-									nm.append("3 STAE " + notice.getState()
-											+ "\r\n");
+									nm.append("3 STAE " + notice.getState());
+									nm.append("\r\n");
 								}
 
 							}
 
 						}
 						if (notice.getCountry() != null) {
-							nm.append("3 CTRY " + notice.getCountry() + "\r\n");
+							nm.append("3 CTRY " + notice.getCountry());
+							nm.append("\r\n");
 						}
 					} else if ((notice.getCountry() != null)
 							|| (notice.getState() != null)) {
 						if (notice.getState() != null) {
-							nm.append("2 STAE " + notice.getState() + "\r\n");
+							nm.append("2 STAE " + notice.getState());
+							nm.append("\r\n");
 							if (notice.getCountry() != null) {
-								nm.append("3 CTRY " + notice.getCountry()
-										+ "\r\n");
+								nm.append("3 CTRY " + notice.getCountry());
+								nm.append("\r\n");
 							}
 						} else {
-							nm.append("2 CTRY " + notice.getCountry() + "\r\n");
+							nm.append("2 CTRY " + notice.getCountry());
+							nm.append("\r\n");
 						}
 					}
 					if (notice.getEmail() != null) {
-						nm.append("2 EMAIL " + notice.getEmail() + "\r\n");
+						nm.append("2 EMAIL " + notice.getEmail());
+						nm.append("\r\n");
 					}
 					if (notice.getSource() != null) {
 						nm.append(getNoteStructure(2, "SOUR",
@@ -460,7 +473,8 @@ public class ExportGedcomUtil {
 						}
 						if (notice.getSurety() < 100) {
 							nm.append("3 QUAY "
-									+ suretyToQuay(notice.getSurety()) + "\r\n");
+									+ suretyToQuay(notice.getSurety()));
+							nm.append("\r\n");
 						}
 					} else if (notice.getSurety() < 100) {
 						nm.append("2 SOUR\r\n");
@@ -468,8 +482,8 @@ public class ExportGedcomUtil {
 							nm.append(getNoteStructure(3, "NOTE",
 									notice.getPrivateText()));
 						}
-						nm.append("3 QUAY " + suretyToQuay(notice.getSurety())
-								+ "\r\n");
+						nm.append("3 QUAY " + suretyToQuay(notice.getSurety()));
+						nm.append("\r\n");
 					}
 					if (includeImages) {
 						if ((notice.getMediaFilename() != null)
@@ -478,15 +492,16 @@ public class ExportGedcomUtil {
 									notice.getMediaFilename(),
 									notice.getMediaData());
 							nm.append("1 OBJE\r\n");
-							nm.append("2 FILE " + minimg.getPath() + "\r\n");
+							nm.append("2 FILE " + minimg.getPath());
+							nm.append("\r\n");
 
 							if (notice.getMediaFilename().toLowerCase()
 									.endsWith(".jpg")) {
 								nm.append("3 FORM jpeg\r\n");
 							}
 							if (notice.getMediaTitle() != null) {
-								nm.append("2 TITL " + notice.getMediaTitle()
-										+ "\r\n");
+								nm.append("2 TITL " + notice.getMediaTitle());
+								nm.append("\r\n");
 							}
 
 							images.add(minimg);
@@ -499,14 +514,14 @@ public class ExportGedcomUtil {
 			}
 		}
 		if (persLong.getSource() != null) {
-			sb.append("1 SOUR " + persLong.getSource() + "\r\n");
+			sb.append(getNoteStructure(1, "SOUR", persLong.getSource()));
 			if (persLong.getPrivateText() != null) {
-				sb.append("2 NOTE " + persLong.getPrivateText() + "\r\n");
+				sb.append(getNoteStructure(2, "NOTE", persLong.getPrivateText()));
 			}
 		} else {
 			if (persLong.getPrivateText() != null) {
 				sb.append("1 SOUR \r\n");
-				sb.append("2 NOTE " + persLong.getPrivateText() + "\r\n");
+				sb.append(getNoteStructure(2, "NOTE", persLong.getPrivateText()));
 			}
 		}
 
@@ -612,25 +627,29 @@ public class ExportGedcomUtil {
 					StringBuilder adb = new StringBuilder();
 
 					if (notice.getType() != null) {
-						adb.append("2 TYPE " + notice.getType() + "\r\n");
+						adb.append("2 TYPE " + notice.getType());
+						adb.append("\r\n");
 
 					}
 					if (notice.getFromDate() != null) {
 						adb.append("2 DATE "
 								+ toFullDate(notice.getDatePrefix(),
 										notice.getFromDate(),
-										notice.getToDate()) + "\r\n");
+										notice.getToDate()));
+						adb.append("\r\n");
 					}
 					if (notice.getPlace() != null) {
-						adb.append("2 PLAC " + notice.getPlace() + "\r\n");
+						adb.append("2 PLAC " + notice.getPlace());
+						adb.append("\r\n");
 					}
 					if (notice.getDescription() != null) {
-						adb.append("2 CAUS " + notice.getDescription() + "\r\n");
+						adb.append("2 CAUS " + notice.getDescription());
+						adb.append("\r\n");
 					}
 					if (notice.getNoteText() != null) {
 						adb.append(getNoteStructure(2, "NOTE",
-								notice.getNoteText())
-								+ "\r\n");
+								notice.getNoteText()));
+						adb.append("\r\n");
 					}
 					if (notice.getSource() != null) {
 						adb.append(getNoteStructure(2, "SOUR",
@@ -638,13 +657,13 @@ public class ExportGedcomUtil {
 						if (notice.getSurety() < 100) {
 
 							adb.append("3 QUAY "
-									+ suretyToQuay(notice.getSurety()) + "\r\n");
+									+ suretyToQuay(notice.getSurety()));
+							adb.append("\r\n");
 						}
 					} else if (notice.getSurety() < 100) {
 						adb.append("2 SOUR\r\n");
-						adb.append("3 QUAY " + suretyToQuay(notice.getSurety())
-								+ "\r\n");
-
+						adb.append("3 QUAY " + suretyToQuay(notice.getSurety()));
+						adb.append("\r\n");
 					}
 					if (adb.length() > 0) {
 						other = adb.toString();
@@ -694,9 +713,10 @@ public class ExportGedcomUtil {
 				if (adop.other != null) {
 					sb.append(adop.other);
 				}
-				sb.append("2 FAMC " + adop.fam + "\r\n");
-				sb.append("3 ADOP " + adop.who + "\r\n");
-
+				sb.append("2 FAMC " + adop.fam);
+				sb.append("\r\n");
+				sb.append("3 ADOP " + adop.who);
+				sb.append("\r\n");
 			}
 
 		}
@@ -887,9 +907,11 @@ public class ExportGedcomUtil {
 			String sourcetext = rs.getString(10);
 			String privatetext = rs.getString(11);
 
-			sb.append("1 " + tag + "\r\n");
+			sb.append("1 " + tag);
+			sb.append("\r\n");
 			if (type != null) {
-				sb.append("2 TYPE " + type + "\r\n");
+				sb.append("2 TYPE " + type);
+				sb.append("\r\n");
 			}
 			if (fromdate != null) {
 				sb.append("2 DATE ");
@@ -898,10 +920,12 @@ public class ExportGedcomUtil {
 
 			}
 			if (desc != null) {
-				sb.append("2 CAUS " + desc + "\r\n");
+				sb.append("2 CAUS " + desc);
+				sb.append("\r\n");
 			}
 			if (place != null) {
-				sb.append("2 PLAC " + place + "\r\n");
+				sb.append("2 PLAC " + place);
+				sb.append("\r\n");
 			}
 			if (notetext != null) {
 				sb.append(getNoteStructure(2, "NOTE", notetext));
@@ -912,15 +936,18 @@ public class ExportGedcomUtil {
 					sb.append(getNoteStructure(3, "NOTE", privatetext));
 				}
 				if (surety < 100) {
-					sb.append("3 QUAY " + suretyToQuay(surety) + "\r\n");
+					sb.append("3 QUAY " + suretyToQuay(surety));
+					sb.append("\r\n");
 				}
 			} else if (surety < 100) {
 				sb.append("2 SOUR\r\n");
-				sb.append("3 QUAY " + suretyToQuay(surety) + "\r\n");
+				sb.append("3 QUAY " + suretyToQuay(surety));
+				sb.append("\r\n");
 			} else if (privatetext != null) {
 				sb.append("2 SOUR\r\n");
 				sb.append(getNoteStructure(3, "NOTE", privatetext));
-				sb.append("3 QUAY " + suretyToQuay(surety) + "\r\n");
+				sb.append("3 QUAY " + suretyToQuay(surety));
+				sb.append("\r\n");
 			}
 
 		}
@@ -970,44 +997,53 @@ public class ExportGedcomUtil {
 			stm = con.createStatement();
 			ResultSet rs = stm.executeQuery(sql);
 			if (rs.next()) {
-				sb.append("1 NAME " + rs.getString("owner_name") + "\r\n");
+				sb.append("1 NAME " + rs.getString("owner_name"));
+				sb.append("\r\n");
 
 				StringBuilder sbad = new StringBuilder();
 				String tmp = rs.getString("owner_address");
 				if (tmp != null) {
-					sbad.append(tmp + "\r\n");
+					sbad.append(tmp);
+					sbad.append("\r\n");
 				}
 				tmp = rs.getString("owner_postalcode");
 				String aux = rs.getString("owner_postoffice");
 				if (tmp != null) {
 					if (aux != null) {
-						sbad.append(tmp + " " + aux + "\r\n");
+						sbad.append(tmp + " " + aux);
+						sbad.append("\r\n");
 					} else {
-						sbad.append(tmp + "\r\n");
+						sbad.append(tmp);
+						sbad.append("\r\n");
 					}
 
 				} else if (aux != null) {
-					sbad.append(aux + "\r\n");
+					sbad.append(aux);
+					sbad.append("\r\n");
 				}
 
 				tmp = rs.getString("owner_state");
 				if (tmp != null) {
-					sbad.append(tmp + "\r\n");
+					sbad.append(tmp);
+					sbad.append("\r\n");
 				}
 				tmp = rs.getString("owner_country");
 				if (tmp != null) {
-					sbad.append(tmp + "\r\n");
+					sbad.append(tmp);
+					sbad.append("\r\n");
 				}
 				sb.append(getNoteStructure(1, "ADDR", sbad.toString(), 1));
 
 				tmp = rs.getString("owner_email");
 				if (tmp != null) {
-					sb.append("1 EMAIL " + tmp + "\r\n");
+					sb.append("1 EMAIL " + tmp);
+					sb.append("\r\n");
 				}
 
 				tmp = rs.getString("owner_webaddress");
 				if (tmp != null) {
-					sb.append("1 WWW " + tmp + "\r\n");
+					sb.append("1 WWW " + tmp);
+					sb.append("\r\n");
 				}
 				tmp = rs.getString("owner_info");
 				if (tmp != null) {
@@ -1021,7 +1057,8 @@ public class ExportGedcomUtil {
 			rs.close();
 			stm.close();
 		} catch (SQLException e) {
-			sb.append("1 NAME " + e.getMessage() + "\r\n");
+			sb.append("1 NAME " + e.getMessage());
+			sb.append("\r\n");
 		}
 
 		// zip.write(gedBytes("0 HEAD\r\n"));
