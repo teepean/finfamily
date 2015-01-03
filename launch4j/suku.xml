@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch4jConfig>
+  <dontWrapJar>true</dontWrapJar>
+  <headerType>console</headerType>
+  <jar>suku.jar</jar>
+  <outfile>Suku.exe</outfile>
+  <errTitle>FinFamily</errTitle>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl></supportUrl>
+  <stayAlive>false</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <manifest></manifest>
+  <icon>Genealogia.ico</icon>
+  <jre>
+    <path></path>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <minVersion>1.6.0</minVersion>
+    <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+    <initialHeapSize>64</initialHeapSize>
+    <maxHeapSize>1048</maxHeapSize>
+    <opt>-Djava.util.logging.config.file=properties/logging.properties</opt>
+    <opt>-Dcom.sun.management.jmxremote</opt>
+  </jre>
+  <versionInfo>
+    <fileVersion>11.0.0.0</fileVersion>
+    <txtFileVersion>11</txtFileVersion>
+    <fileDescription>FinFamily</fileDescription>
+    <copyright>Copyright (c) 2015 Kaarle Kaila, Mika Halonen</copyright>
+    <productVersion>11.0.0.0</productVersion>
+    <txtProductVersion>11</txtProductVersion>
+    <productName>FinFamily</productName>
+    <companyName></companyName>
+    <internalName>FinFamily</internalName>
+    <originalFilename>suku.exe</originalFilename>
+  </versionInfo>
+</launch4jConfig>
