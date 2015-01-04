@@ -11,7 +11,7 @@
   <property name="docs.home" value="${basedir}/docs"/>
   <property name="src.home"  value="${basedir}/src"/>
   <property name="conf.home" value="${basedir}/conf"/>
-  <property name="devc.home" value="${basedir}/devc"/>
+  <property name="launch4j.home" value="${basedir}/launch4j"/>
   <property name="junit.home" value="${basedir}/junit" />
   <property name="lib.home"  value="${basedir}/lib"/>
   <property name="test.home" value="${basedir}/test"/>
@@ -167,11 +167,11 @@
      <fileset dir="${resources.home}/xml" includes="*.xsl"/>
    </copy>
    
- <!--  <copy file="${devc.home}/Suku.exe" todir="${dist.home}"/>
+ <!--  <copy file="${launch4j.home}/Suku.exe" todir="${dist.home}"/>
  -->
-   <copy file="${devc.home}/suku.sh" todir="${dist.home}"/>
+   <copy file="${launch4j.home}/suku.sh" todir="${dist.home}"/>
    
-   <copy file="${devc.home}/SukuMac" todir="${dist.home}"/>
+   <copy file="${launch4j.home}/SukuMac" todir="${dist.home}"/>
 
 	
 	 <copy todir="${dist.home}/lib">
