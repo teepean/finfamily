@@ -75,6 +75,7 @@ public class GenStat extends JDialog implements ActionListener {
 		statCombo.addItem(Resurses.getString("STAT_DEATH_PLACES"));
 		statCombo.addItem(Resurses.getString("STAT_FIRST_NAMES"));
 		statCombo.addItem(Resurses.getString("STAT_LAST_NAMES"));
+		statCombo.addItem(Resurses.getString("STAT_DEATH_CAUSES"));
 
 		statCombo.setActionCommand(Resurses.SHOWGRID);
 		statCombo.addActionListener(this);
@@ -514,7 +515,7 @@ public class GenStat extends JDialog implements ActionListener {
 		if (x > 10) {
 			y = x - 10;
 		} else {
-			y = x;
+			y = 0;
 		}
 
 		for (int xx = y; xx < x; xx++) {
@@ -589,11 +590,77 @@ public class GenStat extends JDialog implements ActionListener {
 		if (x > 10) {
 			y = x - 10;
 		} else {
-			y = x;
+			y = 0;
 		}
 
 		for (int xx = y; xx < x; xx++) {
 			dataset1.addValue(names[xx].getCount(), names[xx].getName(), "");
+		}
+	}
+
+	private void statDeathCauses(boolean birth) {
+
+		// add the chart to a panel...
+		final DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
+
+		String caption;
+		caption = Resurses.getString("STAT_DEATH_CAUSES");
+		final JFreeChart deathCauses = ChartFactory.createBarChart(caption,
+				Resurses.getString("STAT_CAUSES"),
+				Resurses.getString("STAT_PIECES"), dataset1,
+				PlotOrientation.VERTICAL, true, true, false);
+
+		chartPanel.setChart(deathCauses);
+
+		// get a reference to the plot for further customisation...
+		final CategoryPlot plot = deathCauses.getCategoryPlot();
+		plot.setRangeAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
+
+		// change the auto tick unit selection to integer units only...
+		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
+		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+		int idx;
+		String scause;
+		CausesData cause = null;
+		HashMap<String, CausesData> scauses = new HashMap<String, CausesData>();
+		CausesData[] causes = null;
+
+		for (idx = 0; idx < persons.length; idx++) {
+			scause = persons[idx].getDeatCause();
+			cause = scauses.get(scause);
+			if (scause != null) {
+				if (cause == null) {
+					cause = new CausesData(scause);
+
+					scauses.put(scause, cause);
+				} else {
+					cause.increment();
+				}
+			}
+		}
+
+		causes = new CausesData[scauses.size()];
+
+		Iterator<String> it = scauses.keySet().iterator();
+		idx = 0;
+		while (it.hasNext()) {
+			causes[idx] = scauses.get(it.next());
+			idx++;
+		}
+
+		int x = causes.length;
+		quicksortcauses(causes, 0, x - 1);
+
+		int y = 10;
+		if (x > 10) {
+			y = x - 10;
+		} else {
+			y = 0;
+		}
+
+		for (int xx = y; xx < x; xx++) {
+			dataset1.addValue(causes[xx].getCount(), causes[xx].getCause(), "");
 		}
 	}
 
@@ -681,6 +748,48 @@ public class GenStat extends JDialog implements ActionListener {
 		}
 	}
 
+	/**
+	 * Quicksort.
+	 * 
+	 * @param array
+	 *            the array
+	 * @param left
+	 *            the left
+	 * @param right
+	 *            the right
+	 */
+	private static void quicksortcauses(CausesData array[], int left, int right) {
+		int leftIdx = left;
+		int rightIdx = right;
+		CausesData temp;
+
+		if (((right - left) + 1) > 1) {
+			int pivot = (left + right) / 2;
+			while ((leftIdx <= pivot) && (rightIdx >= pivot)) {
+				while ((array[leftIdx].getCount() < array[pivot].getCount())
+						&& (leftIdx <= pivot)) {
+					leftIdx = leftIdx + 1;
+				}
+				while ((array[rightIdx].getCount() > array[pivot].getCount())
+						&& (rightIdx >= pivot)) {
+					rightIdx = rightIdx - 1;
+				}
+				temp = array[leftIdx];
+				array[leftIdx] = array[rightIdx];
+				array[rightIdx] = temp;
+				leftIdx = leftIdx + 1;
+				rightIdx = rightIdx - 1;
+				if ((leftIdx - 1) == pivot) {
+					pivot = rightIdx = rightIdx + 1;
+				} else if ((rightIdx + 1) == pivot) {
+					pivot = leftIdx = leftIdx - 1;
+				}
+			}
+			quicksortcauses(array, left, pivot - 1);
+			quicksortcauses(array, pivot + 1, right);
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -721,6 +830,9 @@ public class GenStat extends JDialog implements ActionListener {
 		case 9:
 			statFirstLastNames(false);
 			break;
+		case 10:
+			statDeathCauses(false);
+			break;
 		}
 		this.chartPanel.repaint();
 	}
@@ -743,6 +855,31 @@ public class GenStat extends JDialog implements ActionListener {
 
 		public String getName() {
 			return this.name;
+		}
+
+		public int getCount() {
+			return this.counter;
+		}
+	}
+
+	private static class CausesData implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+		private String cause = null;
+		private int counter = 0;
+
+		public CausesData(String cause) {
+			this.cause = cause;
+			this.counter = 1;
+
+		}
+
+		public void increment() {
+			this.counter++;
+		}
+
+		public String getCause() {
+			return this.cause;
 		}
 
 		public int getCount() {

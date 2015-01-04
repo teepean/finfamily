@@ -637,6 +637,7 @@ public class QueryUtil {
 							perso.setDeatFarm(dbfarm);
 							perso.setDeatCroft(dbcroft);
 							perso.setDeatCountry(dbCountry);
+							perso.setDeatCause(dbdescription);
 						}
 					}
 				}

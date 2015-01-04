@@ -61,6 +61,7 @@ public class PersonShortData implements Serializable, Transferable,
 	private String dFarm = null;
 	private String dCroft = null;
 	private String dCountry = null;
+	private String dCause = null;
 	private final String chred = null;
 	private final String buried = null;
 	private String occu = null;
@@ -354,6 +355,16 @@ public class PersonShortData implements Serializable, Transferable,
 	}
 
 	/**
+	 * Sets the death cause.
+	 * 
+	 * @param deatCause
+	 *            the new death cause
+	 */
+	public void setDeatCause(String deatCause) {
+		this.dCause = deatCause;
+	}
+
+	/**
 	 * Sets the deat tag.
 	 * 
 	 * @param deatTag
@@ -571,6 +582,7 @@ public class PersonShortData implements Serializable, Transferable,
 					dFarm = n.getFarm();
 					dCroft = n.getCroft();
 					dCountry = n.getCountry();
+					dCause = n.getDescription();
 				}
 			} else if (n.getTag().equals("OCCU")) {
 				if (occu == null) {
@@ -717,6 +729,7 @@ public class PersonShortData implements Serializable, Transferable,
 							this.dVillage = rs.getString(20);
 							this.dFarm = rs.getString(21);
 							this.dCroft = rs.getString(22);
+							this.dCause = rs.getString(14);
 						}
 					}
 
@@ -1263,6 +1276,15 @@ public class PersonShortData implements Serializable, Transferable,
 	 */
 	public String getDeatCountry() {
 		return this.dCountry;
+	}
+
+	/**
+	 * Gets the death cause.
+	 * 
+	 * @return death cause
+	 */
+	public String getDeatCause() {
+		return this.dCause;
 	}
 
 	/**
