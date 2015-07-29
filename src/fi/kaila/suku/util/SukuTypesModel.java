@@ -90,8 +90,10 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	private static final long serialVersionUID = 1L;
 
-	private final String[] columnNames = { "Tietojakso", "Nimi", "Päähenkilö",
-			"Lapsi", "Muu", "Paikkahakemisto", "Teksti" };
+	private final String[] columnNames = { Resurses.getString("REPORT.TAB.NOTICE"),
+			Resurses.getString("REPORT.TAB.NAME"), Resurses.getString("REPORT.TAB.MAINPERSON"),
+			Resurses.getString("REPORT.TAB.CHILD"), Resurses.getString("REPORT.TAB.OTHER"),
+			Resurses.getString("REPORT.TAB.PLACES"), Resurses.getString("REPORT.TAB.TEXT") };
 
 	/*
 	 * (non-Javadoc)
