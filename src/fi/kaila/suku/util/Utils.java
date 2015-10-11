@@ -1107,9 +1107,9 @@ public class Utils {
 		if (dirIdx > 0) {
 			dirname = infile.substring(0, dirIdx);
 			dir = new File(dirname);
-			infile = infile.substring(dirIdx + 1);
-		}
-
+			//infile = infile.substring(dirIdx + 1);
+		}	
+		
 		rtv.add(infile);
 
 		rtv.add("-o");
