@@ -1,0 +1,26 @@
+10.11.2015
+
+Muutama huomio käyttöliittymästä (ohjelmaversio 11.-1.1220). Kun FinFamilyn
+käynnistää, eikä avaa tietokantaa, tapahtuu mm. seuraavia asioita:
+
+- Tiedosto -> Sulje tietokanta          pitäisi olla harmaana, sillä avaamatonta ei
+voi sulkea
+- Toiminnot -> Tee henkilöstä koetti    pitäisi olla harmaana, sillä henkilöä ei
+ole valittu
+- Toiminnot -> Avaa koetti henkilölehteen       -"-
+- Toiminnot -> Poista Henkilölehteen            -"-
+- Toiminnot -> Tee sukutilastoja        -"-, mutta tämä antaa sentään asianmukaisen ilmoituksen.
+- Työkalut -> Asetukset                 pitäisi olla harmaa. Tulee Null pointer Exception!
+- Työkalut -> Aputoiminnot
+    - Järjestä lapset                   Ei tapahdu mitään, eikä tule virheilmoitusta
+    - Suorita SQL-komento               Null pointer Exception!
+- Työkalut -> Näkymät                   Null pointer Exception
+- Työkalut -> Apuohjelmat               Graphviz avaa tiedostonvalintaikkunan. Sen pitäisi kai toimia suoraan ilman ohjelmatiedoston etsimistä.
+- Työkalut -> Listaa tietoa tietokannasta  Null pointer Exception!
+- Ohje -> Ohjleman päivittäminen        Ei tapahdu mitään
+- Ohje -> Wikisivut                     Ei tapahdu mitään
+- Ohje -> Omistaja                      Null pointer Exception
+
+Pitää vain testata ennen toimintoa, että tietokanta on auki ja käytössä. Jos ei ole, niin
+ohjelman tulee ilmoittaa "Avaa ensin tietokanta". Jotkut toiminnot, kuten
+asetukset saisi toimia ilman tietokannan olemassaoloa. 
