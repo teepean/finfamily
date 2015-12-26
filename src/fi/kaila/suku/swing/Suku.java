@@ -3818,6 +3818,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		mExportGedcom.setEnabled(kontroller.getSchema() != null);
 		mExportBackup.setEnabled(kontroller.getSchema() != null);
 		mQuery.setEnabled(kontroller.getSchema() != null);
+		mSubjectDown.setEnabled(kontroller.getSchema() != null);
+		mSubjectUp.setEnabled(kontroller.getSchema() != null);
 		// mSettings.setEnabled(isConnected > 0);
 		mNewDatabase.setEnabled(kontroller.isConnected());
 		if (!kontroller.isRemote()) {
@@ -3825,7 +3827,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		}
 		mOpenPerson.setEnabled(kontroller.getSchema() != null);
 		mPrintPerson.setEnabled(kontroller.getSchema() != null);
+		mDisconnect.setEnabled(kontroller.getSchema() != null);
 		mShowInMap.setEnabled(kontroller.getSchema() != null);
+		mStatistics.setEnabled(kontroller.getSchema() != null);
 		mShowWithBirth.setEnabled(kontroller.getSchema() != null);
 		mShowWithDeath.setEnabled(kontroller.getSchema() != null);
 		mLista.setEnabled(kontroller.getSchema() != null);
@@ -3836,6 +3840,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		} else {
 			mImportHiski.setEnabled(kontroller.getSchema() != null);
 		}
+		mRemPerson.setEnabled(kontroller.getSchema() != null);
 		mNewPerson.setEnabled(kontroller.getSchema() != null);
 		mShowNotices.setEnabled(kontroller.getSchema() != null);
 		mShowNote.setEnabled(kontroller.getSchema() != null);
@@ -3849,7 +3854,14 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		tQueryButton.setEnabled(kontroller.getSchema() != null);
 		tMapButton.setEnabled(kontroller.getSchema() != null);
 		tRemovePerson.setEnabled(kontroller.getSchema() != null);
+		mSettings.setEnabled(kontroller.getSchema() != null);
+		mOrderChildren.setEnabled(kontroller.getSchema() != null);
+		mExecSql.setEnabled(kontroller.getSchema() != null);
 		mGroupMgr.setEnabled(kontroller.getSchema() != null);
+		mViewMgr.setEnabled(kontroller.getSchema() != null);
+		mToolsAuxGraphviz.setEnabled(kontroller.getSchema() != null);
+		mListDatabases.setEnabled(kontroller.getSchema() != null);
+		mOwner.setEnabled(kontroller.getSchema() != null);
 		tSubjectButton.setEnabled(kontroller.getSchema() != null);
 		if (kontroller.getSchema() == null) {
 			tAddNotice.setEnabled(false);
