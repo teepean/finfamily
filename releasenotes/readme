@@ -3,6 +3,7 @@ FinFamily Release notes
 Releases follow the Subversion revision numbers. 
 
 Release 1233 on 26 dec 2015
+* Default Java version is 1.7.
 * Some menu functions should be unable when database is not usable.
 * Fix for Graphviz reports. Result folder works now.
 * Added translation to Reports view
