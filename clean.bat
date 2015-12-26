@@ -1,2 +1,2 @@
-call C:\Programs\apache-ant-1.9.3\bin\ant clean
+call D:\Programs\apache-ant-1.9.6\bin\ant clean
 pause
