@@ -2,6 +2,13 @@ FinFamily Release notes
 
 Releases follow the Subversion revision numbers. 
 
+Release 1233 on 26 dec 2015
+* Some menu functions should be unable when database is not usable.
+* Fix for Graphviz reports. Result folder works now.
+* Added translation to Reports view
+* New statistics: Common death causes
+* Technical fixes and changes
+
 Release 1220 on 21 dec 2014
 * Fixes to Gedcom import/export
 * Technical fixes and changes
