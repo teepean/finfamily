@@ -2,7 +2,6 @@ package fi.kaila.suku.swing;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -17,12 +16,9 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.jdesktop.swingx.JXMapKit;
-import org.jdesktop.swingx.JXMapViewer;
-import org.jdesktop.swingx.mapviewer.GeoPosition;
-import org.jdesktop.swingx.mapviewer.Waypoint;
-import org.jdesktop.swingx.mapviewer.WaypointPainter;
-import org.jdesktop.swingx.mapviewer.WaypointRenderer;
+import org.jxmapviewer.JXMapKit;
+import org.jxmapviewer.viewer.GeoPosition;
+import org.jxmapviewer.viewer.WaypointPainter;
 
 import fi.kaila.suku.util.Resurses;
 import fi.kaila.suku.util.pojo.PlaceLocationData;
@@ -41,7 +37,6 @@ public class WorldMap extends JFrame implements ActionListener,
 	private final WorldMap me;
 
 	private JXMapKit map;
-	private Waypoint centerWaypoint;
 
 	/** The current places. */
 	JComboBox currentPlaces;
@@ -164,6 +159,7 @@ public class WorldMap extends JFrame implements ActionListener,
 	 * @param places
 	 *            the places
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void displayMap(PlaceLocationData[] places) {
 		this.places = places;
@@ -248,63 +244,31 @@ public class WorldMap extends JFrame implements ActionListener,
 		int xy = 0;
 		int x = this.currentPlaces.getSelectedIndex();
 
-		Set<Waypoint> waypoints = new HashSet<Waypoint>();
+		Set<FFWaypoint> waypoints = new HashSet<FFWaypoint>();
 
 		for (PlaceLocationData place : places) {
 			if (place.getLatitude() > 0) {
-				waypoints.add(new SpecialWaypoint(place.getLatitude(), place
-						.getLongitude(), place.getCount()));
 				if (xy == x) {
 					map.setCenterPosition(new GeoPosition(place.getLatitude(),
 							place.getLongitude()));
-					centerWaypoint = new SpecialWaypoint(place.getLatitude(),
-							place.getLongitude(), place.getCount());
+					waypoints.add(new FFWaypoint(place.getLatitude(), place
+							.getLongitude(), place.getCount(),place.getName() + " " + place.getCount(),Color.RED));
+				} else {
+					waypoints.add(new FFWaypoint(place.getLatitude(), place
+							.getLongitude(), place.getCount(),place.getName() + " " + place.getCount(),Color.BLUE));					
 				}
 				xy++;
 			}
 		}
 
 		// Create a WaypointPainter to draw the points
-		WaypointPainter<JXMapViewer> painter = new WaypointPainter<JXMapViewer>();
-		painter.setWaypoints(waypoints);
+		WaypointPainter<FFWaypoint> painter = new WaypointPainter<FFWaypoint>();
+        painter.setWaypoints(waypoints);
 
 		// Use own waypoint renderer
-		painter.setRenderer(new SpecialWaypointRenderer());
+        painter.setRenderer(new FFWaypointRenderer());
 
 		map.getMainMap().setOverlayPainter(painter);
-	}
-
-	private class SpecialWaypointRenderer implements WaypointRenderer {
-
-		@Override
-		public boolean paintWaypoint(Graphics2D g, JXMapViewer map, Waypoint wp) {
-			SpecialWaypoint swp = (SpecialWaypoint) wp;
-			if (swp.getPosition() != null) {
-				if (swp.getPosition().equals(centerWaypoint.getPosition())) {
-					g.setColor(Color.RED);
-					g.drawLine(-6, -6, +6, +6);
-					g.drawLine(-6, +6, +6, -6);
-				} else {
-					g.setColor(Color.BLUE);
-					g.drawLine(-3, -3, +3, +3);
-					g.drawLine(-3, +3, +3, -3);
-				}
-
-				g.setColor(Color.BLACK);
-				int x = swp.getCount() + 5;
-				if (x < 105) {
-					int y = -1 * (x / 5);
-					int z = 2 * (x / 5);
-					g.drawOval(y, y, z, z);
-				} else {
-					g.drawOval(-20, -20, 40, 40);
-				}
-
-				return false;
-			}
-			return true;
-		}
-
 	}
 
 }
