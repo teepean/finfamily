@@ -31,7 +31,7 @@ public class FFWaypointRenderer implements WaypointRenderer<FFWaypoint>
 	 */
 	public FFWaypointRenderer()
 	{
-		URL resource = getClass().getResource("waypoint_white.png");
+		URL resource = getClass().getResource("/images/waypoint_white.png");
 
 		try
 		{
