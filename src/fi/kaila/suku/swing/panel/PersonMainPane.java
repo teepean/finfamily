@@ -106,6 +106,8 @@ public class PersonMainPane extends JPanel implements ActionListener,
 	private JLabel pidLbl;
 	private JLabel createdLbl;
 	private JLabel modifiedLbl;
+	private JLabel patronymeLbl;
+	private JLabel postfixLbl;
 	/** set true for debug output */
 	private final boolean listPanels = false;
 	private int personPid = 0;
@@ -479,7 +481,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		int rivi = 10;
 		int rrivi = 30;
 
-		int lcol = 75;
+		int lcol = 100;
 		int rwidth = 70;
 		int gnlen = 150;
 		int postlen = 60;
@@ -571,9 +573,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		add(lbl);
 		lbl.setBounds(lcol, rivi, gnlen, 20);
 
-		lbl = new JLabel(Resurses.getString("DATA_PATRONYM"));
-		add(lbl);
-		lbl.setBounds(lcol + gnlen, rivi, gnlen, 20);
+		patronymeLbl = new JLabel(Resurses.getString("DATA_PATRONYM"));
+		add(patronymeLbl);
+		patronymeLbl.setBounds(lcol + gnlen + colbet, rivi, gnlen - 5, 20);
 		rivi += 20;
 		lbl = new JLabel(Resurses.getString("DATA_NAME"));
 		add(lbl);
@@ -594,9 +596,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		lbl = new JLabel(Resurses.getString("DATA_SURNAME"));
 		add(lbl);
 		lbl.setBounds(lcol, rivi, 80, 20);
-		lbl = new JLabel(Resurses.getString("DATA_POSTFIX"));
-		add(lbl);
-		lbl.setBounds(lcol + surlen + colbet, rivi, 80, 20);
+		postfixLbl = new JLabel(Resurses.getString("DATA_POSTFIX"));
+		add(postfixLbl);
+		postfixLbl.setBounds(lcol + surlen + colbet, rivi, postlen - 10, 20);
 		rivi += 20;
 		// prefix = new JTextField();
 		// add(prefix);
@@ -1749,7 +1751,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		int lwidth = 0;
 		int rwidth = 70;
 		int rcol = 0;
-		int lcol = 75;
+		int lcol = 100;
 		int gnlen = 0;
 		int postlen = 60;
 		int surlen = 240;
@@ -1817,12 +1819,15 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		close.setBounds(rcol, rrivi, rwidth, 24);
 		update.setBounds(rcol + rwidth, rrivi, rwidth, 24);
 
+		patronymeLbl.setBounds(lcol + gnlen + colbet, rivi, gnlen - 5, 20);
+
 		rivi += 24;
 		givenname.setBounds(lcol, rivi, gnlen, 20);
 
 		patronym.setBounds(lcol + gnlen + colbet, rivi, gnlen - 5, 20);
 
 		rivi += 20;
+		postfixLbl.setBounds(lcol + surlen + colbet, rivi, postlen - 10, 20);
 
 		rivi += 20;
 		surname.setBounds(lcol, rivi, lwidth - postlen - 10, 20);

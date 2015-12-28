@@ -1430,7 +1430,7 @@ public class NoticePane extends JPanel implements ActionListener,
 		// Not used
 	}
 
-	private final int lcol = 75;
+	private final int lcol = 100;
 	private int lwidth = 300;
 	// private int rwidth = 70;
 	private int rcol = lwidth + lcol + 5;

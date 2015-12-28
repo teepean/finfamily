@@ -429,6 +429,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			// * com.jgoodies.looks.plastic.PlasticLookAndFeel
 			// * com.jgoodies.looks.plastic.Plastic3DLookAndFeel
 			// * com.jgoodies.looks.plastic.PlasticXPLookAndFeel
+			// UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
 
 		} catch (Exception e) {
 			logger.log(Level.INFO, "look-and-feel virhe", e);
