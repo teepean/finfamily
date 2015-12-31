@@ -257,7 +257,10 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// maybeShowPopup(e);
+		if (e.isPopupTrigger()) {
+			// When Linux used
+			maybeShowPopup(e);
+		}
 	}
 
 	/*
@@ -267,7 +270,10 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 	 */
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		maybeShowPopup(e);
+		if (e.isPopupTrigger()) {
+			// When Windows used
+			maybeShowPopup(e);
+		}
 	}
 
 	private void maybeShowPopup(MouseEvent e) {
@@ -294,8 +300,6 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 						.getPerson(showNewPerson.getPid());
 			}
 		}
-
-		// popupListener = new PopupListener();
 
 		if (e.getSource() == this.relativesPane.chilTab) {
 			showTable = this.relativesPane.chilTab;
@@ -381,18 +385,18 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 			this.relativesPane.pop.setPerson(showNewPerson, asRelative);
 			this.relativesPane.pop.showParent(0, false);
 			this.relativesPane.pop.setPasteAtRow(0);
+			System.out.println("RelativePopupListener maybe2: " + e);
 			this.relativesPane.pop.show(e, e.getX(), e.getY());
 			return;
 		}
+
 		if (showTable == null) {
 			return;
 		}
-		if (e.isPopupTrigger()) {
 
-			this.relativesPane.pop.setPerson(showNewPerson, asRelative);
+		this.relativesPane.pop.setPerson(showNewPerson, asRelative);
 
-			this.relativesPane.pop.setPasteAtRow(pasteAtRow);
-			this.relativesPane.pop.show(e, e.getX(), e.getY());
-		}
+		this.relativesPane.pop.setPasteAtRow(pasteAtRow);
+		this.relativesPane.pop.show(e, e.getX(), e.getY());
 	}
 }
