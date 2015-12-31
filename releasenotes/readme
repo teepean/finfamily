@@ -2,6 +2,10 @@ FinFamily Release notes
 
 Releases follow the Subversion revision numbers. 
 
+Release 1243 on 31 dec 2015
+* Right popup menu works now in relations dialog when Linux is used.
+* Wiki pages changed to link to instructions.
+
 Release 1237 on 28 dec 2015
 * Look and feel changes to person main panel when Linux is used. Components doesn't overlap anymore.
 * Fixes and changes to map when OpenStreet maps are used.
