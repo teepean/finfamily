@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.panel;
 
 import java.awt.Dimension;
@@ -46,11 +76,10 @@ import fi.kaila.suku.util.pojo.UnitNotice;
 
 /**
  * Main pane is the first of person windows panes with person main data.
- * 
+ *
  * @author Kalle
  */
-public class PersonMainPane extends JPanel implements ActionListener,
-		ComponentListener {
+public class PersonMainPane extends JPanel implements ActionListener, ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,8 +87,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 	PersonView personView = null;
 	private JButton close;
 	private JButton update;
-	private static Logger logger = Logger.getLogger(PersonMainPane.class
-			.getName());
+	private static Logger logger = Logger.getLogger(PersonMainPane.class.getName());
 	/** The privacy. */
 	private JComboBox privacy;
 	// private JCheckBox privacy;
@@ -120,7 +148,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/**
 	 * Instantiates a new person main pane.
-	 * 
+	 *
 	 * @param personView
 	 *            the person view
 	 * @param pid
@@ -131,16 +159,16 @@ public class PersonMainPane extends JPanel implements ActionListener,
 	public PersonMainPane(PersonView personView, int pid) throws SukuException {
 		this.personView = personView;
 
-		SukuTypesModel types = Utils.typeInstance();
+		final SukuTypesModel types = Utils.typeInstance();
 
 		PersonView.types = new String[types.getTypesTagsCount()];
 		PersonView.typesTexts.clear();
 		addComponentListener(this);
 		for (int i = 0; i < types.getTypesTagsCount(); i++) {
 
-			String tag = types.getTypesTag(i);
+			final String tag = types.getTypesTag(i);
 			PersonView.types[i] = tag;
-			String value = types.getTypesName(i);
+			final String value = types.getTypesName(i);
 			PersonView.typesTexts.put(tag, value);
 		}
 
@@ -150,7 +178,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/**
 	 * Gets the person pid.
-	 * 
+	 *
 	 * @return the person pid
 	 */
 	int getPersonPid() {
@@ -159,7 +187,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/**
 	 * Sets the sex.
-	 * 
+	 *
 	 * @param sex
 	 *            the new sex
 	 */
@@ -186,17 +214,17 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		String prexi = "";
 		String fposti = "";
 
-		int noticeFirst = personView.getFirstNoticeIndex();
-		int noticeCount = personView.getTabCount();
+		final int noticeFirst = personView.getFirstNoticeIndex();
+		final int noticeCount = personView.getTabCount();
 		givenname.setText("");
 		patronym.setText("");
 		surname.setText("");
 		postfix.setText("");
 		int privacyCount = 0;
-		StringBuilder comboname = new StringBuilder();
+		final StringBuilder comboname = new StringBuilder();
 		for (int i = noticeFirst; i < noticeCount; i++) {
 			// Object oo = personView.getPane(i).pnl;
-			NoticePane pane = (NoticePane) personView.getPane(i).pnl;
+			final NoticePane pane = (NoticePane) personView.getPane(i).pnl;
 			if (pane.notice.getTag().equals("NAME")) {
 				if (!pane.notice.isToBeDeleted()) {
 
@@ -210,8 +238,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 						fgiven = pane.givenname.getText();
 						fpatro = pane.patronym.getText();
 						fposti = pane.postfix.getText();
-						fsurname = toFullSurname(pane.prefix.getText(),
-								pane.surname.getText());
+						fsurname = toFullSurname(pane.prefix.getText(), pane.surname.getText());
 						givenname.setText(fgiven);
 						patronym.setText(fpatro);
 						surname.setText(fsurname);
@@ -250,8 +277,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 								specialName = true;
 							}
 						}
-						String xsurname = toFullSurname(pane.prefix.getText(),
-								pane.surname.getText());
+						final String xsurname = toFullSurname(pane.prefix.getText(), pane.surname.getText());
 
 						comboname.append(";" + xsurname);
 					}
@@ -266,7 +292,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		surname.setEnabled(privacyCount == 0);
 		postfix.setEnabled(privacyCount == 0);
 
-		String tmp = comboname.toString();
+		final String tmp = comboname.toString();
 		surname.setText(tmp);
 
 	}
@@ -297,24 +323,22 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		int buriCount = 0;
 		int occuCount = 0;
 		int noteCount = 0;
-		ArrayList<String> occuVec = new ArrayList<String>();
-		int noticeFirst = personView.getFirstNoticeIndex();
-		int noticeCount = personView.getTabCount();
+		final ArrayList<String> occuVec = new ArrayList<String>();
+		final int noticeFirst = personView.getFirstNoticeIndex();
+		final int noticeCount = personView.getTabCount();
 
 		for (int i = noticeFirst; i < noticeCount; i++) {
-			NoticePane pane = (NoticePane) personView.getPane(i).pnl;
-			StringBuilder sPlace = new StringBuilder();
+			final NoticePane pane = (NoticePane) personView.getPane(i).pnl;
+			final StringBuilder sPlace = new StringBuilder();
 			sPlace.append(pane.place.getText());
 
-			if (!pane.village.getText().isEmpty()
-					|| !pane.farm.getText().isEmpty()
+			if (!pane.village.getText().isEmpty() || !pane.farm.getText().isEmpty()
 					|| !pane.croft.getText().isEmpty()) {
 				sPlace.append(" (");
 				if (!pane.village.getText().isEmpty()) {
 					sPlace.append(pane.village.getText());
 				}
-				if (!pane.farm.getText().isEmpty()
-						|| !pane.croft.getText().isEmpty()) {
+				if (!pane.farm.getText().isEmpty() || !pane.croft.getText().isEmpty()) {
 					sPlace.append(";");
 					if (!pane.farm.getText().isEmpty()) {
 						sPlace.append(pane.farm.getText());
@@ -326,8 +350,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 				}
 				sPlace.append(")");
 			}
-			if (!pane.state.getText().isEmpty()
-					|| !pane.country.getText().isEmpty()) {
+			if (!pane.state.getText().isEmpty() || !pane.country.getText().isEmpty()) {
 				sPlace.append(" [");
 				if (!pane.state.getText().isEmpty()) {
 					sPlace.append(pane.state.getText());
@@ -357,8 +380,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 					}
 				}
-				if (birtDate.getText().equals("")
-						&& birtPlace.getText().equals("")) {
+				if (birtDate.getText().equals("") && birtPlace.getText().equals("")) {
 					birtCount++;
 				}
 			}
@@ -378,8 +400,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 						chrCount++;
 					}
 				}
-				if (chrDate.getText().equals("")
-						&& chrPlace.getText().equals("")) {
+				if (chrDate.getText().equals("") && chrPlace.getText().equals("")) {
 					chrCount++;
 				}
 			}
@@ -400,8 +421,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 						deatCount++;
 					}
 				}
-				if (deatDate.getText().equals("")
-						&& deatPlace.getText().equals("")) {
+				if (deatDate.getText().equals("") && deatPlace.getText().equals("")) {
 					deatCount++;
 				}
 			}
@@ -421,8 +441,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 						buriCount++;
 					}
 				}
-				if (buriDate.getText().equals("")
-						&& buriPlace.getText().equals("")) {
+				if (buriDate.getText().equals("") && buriPlace.getText().equals("")) {
 					buriCount++;
 				}
 			}
@@ -450,7 +469,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			}
 		}
 
-		StringBuilder oc = new StringBuilder();
+		final StringBuilder oc = new StringBuilder();
 		for (int i = 0; i < occuVec.size(); i++) {
 			if (oc.length() > 0) {
 				oc.append(";");
@@ -481,18 +500,17 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		int rivi = 10;
 		int rrivi = 30;
 
-		int lcol = 100;
-		int rwidth = 70;
-		int gnlen = 150;
-		int postlen = 60;
-		int surlen = 240;
-		int datelen = 80;
-		int colbet = 2;
-		int placlen = 213;
-		int rcol = lcol + datelen + placlen + (colbet * 2); // 460; //
-		int biglen = datelen + placlen + (colbet * 2) + (rwidth * 2);
-		String[] privacies = Resurses.getString("MAIN_PRIVACY_LEVEL")
-				.split(";");
+		final int lcol = 100;
+		final int rwidth = 70;
+		final int gnlen = 150;
+		final int postlen = 60;
+		final int surlen = 240;
+		final int datelen = 80;
+		final int colbet = 2;
+		final int placlen = 213;
+		final int rcol = lcol + datelen + placlen + (colbet * 2); // 460; //
+		final int biglen = datelen + placlen + (colbet * 2) + (rwidth * 2);
+		final String[] privacies = Resurses.getString("MAIN_PRIVACY_LEVEL").split(";");
 		privacy = new JComboBox(privacies);
 		// privacy = new JCheckBox(Resurses.getString("DATA_PRIVACY"));
 		privacy.setBounds(rcol, rrivi, rwidth * 2, 20);
@@ -634,7 +652,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		sexGroup = new ButtonGroup();
 		for (int i = 0; i < sextexts.length; i++) {
 
-			JRadioButton rb = new JRadioButton(sextexts[i]);
+			final JRadioButton rb = new JRadioButton(sextexts[i]);
 			sexr.add(rb);
 			if (i == 0) {
 				rb.setSelected(true);
@@ -718,8 +736,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		notetext = new SukuTextArea();
 		notetext.setLineWrap(true);
 		notetext.setWrapStyleWord(true);
-		scrollNote = new JScrollPane(notetext,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollNote = new JScrollPane(notetext, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 		add(scrollNote);
@@ -734,8 +751,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 		source.setLineWrap(true);
 		source.setWrapStyleWord(true);
-		scrollSource = new JScrollPane(source,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollSource = new JScrollPane(source, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 		add(scrollSource);
@@ -750,8 +766,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 		privateText.setLineWrap(true);
 		privateText.setWrapStyleWord(true);
-		scrollPrivate = new JScrollPane(privateText,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollPrivate = new JScrollPane(privateText, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 		add(scrollPrivate);
@@ -771,9 +786,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 	}
 
 	private void setRadioButton(ButtonGroup g, String name) {
-		Enumeration<AbstractButton> e = g.getElements();
+		final Enumeration<AbstractButton> e = g.getElements();
 		while (e.hasMoreElements()) {
-			JRadioButton rr = (JRadioButton) e.nextElement();
+			final JRadioButton rr = (JRadioButton) e.nextElement();
 			if (name.equals(rr.getActionCommand())) {
 				rr.setSelected(true);
 				break;
@@ -783,7 +798,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/**
 	 * Close notices.
-	 * 
+	 *
 	 * @return true, if successful
 	 */
 	boolean closeNotices() {
@@ -797,7 +812,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/**
 	 * Open person notices.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @throws SukuException
@@ -814,12 +829,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			relations = new Relation[0];
 			persons = new PersonShortData[0];
 		} else {
-			SukuData plong = Suku.kontroller.getSukuData("cmd=person", "pid="
-					+ pid);
+			final SukuData plong = Suku.kontroller.getSukuData("cmd=person", "pid=" + pid);
 			if (plong.persLong == null) {
-				throw new SukuException(
-						Resurses.getString("ERROR_PERSON_NOT_EXISTS") + "["
-								+ pid + "]");
+				throw new SukuException(Resurses.getString("ERROR_PERSON_NOT_EXISTS") + "[" + pid + "]");
 			}
 			persLong = plong.persLong;
 			relations = plong.relations;
@@ -827,14 +839,14 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 		}
 
-		String currSex = persLong.getSex();
+		final String currSex = persLong.getSex();
 		if (currSex == null) {
 			throw new SukuException(Resurses.getString("DATA_SEX_NULL"));
 		}
 
 		setRadioButton(sexGroup, currSex);
 
-		String privacyCode = persLong.getPrivacy();
+		final String privacyCode = persLong.getPrivacy();
 
 		int privaIndex = 0;
 		if (privacyCode != null) {
@@ -886,21 +898,20 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		}
 		privateText.setText(tmp);
 
-		relas = RelativesPane.getInstance(personView, persLong, relations,
-				persons);
+		relas = RelativesPane.getInstance(personView, persLong, relations, persons);
 
 		personView.addTab(new SukuTabPane("TAB_RELATIVES", relas));
 
 		for (int i = 0; i < persLong.getNotices().length; i++) {
-			NoticePane pane = new NoticePane(personView, persLong.getPid(),
-					persLong.getNotices()[i]);
-			String tag = persLong.getNotices()[i].getTag();
+			final NoticePane pane = new NoticePane(personView, persLong.getPid(), persLong.getNotices()[i]);
+			final String tag = persLong.getNotices()[i].getTag();
 			String nimi = personView.getTypeValue(tag);
 			if (nimi == null) {
 				nimi = tag;
 			}
 			// String aputext = pane.noteText.getText();
-			// System.out.println("NOTE on "+pane.notice.getTag()+"["+i+"]:"+aputext);
+			// System.out.println("NOTE on
+			// "+pane.notice.getTag()+"["+i+"]:"+aputext);
 			personView.addTab(new SukuTabPane(nimi, pane, tag));
 
 		}
@@ -909,13 +920,13 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		if (cmd == null) {
 			return;
 		}
@@ -934,7 +945,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 						if (chnged == null) {
 							return;
 						}
-					} catch (SukuDateException ee) {
+					} catch (final SukuDateException ee) {
 						JOptionPane.showMessageDialog(this, ee.getMessage());
 						return;
 					}
@@ -944,31 +955,27 @@ public class PersonMainPane extends JPanel implements ActionListener,
 					// boolean hasChanged = hasPersonChanged();
 					if (chnged.resu != null) {
 
-						int askresu = JOptionPane.showConfirmDialog(this,
-								Resurses.getString("ASK_SAVE_PERSON"),
-								Resurses.getString(Resurses.SUKU),
-								JOptionPane.YES_NO_OPTION,
+						final int askresu = JOptionPane.showConfirmDialog(this, Resurses.getString("ASK_SAVE_PERSON"),
+								Resurses.getString(Resurses.SUKU), JOptionPane.YES_NO_OPTION,
 								JOptionPane.QUESTION_MESSAGE);
 						if (askresu == JOptionPane.YES_OPTION) {
-							SukuData resp = updatePerson(false);
+							final SukuData resp = updatePerson(false);
 							logger.fine("Close response:" + resp.resu);
 						}
 					} else if (chnged.resuCount > 0) {
-						SukuData resp = updatePerson(true);
+						final SukuData resp = updatePerson(true);
 						logger.fine("Order response:" + resp.resu);
 					}
 
 					personView.closeMainPane(false);
 
-				} catch (SukuDateException e1) {
-					JOptionPane.showMessageDialog(this, e1.getMessage(),
-							Resurses.getString(Resurses.SUKU),
+				} catch (final SukuDateException e1) {
+					JOptionPane.showMessageDialog(this, e1.getMessage(), Resurses.getString(Resurses.SUKU),
 							JOptionPane.ERROR_MESSAGE);
 					logger.log(Level.WARNING, "CLOSE:" + e1.getMessage());
 					return;
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(this, e1.toString(),
-							Resurses.getString(Resurses.SUKU),
+				} catch (final Exception e1) {
+					JOptionPane.showMessageDialog(this, e1.toString(), Resurses.getString(Resurses.SUKU),
 							JOptionPane.ERROR_MESSAGE);
 					logger.log(Level.WARNING, "Closing person", e1);
 
@@ -994,7 +1001,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 					debugNoticePanels();
 					Utils.println(this, "Person " + getPersonPid() + " updated");
 
-					SukuData resp = updatePerson(false);
+					final SukuData resp = updatePerson(false);
 					personView.closeMainPane(true);
 
 					Utils.println(this, "Close response:" + resp.resu);
@@ -1007,15 +1014,13 @@ public class PersonMainPane extends JPanel implements ActionListener,
 					// personView.getSuku().updatePerson(resp.pers[0]);
 					//
 					// }
-				} catch (SukuDateException e1) {
-					JOptionPane.showMessageDialog(this, e1.getMessage(),
-							Resurses.getString(Resurses.SUKU),
+				} catch (final SukuDateException e1) {
+					JOptionPane.showMessageDialog(this, e1.getMessage(), Resurses.getString(Resurses.SUKU),
 							JOptionPane.ERROR_MESSAGE);
 					logger.log(Level.WARNING, "CLOSE:" + e1.getMessage());
 					return;
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(this, e1.toString(),
-							Resurses.getString(Resurses.SUKU),
+				} catch (final Exception e1) {
+					JOptionPane.showMessageDialog(this, e1.toString(), Resurses.getString(Resurses.SUKU),
 							JOptionPane.ERROR_MESSAGE);
 					logger.log(Level.WARNING, "Closing person", e1);
 
@@ -1023,10 +1028,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 					return;
 				}
 			}
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			logger.log(Level.WARNING, "PersonMain action", e);
-			JOptionPane.showMessageDialog(personView.getSuku(),
-					"PersonMain action" + ":" + ex.getMessage());
+			JOptionPane.showMessageDialog(personView.getSuku(), "PersonMain action" + ":" + ex.getMessage());
 
 		}
 	}
@@ -1034,7 +1038,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 	/**
 	 * Update person data structure from pane fields and check if it has
 	 * changed.
-	 * 
+	 *
 	 * @return true is person data has changed
 	 * @throws SukuDateException
 	 *             the suku date exception
@@ -1047,15 +1051,15 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		SukuData resp = null;
 		// personView.updateNotices();
 		debugNoticePanels();
-		int noticeFirst = personView.getFirstNoticeIndex();
-		int tabCount = personView.getTabCount();
+		final int noticeFirst = personView.getFirstNoticeIndex();
+		final int tabCount = personView.getTabCount();
 
 		boolean foundModification = false;
 		boolean orderModification = false;
 		// String newSex = sexes[sex.getSelectedIndex()];
 		// persLong.setSex(newSex);
 
-		ButtonModel model = sexGroup.getSelection();
+		final ButtonModel model = sexGroup.getSelection();
 		if (model != null) {
 			persLong.setSex(model.getActionCommand());
 		}
@@ -1074,17 +1078,17 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		persLong.setPrivacy(privacyCode);
 
 		// if (persLong.getPid() == 0) {
-		String grp = groupid.getText();
+		final String grp = groupid.getText();
 		persLong.setGroupId(grp);
 		// }
 
-		String rf = refn.getText();
+		final String rf = refn.getText();
 		persLong.setUserRefn(rf);
 
-		String sou = source.getText();
+		final String sou = source.getText();
 		persLong.setSource(sou);
 
-		String prit = privateText.getText();
+		final String prit = privateText.getText();
 		persLong.setPrivateText(prit);
 
 		if (persLong.getNotices().length != (tabCount - noticeFirst)) {
@@ -1092,9 +1096,8 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			foundModification = true;
 		} else {
 			for (int i = noticeFirst; i < tabCount; i++) {
-				NoticePane npane = (NoticePane) personView.getPane(i).pnl;
-				if (persLong.getNotices()[i - noticeFirst].getPnid() != npane.notice
-						.getPnid()) {
+				final NoticePane npane = (NoticePane) personView.getPane(i).pnl;
+				if (persLong.getNotices()[i - noticeFirst].getPnid() != npane.notice.getPnid()) {
 					persLong.setOrderModified();
 					orderModification = true;
 					break;
@@ -1103,14 +1106,14 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		}
 
 		for (int i = noticeFirst; i < tabCount; i++) {
-			NoticePane pane = (NoticePane) personView.getPane(i).pnl;
+			final NoticePane pane = (NoticePane) personView.getPane(i).pnl;
 			pane.verifyUnitNotice();
 		}
 
-		Vector<UnitNotice> un = new Vector<UnitNotice>();
+		final Vector<UnitNotice> un = new Vector<UnitNotice>();
 
 		for (int i = noticeFirst; i < tabCount; i++) {
-			NoticePane pane = (NoticePane) personView.getPane(i).pnl;
+			final NoticePane pane = (NoticePane) personView.getPane(i).pnl;
 
 			if (pane.notice.isToBeDeleted()) {
 				foundModification = true;
@@ -1126,33 +1129,33 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		}
 
 		verifyLocalPersonDates();
-		SukuData req = new SukuData();
+		final SukuData req = new SukuData();
 
 		if (relas != null) {
-			ArrayList<Relation> rel = new ArrayList<Relation>();
+			final ArrayList<Relation> rel = new ArrayList<Relation>();
 			for (int i = 0; i < relas.parents.list.size(); i++) {
-				Relation r = relas.parents.list.get(i);
+				final Relation r = relas.parents.list.get(i);
 				if (r.isToBeDeleted() || r.isToBeUpdated()) {
 					foundModification = true;
 				}
 				rel.add(r);
 			}
 			for (int i = 0; i < relas.spouses.list.size(); i++) {
-				Relation r = relas.spouses.list.get(i);
+				final Relation r = relas.spouses.list.get(i);
 				if (r.isToBeDeleted() || r.isToBeUpdated()) {
 					foundModification = true;
 				}
 				rel.add(r);
 			}
 			for (int i = 0; i < relas.children.list.size(); i++) {
-				Relation r = relas.children.list.get(i);
+				final Relation r = relas.children.list.get(i);
 				if (r.isToBeDeleted() || r.isToBeUpdated()) {
 					foundModification = true;
 				}
 				rel.add(r);
 			}
 			for (int i = 0; i < relas.otherRelations.size(); i++) {
-				Relation r = relas.otherRelations.get(i);
+				final Relation r = relas.otherRelations.get(i);
 				if (r.isToBeDeleted() || r.isToBeUpdated()) {
 					foundModification = true;
 				}
@@ -1167,19 +1170,17 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 		String[] notorder = null;
 		try {
-			resp = Suku.kontroller.getSukuData("cmd=getsettings", "type=order",
-					"name=notice");
+			resp = Suku.kontroller.getSukuData("cmd=getsettings", "type=order", "name=notice");
 			notorder = resp.generalArray;
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 			logger.log(Level.WARNING, "get settings", e);
 			return null;
 
 		}
 
-		String[] wn = new String[notorder.length + 1];
+		final String[] wn = new String[notorder.length + 1];
 		wn[0] = "NAME";
 		for (int i = 0; i < notorder.length; i++) {
 			wn[i + 1] = notorder[i];
@@ -1191,7 +1192,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		if (persLong.getPid() == 0) {
 			foundModification = false;
 			for (int i = noticeFirst; i < tabCount; i++) {
-				NoticePane pane = (NoticePane) personView.getPane(i).pnl;
+				final NoticePane pane = (NoticePane) personView.getPane(i).pnl;
 				if (pane.notice.isToBeUpdated()) {
 					if (pane.notice.isToBeDeleted() == false) {
 						foundModification = true;
@@ -1214,7 +1215,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/**
 	 * Update person.
-	 * 
+	 *
 	 * @param force
 	 *            the force
 	 * @return the suku data
@@ -1223,7 +1224,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 	 */
 	SukuData updatePerson(boolean force) throws SukuDateException {
 
-		SukuData req = checkIfPersonStructureChanged();
+		final SukuData req = checkIfPersonStructureChanged();
 		SukuData resp = null;
 
 		if ((req != null) && ((req.resu != null) || force)) {
@@ -1232,12 +1233,11 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			// req.persLong.setNotices(un.toArray(new UnitNotice[0]));
 
 			try {
-				resp = Suku.kontroller.getSukuData(req, "cmd=update",
-						"type=person");
+				resp = Suku.kontroller.getSukuData(req, "cmd=update", "type=person");
 				Utils.println(this, "fromUpdate [" + resp + "]");
 				if ((resp.pers != null) && (resp.pers.length > 0)) {
 
-					PersonShortData shh = resp.pers[0];
+					final PersonShortData shh = resp.pers[0];
 					personPid = shh.getPid();
 
 					personView.getSuku().updatePerson(shh);
@@ -1248,15 +1248,15 @@ public class PersonMainPane extends JPanel implements ActionListener,
 					if (persLong != null) {
 						persLong.resetModified();
 
-						UnitNotice[] unn = persLong.getNotices();
+						final UnitNotice[] unn = persLong.getNotices();
 
 						if (unn != null) {
 
-							for (UnitNotice element : unn) {
+							for (final UnitNotice element : unn) {
 								element.setModified(false);
-								UnitLanguage[] ull = element.getLanguages();
+								final UnitLanguage[] ull = element.getLanguages();
 								if (ull != null) {
-									for (UnitLanguage element2 : ull) {
+									for (final UnitLanguage element2 : ull) {
 										element2.resetModified();
 									}
 								}
@@ -1264,18 +1264,17 @@ public class PersonMainPane extends JPanel implements ActionListener,
 						}
 					}
 				}
-				Relation[] rr = req.relations;
+				final Relation[] rr = req.relations;
 				if (rr != null) {
-					for (Relation element : rr) {
+					for (final Relation element : rr) {
 						element.resetModified();
-						RelationNotice[] rnn = element.getNotices();
+						final RelationNotice[] rnn = element.getNotices();
 						if (rnn != null) {
-							for (RelationNotice element2 : rnn) {
+							for (final RelationNotice element2 : rnn) {
 								element2.resetModified();
-								RelationLanguage[] rll = element2
-										.getLanguages();
+								final RelationLanguage[] rll = element2.getLanguages();
 								if (rll != null) {
-									for (RelationLanguage element3 : rll) {
+									for (final RelationLanguage element3 : rll) {
 										element3.resetModified();
 									}
 								}
@@ -1285,24 +1284,21 @@ public class PersonMainPane extends JPanel implements ActionListener,
 				}
 
 				return resp;
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 				String message = Resurses.getString(e.getMessage());
 
-				int createdIdx = message.toLowerCase().indexOf(
-						"the column name");
+				final int createdIdx = message.toLowerCase().indexOf("the column name");
 
 				if (createdIdx > 0) {
 					message += "\n" + Resurses.getString("SUGGEST_UPDATE");
 				}
 
 				if (!message.equals(e.getMessage())) {
-					JOptionPane.showMessageDialog(this, message,
-							Resurses.getString(Resurses.SUKU),
+					JOptionPane.showMessageDialog(this, message, Resurses.getString(Resurses.SUKU),
 							JOptionPane.ERROR_MESSAGE);
 				} else {
 
-					JOptionPane.showMessageDialog(this, e.getMessage(),
-							Resurses.getString(Resurses.SUKU),
+					JOptionPane.showMessageDialog(this, e.getMessage(), Resurses.getString(Resurses.SUKU),
 							JOptionPane.ERROR_MESSAGE);
 
 					e.printStackTrace();
@@ -1321,12 +1317,12 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 		int lastNameidx = -1;
 		int firstNameidx = -1;
-		int noticeFirst = personView.getFirstNoticeIndex();
+		final int noticeFirst = personView.getFirstNoticeIndex();
 		int tabCount = personView.getTabCount();
 		if (surname.isEnabled()) {
 
 			int nameCount = 0;
-			String names[] = surname.getText().split(";");
+			final String names[] = surname.getText().split(";");
 
 			boolean hasName = false;
 			if ((names.length > 1) || !names[0].equals("")) {
@@ -1344,7 +1340,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 			for (int i = noticeFirst; i < tabCount; i++) {
 
-				NoticePane pane = (NoticePane) personView.getPane(i).pnl;
+				final NoticePane pane = (NoticePane) personView.getPane(i).pnl;
 
 				if (pane.notice.getTag().equals("NAME")) {
 					if (firstNameidx < 0) {
@@ -1370,8 +1366,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			}
 			int namesCount = names.length;
 			if ((namesCount == 1) && names[0].equals("")) {
-				if (givenname.getText().isEmpty()
-						&& patronym.getText().isEmpty()) {
+				if (givenname.getText().isEmpty() && patronym.getText().isEmpty()) {
 					namesCount = 0;
 				} else {
 					namesCount = 1;
@@ -1384,9 +1379,8 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			}
 			tabCount = personView.getTabCount();
 			String tmp = null;
-			for (int i = noticeFirst; (i < tabCount)
-					&& (i < (noticeFirst + names.length)); i++) {
-				NoticePane pane = (NoticePane) personView.getPane(i).pnl;
+			for (int i = noticeFirst; (i < tabCount) && (i < (noticeFirst + names.length)); i++) {
+				final NoticePane pane = (NoticePane) personView.getPane(i).pnl;
 				if (pane.notice.getTag().equals("NAME")) {
 					pane.givenname.setText(Utils.toProper(givenname.getText()));
 					if (pane.notice.getPnid() == 0) {
@@ -1397,7 +1391,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 					pane.patronym.setText(tmp);
 					String name = names[i - noticeFirst];
 
-					int vonIndex = Utils.isKnownPrefix(name);
+					final int vonIndex = Utils.isKnownPrefix(name);
 					if ((vonIndex > 0) && (vonIndex < name.length())) {
 						pane.prefix.setText(name.substring(0, vonIndex));
 						name = name.substring(vonIndex + 1);
@@ -1429,34 +1423,26 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		if (!listPanels) {
 			return;
 		}
-		int midx = personView.getMainPaneIndex();
-		int noteCount = personView.getTabCount();
+		final int midx = personView.getMainPaneIndex();
+		final int noteCount = personView.getTabCount();
 		for (int i = midx + 2; i < noteCount; i++) {
-			SukuTabPane sp = personView.getPane(i);
+			final SukuTabPane sp = personView.getPane(i);
 
 			if (sp.pnl instanceof NoticePane) {
-				NoticePane pane = (NoticePane) sp.pnl;
+				final NoticePane pane = (NoticePane) sp.pnl;
 
 				System.out.println("nn:tag " + i + ":" + pane.notice.getTag());
 
-				System.out.println("nn:desc" + i + ":"
-						+ pane.notice.getDescription() + "/"
-						+ pane.description.getText());
+				System.out
+						.println("nn:desc" + i + ":" + pane.notice.getDescription() + "/" + pane.description.getText());
 				try {
-					System.out.println("nn:date" + i + ":"
-							+ pane.notice.getFromDate() + "/"
-							+ pane.date.getFromDate());
-				} catch (SukuDateException e) {
+					System.out.println("nn:date" + i + ":" + pane.notice.getFromDate() + "/" + pane.date.getFromDate());
+				} catch (final SukuDateException e) {
 					System.out.println("dateex:" + e.getMessage());
 				}
-				System.out.println("nn:plac" + i + ":" + pane.notice.getPlace()
-						+ "/" + pane.place.getText());
-				System.out.println("nn:givn" + i + ":"
-						+ pane.notice.getGivenname() + "/"
-						+ pane.givenname.getText());
-				System.out.println("nn:surn" + i + ":"
-						+ pane.notice.getSurname() + "/"
-						+ pane.surname.getText());
+				System.out.println("nn:plac" + i + ":" + pane.notice.getPlace() + "/" + pane.place.getText());
+				System.out.println("nn:givn" + i + ":" + pane.notice.getGivenname() + "/" + pane.givenname.getText());
+				System.out.println("nn:surn" + i + ":" + pane.notice.getSurname() + "/" + pane.surname.getText());
 				System.out.println("-------------");
 				// skipNextState = false;
 			}
@@ -1466,16 +1452,16 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/**
 	 * Insert name pane.
-	 * 
+	 *
 	 * @param noticeIndex
 	 *            the notice index
 	 * @param tag
 	 *            the tag
 	 */
 	void insertNamePane(int noticeIndex, String tag) {
-		UnitNotice notice = new UnitNotice(tag, persLong.getPid());
-		NoticePane pane = new NoticePane(personView, persLong.getPid(), notice);
-		String nimi = personView.getTypeValue(tag);
+		final UnitNotice notice = new UnitNotice(tag, persLong.getPid());
+		final NoticePane pane = new NoticePane(personView, persLong.getPid(), notice);
+		final String nimi = personView.getTypeValue(tag);
 		personView.insertTab(new SukuTabPane(nimi, pane, tag), noticeIndex);
 
 	}
@@ -1490,14 +1476,14 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		int buriCount = 0;
 		int occuCount = 0;
 		int noteCount = 0;
-		int noticeFirst = personView.getFirstNoticeIndex();
+		final int noticeFirst = personView.getFirstNoticeIndex();
 		int tabCount = personView.getTabCount();
 		int lastNameIndex = noticeFirst;
 
-		String[] occus = occupation.getText().split(";");
+		final String[] occus = occupation.getText().split(";");
 
 		for (int i = noticeFirst; i < tabCount; i++) {
-			NoticePane pane = (NoticePane) personView.getPane(i).pnl;
+			final NoticePane pane = (NoticePane) personView.getPane(i).pnl;
 			if (pane.notice.getTag().equals("BIRT")) {
 				birtCount++;
 			}
@@ -1531,33 +1517,25 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		// }
 
 		if (birtDate.isEnabled()) {
-			if ((birtCount == 0)
-					&& (!birtDate.getText().isEmpty() || !birtPlace.getText()
-							.isEmpty())) {
+			if ((birtCount == 0) && (!birtDate.getText().isEmpty() || !birtPlace.getText().isEmpty())) {
 				insertNamePane(idx++, "BIRT");
 				birtCount++;
 			}
 		}
 		if (chrDate.isEnabled()) {
-			if ((chrCount == 0)
-					&& (!chrDate.getText().isEmpty() || !chrPlace.getText()
-							.isEmpty())) {
+			if ((chrCount == 0) && (!chrDate.getText().isEmpty() || !chrPlace.getText().isEmpty())) {
 				insertNamePane(idx++, "CHR");
 				chrCount++;
 			}
 		}
 		if (deatDate.isEnabled()) {
-			if ((deatCount == 0)
-					&& (!deatDate.getText().isEmpty() || !deatPlace.getText()
-							.isEmpty())) {
+			if ((deatCount == 0) && (!deatDate.getText().isEmpty() || !deatPlace.getText().isEmpty())) {
 				insertNamePane(idx++, "DEAT");
 				deatCount++;
 			}
 		}
 		if (buriDate.isEnabled()) {
-			if ((buriCount == 0)
-					&& (!buriDate.getText().isEmpty() || !buriPlace.getText()
-							.isEmpty())) {
+			if ((buriCount == 0) && (!buriDate.getText().isEmpty() || !buriPlace.getText().isEmpty())) {
 				insertNamePane(idx++, "BURI");
 				buriCount++;
 			}
@@ -1579,29 +1557,25 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		tabCount = personView.getTabCount();
 		int occuIndex = 0;
 		for (int i = noticeFirst; i < tabCount; i++) {
-			NoticePane pane = (NoticePane) personView.getPane(i).pnl;
-			String tag = pane.notice.getTag();
+			final NoticePane pane = (NoticePane) personView.getPane(i).pnl;
+			final String tag = pane.notice.getTag();
 			if ((birtCount == 1) && tag.equals("BIRT") && birtDate.isEnabled()) {
-				pane.setToBeDeleted(birtDate.getText().isEmpty()
-						&& birtPlace.getText().isEmpty(), true);
+				pane.setToBeDeleted(birtDate.getText().isEmpty() && birtPlace.getText().isEmpty(), true);
 				pane.date.setTextFromDate(birtDate.getText());
 				pane.place.setText(birtPlace.getText().trim());
 			}
 			if ((chrCount == 1) && tag.equals("CHR") && chrDate.isEnabled()) {
-				pane.setToBeDeleted(chrDate.getText().isEmpty()
-						&& chrPlace.getText().isEmpty(), true);
+				pane.setToBeDeleted(chrDate.getText().isEmpty() && chrPlace.getText().isEmpty(), true);
 				pane.date.setTextFromDate(chrDate.getText());
 				pane.place.setText(chrPlace.getText().trim());
 			}
 			if ((deatCount == 1) && tag.equals("DEAT") && deatDate.isEnabled()) {
-				pane.setToBeDeleted(deatDate.getText().isEmpty()
-						&& deatPlace.getText().isEmpty(), true);
+				pane.setToBeDeleted(deatDate.getText().isEmpty() && deatPlace.getText().isEmpty(), true);
 				pane.date.setTextFromDate(deatDate.getText());
 				pane.place.setText(deatPlace.getText().trim());
 			}
 			if ((buriCount == 1) && tag.equals("BURI") && buriDate.isEnabled()) {
-				pane.setToBeDeleted(buriDate.getText().isEmpty()
-						&& buriPlace.getText().isEmpty(), true);
+				pane.setToBeDeleted(buriDate.getText().isEmpty() && buriPlace.getText().isEmpty(), true);
 				pane.date.setTextFromDate(buriDate.getText());
 				pane.place.setText(buriPlace.getText().trim());
 			}
@@ -1626,7 +1600,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/**
 	 * reorder notices in preset order.
-	 * 
+	 *
 	 * @param unotices
 	 *            the unotices
 	 * @param wn
@@ -1638,13 +1612,13 @@ public class PersonMainPane extends JPanel implements ActionListener,
 		int lastCheckedIndex = -1;
 
 		boolean hasSorted = false;
-		for (String tag : wn) {
+		for (final String tag : wn) {
 			for (int i = 0; i < unotices.size(); i++) {
-				UnitNotice un = unotices.get(i);
+				final UnitNotice un = unotices.get(i);
 				if (un.getTag().equals(tag)) {
 					if (i > lastCheckedIndex) {
 						lastCheckedIndex++;
-						UnitNotice t = unotices.remove(i);
+						final UnitNotice t = unotices.remove(i);
 						unotices.add(lastCheckedIndex, t);
 						if (tag.equals(t.getTag())) {
 							hasSorted = true;
@@ -1668,7 +1642,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 			// String newSex = sexes[sex.getSelectedIndex()];
 			// persLong.setSex(newSex);
 
-			ButtonModel model = sexGroup.getSelection();
+			final ButtonModel model = sexGroup.getSelection();
 			if (model != null) {
 				persLong.setSex(model.getActionCommand());
 			}
@@ -1686,16 +1660,16 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 			persLong.setPrivacy(privacyCode);
 
-			String grp = groupid.getText();
+			final String grp = groupid.getText();
 			persLong.setGroupId(grp);
 
-			String rf = refn.getText();
+			final String rf = refn.getText();
 			persLong.setUserRefn(rf);
 
-			String sou = source.getText();
+			final String sou = source.getText();
 			persLong.setSource(sou);
 
-			String prit = privateText.getText();
+			final String prit = privateText.getText();
 			persLong.setPrivateText(prit);
 
 		}
@@ -1704,24 +1678,22 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/**
 	 * Verify local person dates.
-	 * 
+	 *
 	 * @throws SukuDateException
 	 *             the suku date exception
 	 */
 	void verifyLocalPersonDates() throws SukuDateException {
 		if (persLong != null) {
-			PersonShortData shortie = new PersonShortData(persLong);
+			final PersonShortData shortie = new PersonShortData(persLong);
 
-			int birthYear = shortie.getBirtYear();
-			int deathYear = shortie.getDeatYear();
+			final int birthYear = shortie.getBirtYear();
+			final int deathYear = shortie.getDeatYear();
 			if ((birthYear > 0) && (deathYear > 0)) {
 				if (birthYear > deathYear) {
-					throw new SukuDateException(
-							Resurses.getString("ERROR_DEAT_BEF_BIRT"));
+					throw new SukuDateException(Resurses.getString("ERROR_DEAT_BEF_BIRT"));
 				}
 				if (deathYear > (birthYear + 150)) {
-					throw new SukuDateException(
-							Resurses.getString("ERROR_TOO_OLD"));
+					throw new SukuDateException(Resurses.getString("ERROR_TOO_OLD"));
 				}
 
 			}
@@ -1747,19 +1719,19 @@ public class PersonMainPane extends JPanel implements ActionListener,
 	 * Resize main pane.
 	 */
 	public void resizeMainPane() {
-		Dimension currSize = getSize();
+		final Dimension currSize = getSize();
 		int lwidth = 0;
 		int rwidth = 70;
 		int rcol = 0;
-		int lcol = 100;
+		final int lcol = 100;
 		int gnlen = 0;
-		int postlen = 60;
+		final int postlen = 60;
 		int surlen = 240;
 		int placlen = 213;
 
-		int datelen = 80;
-		int colbet = 2;
-		int biglen = datelen + placlen + (colbet * 2) + (rwidth * 2);
+		final int datelen = 80;
+		final int colbet = 2;
+		final int biglen = datelen + placlen + (colbet * 2) + (rwidth * 2);
 		// System.out.println("LEVEYS: "+currSize.width);
 		if (currSize.width > 525) {
 
@@ -1888,7 +1860,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
 	 * ComponentEvent)
 	 */
@@ -1899,10 +1871,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentMoved(ComponentEvent e) {
@@ -1911,7 +1882,7 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
 	 * ComponentEvent)
 	 */
@@ -1922,10 +1893,9 @@ public class PersonMainPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentShown(ComponentEvent e) {

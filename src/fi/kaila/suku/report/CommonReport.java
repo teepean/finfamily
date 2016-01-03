@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.report;
 
 import java.awt.image.BufferedImage;
@@ -40,22 +70,22 @@ import fi.kaila.suku.util.pojo.UnitNotice;
 
 /**
  * <h1>Report creator</h1>
- * 
+ *
  * <p>
  * Reports architecture consist of
  * </p>
- * 
+ *
  * <ul>
  * <li>Report logical creator. Example the {@link DescendantReport}</li>
  * <li>Report Interface {@link ReportInterface}</li>
  * <li>Actual output creator. Example {@link JavaReport}</li>
  * </ul>
- * 
- * 
+ *
+ *
  * Common routines used by report generators
- * 
+ *
  * @author Kalle
- * 
+ *
  */
 public abstract class CommonReport {
 
@@ -95,7 +125,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Gets the tables.
-	 * 
+	 *
 	 * @return vector of tables
 	 */
 	public Vector<ReportUnit> getTables() {
@@ -104,7 +134,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Execute the report Implemented by the derived class.
-	 * 
+	 *
 	 * @throws SukuException
 	 *             the suku exception
 	 */
@@ -112,30 +142,28 @@ public abstract class CommonReport {
 
 	/**
 	 * Gets the person references.
-	 * 
+	 *
 	 * @return Vector with references
 	 */
 	public Vector<PersonInTables> getPersonReferences() {
 
-		Vector<PersonInTables> vv = new Vector<PersonInTables>();
+		final Vector<PersonInTables> vv = new Vector<PersonInTables>();
 
-		Set<Map.Entry<Integer, PersonInTables>> entriesx = personReferences
-				.entrySet();
-		Iterator<Map.Entry<Integer, PersonInTables>> eex = entriesx.iterator();
+		final Set<Map.Entry<Integer, PersonInTables>> entriesx = personReferences.entrySet();
+		final Iterator<Map.Entry<Integer, PersonInTables>> eex = entriesx.iterator();
 		while (eex.hasNext()) {
-			Map.Entry<Integer, PersonInTables> entrx = eex.next();
-			PersonInTables pit = entrx.getValue();
+			final Map.Entry<Integer, PersonInTables> entrx = eex.next();
+			final PersonInTables pit = entrx.getValue();
 			vv.add(pit);
 		}
 
-		Set<Map.Entry<String, PersonInTables>> entriesy = textReferences
-				.entrySet();
-		Iterator<Map.Entry<String, PersonInTables>> eey = entriesy.iterator();
+		final Set<Map.Entry<String, PersonInTables>> entriesy = textReferences.entrySet();
+		final Iterator<Map.Entry<String, PersonInTables>> eey = entriesy.iterator();
 		while (eey.hasNext()) {
-			Map.Entry<String, PersonInTables> entry = eey.next();
-			PersonInTables pit = entry.getValue();
+			final Map.Entry<String, PersonInTables> entry = eey.next();
+			final PersonInTables pit = entry.getValue();
 
-			String[] parts = entry.getKey().split(",");
+			final String[] parts = entry.getKey().split(",");
 
 			if (parts.length == 2) {
 				pit.givenName = parts[1];
@@ -156,7 +184,7 @@ public abstract class CommonReport {
 	public void initPersonTables() {
 		personTables = new HashMap<Integer, ReportUnit>();
 
-		for (ReportUnit ru : tables) {
+		for (final ReportUnit ru : tables) {
 			personTables.put(ru.getPid(), ru);
 		}
 
@@ -164,22 +192,22 @@ public abstract class CommonReport {
 
 	/**
 	 * Gets the place references.
-	 * 
+	 *
 	 * @return the place references
 	 */
 	public PlaceInTables[] getPlaceReferences() {
 
-		ArrayList<PlaceInTables> vv = new ArrayList<PlaceInTables>();
+		final ArrayList<PlaceInTables> vv = new ArrayList<PlaceInTables>();
 
-		Set<Map.Entry<String, PlaceInTables>> entriesx = places.entrySet();
-		Iterator<Map.Entry<String, PlaceInTables>> eex = entriesx.iterator();
+		final Set<Map.Entry<String, PlaceInTables>> entriesx = places.entrySet();
+		final Iterator<Map.Entry<String, PlaceInTables>> eex = entriesx.iterator();
 		while (eex.hasNext()) {
-			Map.Entry<String, PlaceInTables> entrx = eex.next();
-			PlaceInTables pit = entrx.getValue();
+			final Map.Entry<String, PlaceInTables> entrx = eex.next();
+			final PlaceInTables pit = entrx.getValue();
 			vv.add(pit);
 		}
 
-		PlaceInTables[] pits = vv.toArray(new PlaceInTables[0]);
+		final PlaceInTables[] pits = vv.toArray(new PlaceInTables[0]);
 		Arrays.sort(pits);
 
 		return pits;
@@ -188,18 +216,18 @@ public abstract class CommonReport {
 
 	/**
 	 * Gets the source list.
-	 * 
+	 *
 	 * @return the source list
 	 */
 	public String[] getSourceList() {
 
-		ArrayList<String> vv = new ArrayList<String>();
+		final ArrayList<String> vv = new ArrayList<String>();
 
-		Set<Map.Entry<String, Integer>> entriesx = refs.entrySet();
-		Iterator<Map.Entry<String, Integer>> eex = entriesx.iterator();
+		final Set<Map.Entry<String, Integer>> entriesx = refs.entrySet();
+		final Iterator<Map.Entry<String, Integer>> eex = entriesx.iterator();
 		while (eex.hasNext()) {
-			Map.Entry<String, Integer> entrx = eex.next();
-			String src = entrx.getKey();
+			final Map.Entry<String, Integer> entrx = eex.next();
+			final String src = entrx.getKey();
 
 			vv.add(src);
 		}
@@ -210,7 +238,7 @@ public abstract class CommonReport {
 
 	/**
 	 * access to report writer.
-	 * 
+	 *
 	 * @return the report writer
 	 */
 	public ReportInterface getWriter() {
@@ -219,7 +247,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Prints the images.
-	 * 
+	 *
 	 * @throws SukuException
 	 *             the suku exception
 	 */
@@ -234,26 +262,25 @@ public abstract class CommonReport {
 			bt = new MainPersonText();
 			for (int i = 0; i < imgNotices.size(); i++) {
 				// for (ImageNotice inoti : imgNotices) {
-				ImageNotice inoti = imgNotices.get(i);
-				UnitNotice nn = inoti.nn;
+				final ImageNotice inoti = imgNotices.get(i);
+				final UnitNotice nn = inoti.nn;
 
-				float prose = (i * 100f) / imgNotices.size();
-				caller.setRunnerValue("" + (int) prose + ";"
-						+ nn.getMediaFilename());
+				final float prose = (i * 100f) / imgNotices.size();
+				caller.setRunnerValue("" + (int) prose + ";" + nn.getMediaFilename());
 
 				if (caller.showImages()) {
-					ImageText imagetx = new ImageText();
+					final ImageText imagetx = new ImageText();
 					BufferedImage img = null;
 					try {
 						img = nn.getMediaImage();
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						logger.log(Level.WARNING, "printImages", e);
 
 					}
 
 					if (img != null) {
-						double imh = img.getHeight();
-						double imw = img.getWidth();
+						final double imh = img.getHeight();
+						final double imw = img.getWidth();
 						double newh = 300;
 						double neww = 300;
 
@@ -285,21 +312,19 @@ public abstract class CommonReport {
 						String imgTitle = "";
 
 						if (nn.getMediaTitle() != null) {
-							String titl = trim(nn.getMediaTitle());
+							final String titl = trim(nn.getMediaTitle());
 							imgTitle += titl + ".";
 
 						}
-						String xxx = "0000" + inoti.imgNumber;
-						String imgNamePrefix = xxx.substring(xxx.length() - 4)
-								+ "_";
+						final String xxx = "0000" + inoti.imgNumber;
+						final String imgNamePrefix = xxx.substring(xxx.length() - 4) + "_";
 
-						StringBuilder sm = new StringBuilder();
+						final StringBuilder sm = new StringBuilder();
 						sm.append(Resurses.getReportString("INDEX_IMAGE"));
 						sm.append(" ");
 						sm.append(inoti.imgNumber);
 						sm.append(" (");
-						sm.append(Resurses.getReportString("TABLE")
-								.toLowerCase());
+						sm.append(Resurses.getReportString("TABLE").toLowerCase());
 						sm.append(" ");
 						sm.append(inoti.tabNo);
 						sm.append("). ");
@@ -307,10 +332,8 @@ public abstract class CommonReport {
 							sm.append(imgTitle);
 						}
 
-						imagetx.setImage(img, nn.getMediaData(),
-								img.getWidth(), img.getHeight(), imgNamePrefix
-										+ nn.getMediaFilename(), sm.toString(),
-								nn.getTag());
+						imagetx.setImage(img, nn.getMediaData(), img.getWidth(), img.getHeight(),
+								imgNamePrefix + nn.getMediaFilename(), sm.toString(), nn.getTag());
 						imagetx.addText("");
 
 					}
@@ -321,11 +344,9 @@ public abstract class CommonReport {
 					}
 
 				} else {
-					bt.addText(Resurses.getReportString("INDEX_IMAGE"), true,
-							false);
+					bt.addText(Resurses.getReportString("INDEX_IMAGE"), true, false);
 					bt.addText(" " + inoti.imgNumber + " ", true, false);
-					bt.addText(Resurses.getReportString("TABLE").toLowerCase(),
-							true, false);
+					bt.addText(Resurses.getReportString("TABLE").toLowerCase(), true, false);
 					bt.addText(" " + inoti.tabNo, true, false);
 					bt.addText(". ", true, false);
 					if (nn.getMediaTitle() != null) {
@@ -354,7 +375,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Print name index in word document (or html).
-	 * 
+	 *
 	 * @throws SukuException
 	 *             the suku exception
 	 */
@@ -365,20 +386,19 @@ public abstract class CommonReport {
 			if (tableOffset > 0) {
 				tableOffset--;
 			}
-			Vector<PersonInTables> vv = getPersonReferences();
+			final Vector<PersonInTables> vv = getPersonReferences();
 
 			float runnervalue = 0;
-			float mapsize = vv.size();
-			HashMap<String, String> nms = new HashMap<String, String>();
-			Vector<Integer> pidlist = new Vector<Integer>();
+			final float mapsize = vv.size();
+			final HashMap<String, String> nms = new HashMap<String, String>();
+			final Vector<Integer> pidlist = new Vector<Integer>();
 			for (int j = 0; j < mapsize; j++) {
-				PersonInTables pit = vv.get(j);
+				final PersonInTables pit = vv.get(j);
 				// vv.add(pit);
 
 				if (pit.shortPerson == null) {
 
-					SukuData resp = Suku.kontroller.getSukuData("cmd=person",
-							"mode=short", "pid=" + pit.pid);
+					final SukuData resp = Suku.kontroller.getSukuData("cmd=person", "mode=short", "pid=" + pit.pid);
 
 					if (resp.pers != null) {
 
@@ -386,42 +406,31 @@ public abstract class CommonReport {
 						if (pit.shortPerson.getPrivacy() == null) {
 							pidlist.add(pit.pid);
 							nms.clear();
-							String testName = nv(pit.shortPerson.getPrefix())
-									+ "|" + nv(pit.shortPerson.getSurname())
-									+ "|" + nv(pit.shortPerson.getGivenname())
-									+ "|" + nv(pit.shortPerson.getPatronym())
+							String testName = nv(pit.shortPerson.getPrefix()) + "|" + nv(pit.shortPerson.getSurname())
+									+ "|" + nv(pit.shortPerson.getGivenname()) + "|" + nv(pit.shortPerson.getPatronym())
 									+ "|" + nv(pit.shortPerson.getPostfix());
 							nms.put(testName, "1");
 							for (int i = 1; i < pit.shortPerson.getNameCount(); i++) {
 
-								PersonInTables pitt = new PersonInTables(
-										pit.shortPerson.getPid());
+								final PersonInTables pitt = new PersonInTables(pit.shortPerson.getPid());
 								pitt.asChildren = pit.asChildren;
 								pitt.references = pit.references;
-								Long[] aa = pit.getOwnerArray();
-								for (Long a : aa) {
+								final Long[] aa = pit.getOwnerArray();
+								for (final Long a : aa) {
 									pitt.addOwner(a);
 								}
 
 								pitt.asParents = pit.asParents;
-								PersonShortData p = pit.shortPerson;
-								PersonShortData alias = new PersonShortData(
-										p.getPid(), p.getGivenname(i),
-										p.getPatronym(i), p.getPrefix(i),
-										p.getSurname(i), p.getPostfix(i),
+								final PersonShortData p = pit.shortPerson;
+								final PersonShortData alias = new PersonShortData(p.getPid(), p.getGivenname(i),
+										p.getPatronym(i), p.getPrefix(i), p.getSurname(i), p.getPostfix(i),
 										p.getBirtDate(), p.getDeatDate());
 								pitt.shortPerson = alias;
-								testName = nv(pitt.shortPerson.getPrefix())
-										+ "|"
-										+ nv(pitt.shortPerson.getSurname())
-										+ "|"
-										+ nv(pitt.shortPerson.getGivenname())
-										+ "|"
-										+ nv(pitt.shortPerson.getPatronym())
-										+ "|"
-										+ nv(pitt.shortPerson.getPostfix());
+								testName = nv(pitt.shortPerson.getPrefix()) + "|" + nv(pitt.shortPerson.getSurname())
+										+ "|" + nv(pitt.shortPerson.getGivenname()) + "|"
+										+ nv(pitt.shortPerson.getPatronym()) + "|" + nv(pitt.shortPerson.getPostfix());
 
-								String oldName = nms.put(testName, "1");
+								final String oldName = nms.put(testName, "1");
 								if (oldName == null) {
 
 									vv.add(pitt);
@@ -434,24 +443,22 @@ public abstract class CommonReport {
 					if (prose > 100) {
 						prose = 100;
 					}
-					caller.setRunnerValue("" + (int) prose + ";"
-							+ pit.shortPerson.getAlfaName());
+					caller.setRunnerValue("" + (int) prose + ";" + pit.shortPerson.getAlfaName());
 					runnervalue++;
 				}
 			}
 			if (caller.getStorageVid() >= 0) {
-				SukuData request = new SukuData();
+				final SukuData request = new SukuData();
 				request.pidArray = new int[pidlist.size()];
 				for (int i = 0; i < pidlist.size(); i++) {
 					request.pidArray[i] = pidlist.get(i);
 				}
-				Suku.kontroller.getSukuData(request, "cmd=view", "action=add",
-						"key=pidarray", "viewid=" + caller.getStorageVid(),
-						"empty=" + caller.emptyStorageView());
+				Suku.kontroller.getSukuData(request, "cmd=view", "action=add", "key=pidarray",
+						"viewid=" + caller.getStorageVid(), "empty=" + caller.emptyStorageView());
 
 			}
 
-			PersonInTables[] pits = vv.toArray(new PersonInTables[0]);
+			final PersonInTables[] pits = vv.toArray(new PersonInTables[0]);
 			Arrays.sort(pits);
 			BodyText bt = new TableHeaderText();
 			bt.addText("\n");
@@ -463,24 +470,21 @@ public abstract class CommonReport {
 
 			String previousSurname = null;
 
-			for (PersonInTables pit2 : pits) {
+			for (final PersonInTables pit2 : pits) {
 
-				PersonInTables pit = pit2;
+				final PersonInTables pit = pit2;
 				if (pit.shortPerson.getPrivacy() != null) {
 					if (pit.shortPerson.getPrivacy().equals("F")) {
-						PersonShortData nn = new PersonShortData(
-								pit.shortPerson.getPid(),
-								typesTable.getTextValue("REPORT_NOMEN_NESCIO"),
-								null, null, null, null, null, null);
+						final PersonShortData nn = new PersonShortData(pit.shortPerson.getPid(),
+								typesTable.getTextValue("REPORT_NOMEN_NESCIO"), null, null, null, null, null, null);
 						pit.shortPerson = nn;
 					} else {
 						continue;
 					}
 				}
-				String mefe = pit.getReferences(0, false, false, true,
-						tableOffset);
+				final String mefe = pit.getReferences(0, false, false, true, tableOffset);
 
-				StringBuilder tstr = new StringBuilder();
+				final StringBuilder tstr = new StringBuilder();
 				if (pit.shortPerson.getPrefix() != null) {
 					tstr.append(pit.shortPerson.getPrefix());
 					tstr.append(" ");
@@ -488,14 +492,14 @@ public abstract class CommonReport {
 				if (pit.shortPerson.getSurname() != null) {
 					tstr.append(pit.shortPerson.getSurname());
 				}
-				String surname = tstr.toString();
+				final String surname = tstr.toString();
 				if (!Utils.nv(previousSurname).equalsIgnoreCase(surname)) {
 					bt.addText(surname, true, false);
 					repoWriter.addText(bt);
 					previousSurname = surname;
 				}
 
-				StringBuilder tstg = new StringBuilder();
+				final StringBuilder tstg = new StringBuilder();
 				if (pit.shortPerson.getGivenname() != null) {
 					tstg.append(pit.shortPerson.getGivenname());
 				}
@@ -520,9 +524,8 @@ public abstract class CommonReport {
 				// let's add living years here
 				//
 				if (caller.showIndexYears()) {
-					StringBuilder yrs = new StringBuilder();
-					if ((pit.shortPerson.getBirtYear() > 0)
-							|| (pit.shortPerson.getDeatYear() > 0)) {
+					final StringBuilder yrs = new StringBuilder();
+					if ((pit.shortPerson.getBirtYear() > 0) || (pit.shortPerson.getDeatYear() > 0)) {
 						yrs.append(" (");
 						if (pit.shortPerson.getBirtYear() > 0) {
 							yrs.append(pit.shortPerson.getBirtYear());
@@ -537,10 +540,8 @@ public abstract class CommonReport {
 					}
 				}
 
-				String kefe = pit.getReferences(0, true, false, false,
-						tableOffset);
-				String cefe = pit.getReferences(0, false, true, false,
-						tableOffset);
+				final String kefe = pit.getReferences(0, true, false, false, tableOffset);
+				final String cefe = pit.getReferences(0, false, true, false, tableOffset);
 				String refe = kefe;
 
 				if (pit.getOwnerString(tableOffset).isEmpty()) {
@@ -562,7 +563,7 @@ public abstract class CommonReport {
 					}
 				}
 
-				StringBuilder tt = new StringBuilder();
+				final StringBuilder tt = new StringBuilder();
 				if (!kefe.isEmpty()) {
 					tt.append(kefe);
 				} else if (!pit.getOwnerString(tableOffset).isEmpty()) {
@@ -580,8 +581,7 @@ public abstract class CommonReport {
 				if (tt.length() > 0) {
 					bt.addText("\t");
 
-					bt.addLink(tt.toString(), false, false, false,
-							tt.toString());
+					bt.addLink(tt.toString(), false, false, false, tt.toString());
 					repoWriter.addText(bt);
 					// bt.addText(tt.toString());
 				} else {
@@ -602,7 +602,7 @@ public abstract class CommonReport {
 			if (tableOffset > 0) {
 				tableOffset--;
 			}
-			PlaceInTables[] places = getPlaceReferences();
+			final PlaceInTables[] places = getPlaceReferences();
 			BodyText bt = null;
 			if (places.length > 0) {
 				bt = new TableHeaderText();
@@ -613,7 +613,7 @@ public abstract class CommonReport {
 				repoWriter.addText(bt);
 				bt = new NameIndexText();
 
-				for (PlaceInTables pit : places) {
+				for (final PlaceInTables pit : places) {
 					bt.addText(pit.getPlace());
 					bt.addText("\t");
 					bt.addText(pit.toString());
@@ -631,7 +631,7 @@ public abstract class CommonReport {
 				tableOffset--;
 			}
 			BodyText bt = null;
-			String[] refs = getSourceList();
+			final String[] refs = getSourceList();
 			if (refs.length > 0) {
 				bt = new TableHeaderText();
 				bt.addText("\n");
@@ -641,7 +641,7 @@ public abstract class CommonReport {
 				repoWriter.addText(bt);
 				bt = new NameIndexText();
 				int row = 1;
-				for (String ref : refs) {
+				for (final String ref : refs) {
 					bt.addText("" + row);
 					bt.addText("\t");
 					bt.addText(ref);
@@ -656,7 +656,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Instantiates a new common report.
-	 * 
+	 *
 	 * @param caller
 	 *            the caller
 	 * @param typesTable
@@ -664,8 +664,7 @@ public abstract class CommonReport {
 	 * @param repoWriter
 	 *            the repo writer
 	 */
-	protected CommonReport(ReportWorkerDialog caller,
-			SukuTypesTable typesTable, ReportInterface repoWriter) {
+	protected CommonReport(ReportWorkerDialog caller, SukuTypesTable typesTable, ReportInterface repoWriter) {
 		this.caller = caller;
 		this.typesTable = typesTable;
 		this.repoWriter = repoWriter;
@@ -674,7 +673,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Prints the spouse.
-	 * 
+	 *
 	 * @param tabNo
 	 *            the tab no
 	 * @param memberPid
@@ -690,15 +689,13 @@ public abstract class CommonReport {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	protected void printSpouse(long tabNo, int memberPid, BodyText bt,
-			ReportTableMember spouseMember, int spouNum, int tableOffset)
-			throws SukuException {
+	protected void printSpouse(long tabNo, int memberPid, BodyText bt, ReportTableMember spouseMember, int spouNum,
+			int tableOffset) throws SukuException {
 
 		String fromTable;
 		SukuData sdata;
 		PersonInTables refs;
-		sdata = caller.getKontroller().getSukuData("cmd=person",
-				"pid=" + spouseMember.getPid());
+		sdata = caller.getKontroller().getSukuData("cmd=person", "pid=" + spouseMember.getPid());
 		String tmp;
 		if ("M".equals(sdata.persLong.getSex())) {
 			tmp = "HUSB";
@@ -706,8 +703,7 @@ public abstract class CommonReport {
 			tmp = "WIFE";
 		}
 
-		if ((sdata.persLong.getPrivacy() != null)
-				&& sdata.persLong.getPrivacy().equals("P")) {
+		if ((sdata.persLong.getPrivacy() != null) && sdata.persLong.getPrivacy().equals("P")) {
 			return;
 		}
 
@@ -716,21 +712,20 @@ public abstract class CommonReport {
 		if (sdata.relations != null) {
 			RelationNotice rnMarr = null;
 
-			for (Relation relation : sdata.relations) {
+			for (final Relation relation : sdata.relations) {
 				if (relation.getRelative() == memberPid) {
 					if (sdata.persLong.getPrivacy() == null) {
 						if (relation.getNotices() != null) {
 							rnn = relation.getNotices();
 
-							for (RelationNotice rr : rnn) {
+							for (final RelationNotice rr : rnn) {
 								if (rr.getTag().equals("MARR")) {
 									rnMarr = rr;
 									break;
 								}
 							}
 							if (rnMarr != null) {
-								spouType = printRelationNotice(rnMarr,
-										spouType, spouNum, true);
+								spouType = printRelationNotice(rnMarr, spouType, spouNum, true);
 								break;
 							}
 
@@ -757,22 +752,19 @@ public abstract class CommonReport {
 
 				typesColumn = refs.getTypesColumn(tabNo, true, true, false);
 
-				String asChild = refs.getReferences(tabNo, false, true, false,
-						tableOffset);
+				final String asChild = refs.getReferences(tabNo, false, true, false, tableOffset);
 				if (!asChild.isEmpty()) {
 					isRelated = true;
 					if (refs.getMyTable() > 0) {
 						typesColumn = 3;
 					}
-					fromTable = refs.getReferences(tabNo, true, false, false,
-							tableOffset);
+					fromTable = refs.getReferences(tabNo, true, false, false, tableOffset);
 					if (fromTable.isEmpty()) {
 						fromTable = "" + asChild;
 					}
 
 				} else {
-					fromTable = refs.getReferences(tabNo, true, false, false,
-							tableOffset);
+					fromTable = refs.getReferences(tabNo, true, false, false, tableOffset);
 				}
 
 			}
@@ -786,7 +778,7 @@ public abstract class CommonReport {
 			}
 			if (rnn != null) {
 				boolean skipMarr = true;
-				for (RelationNotice rn : rnn) {
+				for (final RelationNotice rn : rnn) {
 					if (skipMarr && rn.getTag().equals("MARR")) {
 						skipMarr = false;
 					} else {
@@ -803,9 +795,7 @@ public abstract class CommonReport {
 			if (refs != null) {
 
 				if (fromTable.length() > 0) {
-					bt.addLink(
-							typesTable.getTextValue(isRelated ? "ISFAMILY"
-									: "ALSO") + " " + fromTable + ". ", true,
+					bt.addLink(typesTable.getTextValue(isRelated ? "ISFAMILY" : "ALSO") + " " + fromTable + ". ", true,
 							false, false, "" + fromTable);
 				}
 			}
@@ -816,25 +806,23 @@ public abstract class CommonReport {
 
 		for (int i = 0; i < spouseMember.getSubCount(); i++) {
 			bt = new SubPersonText();
-			String subDad = spouseMember.getSubDadMom(i);
+			final String subDad = spouseMember.getSubDadMom(i);
 			bt.addText(subDad + " ");
-			SukuData sub = caller.getKontroller().getSukuData("cmd=person",
-					"pid=" + spouseMember.getSubPid(i));
+			final SukuData sub = caller.getKontroller().getSukuData("cmd=person", "pid=" + spouseMember.getSubPid(i));
 
-			StringBuilder fromsTable = new StringBuilder();
+			final StringBuilder fromsTable = new StringBuilder();
 			boolean referenceFoundEarlier = false;
 			refs = personReferences.get(spouseMember.getSubPid(i));
 			if (refs != null) {
-				fromTable = refs.getReferences(tabNo, true, true, true,
-						tableOffset);
+				fromTable = refs.getReferences(tabNo, true, true, true, tableOffset);
 
-				String[] froms = fromTable.split(",");
+				final String[] froms = fromTable.split(",");
 
 				for (int j = 0; j < froms.length; j++) {
 					long refTab = 0;
 					try {
 						refTab = Long.parseLong(froms[j]);
-					} catch (NumberFormatException ne) {
+					} catch (final NumberFormatException ne) {
 						refTab = 0;
 					}
 					if ((refTab > 0) && (refTab < tabNo)) {
@@ -862,10 +850,8 @@ public abstract class CommonReport {
 			fromTable = "";
 
 			if (fromsTable.length() > 0) {
-				bt.addLink(
-						typesTable.getTextValue("ALSO") + " "
-								+ fromsTable.toString() + ". ", true, false,
-						false, fromsTable.toString());
+				bt.addLink(typesTable.getTextValue("ALSO") + " " + fromsTable.toString() + ". ", true, false, false,
+						fromsTable.toString());
 			}
 
 			repoWriter.addText(bt);
@@ -876,13 +862,13 @@ public abstract class CommonReport {
 
 	/**
 	 * Gets the type column.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @return the type column
 	 */
 	protected int getTypeColumn(int pid) {
-		Integer foundMe = mapper.get(pid);
+		final Integer foundMe = mapper.get(pid);
 		if (foundMe != null) {
 			return 3;
 		}
@@ -892,7 +878,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Prints the parent reference.
-	 * 
+	 *
 	 * @param bt
 	 *            the bt
 	 * @param ppid
@@ -901,23 +887,20 @@ public abstract class CommonReport {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public SukuData printParentReference(BodyText bt, int ppid)
-			throws SukuException {
-		SukuData ppdata = caller.getKontroller().getSukuData("cmd=person",
-				"pid=" + ppid, "mode=short", "lang=" + Resurses.getLanguage());
+	public SukuData printParentReference(BodyText bt, int ppid) throws SukuException {
+		final SukuData ppdata = caller.getKontroller().getSukuData("cmd=person", "pid=" + ppid, "mode=short",
+				"lang=" + Resurses.getLanguage());
 
 		if ((ppdata.pers != null) && (ppdata.pers.length > 0)) {
 
 			if (ppdata.pers[0].getPrivacy() != null) {
 				ppdata.pers[0] = new PersonShortData(ppdata.pers[0].getPid(),
-						typesTable.getTextValue("REPORT_NOMEN_NESCIO"), null,
-						null, null, null, null, null);
+						typesTable.getTextValue("REPORT_NOMEN_NESCIO"), null, null, null, null, null, null);
 
 			}
 			if (ppdata.pers[0].getGivenname() != null) {
 				printGivenname(bt, ppdata.pers[0].getGivenname(), false);
-				if ((ppdata.pers[0].getPrefix() != null)
-						|| (ppdata.pers[0].getSurname() != null)
+				if ((ppdata.pers[0].getPrefix() != null) || (ppdata.pers[0].getSurname() != null)
 						|| (ppdata.pers[0].getPostfix() != null)) {
 					bt.addText(" ");
 				}
@@ -938,17 +921,17 @@ public abstract class CommonReport {
 
 	/**
 	 * Prints the name nn.
-	 * 
+	 *
 	 * @param bt
 	 *            the bt
 	 */
 	protected void printNameNn(BodyText bt) {
 
-		UnitNotice[] notices = new UnitNotice[1];
+		final UnitNotice[] notices = new UnitNotice[1];
 		notices[0] = new UnitNotice("NAME");
 		notices[0].setGivenname(typesTable.getTextValue("REPORT_NOMEN_NESCIO"));
 
-		for (UnitNotice nn : notices) {
+		for (final UnitNotice nn : notices) {
 			if (nn.getTag().equals("NAME")) {
 
 				printGivenname(bt, nn.getGivenname(), true);
@@ -962,7 +945,7 @@ public abstract class CommonReport {
 
 	/**
 	 * To print table.
-	 * 
+	 *
 	 * @param tableNo
 	 *            the table no
 	 * @return the string
@@ -973,7 +956,7 @@ public abstract class CommonReport {
 
 	/**
 	 * To print table.
-	 * 
+	 *
 	 * @param tableNo
 	 *            the table no
 	 * @param showGeneration
@@ -981,8 +964,7 @@ public abstract class CommonReport {
 	 * @return the string
 	 */
 	protected String toPrintTable(long tableNo, boolean showGeneration) {
-		String order = caller.getAncestorPane().getNumberingFormat()
-				.getSelection().getActionCommand();
+		final String order = caller.getAncestorPane().getNumberingFormat().getSelection().getActionCommand();
 
 		long hagerSize = 1;
 		int gen = 0;
@@ -1011,7 +993,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Adds the parent reference.
-	 * 
+	 *
 	 * @param ftab
 	 *            the ftab
 	 * @param bt
@@ -1021,7 +1003,7 @@ public abstract class CommonReport {
 		PersonInTables ref;
 		ref = personReferences.get(ftab.getPid());
 		if (ref != null) {
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			int pareCount = 0;
 			if (ref.asChildren.size() > 0) {
 				if (sb.length() > 0) {
@@ -1034,9 +1016,8 @@ public abstract class CommonReport {
 					sb.append(",");
 				}
 				pareCount++;
-				long pareTab = ref.asChildren.get(i);
-				String partext = typesTable
-						.getTextValue((pareTab % 2) == 0 ? "Father" : "Mother");
+				final long pareTab = ref.asChildren.get(i);
+				final String partext = typesTable.getTextValue((pareTab % 2) == 0 ? "Father" : "Mother");
 				if (caller.getAncestorPane().getAllBranches()) {
 					long fftab = ftab.getTableNo() * 2;
 					if ((pareTab % 2) != 0) {
@@ -1044,8 +1025,7 @@ public abstract class CommonReport {
 					}
 					sb.append(partext + " " + toPrintTable(fftab, true));
 				} else {
-					sb.append(partext + " "
-							+ toPrintTable(ref.asChildren.get(i), true));
+					sb.append(partext + " " + toPrintTable(ref.asChildren.get(i), true));
 				}
 			}
 			if (sb.length() > 0) {
@@ -1057,7 +1037,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Adds the child reference.
-	 * 
+	 *
 	 * @param pop
 	 *            the pop
 	 * @param mom
@@ -1070,8 +1050,7 @@ public abstract class CommonReport {
 	 *            the bt
 	 * @return true, if successful
 	 */
-	protected boolean addChildReference(ReportUnit pop, ReportUnit mom,
-			int pid, String text, BodyText bt) {
+	protected boolean addChildReference(ReportUnit pop, ReportUnit mom, int pid, String text, BodyText bt) {
 
 		long momTable = 0;
 		long dadTable = 0;
@@ -1083,31 +1062,29 @@ public abstract class CommonReport {
 			momTable = mom.getTableNo();
 		}
 
-		ReportUnit cu = personTables.get(pid);
+		final ReportUnit cu = personTables.get(pid);
 		// if has own table then refer only there
-		if ((cu != null) && (momTable != cu.getTableNo())
-				&& (dadTable != cu.getTableNo())) {
+		if ((cu != null) && (momTable != cu.getTableNo()) && (dadTable != cu.getTableNo())) {
 
 			// bt.addText("(" + text + " " + cu.getTableNo() + "). ");
-			bt.addLink("(" + text + " " + cu.getTableNo() + "). ", false,
-					false, false, " " + cu.getTableNo());
+			bt.addLink("(" + text + " " + cu.getTableNo() + "). ", false, false, false, " " + cu.getTableNo());
 
 			return true;
 
 		}
 
-		PersonInTables ref = personReferences.get(pid);
+		final PersonInTables ref = personReferences.get(pid);
 		if (ref == null) {
 			return false;
 		}
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 
-		Long ownerArray[] = ref.getOwnerArray();
+		final Long ownerArray[] = ref.getOwnerArray();
 		if (ownerArray.length > 0) {
 
 			boolean addComma = false;
-			for (Long pif : ownerArray) {
+			for (final Long pif : ownerArray) {
 				if ((pif != momTable) && (pif != dadTable)) {
 					if (addComma) {
 						sb.append(",");
@@ -1120,8 +1097,8 @@ public abstract class CommonReport {
 
 		if (sb.length() > 0) {
 
-			bt.addLink("(" + typesTable.getTextValue("ALSO") + " " + text + " "
-					+ sb.toString() + "). ", false, false, false, sb.toString());
+			bt.addLink("(" + typesTable.getTextValue("ALSO") + " " + text + " " + sb.toString() + "). ", false, false,
+					false, sb.toString());
 
 			return true;
 		}
@@ -1131,7 +1108,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Gets the internal notices.
-	 * 
+	 *
 	 * @param xnotices
 	 *            the xnotices
 	 * @return the internal notices
@@ -1141,7 +1118,7 @@ public abstract class CommonReport {
 		int tableCount = 0;
 		int famtCount = 0;
 
-		for (UnitNotice xnotice : xnotices) {
+		for (final UnitNotice xnotice : xnotices) {
 			if (xnotice.getTag().equals("TABLE")) {
 				tableCount++;
 			}
@@ -1150,14 +1127,12 @@ public abstract class CommonReport {
 			}
 		}
 
-		UnitNotice[] notices = new UnitNotice[xnotices.length - tableCount
-				- famtCount];
+		final UnitNotice[] notices = new UnitNotice[xnotices.length - tableCount - famtCount];
 
 		int xn = 0;
 
 		for (int i = 0; i < xnotices.length; i++) {
-			if (!xnotices[i].getTag().equals("FAMT")
-					&& !xnotices[i].getTag().equals("TABLE")) {
+			if (!xnotices[i].getTag().equals("FAMT") && !xnotices[i].getTag().equals("TABLE")) {
 				notices[xn++] = xnotices[i];
 			}
 		}
@@ -1166,7 +1141,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Prints the relation notice.
-	 * 
+	 *
 	 * @param rn
 	 *            the rn
 	 * @param defType
@@ -1177,16 +1152,14 @@ public abstract class CommonReport {
 	 *            the is before
 	 * @return the string
 	 */
-	protected String printRelationNotice(RelationNotice rn, String defType,
-			int spouseNum, boolean isBefore) {
+	protected String printRelationNotice(RelationNotice rn, String defType, int spouseNum, boolean isBefore) {
 
-		String showType = caller.getSpouseData().getSelection()
-				.getActionCommand();
+		String showType = caller.getSpouseData().getSelection().getActionCommand();
 		if (showType == null) {
 			showType = ReportWorkerDialog.SET_SPOUSE_NONE;
 		}
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		boolean addSpace = false;
 		if (isBefore) {
 			if (rn.getType() != null) {
@@ -1207,8 +1180,7 @@ public abstract class CommonReport {
 			if (rn.getType() != null) {
 				sb.append(rn.getType());
 			} else {
-				sb.append(typesTable.getTextValue(Resurses.getReportString(rn
-						.getTag())));
+				sb.append(typesTable.getTextValue(Resurses.getReportString(rn.getTag())));
 			}
 			addSpace = true;
 
@@ -1230,7 +1202,7 @@ public abstract class CommonReport {
 		if (showType.equals(ReportWorkerDialog.SET_SPOUSE_YEAR)
 				|| showType.equals(ReportWorkerDialog.SET_SPOUSE_DATE)) {
 			if ((isBefore && rn.getTag().equals("MARR")) || !isBefore) {
-				String yr = rn.getFromDate();
+				final String yr = rn.getFromDate();
 				if (showType.equals(ReportWorkerDialog.SET_SPOUSE_YEAR)) {
 					if ((yr != null) && (yr.length() >= 4)) {
 						if (addSpace) {
@@ -1239,8 +1211,7 @@ public abstract class CommonReport {
 						sb.append(yr.substring(0, 4));
 					}
 				} else {
-					String date = printDate(rn.getDatePrefix(),
-							rn.getFromDate(), rn.getToDate());
+					final String date = printDate(rn.getDatePrefix(), rn.getFromDate(), rn.getToDate());
 					if (date.length() > 0) {
 						if (addSpace) {
 							sb.append(" ");
@@ -1268,8 +1239,7 @@ public abstract class CommonReport {
 
 		}
 
-		String date = printDate(rn.getDatePrefix(), rn.getFromDate(),
-				rn.getToDate());
+		final String date = printDate(rn.getDatePrefix(), rn.getFromDate(), rn.getToDate());
 		if (date.length() > 0) {
 			if (addSpace) {
 				sb.append(" ");
@@ -1287,8 +1257,7 @@ public abstract class CommonReport {
 		}
 		if (rn.getNoteText() != null) {
 			if (addSpace) {
-				if ((rn.getNoteText().charAt(0) != ',')
-						&& (rn.getNoteText().charAt(0) != '.')) {
+				if ((rn.getNoteText().charAt(0) != ',') && (rn.getNoteText().charAt(0) != '.')) {
 					sb.append(" ");
 				}
 			}
@@ -1299,12 +1268,12 @@ public abstract class CommonReport {
 
 			addSpace = true;
 		}
-		String srcFormat = caller.getSourceFormat();
+		final String srcFormat = caller.getSourceFormat();
 		if (!ReportWorkerDialog.SET_NO.equals(srcFormat)) {
 
-			String src = trim(rn.getSource());
+			final String src = trim(rn.getSource());
 
-			String srcText = addSource(false, srcFormat, src);
+			final String srcText = addSource(false, srcFormat, src);
 			sb.append(srcText);
 		}
 
@@ -1313,7 +1282,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Prints the notices.
-	 * 
+	 *
 	 * @param bt
 	 *            the bt
 	 * @param persLong
@@ -1323,14 +1292,13 @@ public abstract class CommonReport {
 	 * @param tableNo
 	 *            the table no
 	 */
-	protected void printNotices(BodyText bt, PersonLongData persLong,
-			int colType, long tableNo) {
-		UnitNotice[] notices = persLong.getNotices();
+	protected void printNotices(BodyText bt, PersonLongData persLong, int colType, long tableNo) {
+		final UnitNotice[] notices = persLong.getNotices();
 		boolean addSpace = false;
 		boolean addDot = false;
 		String tag;
-		String occuTypes = "|OCCU|EDUC|TITL|";
-		int minSurety = caller.showMinSurety();
+		final String occuTypes = "|OCCU|EDUC|TITL|";
+		final int minSurety = caller.showMinSurety();
 		if ((notices.length > 0) && caller.showOnSeparateLines()) {
 
 			repoWriter.addText(bt);
@@ -1338,23 +1306,22 @@ public abstract class CommonReport {
 
 		boolean forceOccuUpperCase = true;
 		for (int j = 0; j < notices.length; j++) {
-			UnitNotice nn = notices[j];
+			final UnitNotice nn = notices[j];
 			addSpace = false;
 			addDot = false;
 			tag = nn.getTag();
 			if (!tag.equals("NAME")) {
-				if (((nn.getPrivacy() == null) || nn.getPrivacy().equals(
-						Resurses.PRIVACY_TEXT))
+				if (((nn.getPrivacy() == null) || nn.getPrivacy().equals(Resurses.PRIVACY_TEXT))
 						&& (nn.getSurety() >= minSurety)) {
 					if (typesTable.isType(tag, colType)) {
 						if (typesTable.isType(tag, 1)) {
-							String noType = nn.getNoticeType();
+							final String noType = nn.getNoticeType();
 							if (noType != null) {
 								bt.addText(noType);
 							} else {
-								String tagText = typesTable.getTypeText(tag);
+								final String tagText = typesTable.getTypeText(tag);
 								if ((tagText != null) && !tagText.isEmpty()) {
-									String parts[] = tagText.split(";");
+									final String parts[] = tagText.split(";");
 									if (parts.length == 1) {
 										bt.addText(tagText);
 									} else {
@@ -1372,13 +1339,12 @@ public abstract class CommonReport {
 
 						if (nn.getDescription() != null) {
 
-							if (nn.getTag().equals("TABLE")
-									&& (bt.getCount() == 0)) {
+							if (nn.getTag().equals("TABLE") && (bt.getCount() == 0)) {
 								// for TABLE notice the description contains a
 								// header if this is the first text piece for
 								// the notice
 
-								BodyText btt = bt;
+								final BodyText btt = bt;
 								bt = new TableHeaderText();
 
 								bt.addText(nn.getDescription(), true, false);
@@ -1393,9 +1359,7 @@ public abstract class CommonReport {
 								if (occuTypes.indexOf(nn.getTag()) > 0) {
 									if (forceOccuUpperCase) {
 										if (desc.length() > 1) {
-											desc = desc.substring(0, 1)
-													.toUpperCase()
-													+ desc.substring(1);
+											desc = desc.substring(0, 1).toUpperCase() + desc.substring(1);
 										}
 									}
 								}
@@ -1404,8 +1368,7 @@ public abstract class CommonReport {
 								addDot = true;
 							}
 						}
-						String dd = printDate(nn.getDatePrefix(),
-								nn.getFromDate(), nn.getToDate());
+						final String dd = printDate(nn.getDatePrefix(), nn.getFromDate(), nn.getToDate());
 						if (dd.length() > 0) {
 							if (addSpace) {
 								if (typesTable.getTypeText(tag).length() > 1) {
@@ -1419,9 +1382,7 @@ public abstract class CommonReport {
 							addDot = true;
 						}
 
-						if ((nn.getPlace() != null)
-								|| (nn.getTag().equals("RESI") && (nn
-										.getPostOffice() != null))) {
+						if ((nn.getPlace() != null) || (nn.getTag().equals("RESI") && (nn.getPostOffice() != null))) {
 							if (addSpace) {
 								bt.addText(" ");
 							}
@@ -1431,12 +1392,11 @@ public abstract class CommonReport {
 							addDot = true;
 						}
 
-						StringBuilder villageFarm = new StringBuilder();
+						final StringBuilder villageFarm = new StringBuilder();
 
-						if ((caller.isShowVillageFarm() && ((nn.getVillage() != null)
-								|| (nn.getFarm() != null) || (nn.getCroft() != null)))
-								|| (nn.getState() != null)
-								|| (nn.getCountry() != null)) {
+						if ((caller.isShowVillageFarm()
+								&& ((nn.getVillage() != null) || (nn.getFarm() != null) || (nn.getCroft() != null)))
+								|| (nn.getState() != null) || (nn.getCountry() != null)) {
 							if (addSpace) {
 								bt.addText(" ");
 								villageFarm.append(" ");
@@ -1444,14 +1404,12 @@ public abstract class CommonReport {
 							}
 							bt.addText("(");
 							villageFarm.append("(");
-							if (caller.isShowVillageFarm()
-									&& (nn.getVillage() != null)) {
+							if (caller.isShowVillageFarm() && (nn.getVillage() != null)) {
 								bt.addText(nn.getVillage());
 								villageFarm.append(nn.getVillage());
 								addSpace = true;
 							}
-							if (caller.isShowVillageFarm()
-									&& (nn.getFarm() != null)) {
+							if (caller.isShowVillageFarm() && (nn.getFarm() != null)) {
 								if (addSpace) {
 									bt.addText(" ");
 									villageFarm.append(" ");
@@ -1461,8 +1419,7 @@ public abstract class CommonReport {
 								villageFarm.append(nn.getFarm());
 								addSpace = true;
 							}
-							if (caller.isShowVillageFarm()
-									&& (nn.getCroft() != null)) {
+							if (caller.isShowVillageFarm() && (nn.getCroft() != null)) {
 								if (addSpace) {
 									bt.addText(" ");
 									villageFarm.append(" ");
@@ -1495,12 +1452,10 @@ public abstract class CommonReport {
 							villageFarm.append(")");
 						}
 
-						if (caller.isCreatePlaceIndexSet()
-								&& typesTable.isType(nn.getTag(), 5)) {
+						if (caller.isCreatePlaceIndexSet() && typesTable.isType(nn.getTag(), 5)) {
 
 							String place = nn.getPlace();
-							if ((place != null) && nn.getTag().equals("RESI")
-									&& (nn.getPostOffice() != null)) {
+							if ((place != null) && nn.getTag().equals("RESI") && (nn.getPostOffice() != null)) {
 								place = nn.getPostOffice();
 							}
 							if ((place != null) && caller.isShowVillageFarm()) {
@@ -1510,8 +1465,7 @@ public abstract class CommonReport {
 							while (idx > -2) {
 
 								if (idx >= 0) {
-									if ((nn.getRefPlaces() != null)
-											&& (idx < nn.getRefPlaces().length)) {
+									if ((nn.getRefPlaces() != null) && (idx < nn.getRefPlaces().length)) {
 										place = nn.getRefPlaces()[idx];
 
 									} else {
@@ -1521,8 +1475,7 @@ public abstract class CommonReport {
 
 								if (place != null) {
 
-									PlaceInTables pit = places.get(place
-											.toUpperCase());
+									PlaceInTables pit = places.get(place.toUpperCase());
 									if (pit == null) {
 										pit = new PlaceInTables(place);
 										places.put(place.toUpperCase(), pit);
@@ -1538,27 +1491,25 @@ public abstract class CommonReport {
 								addSpace = true;
 							}
 							imageNumber++;
-							bt.addText(Resurses.getReportString("INDEX_IMAGE")
-									+ " " + imageNumber + ". ", true, false);
+							bt.addText(Resurses.getReportString("INDEX_IMAGE") + " " + imageNumber + ". ", true, false);
 
-							ImageNotice inoti = new ImageNotice(nn,
-									imageNumber, tableNo);
+							final ImageNotice inoti = new ImageNotice(nn, imageNumber, tableNo);
 							imgNotices.add(inoti);
 						} else {
 
 							if (caller.showImages()) {
-								ImageText imagetx = new ImageText();
+								final ImageText imagetx = new ImageText();
 								BufferedImage img;
 								try {
 									img = nn.getMediaImage();
-								} catch (IOException e) {
+								} catch (final IOException e) {
 									logger.log(Level.WARNING, "getMedia", e);
 
 									img = null;
 								}
 								if (img != null) {
-									double imh = img.getHeight();
-									double imw = img.getWidth();
+									final double imh = img.getHeight();
+									final double imw = img.getWidth();
 									double newh = 300;
 									double neww = 300;
 
@@ -1580,25 +1531,17 @@ public abstract class CommonReport {
 									imageNumber++;
 									String imgTitle = "";
 									if (caller.isNumberingImages()) {
-										imgTitle = Resurses
-												.getReportString("INDEX_IMAGE")
-												+ "\u00A0" + imageNumber + ". ";
+										imgTitle = Resurses.getReportString("INDEX_IMAGE") + "\u00A0" + imageNumber
+												+ ". ";
 									}
 									if (nn.getMediaTitle() != null) {
-										String titl = trim(nn.getMediaTitle());
+										final String titl = trim(nn.getMediaTitle());
 										imgTitle += titl + ".";
 									}
-									String xxx = "0000" + imageNumber;
-									String imgNamePrefix = xxx.substring(xxx
-											.length() - 4) + "_";
-									imagetx.setImage(
-											img,
-											nn.getMediaData(),
-											img.getWidth(),
-											img.getHeight(),
-											imgNamePrefix
-													+ nn.getMediaFilename(),
-											imgTitle, nn.getTag());
+									final String xxx = "0000" + imageNumber;
+									final String imgNamePrefix = xxx.substring(xxx.length() - 4) + "_";
+									imagetx.setImage(img, nn.getMediaData(), img.getWidth(), img.getHeight(),
+											imgNamePrefix + nn.getMediaFilename(), imgTitle, nn.getTag());
 									imagetx.addText("");
 								}
 								// if (nn.getMediaTitle() != null) {
@@ -1613,12 +1556,11 @@ public abstract class CommonReport {
 							// }
 
 							if (nn.getNoteText() != null) {
-								String trimmed = trim(nn.getNoteText());
+								final String trimmed = trim(nn.getNoteText());
 								if (addSpace) {
 
 									if ((trimmed != null) && !trimmed.isEmpty()) {
-										if ((trimmed.charAt(0) != ',')
-												&& (trimmed.charAt(0) != '.')) {
+										if ((trimmed.charAt(0) != ',') && (trimmed.charAt(0) != '.')) {
 											if (!bt.endsWithText(".")) {
 												bt.addText(". ");
 											} else {
@@ -1627,8 +1569,7 @@ public abstract class CommonReport {
 										}
 									}
 								}
-								int tlen = printText(bt, trimmed,
-										nn.getRefNames());
+								final int tlen = printText(bt, trimmed, nn.getRefNames());
 								if (tlen > 0) {
 									addSpace = true;
 									addDot = true;
@@ -1638,41 +1579,32 @@ public abstract class CommonReport {
 						if (nn.getRefNames() != null) {
 
 							for (int i = 0; i < nn.getRefNames().length; i++) {
-								String txtName = nn.getRefNames()[i];
-								PersonInTables ppText = textReferences
-										.get(txtName);
+								final String txtName = nn.getRefNames()[i];
+								PersonInTables ppText = textReferences.get(txtName);
 								if (ppText == null) {
-									int refpid = --referencePid;
+									final int refpid = --referencePid;
 									ppText = new PersonInTables(refpid);
-									String[] parts = txtName.split(",");
+									final String[] parts = txtName.split(",");
 									if (parts.length == 2) {
 										//
 										// check the von
 										//
 										String vonPart = null;
 										String surPart = null;
-										int vonIndex = Utils
-												.isKnownPrefix(parts[0]);
-										if ((vonIndex > 0)
-												&& (vonIndex < parts[0]
-														.length())) {
-											vonPart = parts[0].substring(0,
-													vonIndex);
-											surPart = parts[0]
-													.substring(vonIndex + 1);
+										final int vonIndex = Utils.isKnownPrefix(parts[0]);
+										if ((vonIndex > 0) && (vonIndex < parts[0].length())) {
+											vonPart = parts[0].substring(0, vonIndex);
+											surPart = parts[0].substring(vonIndex + 1);
 										} else {
 											surPart = parts[0];
 										}
 
-										ppText.shortPerson = new PersonShortData(
-												refpid, parts[1], null,
-												vonPart, surPart, null, null,
-												null);
+										ppText.shortPerson = new PersonShortData(refpid, parts[1], null, vonPart,
+												surPart, null, null, null);
 										textReferences.put(txtName, ppText);
 									} else if (parts.length == 1) {
-										ppText.shortPerson = new PersonShortData(
-												refpid, parts[0], null, null,
-												null, null, null, null);
+										ppText.shortPerson = new PersonShortData(refpid, parts[0], null, null, null,
+												null, null, null);
 										textReferences.put(txtName, ppText);
 									}
 								}
@@ -1689,8 +1621,7 @@ public abstract class CommonReport {
 									bt.addText(" ");
 								}
 								int tlen = 0;
-								String parts[] = nn.getAddress()
-										.replaceAll("\\r", "").split("\n");
+								final String parts[] = nn.getAddress().replaceAll("\\r", "").split("\n");
 								for (int i = 0; i < parts.length; i++) {
 
 									if (i > 0) {
@@ -1699,8 +1630,7 @@ public abstract class CommonReport {
 									bt.addText(parts[i]);
 									tlen = i + 1;
 								}
-								if ((nn.getPostalCode() != null)
-										|| (nn.getPostOffice() != null)) {
+								if ((nn.getPostalCode() != null) || (nn.getPostOffice() != null)) {
 									if (tlen++ > 0) {
 										bt.addText(",");
 									}
@@ -1731,12 +1661,12 @@ public abstract class CommonReport {
 								}
 							}
 						}
-						String srcFormat = caller.getSourceFormat();
+						final String srcFormat = caller.getSourceFormat();
 						if (!ReportWorkerDialog.SET_NO.equals(srcFormat)) {
 
-							String src = trim(nn.getSource());
+							final String src = trim(nn.getSource());
 
-							String text = addSource(addDot, srcFormat, src);
+							final String text = addSource(addDot, srcFormat, src);
 							bt.addText(text);
 							if (!text.isEmpty()) {
 								addDot = true;
@@ -1798,7 +1728,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Adds the source.
-	 * 
+	 *
 	 * @param addDot
 	 *            the add dot
 	 * @param srcFormat
@@ -1808,7 +1738,7 @@ public abstract class CommonReport {
 	 * @return the string
 	 */
 	protected String addSource(boolean addDot, String srcFormat, String src) {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		if ((src != null) && !src.isEmpty()) {
 
 			if (srcFormat.equals(ReportWorkerDialog.SET_TX1)) {
@@ -1842,7 +1772,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Set 1st paragraph bold (header) if it begins with *
-	 * 
+	 *
 	 * @param bt
 	 * @param text
 	 * @param strings
@@ -1854,7 +1784,7 @@ public abstract class CommonReport {
 		}
 
 		if ((namesin != null) && caller.showBoldNames()) {
-			String names[] = new String[namesin.length];
+			final String names[] = new String[namesin.length];
 			for (int i = 0; i < names.length; i++) {
 				names[i] = namesin[i];
 			}
@@ -1881,7 +1811,7 @@ public abstract class CommonReport {
 			int fullLength = 0;
 			if (firstName > 0) {
 				nxtText = text.substring(firstName + nameTxt.length());
-				int len1 = printText(bt, text.substring(0, firstName), null);
+				final int len1 = printText(bt, text.substring(0, firstName), null);
 				fullLength += len1;
 			} else if (firstName == 0) {
 				nxtText = text;
@@ -1894,17 +1824,17 @@ public abstract class CommonReport {
 				return fullLength + nameTxt.length();
 			}
 			names[nameIdx] = null;
-			int len2 = printText(bt, nxtText, names);
+			final int len2 = printText(bt, nxtText, names);
 			return fullLength + len2;
 
 		}
 
-		StringBuilder sb = new StringBuilder();
-		ArrayList<String> v = new ArrayList<String>();
+		final StringBuilder sb = new StringBuilder();
+		final ArrayList<String> v = new ArrayList<String>();
 		boolean wasWhite = false;
 		boolean wasNl = true;
 		for (int i = 0; i < text.length(); i++) {
-			char c = text.charAt(i);
+			final char c = text.charAt(i);
 			if ((c == ' ') || (c == '\r') || (c == '\t')) {
 				if (!wasWhite) {
 					sb.append(' ');
@@ -1931,10 +1861,10 @@ public abstract class CommonReport {
 			v.add(sb.toString());
 		}
 		for (int i = 0; i < v.size(); i++) {
-			String aux = v.get(i);
+			final String aux = v.get(i);
 			if ((i == 0) && (aux.length() > 0) && (aux.charAt(0) == '*')) {
 				repoWriter.addText(bt);
-				int fontSize = bt.getFontSize();
+				final int fontSize = bt.getFontSize();
 				if ((aux.length() > 2) && aux.substring(0, 2).equals("**")) {
 					bt.setFontSize(fontSize + 4);
 					bt.addText(aux.substring(2), true, false);
@@ -1957,9 +1887,9 @@ public abstract class CommonReport {
 	}
 
 	private TextNamePart locateName(String text, String name) {
-		TextNamePart tnp = new TextNamePart();
+		final TextNamePart tnp = new TextNamePart();
 		int minusEnding = 0;
-		String parts[] = name.split(",");
+		final String parts[] = name.split(",");
 		if (parts.length == 2) {
 
 			if (parts[0].isEmpty()) {
@@ -1972,8 +1902,7 @@ public abstract class CommonReport {
 				while (minusEnding < 4) {
 					String compaName = parts[1] + " " + parts[0];
 					if (compaName.length() > 10) {
-						compaName = compaName.substring(0, compaName.length()
-								- minusEnding);
+						compaName = compaName.substring(0, compaName.length() - minusEnding);
 					}
 					tnp.location = text.indexOf(compaName);
 
@@ -1992,12 +1921,12 @@ public abstract class CommonReport {
 
 		if (tnp.location >= 0) {
 			int j = 0;
-			String origName = tnp.nameText;
+			final String origName = tnp.nameText;
 			for (j = 0; j < (5 + minusEnding); j++) {
 				if (text.length() == (tnp.location + tnp.nameText.length())) {
 					break;
 				}
-				char c = text.charAt(tnp.location + tnp.nameText.length());
+				final char c = text.charAt(tnp.location + tnp.nameText.length());
 				if (c < 'A') {
 					break;
 				}
@@ -2018,7 +1947,7 @@ public abstract class CommonReport {
 		if (dateFrom == null) {
 			return "";
 		}
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 
 		if (datePrefix != null) {
 			framme = typesTable.getTextValue(datePrefix);
@@ -2048,7 +1977,7 @@ public abstract class CommonReport {
 		if (date == null) {
 			return null;
 		}
-		String df = caller.getDateFormat();
+		final String df = caller.getDateFormat();
 
 		int dd = 0;
 		int mm = 0;
@@ -2067,11 +1996,9 @@ public abstract class CommonReport {
 			}
 			if (df.equals("SE")) {
 				if (dd == 0) {
-					return "" + date.substring(0, 4) + "-"
-							+ date.substring(4, 6);
+					return "" + date.substring(0, 4) + "-" + date.substring(4, 6);
 				} else {
-					return "" + date.substring(0, 4) + "-"
-							+ date.substring(4, 6) + "-" + date.substring(6, 8);
+					return "" + date.substring(0, 4) + "-" + date.substring(4, 6) + "-" + date.substring(6, 8);
 				}
 			} else if (df.equals("UK")) {
 				if (dd == 0) {
@@ -2092,7 +2019,7 @@ public abstract class CommonReport {
 					return "" + dd + "." + mm + "." + yy;
 				}
 			}
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			logger.log(Level.WARNING, "toRepoDate", ne);
 			return "00.00.00";
 		}
@@ -2102,10 +2029,10 @@ public abstract class CommonReport {
 	/**
 	 * print name to report. First name is always printed regardless of types
 	 * settings unless set as privacy = true
-	 * 
+	 *
 	 * TODO special underline such as "Anna*-Liisa" (Juha-Pekka*) TODO underline
 	 * Anna-Liisa** or Per Erik** to result in two names underlined
-	 * 
+	 *
 	 * @param bt
 	 *            the bt
 	 * @param persLong
@@ -2118,25 +2045,25 @@ public abstract class CommonReport {
 		String prevGivenname = "";
 		String prevPatronyme = "";
 		String prevPostfix = "";
-		UnitNotice[] notices = persLong.getNotices();
-		int minSurety = caller.showMinSurety();
+		final UnitNotice[] notices = persLong.getNotices();
+		final int minSurety = caller.showMinSurety();
 		boolean isDead = false;
-		for (UnitNotice nn : notices) {
+		for (final UnitNotice nn : notices) {
 			if (nn.getTag().equals("DEAT") || nn.getTag().equals("BURI")) {
 				isDead = true;
 			}
 			if (nn.getTag().equals("BIRT")) {
-				String bd = nn.getFromDate();
+				final String bd = nn.getFromDate();
 				if ((bd != null) && (bd.length() >= 4)) {
 
 					try {
-						int by = Integer.parseInt(bd.substring(0, 4));
-						Calendar rightNow = Calendar.getInstance();
-						int cy = rightNow.get(Calendar.YEAR);
+						final int by = Integer.parseInt(bd.substring(0, 4));
+						final Calendar rightNow = Calendar.getInstance();
+						final int cy = rightNow.get(Calendar.YEAR);
 						if (cy > (by + 115)) {
 							isDead = true;
 						}
-					} catch (NumberFormatException ne) {
+					} catch (final NumberFormatException ne) {
 						// NumberFormatException ignored
 					}
 
@@ -2145,30 +2072,26 @@ public abstract class CommonReport {
 		}
 
 		for (int j = 0; j < notices.length; j++) {
-			UnitNotice nn = notices[j];
+			final UnitNotice nn = notices[j];
 			if (nn.getTag().equals("NAME")) {
-				if (((nn.getPrivacy() == null) || nn.getPrivacy().equals(
-						Resurses.PRIVACY_TEXT))
+				if (((nn.getPrivacy() == null) || nn.getPrivacy().equals(Resurses.PRIVACY_TEXT))
 						&& (nn.getSurety() >= minSurety)) {
 					if (typesTable.isType("NAME", colType) || (nameCount == 0)) {
 
 						if ((nameCount > 0) && (nn.getNoticeType() == null)) {
 							bt.addText(", ");
 							if (typesTable.isType("NAME", 1)) {
-								String[] parts = typesTable.getTypeText("NAME")
-										.split(";");
+								final String[] parts = typesTable.getTypeText("NAME").split(";");
 								String part = null;
 								if (parts != null) {
 									if (parts.length > 1) {
 										if (j < (notices.length - 1)) {
-											if (notices[j + 1].getTag().equals(
-													"NAME")) {
+											if (notices[j + 1].getTag().equals("NAME")) {
 												part = parts[0];
 											}
 										}
 										if (part == null) {
-											if ((parts.length < 3)
-													|| (isDead == false)) {
+											if ((parts.length < 3) || (isDead == false)) {
 												part = parts[1];
 											} else {
 												part = parts[2];
@@ -2184,8 +2107,7 @@ public abstract class CommonReport {
 							}
 						} else if (nn.getNoticeType() != null) {
 							if (nameCount > 0) {
-								if (!nn.getNoticeType().equals("/")
-										&& !nn.getNoticeType().equals("(")) {
+								if (!nn.getNoticeType().equals("/") && !nn.getNoticeType().equals("(")) {
 									bt.addText(", ");
 									bt.addText(nn.getNoticeType());
 									bt.addText(" ");
@@ -2213,13 +2135,11 @@ public abstract class CommonReport {
 							}
 						}
 
-						if (!prevGivenname.isEmpty()
-								&& !nv(nn.getPrefix()).isEmpty()) {
+						if (!prevGivenname.isEmpty() && !nv(nn.getPrefix()).isEmpty()) {
 							if (wasName) {
 								bt.addText(" ", caller.showBoldNames(), false);
 							}
-							bt.addText(nn.getPrefix(), caller.showBoldNames(),
-									false);
+							bt.addText(nn.getPrefix(), caller.showBoldNames(), false);
 							wasName = true;
 						}
 
@@ -2230,8 +2150,7 @@ public abstract class CommonReport {
 							}
 
 							if (!nv(nn.getPatronym()).isEmpty()) {
-								bt.addText(nn.getPatronym(),
-										caller.showBoldNames(), false);
+								bt.addText(nn.getPatronym(), caller.showBoldNames(), false);
 								wasName = true;
 							}
 						}
@@ -2239,8 +2158,7 @@ public abstract class CommonReport {
 							bt.addText(" ", caller.showBoldNames(), false);
 						}
 						if (!nv(nn.getSurname()).isEmpty()) {
-							bt.addText(nn.getSurname(), caller.showBoldNames(),
-									false);
+							bt.addText(nn.getSurname(), caller.showBoldNames(), false);
 							wasName = true;
 						}
 						if (!prevPostfix.equals(nv(nn.getPostfix()))) {
@@ -2250,13 +2168,11 @@ public abstract class CommonReport {
 							}
 
 							if (!nv(nn.getPostfix()).isEmpty()) {
-								bt.addText(nn.getPostfix(),
-										caller.showBoldNames(), false);
+								bt.addText(nn.getPostfix(), caller.showBoldNames(), false);
 							}
 						}
 
-						if ((nn.getNoticeType() != null)
-								&& nn.getNoticeType().equals("(")) {
+						if ((nn.getNoticeType() != null) && nn.getNoticeType().equals("(")) {
 							bt.addText(")");
 						}
 					}
@@ -2264,20 +2180,19 @@ public abstract class CommonReport {
 				}
 			}
 		}
-		String srcFormat = caller.getSourceFormat();
+		final String srcFormat = caller.getSourceFormat();
 
 		if (!ReportWorkerDialog.SET_NO.equals(srcFormat)) {
-			String src = persLong.getSource();
-			String text = addSource(true, srcFormat, src);
+			final String src = persLong.getSource();
+			final String text = addSource(true, srcFormat, src);
 			bt.addText(text);
 		}
 
 		bt.addText(". ");
 	}
 
-	private void printGivenname(BodyText bt, String prevGivenname,
-			boolean useBoldInfo) {
-		String[] nameParts = prevGivenname.split(" ");
+	private void printGivenname(BodyText bt, String prevGivenname, boolean useBoldInfo) {
+		final String[] nameParts = prevGivenname.split(" ");
 		boolean doBold = caller.showBoldNames();
 		if (!useBoldInfo) {
 			doBold = false;
@@ -2288,11 +2203,9 @@ public abstract class CommonReport {
 			String startChar = "";
 			String endChar = "";
 			if ((namePart.length() > 2)
-					&& (((namePart.charAt(0) == '(') && (namePart
-							.charAt(namePart.length() - 1) == ')')) || ((namePart
-							.charAt(0) == '\"') && (namePart.charAt(namePart
-							.length() - 1) == '\"')))) {
-				char[] c = new char[1];
+					&& (((namePart.charAt(0) == '(') && (namePart.charAt(namePart.length() - 1) == ')'))
+							|| ((namePart.charAt(0) == '\"') && (namePart.charAt(namePart.length() - 1) == '\"')))) {
+				final char[] c = new char[1];
 				c[0] = namePart.charAt(0);
 				startChar = new String(c);
 				c[0] = namePart.charAt(namePart.length() - 1);
@@ -2303,23 +2216,21 @@ public abstract class CommonReport {
 			if (!startChar.isEmpty()) {
 				bt.addText(startChar, doBold, false);
 			}
-			String[] subParts = namePart.split("-");
+			final String[] subParts = namePart.split("-");
 
-			int astidx = namePart.indexOf("*");
-			int bstidx = namePart.indexOf("**");
+			final int astidx = namePart.indexOf("*");
+			final int bstidx = namePart.indexOf("**");
 			if ((bstidx > 0) || (subParts.length == 1)) {
 				if (astidx > 0) {
 
 					if (astidx == (namePart.length() - 1)) {
-						bt.addText(namePart.substring(0, astidx), doBold,
-								caller.showUnderlineNames());
+						bt.addText(namePart.substring(0, astidx), doBold, caller.showUnderlineNames());
 					} else {
 
 						if (bstidx > 0) {
 							if (bstidx == (namePart.length() - 2)) {
 
-								bt.addText(namePart.substring(0, bstidx),
-										doBold, caller.showUnderlineNames());
+								bt.addText(namePart.substring(0, bstidx), doBold, caller.showUnderlineNames());
 							}
 						}
 					}
@@ -2329,15 +2240,14 @@ public abstract class CommonReport {
 			} else {
 
 				for (int kk = 0; kk < subParts.length; kk++) {
-					String subPart = subParts[kk];
-					int cstidx = subPart.indexOf("*");
+					final String subPart = subParts[kk];
+					final int cstidx = subPart.indexOf("*");
 					if (kk > 0) {
 						bt.addText("-", doBold, false);
 					}
 					if ((cstidx >= 0) && (cstidx == (subPart.length() - 1))) {
 
-						bt.addText(subPart.substring(0, cstidx), doBold,
-								caller.showUnderlineNames());
+						bt.addText(subPart.substring(0, cstidx), doBold, caller.showUnderlineNames());
 
 					} else {
 						bt.addText(subPart, doBold, false);
@@ -2358,7 +2268,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Convert place.
-	 * 
+	 *
 	 * @param notice
 	 *            the notice
 	 * @return the string
@@ -2367,8 +2277,7 @@ public abstract class CommonReport {
 		String place = null;
 		if (notice.getPlace() != null) {
 			place = notice.getPlace();
-		} else if (notice.getTag().equals("RESI")
-				&& (notice.getPostOffice() != null)) {
+		} else if (notice.getTag().equals("RESI") && (notice.getPostOffice() != null)) {
 			place = toProper(notice.getPostOffice());
 		} else {
 			return null;
@@ -2378,22 +2287,21 @@ public abstract class CommonReport {
 			if (bendMap == null) {
 				bendMap = new HashMap<String, String>();
 				try {
-					SukuData resp = Suku.kontroller.getSukuData("cmd=get",
-							"type=conversions",
+					final SukuData resp = Suku.kontroller.getSukuData("cmd=get", "type=conversions",
 							"lang=" + Resurses.getLanguage());
 					for (int i = 0; i < resp.vvTexts.size(); i++) {
-						String[] cnvx = resp.vvTexts.get(i);
-						String key = cnvx[1] + "|" + cnvx[0];
+						final String[] cnvx = resp.vvTexts.get(i);
+						final String key = cnvx[1] + "|" + cnvx[0];
 						bendMap.put(key.toLowerCase(), cnvx[2]);
 					}
-				} catch (SukuException e) {
+				} catch (final SukuException e) {
 					JOptionPane.showMessageDialog(caller, e.getMessage());
 				}
 			}
-			String tag = notice.getTag();
-			String rule = typesTable.getTypeRule(tag);
+			final String tag = notice.getTag();
+			final String rule = typesTable.getTypeRule(tag);
 			if (rule != null) {
-				String key = rule + "|" + place;
+				final String key = rule + "|" + place;
 				String tmp = bendMap.get(key.toLowerCase());
 				if (tmp != null) {
 					place = tmp;
@@ -2413,11 +2321,11 @@ public abstract class CommonReport {
 			return null;
 		}
 		if (postOffice.indexOf(" ") < 0) {
-			String tmp = postOffice.toLowerCase();
+			final String tmp = postOffice.toLowerCase();
 			if (tmp.length() < 2) {
 				return postOffice;
 			}
-			String A = tmp.substring(0, 1).toUpperCase();
+			final String A = tmp.substring(0, 1).toUpperCase();
 			return A + tmp.substring(1);
 		}
 		return postOffice;
@@ -2441,10 +2349,10 @@ public abstract class CommonReport {
 	}
 
 	private String spaceTrim(String text) {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		int lastSpace = -1;
 		for (int i = 0; i < text.length(); i++) {
-			char c = text.charAt(i);
+			final char c = text.charAt(i);
 			if ((c != ' ') || (sb.length() > 0)) {
 				sb.append(c);
 			}
@@ -2469,7 +2377,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Nv.
-	 * 
+	 *
 	 * @param text
 	 *            the text
 	 * @return the string
@@ -2498,7 +2406,7 @@ public abstract class CommonReport {
 
 	/**
 	 * Implemented by derived class.
-	 * 
+	 *
 	 * @param b
 	 *            the new visible
 	 */
@@ -2520,7 +2428,7 @@ public abstract class CommonReport {
 
 		/**
 		 * Instantiates a new image notice.
-		 * 
+		 *
 		 * @param nn
 		 *            the nn
 		 * @param imgNumber

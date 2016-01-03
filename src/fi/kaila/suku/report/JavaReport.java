@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.report;
 
 import java.awt.BorderLayout;
@@ -48,15 +78,14 @@ import fi.kaila.suku.util.SukuException;
  * The Java report is a separate window that receives the report in a java
  * TextPane format. This format is easy for the user and should be considered as
  * a preview of the report
- * 
+ *
  * @author Kalle
- * 
+ *
  */
-public class JavaReport extends JFrame implements ActionListener,
-		ReportInterface {
+public class JavaReport extends JFrame implements ActionListener, ReportInterface {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -69,7 +98,7 @@ public class JavaReport extends JFrame implements ActionListener,
 
 	/**
 	 * default constructor to initialize frame.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 */
@@ -82,19 +111,18 @@ public class JavaReport extends JFrame implements ActionListener,
 
 		setLayout(new BorderLayout());
 
-		JMenuBar menubar = new JMenuBar();
+		final JMenuBar menubar = new JMenuBar();
 		setJMenuBar(menubar);
-		JMenu mFile = new JMenu(Resurses.getString(Resurses.FILE));
+		final JMenu mFile = new JMenu(Resurses.getString(Resurses.FILE));
 		menubar.add(mFile);
 
-		JMenuItem mPrint = new JMenuItem(
-				Resurses.getString(Resurses.PRINT_REPORT));
+		final JMenuItem mPrint = new JMenuItem(Resurses.getString(Resurses.PRINT_REPORT));
 		mFile.add(mPrint);
 		mPrint.setActionCommand(Resurses.PRINT_REPORT);
 		mPrint.addActionListener(this);
 
 		mFile.addSeparator();
-		JMenuItem mExit = new JMenuItem(Resurses.getString(Resurses.EXIT));
+		final JMenuItem mExit = new JMenuItem(Resurses.getString(Resurses.EXIT));
 		mFile.add(mExit);
 		mExit.setActionCommand(Resurses.EXIT);
 		mExit.addActionListener(this);
@@ -102,13 +130,13 @@ public class JavaReport extends JFrame implements ActionListener,
 		// this.textPerson = new PersonPane();
 
 		this.text = new JTextPane();
-		JScrollPane textScroll = new JScrollPane(this.text);
+		final JScrollPane textScroll = new JScrollPane(this.text);
 		add(textScroll);
 
 		// setLayout(null);
 		// setLocation(200, 200);
 
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
 		int dd = d.width - 100;
 		if (dd > 800) {
@@ -141,14 +169,13 @@ public class JavaReport extends JFrame implements ActionListener,
 		reportClosed = false;
 		doc = new SukuDocument();
 		text.setDocument(doc);
-		StyledDocument styledDoc = text.getStyledDocument();
+		final StyledDocument styledDoc = text.getStyledDocument();
 
 		if (styledDoc instanceof AbstractDocument) {
 			doc = (AbstractDocument) styledDoc;
 			doc.setDocumentFilter(new DocumentSukuFilter());
 		} else {
-			JOptionPane.showMessageDialog(this,
-					"Text pane's document isn't an AbstractDocument!");
+			JOptionPane.showMessageDialog(this, "Text pane's document isn't an AbstractDocument!");
 			// of course this is programming error and shouldn't ever come here
 			return;
 		}
@@ -158,14 +185,14 @@ public class JavaReport extends JFrame implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * fi.kaila.suku.report.ReportInterface#addText(fi.kaila.suku.report.style
 	 * .BodyText)
 	 */
 	@Override
 	public void addText(BodyText bt) {
-		int alkulen = doc.getLength();
+		final int alkulen = doc.getLength();
 		SimpleAttributeSet myStyle = null;
 		SimpleAttributeSet sas = null;
 
@@ -179,9 +206,9 @@ public class JavaReport extends JFrame implements ActionListener,
 			StyleConstants.setItalic(myStyle, bt.isItalic(j));
 			String imgTitle = "";
 			if ((bt.getImage() != null) && (j == 0)) {
-				ImageText it = (ImageText) bt;
-				int imgWidth = it.getWidth();
-				int imgHeight = it.getHeight();
+				final ImageText it = (ImageText) bt;
+				final int imgWidth = it.getWidth();
+				final int imgHeight = it.getHeight();
 				imgTitle = it.getImageTitle();
 				Dimension maxSize = parent.getImageMaxSize();
 
@@ -195,8 +222,8 @@ public class JavaReport extends JFrame implements ActionListener,
 					h = imgHeight;
 				} else if (maxSize.height == 0) {
 					if (imgWidth > maxSize.width) {
-						float mw = maxSize.width;
-						float multip = mw / imgWidth;
+						final float mw = maxSize.width;
+						final float multip = mw / imgWidth;
 						w = imgWidth * multip;
 						h = imgHeight * multip;
 					} else {
@@ -205,8 +232,8 @@ public class JavaReport extends JFrame implements ActionListener,
 					}
 				} else if (maxSize.width == 0) {
 					if (imgHeight > maxSize.height) {
-						float mh = maxSize.height;
-						float multip = mh / imgHeight;
+						final float mh = maxSize.height;
+						final float multip = mh / imgHeight;
 						w = imgWidth * multip;
 						h = imgHeight * multip;
 					} else {
@@ -214,11 +241,11 @@ public class JavaReport extends JFrame implements ActionListener,
 						h = imgHeight;
 					}
 				} else {
-					float mw = maxSize.width;
-					float mh = maxSize.height;
-					float multiw = mw / imgWidth;
-					float multih = mh / imgHeight;
-					float multip = (multiw < multih) ? multiw : multih;
+					final float mw = maxSize.width;
+					final float mh = maxSize.height;
+					final float multiw = mw / imgWidth;
+					final float multih = mh / imgHeight;
+					final float multip = (multiw < multih) ? multiw : multih;
 					if (multip < 1) {
 						w = imgWidth * multip;
 						h = imgHeight * multip;
@@ -229,9 +256,9 @@ public class JavaReport extends JFrame implements ActionListener,
 				}
 
 				try {
-					Image img = scaleImage(bt.getImage(), (int) w, (int) h);
+					final Image img = scaleImage(bt.getImage(), (int) w, (int) h);
 					if (img != null) {
-						ImageIcon icon = new ImageIcon(img);
+						final ImageIcon icon = new ImageIcon(img);
 						// ImageIcon icon = new ImageIcon(bt.getImage());
 						StyleConstants.setIcon(myStyle, icon);
 
@@ -241,7 +268,7 @@ public class JavaReport extends JFrame implements ActionListener,
 						extra = it.getImageName() + "\n";
 					}
 
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -260,7 +287,7 @@ public class JavaReport extends JFrame implements ActionListener,
 		}
 
 		appendString("\n", myStyle);
-		int loppulen = doc.getLength();
+		final int loppulen = doc.getLength();
 		text.setSelectionStart(alkulen);
 		text.setSelectionEnd(loppulen);
 		sas = new SimpleAttributeSet();
@@ -280,7 +307,7 @@ public class JavaReport extends JFrame implements ActionListener,
 	private void appendString(String text, SimpleAttributeSet style) {
 		try {
 			doc.insertString(doc.getLength(), text, style);
-		} catch (BadLocationException e) {
+		} catch (final BadLocationException e) {
 			logger.warning("appendReport failed " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -288,7 +315,7 @@ public class JavaReport extends JFrame implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.report.ReportInterface#closeReport()
 	 */
 	@Override
@@ -308,13 +335,13 @@ public class JavaReport extends JFrame implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 
 		if (cmd == null) {
 			return;
@@ -325,7 +352,7 @@ public class JavaReport extends JFrame implements ActionListener,
 		} else if (cmd.equals(Resurses.PRINT_REPORT)) {
 			try {
 				this.text.print();
-			} catch (PrinterException ep) {
+			} catch (final PrinterException ep) {
 				JOptionPane.showMessageDialog(this, ep.getMessage());
 				logger.log(Level.INFO, "Print error", ep);
 			}
@@ -338,24 +365,23 @@ public class JavaReport extends JFrame implements ActionListener,
 	 * This method has been copied from
 	 * http://www.webmaster-talk.com/coding-forum
 	 * /63227-image-resizing-in-java.html#post301529 made by Rick Palmer
-	 * 
+	 *
 	 * @param image
 	 * @param pWidth
 	 * @param pHeight
 	 * @return the scaled image
 	 * @throws Exception
 	 */
-	private Image scaleImage(Image image, int pWidth, int pHeight)
-			throws Exception {
+	private Image scaleImage(Image image, int pWidth, int pHeight) throws Exception {
 
 		int thumbWidth = pWidth;
 		int thumbHeight = pHeight;
 
 		// Make sure the aspect ratio is maintained, so the image is not skewed
-		double thumbRatio = (double) thumbWidth / (double) thumbHeight;
-		int imageWidth = image.getWidth(null);
-		int imageHeight = image.getHeight(null);
-		double imageRatio = (double) imageWidth / (double) imageHeight;
+		final double thumbRatio = (double) thumbWidth / (double) thumbHeight;
+		final int imageWidth = image.getWidth(null);
+		final int imageHeight = image.getHeight(null);
+		final double imageRatio = (double) imageWidth / (double) imageHeight;
 		if (thumbRatio < imageRatio) {
 			thumbHeight = (int) (thumbWidth / imageRatio);
 		} else {
@@ -363,26 +389,22 @@ public class JavaReport extends JFrame implements ActionListener,
 		}
 
 		// Draw the scaled image
-		BufferedImage thumbImage = new BufferedImage(thumbWidth, thumbHeight,
-				BufferedImage.TYPE_INT_RGB);
-		Graphics2D graphics2D = thumbImage.createGraphics();
-		graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		final BufferedImage thumbImage = new BufferedImage(thumbWidth, thumbHeight, BufferedImage.TYPE_INT_RGB);
+		final Graphics2D graphics2D = thumbImage.createGraphics();
+		graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		graphics2D.drawImage(image, 0, 0, thumbWidth, thumbHeight, null);
 
-		ByteArrayOutputStream outimg = new ByteArrayOutputStream();
+		final ByteArrayOutputStream outimg = new ByteArrayOutputStream();
 		ImageWriter writer = null;
-		java.util.Iterator<ImageWriter> iter = ImageIO
-				.getImageWritersByFormatName("jpg");
+		final java.util.Iterator<ImageWriter> iter = ImageIO.getImageWritersByFormatName("jpg");
 		if (iter.hasNext()) {
 			writer = iter.next();
 		} else {
 			return null;
 		}
-		ImageOutputStream ios = ImageIO.createImageOutputStream(outimg);
+		final ImageOutputStream ios = ImageIO.createImageOutputStream(outimg);
 		writer.setOutput(ios);
-		ImageWriteParam parimg = new JPEGImageWriteParam(
-				java.util.Locale.getDefault());
+		final ImageWriteParam parimg = new JPEGImageWriteParam(java.util.Locale.getDefault());
 
 		parimg.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
 
@@ -396,7 +418,7 @@ public class JavaReport extends JFrame implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.Component#toString()
 	 */
 	@Override
@@ -406,7 +428,7 @@ public class JavaReport extends JFrame implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.report.ReportInterface#closeReport(long)
 	 */
 	@Override

@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.pojo;
 
 import java.io.Serializable;
@@ -5,13 +35,13 @@ import java.sql.Timestamp;
 
 /**
  * Container for relationNotice.
- * 
+ *
  * @author Kalle
  */
 public class RelationNotice implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -74,7 +104,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Instantiates a new relation notice.
-	 * 
+	 *
 	 * @param rnid
 	 *            the rnid
 	 * @param rid
@@ -110,11 +140,9 @@ public class RelationNotice implements Serializable {
 	 * @param createdBy
 	 *            the created by
 	 */
-	public RelationNotice(int rnid, int rid, int surety, String tag,
-			String type, String description, String datePrefix,
-			String fromDate, String toDate, String place, String noteText,
-			String sourceText, String privateText, Timestamp modified,
-			Timestamp created, String modifiedBy, String createdBy) {
+	public RelationNotice(int rnid, int rid, int surety, String tag, String type, String description, String datePrefix,
+			String fromDate, String toDate, String place, String noteText, String sourceText, String privateText,
+			Timestamp modified, Timestamp created, String modifiedBy, String createdBy) {
 		this.rnid = rnid;
 		this.rid = rid;
 		this.setSurety(surety);
@@ -138,7 +166,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Instantiates a new relation notice.
-	 * 
+	 *
 	 * @param tag
 	 *            the tag
 	 */
@@ -148,7 +176,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the to be deleted.
-	 * 
+	 *
 	 * @param value
 	 *            true if this is to be deleted
 	 */
@@ -165,7 +193,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the rnid.
-	 * 
+	 *
 	 * @return relation notice id
 	 */
 	public int getRnid() {
@@ -174,7 +202,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Checks if is to be deleted.
-	 * 
+	 *
 	 * @return is this to be deleted
 	 */
 	public boolean isToBeDeleted() {
@@ -183,7 +211,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Checks if is to be updated.
-	 * 
+	 *
 	 * @return is this to be updated
 	 */
 	public boolean isToBeUpdated() {
@@ -192,7 +220,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the languages.
-	 * 
+	 *
 	 * @return array of languages
 	 */
 	public RelationLanguage[] getLanguages() {
@@ -201,7 +229,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the languages.
-	 * 
+	 *
 	 * @param langu
 	 *            array of languages for this relation notice
 	 */
@@ -211,7 +239,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the type.
-	 * 
+	 *
 	 * @param text
 	 *            = the type
 	 */
@@ -225,7 +253,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the description.
-	 * 
+	 *
 	 * @param text
 	 *            = description
 	 */
@@ -239,7 +267,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the from date.
-	 * 
+	 *
 	 * @param text
 	 *            first part of date
 	 */
@@ -253,7 +281,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the place.
-	 * 
+	 *
 	 * @param text
 	 *            = place
 	 */
@@ -267,7 +295,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the source.
-	 * 
+	 *
 	 * @param text
 	 *            source
 	 */
@@ -281,7 +309,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the private text.
-	 * 
+	 *
 	 * @param text
 	 *            private text
 	 */
@@ -295,7 +323,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the tag.
-	 * 
+	 *
 	 * @return tag
 	 */
 	public String getTag() {
@@ -304,7 +332,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the type.
-	 * 
+	 *
 	 * @return type of relationnotice
 	 */
 	public String getType() {
@@ -313,7 +341,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the description.
-	 * 
+	 *
 	 * @return dscription
 	 */
 	public String getDescription() {
@@ -322,7 +350,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the date prefix.
-	 * 
+	 *
 	 * @return date prefix
 	 */
 	public String getDatePrefix() {
@@ -331,7 +359,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the date prefix.
-	 * 
+	 *
 	 * @param text
 	 *            Gedcom style date prefix
 	 */
@@ -345,7 +373,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the from date.
-	 * 
+	 *
 	 * @return first date
 	 */
 	public String getFromDate() {
@@ -354,7 +382,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the to date.
-	 * 
+	 *
 	 * @return second part of dateinterval
 	 */
 	public String getToDate() {
@@ -363,7 +391,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the to date.
-	 * 
+	 *
 	 * @param text
 	 *            second part of dateinterval
 	 */
@@ -377,7 +405,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the place.
-	 * 
+	 *
 	 * @return place
 	 */
 	public String getPlace() {
@@ -386,7 +414,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the note text.
-	 * 
+	 *
 	 * @return notetext
 	 */
 	public String getNoteText() {
@@ -395,7 +423,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the note text.
-	 * 
+	 *
 	 * @param text
 	 *            = note text
 	 */
@@ -409,7 +437,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Sets the surety.
-	 * 
+	 *
 	 * @param surety
 	 *            the new surety
 	 */
@@ -422,7 +450,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the source.
-	 * 
+	 *
 	 * @return source
 	 */
 	public String getSource() {
@@ -431,7 +459,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the private text.
-	 * 
+	 *
 	 * @return private text
 	 */
 	public String getPrivateText() {
@@ -440,7 +468,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the created.
-	 * 
+	 *
 	 * @return when created
 	 */
 	public Timestamp getCreated() {
@@ -449,7 +477,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the created by.
-	 * 
+	 *
 	 * @return created by userid
 	 */
 	public String getCreatedBy() {
@@ -458,7 +486,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the modified.
-	 * 
+	 *
 	 * @return when modified
 	 */
 	public Timestamp getModified() {
@@ -467,7 +495,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the modified by.
-	 * 
+	 *
 	 * @return modifiedBy userid
 	 */
 	public String getModifiedBy() {
@@ -480,7 +508,7 @@ public class RelationNotice implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -490,7 +518,7 @@ public class RelationNotice implements Serializable {
 
 	/**
 	 * Gets the surety.
-	 * 
+	 *
 	 * @return surety (0,20,40,60,80,100)
 	 */
 	public int getSurety() {

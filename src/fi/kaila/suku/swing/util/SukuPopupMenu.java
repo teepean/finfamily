@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.util;
 
 import java.awt.event.ActionListener;
@@ -12,7 +42,7 @@ import fi.kaila.suku.util.pojo.PersonShortData;
 
 /**
  * popupmenu for database view.
- * 
+ *
  * @author Kalle
  */
 public class SukuPopupMenu {
@@ -50,14 +80,13 @@ public class SukuPopupMenu {
 	public enum MenuSource {
 
 		/** The db view. */
-		dbView,
-		/** The family view. */
+		dbView, /** The family view. */
 		familyView
 	}
 
 	/**
 	 * enables the hiskpperson menu.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @param b
@@ -76,7 +105,7 @@ public class SukuPopupMenu {
 
 	/**
 	 * Gets the source.
-	 * 
+	 *
 	 * @return the source
 	 */
 	public MenuSource getSource() {
@@ -85,7 +114,7 @@ public class SukuPopupMenu {
 
 	/**
 	 * add all actionlisteners for menu commands.
-	 * 
+	 *
 	 * @param l
 	 *            the l
 	 */
@@ -111,7 +140,7 @@ public class SukuPopupMenu {
 
 	/**
 	 * sets person on whom menu is shown.
-	 * 
+	 *
 	 * @param person
 	 *            the new person
 	 */
@@ -123,7 +152,7 @@ public class SukuPopupMenu {
 
 	/**
 	 * Gets the person.
-	 * 
+	 *
 	 * @return the person for the meny
 	 */
 	public PersonShortData getPerson() {
@@ -132,7 +161,7 @@ public class SukuPopupMenu {
 
 	/**
 	 * Enable join add.
-	 * 
+	 *
 	 * @param firstPers
 	 *            the first pers
 	 */
@@ -144,14 +173,13 @@ public class SukuPopupMenu {
 		} else {
 			pJoinAddPerson.setVisible(true);
 			persToJoinTo = firstPers;
-			pJoinPerson.setText(Resurses.getString("JOIN_PERSON") + " "
-					+ persToJoinTo.getName(true, true));
+			pJoinPerson.setText(Resurses.getString("JOIN_PERSON") + " " + persToJoinTo.getName(true, true));
 		}
 	}
 
 	/**
 	 * show menu at location.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 * @param x
@@ -181,14 +209,12 @@ public class SukuPopupMenu {
 		// pPersonView.setActionCommand(Resurses.TAB_PERSON);
 		// pMenu.add(pPersonView);
 
-		pShowRelatives = new JMenuItem(
-				Resurses.getString(Resurses.TAB_RELATIVES));
+		pShowRelatives = new JMenuItem(Resurses.getString(Resurses.TAB_RELATIVES));
 		// pShowPerson.addActionListener(popupListener);
 		pShowRelatives.setActionCommand(Resurses.TAB_RELATIVES);
 		pMenu.add(pShowRelatives);
 
-		pShowPerson = new JMenuItem(
-				Resurses.getString(Resurses.TAB_PERSON_TEXT));
+		pShowPerson = new JMenuItem(Resurses.getString(Resurses.TAB_PERSON_TEXT));
 		// pShowPerson.addActionListener(popupListener);
 		pShowPerson.setActionCommand(Resurses.TAB_PERSON_TEXT);
 		pMenu.add(pShowPerson);
@@ -198,8 +224,7 @@ public class SukuPopupMenu {
 		pShowFamily.setActionCommand(Resurses.TAB_FAMILY);
 		pMenu.add(pShowFamily);
 
-		pDeletePerson = new JMenuItem(
-				Resurses.getString("TOOLBAR.REMPERSON.TOOLTIP"));
+		pDeletePerson = new JMenuItem(Resurses.getString("TOOLBAR.REMPERSON.TOOLTIP"));
 		// pShowFamily.addActionListener(popupListener);
 		pDeletePerson.setActionCommand(Resurses.TOOLBAR_REMPERSON_ACTION);
 		pMenu.add(pDeletePerson);
@@ -249,11 +274,10 @@ public class SukuPopupMenu {
 		pMenu.add(pNeedle);
 		pMenu.addSeparator();
 		pHiskiPerson = new JMenuItem[30];
-		JMenu pHiskiConnect = new JMenu(Resurses.getString("HISKI_CONNECT"));
+		final JMenu pHiskiConnect = new JMenu(Resurses.getString("HISKI_CONNECT"));
 		pMenu.add(pHiskiConnect);
 		for (int i = 0; i < 30; i++) {
-			pHiskiPerson[i] = new JMenuItem(Resurses.getString("HISKI_PERSON")
-					+ " " + i);
+			pHiskiPerson[i] = new JMenuItem(Resurses.getString("HISKI_PERSON") + " " + i);
 			pHiskiPerson[i].setActionCommand("HISKI" + i);
 			pHiskiConnect.add(pHiskiPerson[i]);
 			pHiskiPerson[i].setVisible(false);
@@ -268,7 +292,7 @@ public class SukuPopupMenu {
 
 	/**
 	 * This class is a semi-singleton.
-	 * 
+	 *
 	 * @return the menu
 	 */
 	public static SukuPopupMenu getInstance() {

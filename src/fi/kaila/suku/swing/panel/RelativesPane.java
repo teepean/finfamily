@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.panel;
 
 import java.awt.Color;
@@ -52,11 +82,10 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * Relatives pane contains lists of relatives.
- * 
+ *
  * @author Kalle
  */
-public class RelativesPane extends JPanel implements ActionListener,
-		ComponentListener, MouseListener {
+public class RelativesPane extends JPanel implements ActionListener, ComponentListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -177,7 +206,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/**
 	 * relatives pane is singleton as else there is problems with listeners.
-	 * 
+	 *
 	 * @param peronView
 	 *            the peron view
 	 * @param longPers
@@ -188,8 +217,8 @@ public class RelativesPane extends JPanel implements ActionListener,
 	 *            the pers
 	 * @return relatives pane instance
 	 */
-	public static RelativesPane getInstance(PersonView peronView,
-			PersonLongData longPers, Relation[] relas, PersonShortData[] pers) {
+	public static RelativesPane getInstance(PersonView peronView, PersonLongData longPers, Relation[] relas,
+			PersonShortData[] pers) {
 
 		if (me == null) {
 			me = new RelativesPane();
@@ -199,24 +228,23 @@ public class RelativesPane extends JPanel implements ActionListener,
 		me.longPers = longPers;
 		me.relations = relas;
 		me.pers = pers;
-		HashMap<Integer, PersonShortData> persMap = new HashMap<Integer, PersonShortData>();
+		final HashMap<Integer, PersonShortData> persMap = new HashMap<Integer, PersonShortData>();
 		me.parents.list.clear();
 		me.spouses.list.clear();
 		me.children.list.clear();
 		me.relaPane.setVisible(false);
 
-		PersonShortData psd = new PersonShortData(longPers);
-		String tmp = psd.getAlfaName(true) + " "
-				+ ((psd.getBirtYear() == 0) ? "" : " : " + psd.getBirtYear())
+		final PersonShortData psd = new PersonShortData(longPers);
+		final String tmp = psd.getAlfaName(true) + " " + ((psd.getBirtYear() == 0) ? "" : " : " + psd.getBirtYear())
 				+ ((psd.getDeatYear() == 0) ? "" : " - " + psd.getDeatYear());
 		me.subject.setText(tmp);
 		for (int i = 0; i < me.pers.length; i++) {
 			persMap.put(pers[i].getPid(), pers[i]);
 		}
 
-		for (Relation r : me.relations) {
+		for (final Relation r : me.relations) {
 			if (r.getTag().equals("FATH") || r.getTag().equals("MOTH")) {
-				PersonShortData pp = persMap.get(r.getRelative());
+				final PersonShortData pp = persMap.get(r.getRelative());
 				r.setShortPerson(pp);
 				pp.setAdopted(r.getAdopted());
 				me.parents.list.add(r);
@@ -224,48 +252,44 @@ public class RelativesPane extends JPanel implements ActionListener,
 			}
 		}
 
-		for (Relation r : me.relations) {
+		for (final Relation r : me.relations) {
 			if (r.getTag().equals("HUSB") || r.getTag().equals("WIFE")) {
-				PersonShortData pp = persMap.get(r.getRelative());
+				final PersonShortData pp = persMap.get(r.getRelative());
 				r.setShortPerson(pp);
 				me.spouses.list.add(r);
 				pp.setParentPid(pp.getPid());
 			}
 		}
 
-		for (Relation r : me.relations) {
+		for (final Relation r : me.relations) {
 			if (r.getTag().equals("CHIL")) {
 
-				PersonShortData pp = persMap.get(r.getRelative());
+				final PersonShortData pp = persMap.get(r.getRelative());
 				r.setShortPerson(pp);
 				pp.setAdopted(r.getAdopted());
 				me.children.list.add(r);
 
 				int parePid = 0;
 				try {
-					String tag = (longPers.getSex().equals("M")) ? "MOTH"
-							: "FATH";
+					final String tag = (longPers.getSex().equals("M")) ? "MOTH" : "FATH";
 					// if (longPers.getSex().equals("M")){
 					// tag = "MOTH";
 					// } else {
 					// tag="FATH";
 					// }
-					SukuData pareDat = Suku.kontroller.getSukuData(
-							"cmd=relatives", "pid=" + r.getRelative(), "tag="
-									+ tag);
+					final SukuData pareDat = Suku.kontroller.getSukuData("cmd=relatives", "pid=" + r.getRelative(),
+							"tag=" + tag);
 					for (int j = 0; j < me.spouses.list.size(); j++) {
-						PersonShortData sh = me.spouses.list.get(j)
-								.getShortPerson();
-						for (int element : pareDat.pidArray) {
+						final PersonShortData sh = me.spouses.list.get(j).getShortPerson();
+						for (final int element : pareDat.pidArray) {
 							if (element == sh.getPid()) {
 								parePid = sh.getPid();
 							}
 						}
 					}
 
-				} catch (SukuException e) {
-					logger.log(Level.WARNING, "init failed getting relatives",
-							e);
+				} catch (final SukuException e) {
+					logger.log(Level.WARNING, "init failed getting relatives", e);
 					// JOptionPane.showMessageDialog(this, e.getMessage(),
 					// Resurses.getString(Resurses.SUKU),
 					// JOptionPane.ERROR_MESSAGE);
@@ -289,13 +313,12 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		setLayout(null);
 
-		byte imbytes[] = new byte[8192];
+		final byte imbytes[] = new byte[8192];
 		int imsize;
 		InputStream in = null;
 		try {
 			if (womanIcon == null) {
-				in = this.getClass().getResourceAsStream(
-						"/images/womanicon.png");
+				in = this.getClass().getResourceAsStream("/images/womanicon.png");
 
 				imsize = in.read(imbytes);
 				if (imsize < imbytes.length) {
@@ -310,20 +333,19 @@ public class RelativesPane extends JPanel implements ActionListener,
 				}
 				in.close();
 
-				in = this.getClass().getResourceAsStream(
-						"/images/unknownicon.png");
+				in = this.getClass().getResourceAsStream("/images/unknownicon.png");
 				imsize = in.read(imbytes);
 				if (imsize < imbytes.length) {
 					unknownIcon = new ImageIcon(imbytes);
 				}
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 		} finally {
 			if (in != null) {
 				try {
 					in.close();
-				} catch (IOException ignored) {
+				} catch (final IOException ignored) {
 					// IOException ignored
 				}
 			}
@@ -333,7 +355,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 		add(subject);
 		subject.setBackground(Color.green);
 
-		RelativePopupListener popupListener = new RelativePopupListener(this);
+		final RelativePopupListener popupListener = new RelativePopupListener(this);
 		pop = RelativePopupMenu.getInstance(popupListener);
 
 		subject.addMouseListener(popupListener);
@@ -359,18 +381,16 @@ public class RelativesPane extends JPanel implements ActionListener,
 			@Override
 			public boolean canImport(TransferHandler.TransferSupport info) {
 				// we only import PersonShortData
-				if (!info.isDataFlavorSupported(PersonShortData
-						.getPersonShortDataFlavour())) {
+				if (!info.isDataFlavorSupported(PersonShortData.getPersonShortDataFlavour())) {
 					return false;
 				}
 
-				Transferable t = info.getTransferable();
+				final Transferable t = info.getTransferable();
 				PersonShortData dd;
 
 				try {
-					dd = (PersonShortData) t.getTransferData(PersonShortData
-							.getPersonShortDataFlavour());
-				} catch (Exception e) {
+					dd = (PersonShortData) t.getTransferData(PersonShortData.getPersonShortDataFlavour());
+				} catch (final Exception e) {
 					return false;
 				}
 				if ((dd.getDragSource() == Utils.PersonSource.SPOUSE)
@@ -379,8 +399,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 					return false;
 				}
 
-				JTable.DropLocation dl = (JTable.DropLocation) info
-						.getDropLocation();
+				final JTable.DropLocation dl = (JTable.DropLocation) info.getDropLocation();
 				if (dl.getRow() == -1) {
 					return false;
 				}
@@ -393,18 +412,16 @@ public class RelativesPane extends JPanel implements ActionListener,
 					return false;
 				}
 
-				JTable.DropLocation dl = (JTable.DropLocation) info
-						.getDropLocation();
-				int index = dl.getRow();
+				final JTable.DropLocation dl = (JTable.DropLocation) info.getDropLocation();
+				final int index = dl.getRow();
 
-				Transferable t = info.getTransferable();
+				final Transferable t = info.getTransferable();
 
 				PersonShortData dd;
 
 				try {
-					dd = (PersonShortData) t.getTransferData(PersonShortData
-							.getPersonShortDataFlavour());
-				} catch (Exception e) {
+					dd = (PersonShortData) t.getTransferData(PersonShortData.getPersonShortDataFlavour());
+				} catch (final Exception e) {
 					return false;
 				}
 
@@ -442,18 +459,16 @@ public class RelativesPane extends JPanel implements ActionListener,
 			public boolean canImport(TransferHandler.TransferSupport info) {
 				// we only import PersonShortData
 
-				if (!info.isDataFlavorSupported(PersonShortData
-						.getPersonShortDataFlavour())) {
+				if (!info.isDataFlavorSupported(PersonShortData.getPersonShortDataFlavour())) {
 					return false;
 				}
 
-				Transferable t = info.getTransferable();
+				final Transferable t = info.getTransferable();
 				PersonShortData dd;
 
 				try {
-					dd = (PersonShortData) t.getTransferData(PersonShortData
-							.getPersonShortDataFlavour());
-				} catch (Exception e) {
+					dd = (PersonShortData) t.getTransferData(PersonShortData.getPersonShortDataFlavour());
+				} catch (final Exception e) {
 					return false;
 				}
 				if ((dd.getDragSource() == Utils.PersonSource.CHILD)
@@ -461,8 +476,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 					return false;
 				}
 
-				JTable.DropLocation dl = (JTable.DropLocation) info
-						.getDropLocation();
+				final JTable.DropLocation dl = (JTable.DropLocation) info.getDropLocation();
 				if (dl.getRow() == -1) {
 					return false;
 				}
@@ -475,18 +489,16 @@ public class RelativesPane extends JPanel implements ActionListener,
 					return false;
 				}
 
-				JTable.DropLocation dl = (JTable.DropLocation) info
-						.getDropLocation();
-				int index = dl.getRow();
+				final JTable.DropLocation dl = (JTable.DropLocation) info.getDropLocation();
+				final int index = dl.getRow();
 
-				Transferable t = info.getTransferable();
+				final Transferable t = info.getTransferable();
 
 				PersonShortData dd;
 
 				try {
-					dd = (PersonShortData) t.getTransferData(PersonShortData
-							.getPersonShortDataFlavour());
-				} catch (Exception e) {
+					dd = (PersonShortData) t.getTransferData(PersonShortData.getPersonShortDataFlavour());
+				} catch (final Exception e) {
 					return false;
 				}
 				// if (dd.getDragSource() != Utils.PersonSource.CHILD) {
@@ -496,10 +508,10 @@ public class RelativesPane extends JPanel implements ActionListener,
 				if (dd.getDragSource() == Utils.PersonSource.SPOUSE) {
 
 					for (int i = 0; i < spouses.list.size(); i++) {
-						Relation rl = spouses.list.get(i);
+						final Relation rl = spouses.list.get(i);
 						if (rl.getRelative() == dd.getPid()) {
 							spouses.list.remove(i);
-							int modI = (i < index) ? -1 : 0;
+							final int modI = (i < index) ? -1 : 0;
 							spouses.list.add(index + modI, rl);
 							rl.setToBeUpdated(true);
 							spouTab.updateUI();
@@ -525,11 +537,11 @@ public class RelativesPane extends JPanel implements ActionListener,
 			@Override
 			protected Transferable createTransferable(JComponent c) {
 				if (c instanceof JTable) {
-					JTable t = (JTable) c;
-					int ii = t.getSelectedRow();
+					final JTable t = (JTable) c;
+					final int ii = t.getSelectedRow();
 					if (ii >= 0) {
-						Relation r = spouses.list.get(ii);
-						PersonShortData ps = r.getShortPerson();
+						final Relation r = spouses.list.get(ii);
+						final PersonShortData ps = r.getShortPerson();
 						ps.setDragSource(Utils.PersonSource.SPOUSE);
 						return ps;
 
@@ -564,18 +576,16 @@ public class RelativesPane extends JPanel implements ActionListener,
 			public boolean canImport(TransferHandler.TransferSupport info) {
 				// we only import PersonShortData
 
-				if (!info.isDataFlavorSupported(PersonShortData
-						.getPersonShortDataFlavour())) {
+				if (!info.isDataFlavorSupported(PersonShortData.getPersonShortDataFlavour())) {
 					return false;
 				}
 
-				Transferable t = info.getTransferable();
+				final Transferable t = info.getTransferable();
 				PersonShortData dd;
 
 				try {
-					dd = (PersonShortData) t.getTransferData(PersonShortData
-							.getPersonShortDataFlavour());
-				} catch (Exception e) {
+					dd = (PersonShortData) t.getTransferData(PersonShortData.getPersonShortDataFlavour());
+				} catch (final Exception e) {
 					return false;
 				}
 				if ((dd.getDragSource() == Utils.PersonSource.SPOUSE)
@@ -583,8 +593,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 					return false;
 				}
 
-				JTable.DropLocation dl = (JTable.DropLocation) info
-						.getDropLocation();
+				final JTable.DropLocation dl = (JTable.DropLocation) info.getDropLocation();
 				if (dl.getRow() == -1) {
 					return false;
 				}
@@ -597,30 +606,28 @@ public class RelativesPane extends JPanel implements ActionListener,
 					return false;
 				}
 
-				JTable.DropLocation dl = (JTable.DropLocation) info
-						.getDropLocation();
+				final JTable.DropLocation dl = (JTable.DropLocation) info.getDropLocation();
 
-				int index = dl.getRow();
+				final int index = dl.getRow();
 
 				// Get the string that is being dropped.
-				Transferable t = info.getTransferable();
+				final Transferable t = info.getTransferable();
 
 				PersonShortData dd;
 
 				try {
-					dd = (PersonShortData) t.getTransferData(PersonShortData
-							.getPersonShortDataFlavour());
-				} catch (Exception e) {
+					dd = (PersonShortData) t.getTransferData(PersonShortData.getPersonShortDataFlavour());
+				} catch (final Exception e) {
 					return false;
 				}
 
 				if (dd.getDragSource() == Utils.PersonSource.CHILD) {
 
 					for (int i = 0; i < children.list.size(); i++) {
-						Relation rl = children.list.get(i);
+						final Relation rl = children.list.get(i);
 						if (rl.getRelative() == dd.getPid()) {
 							children.list.remove(i);
-							int modI = (i < index) ? -1 : 0;
+							final int modI = (i < index) ? -1 : 0;
 							children.list.add(index + modI, rl);
 							rl.setToBeUpdated(true);
 							chilTab.updateUI();
@@ -649,11 +656,11 @@ public class RelativesPane extends JPanel implements ActionListener,
 			@Override
 			protected Transferable createTransferable(JComponent c) {
 				if (c instanceof JTable) {
-					JTable t = (JTable) c;
-					int ii = t.getSelectedRow();
+					final JTable t = (JTable) c;
+					final int ii = t.getSelectedRow();
 					if (ii >= 0) {
-						Relation r = children.list.get(ii);
-						PersonShortData ps = r.getShortPerson();
+						final Relation r = children.list.get(ii);
+						final PersonShortData ps = r.getShortPerson();
 						ps.setDragSource(Utils.PersonSource.CHILD);
 						return ps;
 
@@ -761,12 +768,12 @@ public class RelativesPane extends JPanel implements ActionListener,
 	// }
 
 	private JTable setupTable(MyRelationModel model) {
-		JTable tab = new JTable(model);
+		final JTable tab = new JTable(model);
 		tab.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		tab.setFillsViewportHeight(true);
 
-		TableColumnModel modl = tab.getColumnModel();
-		int checkWidth = 40;
+		final TableColumnModel modl = tab.getColumnModel();
+		final int checkWidth = 40;
 		TableColumn c = modl.getColumn(0);
 		c.setMaxWidth(20);
 		c = modl.getColumn(1);
@@ -780,7 +787,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 	}
 
 	private JTable setupNoticeTable(MyNoticeModel model) {
-		JTable tab = new JTable(model);
+		final JTable tab = new JTable(model);
 		// tab.setPreferredScrollableViewportSize(new Dimension(500, 70));
 		// tab.setFillsViewportHeight(true);
 
@@ -810,7 +817,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		/**
 		 * Instantiates a new my relation model.
-		 * 
+		 *
 		 * @param hdrTag
 		 *            the hdr tag
 		 */
@@ -825,7 +832,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.table.TableModel#getColumnCount()
 		 */
 		@Override
@@ -835,7 +842,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.table.TableModel#getRowCount()
 		 */
 		@Override
@@ -846,7 +853,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
 		 */
 		@Override
@@ -856,12 +863,12 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.table.TableModel#getValueAt(int, int)
 		 */
 		@Override
 		public Object getValueAt(int rivi, int colo) {
-			PersonShortData p = list.get(rivi).getShortPerson();
+			final PersonShortData p = list.get(rivi).getShortPerson();
 			switch (colo) {
 			case 0: // return p.getSex();
 				if (p.getSex().equals("M")) {
@@ -871,8 +878,8 @@ public class RelativesPane extends JPanel implements ActionListener,
 				}
 				return unknownIcon;
 			case 1:
-				int num = p.getParentPid();
-				String adop = Utils.nv(p.getAdopted());
+				final int num = p.getParentPid();
+				final String adop = Utils.nv(p.getAdopted());
 				if (num == 0) {
 					return adop;
 				}
@@ -895,7 +902,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
 		 */
 		@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -932,7 +939,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.table.TableModel#getColumnCount()
 		 */
 		@Override
@@ -942,7 +949,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.table.TableModel#getRowCount()
 		 */
 		@Override
@@ -953,7 +960,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
 		 */
 		@Override
@@ -963,12 +970,12 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.table.TableModel#getValueAt(int, int)
 		 */
 		@Override
 		public Object getValueAt(int rivi, int colo) {
-			RelationNotice rn = list.get(rivi);
+			final RelationNotice rn = list.get(rivi);
 			switch (colo) {
 			case 0:
 				return Resurses.getString("RELA_TAG_" + rn.getTag());
@@ -984,7 +991,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
 		 */
 		@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -998,13 +1005,13 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		if (cmd == null) {
 			return;
 			// System.out.println("closataan " + cmd);
@@ -1014,16 +1021,15 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 			boolean isMarr = false;
 
-			if (activeRelation.getTag().equals("WIFE")
-					|| activeRelation.getTag().equals("HUSB")) {
+			if (activeRelation.getTag().equals("WIFE") || activeRelation.getTag().equals("HUSB")) {
 				isMarr = true;
 			}
 			AddRelationNotice an;
 			try {
 				an = new AddRelationNotice(personView.getSuku(), isMarr);
 
-				Rectangle r = addData.getBounds();
-				Point pt = new Point(r.x, r.y);
+				final Rectangle r = addData.getBounds();
+				final Point pt = new Point(r.x, r.y);
 				SwingUtilities.convertPointToScreen(pt, relaPane);
 				r.x = pt.x - 40;
 				r.y = pt.y + r.height;
@@ -1034,26 +1040,23 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 				if (an.getSelectedTag() != null) {
 					// System.out.println("Valittiin " + an.getSelectedTag());
-					RelationNotice rn = new RelationNotice(an.getSelectedTag());
+					final RelationNotice rn = new RelationNotice(an.getSelectedTag());
 					notices.list.add(rn);
 					noticeTab.updateUI();
 
-					activeRelation.setNotices(notices.list
-							.toArray(new RelationNotice[0]));
+					activeRelation.setNotices(notices.list.toArray(new RelationNotice[0]));
 					activeRelation.setToBeUpdated(true);
 					// personView.addNotice(-1, an.getSelectedTag());
 				}
 
-			} catch (SukuException e1) {
+			} catch (final SukuException e1) {
 				logger.log(Level.WARNING, "Add new dialog error", e1);
-				JOptionPane.showMessageDialog(this, e1.getMessage(),
-						Resurses.getString(Resurses.SUKU),
+				JOptionPane.showMessageDialog(this, e1.getMessage(), Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 
 			}
 
-		} else if (cmd.equals("DEL") || cmd.equals(Resurses.CLOSE)
-				|| cmd.equals(Resurses.UPDATE)) {
+		} else if (cmd.equals("DEL") || cmd.equals(Resurses.CLOSE) || cmd.equals(Resurses.UPDATE)) {
 			relaPane.setVisible(false);
 
 			if (cmd.equals("DEL")) {
@@ -1081,20 +1084,20 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/**
 	 * Refresh the relatives lists from db.
-	 * 
+	 *
 	 * @param reOpen
 	 *            the re open
 	 * @param askChanges
 	 *            the ask changes
 	 */
 	public void refreshRelativesPane(boolean reOpen, boolean askChanges) {
-		int midx = personView.getMainPaneIndex();
+		final int midx = personView.getMainPaneIndex();
 		if (midx < 0) {
 			return;
 		}
-		SukuTabPane pan = personView.getPane(midx);
-		PersonMainPane main = (PersonMainPane) pan.pnl;
-		int personPid = main.getPersonPid();
+		final SukuTabPane pan = personView.getPane(midx);
+		final PersonMainPane main = (PersonMainPane) pan.pnl;
+		final int personPid = main.getPersonPid();
 
 		try {
 			// TODO the below three commands should be simplified
@@ -1106,9 +1109,8 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 			}
 
-		} catch (SukuException e1) {
-			JOptionPane.showMessageDialog(this, e1.toString(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e1) {
+			JOptionPane.showMessageDialog(this, e1.toString(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 			logger.log(Level.WARNING, "Closing relatives", e1);
 
@@ -1118,7 +1120,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/**
 	 * Insert into child table.
-	 * 
+	 *
 	 * @param persShort
 	 *            the pers short
 	 * @param row
@@ -1126,25 +1128,25 @@ public class RelativesPane extends JPanel implements ActionListener,
 	 */
 	void insertIntoChildTable(PersonShortData persShort, int row) {
 
-		Relation rel = new Relation(0, longPers.getPid(), persShort.getPid(),
-				"CHIL", 100, null, null, null, null);
+		final Relation rel = new Relation(0, longPers.getPid(), persShort.getPid(), "CHIL", 100, null, null, null,
+				null);
 		rel.setShortPerson(persShort);
-		String myRelTag = (longPers.getSex().equals("M")) ? "FATH" : "MOTH";
-		String tag = (longPers.getSex().equals("M")) ? "MOTH" : "FATH";
-		String pareTag = Resurses.getString("AS_" + tag);
+		final String myRelTag = (longPers.getSex().equals("M")) ? "FATH" : "MOTH";
+		final String tag = (longPers.getSex().equals("M")) ? "MOTH" : "FATH";
+		final String pareTag = Resurses.getString("AS_" + tag);
 
 		boolean hasParent = false;
 		int parentSurety = 100;
 		try {
-			SukuData pareDat = Suku.kontroller.getSukuData("cmd=relatives",
-					"pid=" + persShort.getPid(), "tag=" + tag);
+			final SukuData pareDat = Suku.kontroller.getSukuData("cmd=relatives", "pid=" + persShort.getPid(),
+					"tag=" + tag);
 			if (pareDat.pidArray.length > 0) {
 				hasParent = true;
 				persShort.setParentPid(pareDat.pidArray[0]);
 			}
 			for (int j = 0; j < me.spouses.list.size(); j++) {
-				PersonShortData sh = me.spouses.list.get(j).getShortPerson();
-				for (int element : pareDat.pidArray) {
+				final PersonShortData sh = me.spouses.list.get(j).getShortPerson();
+				for (final int element : pareDat.pidArray) {
 					if (element == sh.getPid()) {
 						persShort.setParentPid(sh.getPid());
 						break;
@@ -1152,27 +1154,26 @@ public class RelativesPane extends JPanel implements ActionListener,
 				}
 			}
 
-		} catch (SukuException e1) {
+		} catch (final SukuException e1) {
 			// if problem then don't add Mother / father id
 		}
 
 		try {
 			checkLocalRelation(new PersonShortData(longPers), rel, persShort);
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(personView, e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(personView, e.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 
-		String newDate = persShort.getBirtDate();
+		final String newDate = persShort.getBirtDate();
 		int newRow = 0;
 		if (newDate == null) {
 			// children.list.add(rel);
 		} else {
 			for (int i = 0; i < children.list.size(); i++) {
-				PersonShortData rowPers = children.list.get(i).getShortPerson();
-				String rowDate = rowPers.getBirtDate();
+				final PersonShortData rowPers = children.list.get(i).getShortPerson();
+				final String rowDate = rowPers.getBirtDate();
 				if (rowDate == null) {
 					newRow = -1;
 					break;
@@ -1184,34 +1185,29 @@ public class RelativesPane extends JPanel implements ActionListener,
 			}
 		}
 		try {
-			SukuData chilDat = Suku.kontroller.getSukuData("cmd=person", "pid="
-					+ persShort.getPid());
+			final SukuData chilDat = Suku.kontroller.getSukuData("cmd=person", "pid=" + persShort.getPid());
 
 			if (chilDat.relations != null) {
-				for (Relation chrel : chilDat.relations) {
+				for (final Relation chrel : chilDat.relations) {
 					if (myRelTag.equals(chrel.getTag())) {
-						if ((chrel.getNotices() == null)
-								|| (chrel.getNotices().length == 0)) {
+						if ((chrel.getNotices() == null) || (chrel.getNotices().length == 0)) {
 							if (chrel.getSurety() > 50) {
 								parentSurety = 40;
 								rel.setSurety(parentSurety);
 
-								for (PersonShortData pps : chilDat.pers) {
+								for (final PersonShortData pps : chilDat.pers) {
 									if (chrel.getRelative() == pps.getPid()) {
 										chrel.setShortPerson(pps);
 										break;
 									}
 								}
 
-								String[] sures = Resurses.getString(
-										"DATA_SURETY_VALUES").split(";");
-								StringBuilder sb = new StringBuilder();
-								sb.append(Resurses
-										.getString("RELA_" + myRelTag));
+								final String[] sures = Resurses.getString("DATA_SURETY_VALUES").split(";");
+								final StringBuilder sb = new StringBuilder();
+								sb.append(Resurses.getString("RELA_" + myRelTag));
 								sb.append(" [");
 								if (chrel.getShortPerson() != null) {
-									sb.append(chrel.getShortPerson()
-											.getAlfaName());
+									sb.append(chrel.getShortPerson().getAlfaName());
 								} else {
 									sb.append("XXX");
 								}
@@ -1221,10 +1217,8 @@ public class RelativesPane extends JPanel implements ActionListener,
 								sb.append(sures[3]);
 								sb.append("]?");
 
-								int resu = JOptionPane.showConfirmDialog(
-										personView, sb.toString(),
-										Resurses.getString(Resurses.SUKU),
-										JOptionPane.YES_NO_OPTION,
+								final int resu = JOptionPane.showConfirmDialog(personView, sb.toString(),
+										Resurses.getString(Resurses.SUKU), JOptionPane.YES_NO_OPTION,
 										JOptionPane.QUESTION_MESSAGE);
 								if (resu == JOptionPane.YES_OPTION) {
 									hasParent = false;
@@ -1239,7 +1233,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 				}
 			}
 
-		} catch (SukuException e1) {
+		} catch (final SukuException e1) {
 			logger.log(Level.WARNING, "Check parent", e1);
 		}
 
@@ -1255,14 +1249,12 @@ public class RelativesPane extends JPanel implements ActionListener,
 			if (spouses.list.size() >= 1) {
 				pare = spouses.list.get(0).getShortPerson();
 
-				String[] pares = new String[spouses.list.size()];
+				final String[] pares = new String[spouses.list.size()];
 				for (int j = 0; j < spouses.list.size(); j++) {
-					pares[j] = spouses.list.get(j).getShortPerson()
-							.getAlfaName();
+					pares[j] = spouses.list.get(j).getShortPerson().getAlfaName();
 				}
-				Object par = JOptionPane.showInputDialog(personView,
-						Resurses.getString("QUESTION_ADD") + " " + pareTag,
-						Resurses.getString(Resurses.SUKU),
+				final Object par = JOptionPane.showInputDialog(personView,
+						Resurses.getString("QUESTION_ADD") + " " + pareTag, Resurses.getString(Resurses.SUKU),
 						JOptionPane.QUESTION_MESSAGE, null, pares, pares[0]);
 
 				if (par != null) {
@@ -1276,21 +1268,17 @@ public class RelativesPane extends JPanel implements ActionListener,
 					}
 					pare = spouses.list.get(spouRow).getShortPerson();
 
-					logger.info("Adding " + pare.getAlfaName() + " as "
-							+ pareTag);
-					Relation rpare = new Relation(0, persShort.getPid(),
-							pare.getPid(), tag, parentSurety, null, null, null,
-							null);
+					logger.info("Adding " + pare.getAlfaName() + " as " + pareTag);
+					final Relation rpare = new Relation(0, persShort.getPid(), pare.getPid(), tag, parentSurety, null,
+							null, null, null);
 					persShort.setParentPid(pare.getPid());
 					rpare.setShortPerson(pare);
 					pare.setParentPid(pare.getPid());
 
 					try {
 						checkLocalRelation(persShort, rpare, pare);
-					} catch (SukuException e) {
-						JOptionPane.showMessageDialog(personView,
-								e.getMessage(),
-								Resurses.getString(Resurses.SUKU),
+					} catch (final SukuException e) {
+						JOptionPane.showMessageDialog(personView, e.getMessage(), Resurses.getString(Resurses.SUKU),
 								JOptionPane.ERROR_MESSAGE);
 						return;
 					}
@@ -1308,7 +1296,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/**
 	 * Insert into spouse table.
-	 * 
+	 *
 	 * @param persShort
 	 *            the pers short
 	 * @param row
@@ -1321,21 +1309,19 @@ public class RelativesPane extends JPanel implements ActionListener,
 			tag = "HUSB";
 		}
 
-		Relation rel = new Relation(0, longPers.getPid(), persShort.getPid(),
-				tag, 100, null, null, null, null);
+		final Relation rel = new Relation(0, longPers.getPid(), persShort.getPid(), tag, 100, null, null, null, null);
 		rel.setShortPerson(persShort);
 
 		try {
-			String ptag = (longPers.getSex().equals("M")) ? "MOTH" : "FATH";
+			final String ptag = (longPers.getSex().equals("M")) ? "MOTH" : "FATH";
 
 			for (int j = 0; j < me.children.list.size(); j++) {
-				PersonShortData child = me.children.list.get(j)
-						.getShortPerson();
+				final PersonShortData child = me.children.list.get(j).getShortPerson();
 
-				SukuData pareDat = Suku.kontroller.getSukuData("cmd=relatives",
-						"pid=" + child.getPid(), "tag=" + ptag);
+				final SukuData pareDat = Suku.kontroller.getSukuData("cmd=relatives", "pid=" + child.getPid(),
+						"tag=" + ptag);
 
-				for (int element : pareDat.pidArray) {
+				for (final int element : pareDat.pidArray) {
 					if (element == persShort.getPid()) {
 
 						child.setParentPid(persShort.getPid());
@@ -1344,16 +1330,15 @@ public class RelativesPane extends JPanel implements ActionListener,
 				}
 			}
 
-		} catch (SukuException e1) {
+		} catch (final SukuException e1) {
 			// if problem then don't add Mother / father id
 		}
 
 		persShort.setParentPid(persShort.getPid());
 		try {
 			checkLocalRelation(new PersonShortData(longPers), rel, persShort);
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(personView, e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(personView, e.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 
 			return;
@@ -1379,7 +1364,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/**
 	 * Insert into parent table.
-	 * 
+	 *
 	 * @param persShort
 	 *            the pers short
 	 * @param row
@@ -1391,32 +1376,28 @@ public class RelativesPane extends JPanel implements ActionListener,
 		if (persShort.getSex().equals("M")) {
 			tag = "FATH";
 		}
-		Relation rel = new Relation(0, longPers.getPid(), persShort.getPid(),
-				tag, 100, null, null, null, null);
+		final Relation rel = new Relation(0, longPers.getPid(), persShort.getPid(), tag, 100, null, null, null, null);
 		rel.setShortPerson(persShort);
 		try {
 			checkLocalRelation(new PersonShortData(longPers), rel, persShort);
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(personView, e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(personView, e.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 
 			return;
 		}
 
 		for (int i = 0; i < parents.list.size(); i++) {
-			Relation rowrel = parents.list.get(i);
+			final Relation rowrel = parents.list.get(i);
 			if (rowrel.getTag().equals(tag)) {
-				if ((rowrel.getNotices() == null)
-						|| (rowrel.getNotices().length == 0)) {
+				if ((rowrel.getNotices() == null) || (rowrel.getNotices().length == 0)) {
 					// not adopted
 					if (rowrel.getSurety() > 50) {
 						// surety exists > 50%
 						rel.setSurety(40);
 
-						String[] sures = Resurses.getString(
-								"DATA_SURETY_VALUES").split(";");
-						StringBuilder sb = new StringBuilder();
+						final String[] sures = Resurses.getString("DATA_SURETY_VALUES").split(";");
+						final StringBuilder sb = new StringBuilder();
 						sb.append(Resurses.getString("RELA_" + tag));
 						sb.append(" [");
 						sb.append(rowrel.getShortPerson().getAlfaName());
@@ -1425,9 +1406,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 						sb.append(" [");
 						sb.append(sures[3]);
 						sb.append("]");
-						JOptionPane.showMessageDialog(personView,
-								sb.toString(),
-								Resurses.getString(Resurses.SUKU),
+						JOptionPane.showMessageDialog(personView, sb.toString(), Resurses.getString(Resurses.SUKU),
 								JOptionPane.WARNING_MESSAGE);
 
 						break;
@@ -1457,7 +1436,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
 	 * ComponentEvent)
 	 */
@@ -1468,10 +1447,9 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentMoved(ComponentEvent e) {
@@ -1480,17 +1458,17 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
 	 * ComponentEvent)
 	 */
 	@Override
 	public void componentResized(ComponentEvent e) {
-		Dimension currSize = getSize();
-		int pt = 30;
-		int leveys = (currSize.width / 2) - 10;
-		int ph = ((currSize.height * 2) / 7) - 30;
-		int ch = currSize.height - ph - pt - 20;
+		final Dimension currSize = getSize();
+		final int pt = 30;
+		final int leveys = (currSize.width / 2) - 10;
+		final int ph = ((currSize.height * 2) / 7) - 30;
+		final int ch = currSize.height - ph - pt - 20;
 		subject.setBounds(10 + (leveys / 2), 5, leveys, 20);
 		pareScroll.setBounds(10, pt, leveys, ph);
 		spouScroll.setBounds(leveys + 15, pt, leveys, ph);
@@ -1505,7 +1483,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 		// below locations are relative to relaPane
 		//
 		spouseName.setBounds(0, 10, leveys - 20, 20);
-		int halfx = (leveys) / 2;
+		final int halfx = (leveys) / 2;
 		suretyLbl.setBounds(0, 32, halfx + 30, 20);
 		surety.setBounds(0, 52, halfx - 20, 20);
 		creLabel.setBounds(0, 74, halfx - 20, 20);
@@ -1522,10 +1500,9 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentShown(ComponentEvent e) {
@@ -1534,7 +1511,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -1556,24 +1533,23 @@ public class RelativesPane extends JPanel implements ActionListener,
 			chilTab.clearSelection();
 		}
 
-		if ((e.getSource() == spouTab) || (e.getSource() == chilTab)
-				|| (e.getSource() == pareTab)) {
+		if ((e.getSource() == spouTab) || (e.getSource() == chilTab) || (e.getSource() == pareTab)) {
 			if (e.getSource() == chilTab) {
-				int ii = chilTab.getSelectedRow();
+				final int ii = chilTab.getSelectedRow();
 				if ((ii < 0) || (ii >= children.list.size())) {
 					return;
 				}
 
 				activeRelation = children.list.get(ii);
 			} else if (e.getSource() == pareTab) {
-				int ii = pareTab.getSelectedRow();
+				final int ii = pareTab.getSelectedRow();
 				if ((ii < 0) || (ii >= parents.list.size())) {
 					return;
 				}
 				// System.out.println("vanhemmilta tuli riviltä " + ii);
 				activeRelation = parents.list.get(ii);
 			} else {
-				int ii = spouTab.getSelectedRow();
+				final int ii = spouTab.getSelectedRow();
 				if ((ii < 0) || (ii >= spouses.list.size())) {
 					return;
 				}
@@ -1608,26 +1584,26 @@ public class RelativesPane extends JPanel implements ActionListener,
 		}
 
 		else if ((e.getSource() == noticeTab) && (activeRelation != null)) {
-			int ii = noticeTab.getSelectedRow();
+			final int ii = noticeTab.getSelectedRow();
 			// System.out.println("Avataan tietojakso " + ii);
 			boolean bb = false;
 			// private boolean openRelaNotice(int ii) {
-			RelationNotice rn = notices.list.get(ii);
+			final RelationNotice rn = notices.list.get(ii);
 
-			RelationDialog lan = new RelationDialog(personView.getSuku());
+			final RelationDialog lan = new RelationDialog(personView.getSuku());
 
-			Rectangle r = personView.getSuku().getDbWindow();
+			final Rectangle r = personView.getSuku().getDbWindow();
 
 			lan.setBounds(r);
 			lan.setRelation(rn);
 			lan.showMe();
 			lan.setVisible(true);
 			if (rn.isToBeDeleted() && (rn.getRnid() == 0)) {
-				int rnnlen = activeRelation.getNotices().length;
+				final int rnnlen = activeRelation.getNotices().length;
 				if (rnnlen <= 0) {
 					activeRelation.setNotices(new RelationNotice[0]);
 				} else {
-					RelationNotice[] rnn = new RelationNotice[rnnlen - 1];
+					final RelationNotice[] rnn = new RelationNotice[rnnlen - 1];
 					int j = 0;
 					for (int i = 0; i < rnnlen; i++) {
 						if (i != ii) {
@@ -1646,9 +1622,8 @@ public class RelativesPane extends JPanel implements ActionListener,
 			try {
 				lan.updateData();
 
-			} catch (SukuDateException ee) {
-				JOptionPane.showMessageDialog(this, ee.getMessage(),
-						Resurses.getString(Resurses.SUKU),
+			} catch (final SukuDateException ee) {
+				JOptionPane.showMessageDialog(this, ee.getMessage(), Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 			}
 			if (rn.isToBeUpdated()) {
@@ -1673,7 +1648,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 			return;
 		}
 
-		int sure = surety.getSurety();
+		final int sure = surety.getSurety();
 		if (sure != activeRelation.getSurety()) {
 			activeRelation.setSurety(sure);
 			activeRelation.setToBeUpdated(true);
@@ -1683,7 +1658,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -1693,7 +1668,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -1703,7 +1678,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -1737,7 +1712,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
@@ -1748,7 +1723,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 
 	/**
 	 * Check local relation.
-	 * 
+	 *
 	 * @param pers
 	 *            the pers
 	 * @param r
@@ -1758,8 +1733,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	void checkLocalRelation(PersonShortData pers, Relation r,
-			PersonShortData rela) throws SukuException {
+	void checkLocalRelation(PersonShortData pers, Relation r, PersonShortData rela) throws SukuException {
 		if ((pers == null) || (r == null) || (rela == null)) {
 			return;
 		}
@@ -1767,14 +1741,14 @@ public class RelativesPane extends JPanel implements ActionListener,
 			throw new SukuException(Resurses.getString("CHECK_SELF"));
 		}
 		if (r.getTag().equals("CHIL")) {
-			int pyear = pers.getBirtYear();
-			int cyear = rela.getBirtYear();
+			final int pyear = pers.getBirtYear();
+			final int cyear = rela.getBirtYear();
 			compareParentYears(cyear, pyear);
 
 		}
 		if (r.getTag().equals("FATH") || r.getTag().equals("MOTH")) {
-			int cyear = pers.getBirtYear();
-			int pyear = rela.getBirtYear();
+			final int cyear = pers.getBirtYear();
+			final int pyear = rela.getBirtYear();
 			compareParentYears(cyear, pyear);
 		}
 		if ((r.getTag().equals("HUSB") && pers.getSex().equals("M"))
@@ -1782,27 +1756,22 @@ public class RelativesPane extends JPanel implements ActionListener,
 			throw new SukuException(Resurses.getString("CHECK_SPOUSE_SEX"));
 		}
 
-		int relapid = rela.getPid();
+		final int relapid = rela.getPid();
 		if (pers.getPid() == longPers.getPid()) {
 			for (int i = 0; i < children.list.size(); i++) {
-				Relation rr = children.list.get(i);
+				final Relation rr = children.list.get(i);
 				if ((rr.getRelative() == relapid) && !rr.isToBeDeleted()) {
-					throw new SukuException(
-							Resurses.getString("CHECK_EXISTS_AS_CHILD"));
+					throw new SukuException(Resurses.getString("CHECK_EXISTS_AS_CHILD"));
 				}
 			}
 			for (int i = 0; i < spouses.list.size(); i++) {
-				if ((spouses.list.get(i).getRelative() == relapid)
-						&& !spouses.list.get(i).isToBeDeleted()) {
-					throw new SukuException(
-							Resurses.getString("CHECK_EXISTS_AS_SPOUSE"));
+				if ((spouses.list.get(i).getRelative() == relapid) && !spouses.list.get(i).isToBeDeleted()) {
+					throw new SukuException(Resurses.getString("CHECK_EXISTS_AS_SPOUSE"));
 				}
 			}
 			for (int i = 0; i < parents.list.size(); i++) {
-				if ((parents.list.get(i).getRelative() == relapid)
-						&& !parents.list.get(i).isToBeDeleted()) {
-					throw new SukuException(
-							Resurses.getString("CHECK_EXISTS_AS_PARENT"));
+				if ((parents.list.get(i).getRelative() == relapid) && !parents.list.get(i).isToBeDeleted()) {
+					throw new SukuException(Resurses.getString("CHECK_EXISTS_AS_PARENT"));
 				}
 			}
 		}
@@ -1814,8 +1783,7 @@ public class RelativesPane extends JPanel implements ActionListener,
 			return;
 		}
 		if ((pyear + 10) > cyear) {
-			throw new SukuException(
-					Resurses.getString("CHECK_PARENT_TOO_YOUNG"));
+			throw new SukuException(Resurses.getString("CHECK_PARENT_TOO_YOUNG"));
 		}
 		if (cyear > (pyear + 100)) {
 			throw new SukuException(Resurses.getString("CHECK_PARENT_TOO_OLD"));

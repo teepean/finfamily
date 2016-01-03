@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.Color;
@@ -39,11 +69,10 @@ import fi.kaila.suku.util.pojo.RelationNotice;
 
 /**
  * relation dialog shows and updates details of a relation.
- * 
+ *
  * @author Kalle
  */
-public class RelationDialog extends JDialog implements ActionListener,
-		ComponentListener, MenuListener {
+public class RelationDialog extends JDialog implements ActionListener, ComponentListener, MenuListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -134,7 +163,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Instantiates a new relation dialog.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 */
@@ -145,9 +174,9 @@ public class RelationDialog extends JDialog implements ActionListener,
 		langLbl = new JLabel(Resurses.getString("DATA_LANG_PAGE"));
 		add(langLbl);
 
-		ButtonGroup languageGroup = new ButtonGroup();
+		final ButtonGroup languageGroup = new ButtonGroup();
 
-		int lcnt = Suku.getRepoLanguageCount();
+		final int lcnt = Suku.getRepoLanguageCount();
 		langxx = new JRadioButton[lcnt];
 		for (int i = 0; i < lcnt; i++) {
 
@@ -221,22 +250,19 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 		noteText = new JTextArea();
 		noteText.setLineWrap(true);
-		scrollNote = new JScrollPane(noteText,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollNote = new JScrollPane(noteText, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scrollNote);
 
 		sourceText = new JTextArea();
 		sourceText.setLineWrap(true);
-		scrollSource = new JScrollPane(sourceText,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollSource = new JScrollPane(sourceText, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scrollSource);
 
 		privateText = new JTextArea();
 		privateText.setLineWrap(true);
-		scrollPrivate = new JScrollPane(privateText,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollPrivate = new JScrollPane(privateText, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scrollPrivate);
 
@@ -275,8 +301,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 		noteTextLang = new JTextArea();
 		noteTextLang.setLineWrap(true);
-		scrollNoteLang = new JScrollPane(noteTextLang,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollNoteLang = new JScrollPane(noteTextLang, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		langPanel.add(scrollNoteLang);
 
@@ -286,36 +311,34 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.JDialog#createRootPane()
 	 */
 	@Override
 	protected JRootPane createRootPane() {
-		KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-		JRootPane rootPane = new JRootPane();
+		final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+		final JRootPane rootPane = new JRootPane();
 
-		rootPane.registerKeyboardAction(this, "OK", stroke,
-				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		rootPane.registerKeyboardAction(this, "OK", stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
 		return rootPane;
 	}
 
 	/**
 	 * Set pojo to display.
-	 * 
+	 *
 	 * @param rela
 	 *            relation notice to dislpay
 	 */
 	public void setRelation(RelationNotice rela) {
 		this.rela = rela;
 
-		RelationLanguage[] rr = rela.getLanguages();
-		RelationLanguage[] fixed = new RelationLanguage[Suku
-				.getRepoLanguageCount()];
+		final RelationLanguage[] rr = rela.getLanguages();
+		final RelationLanguage[] fixed = new RelationLanguage[Suku.getRepoLanguageCount()];
 		for (int i = 0; i < fixed.length; i++) {
-			String lan = Suku.getRepoLanguage(i, true);
+			final String lan = Suku.getRepoLanguage(i, true);
 			fixed[i] = new RelationLanguage(lan);
 			if (rr != null) {
-				for (RelationLanguage element : rr) {
+				for (final RelationLanguage element : rr) {
 					if (lan.equals(element.getLangCode())) {
 						if (element.isToBeUpdated() || (element.getRid() > 0)) {
 							fixed[i] = element;
@@ -356,8 +379,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 		relationType.setText(rela.getType());
 		description.setText(rela.getDescription());
 		surety.setSurety(rela.getSurety());
-		if (rela.getTag().equals("MARR") || rela.getTag().equals("DIV")
-				|| rela.getTag().equals("ADOP")) {
+		if (rela.getTag().equals("MARR") || rela.getTag().equals("DIV") || rela.getTag().equals("ADOP")) {
 			date.setVisible(true);
 			place.setVisible(true);
 			scrollNoteLang.setVisible(true);
@@ -409,7 +431,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Update data.
-	 * 
+	 *
 	 * @return true if rel notice needs to be updated
 	 * @throws SukuDateException
 	 *             the suku date exception
@@ -426,12 +448,11 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 		rela.setDescription(description.getText());
 		rela.setSurety(surety.getSurety());
-		String tmp = date.getFromDate();
-		String ttmp = date.getToDate();
-		String pre = date.getDatePrefTag();
+		final String tmp = date.getFromDate();
+		final String ttmp = date.getToDate();
+		final String pre = date.getDatePrefTag();
 
-		if (!Utils.nv(pre).equals(Utils.nv(rela.getDatePrefix()))
-				|| Utils.nv(tmp).equals(Utils.nv(rela.getFromDate()))
+		if (!Utils.nv(pre).equals(Utils.nv(rela.getDatePrefix())) || Utils.nv(tmp).equals(Utils.nv(rela.getFromDate()))
 				|| Utils.nv(ttmp).equals(Utils.nv(rela.getToDate()))) {
 			rela.setDatePrefix(pre);
 			rela.setFromDate(tmp);
@@ -455,13 +476,13 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		if (cmd == null) {
 			// if (e.getSource() instanceof JRootPane){
 			// System.out.println("E::" +e);
@@ -492,9 +513,8 @@ public class RelationDialog extends JDialog implements ActionListener,
 			try {
 				date.getFromDate();
 				date.getToDate();
-			} catch (SukuDateException e1) {
-				JOptionPane.showMessageDialog(this, e1.getMessage(),
-						Resurses.getString(Resurses.SUKU),
+			} catch (final SukuDateException e1) {
+				JOptionPane.showMessageDialog(this, e1.getMessage(), Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 
 				return;
@@ -536,7 +556,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 		}
 		if (rl != null) {
 
-			TitledBorder bb = (TitledBorder) langPanel.getBorder();
+			final TitledBorder bb = (TitledBorder) langPanel.getBorder();
 			bb.setTitle(langName);
 			langPanel.updateUI();
 
@@ -545,8 +565,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 			this.placeLang.setText(rl.getPlace());
 			this.noteTextLang.setText(rl.getNoteText());
-			if (rela.getTag().equals("MARR") || rela.getTag().equals("DIV")
-					|| rela.getTag().equals("ADOP")) {
+			if (rela.getTag().equals("MARR") || rela.getTag().equals("DIV") || rela.getTag().equals("ADOP")) {
 				placeLang.setVisible(true);
 				scrollNoteLang.setVisible(true);
 			} else {
@@ -602,7 +621,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
 	 * ComponentEvent)
 	 */
@@ -613,10 +632,9 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentMoved(ComponentEvent e) {
@@ -625,16 +643,16 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
 	 * ComponentEvent)
 	 */
 	@Override
 	public void componentResized(ComponentEvent e) {
 
-		Dimension currSize = getSize();
-		int leftWidth = currSize.width - 320;
-		int rightColumn = 100 + leftWidth;
+		final Dimension currSize = getSize();
+		final int leftWidth = currSize.width - 320;
+		final int rightColumn = 100 + leftWidth;
 		int ry = ytype;
 		ok.setBounds(rightColumn, ry, 80, 20);
 		ry += 22;
@@ -659,8 +677,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 		relationType.setBounds(80, ytype, leftWidth, 20);
 		description.setBounds(80, ydesc, leftWidth, 20);
 		int ly = ydate;
-		if (rela.getTag().equals("MARR") || rela.getTag().equals("DIV")
-				|| rela.getTag().equals("ADOP")) {
+		if (rela.getTag().equals("MARR") || rela.getTag().equals("DIV") || rela.getTag().equals("ADOP")) {
 
 			date.setBounds(80, ly, 360, 20);
 			dateLbl.setBounds(10, ly, 70, 20);
@@ -685,7 +702,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 		privateLbl.setBounds(10, ly, 70, 20);
 		ly += 80;
 
-		int lcnt = Suku.getRepoLanguageCount();
+		final int lcnt = Suku.getRepoLanguageCount();
 		langLbl.setBounds(10, ly, 70, 20);
 		for (int i = 0; i < lcnt; i++) {
 			if (langxx[i] == null) {
@@ -713,10 +730,9 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentShown(ComponentEvent e) {
@@ -725,7 +741,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.swing.event.MenuListener#menuCanceled(javax.swing.event.MenuEvent)
 	 */
@@ -736,7 +752,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.swing.event.MenuListener#menuDeselected(javax.swing.event.MenuEvent
 	 * )
@@ -748,7 +764,7 @@ public class RelationDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.swing.event.MenuListener#menuSelected(javax.swing.event.MenuEvent)
 	 */

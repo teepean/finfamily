@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.server;
 
 import java.io.ByteArrayInputStream;
@@ -41,13 +71,13 @@ import fi.kaila.suku.util.pojo.SukuData;
  * A servlet for tomcat that is used in the webstart version The webstart
  * version implementation is not in a very active state at the moment Thus fixme
  * and warnings may not be.
- * 
+ *
  * @author FIKAAKAIL
  */
 public class SukuServlet extends HttpServlet {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	// FIXME: Class fi.kaila.suku.server.SukuServlet defines non-transient
@@ -74,7 +104,7 @@ public class SukuServlet extends HttpServlet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.servlet.GenericServlet#init()
 	 */
 	@Override
@@ -95,7 +125,7 @@ public class SukuServlet extends HttpServlet {
 			// this.filesPath = initEnv("suku.files.path");
 			// myTablePrefix = initEnv("forum.table.prefix");
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
 		}
 
@@ -108,24 +138,22 @@ public class SukuServlet extends HttpServlet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest
-	 * , javax.servlet.http.HttpServletResponse)
+	 *
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.
+	 * HttpServletRequest , javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		String referer = req.getHeader("referer");
+		final String referer = req.getHeader("referer");
 
 		SukuData requestData = null;
 		if (referer != null) {
-			String parts[] = referer.split("/");
+			final String parts[] = referer.split("/");
 			logger.fine("Post referer [" + parts.length + "]: " + referer);
 			if (parts.length >= 2) {
 
-				UserInfo ui = this.usermap.get("" + parts[2]);
+				final UserInfo ui = this.usermap.get("" + parts[2]);
 
 				if (ui == null) {
 					logger.fine("parts1 " + parts[2]);
@@ -150,12 +178,12 @@ public class SukuServlet extends HttpServlet {
 	private SukuData extractSukuData(HttpServletRequest req) {
 		int input = -1;
 		try {
-			InputStream is = req.getInputStream();
-			ByteArrayOutputStream boss = new ByteArrayOutputStream();
+			final InputStream is = req.getInputStream();
+			final ByteArrayOutputStream boss = new ByteArrayOutputStream();
 			boolean endParams = false;
-			StringBuilder params = new StringBuilder();
+			final StringBuilder params = new StringBuilder();
 			while ((input = is.read()) >= 0) {
-				char c = (char) input;
+				final char c = (char) input;
 				if (!endParams) {
 					if (c == '\r') {
 						// TODO
@@ -174,16 +202,16 @@ public class SukuServlet extends HttpServlet {
 				}
 			}
 			logger.info("params:" + params.toString());
-			String prm = URLDecoder.decode(params.toString(), "UTF-8");
+			final String prm = URLDecoder.decode(params.toString(), "UTF-8");
 
-			byte buffi[] = boss.toByteArray();
+			final byte buffi[] = boss.toByteArray();
 			logger.info("prm:" + prm + " : buffi:" + buffi.length);
 			String rivi = "XXX";
 
 			int kurre = 0;
 			int koko = 0;
-			ByteArrayOutputStream oss = new ByteArrayOutputStream();
-			byte brivi[] = new byte[32 * 1024];
+			final ByteArrayOutputStream oss = new ByteArrayOutputStream();
+			final byte brivi[] = new byte[32 * 1024];
 
 			StringBuilder sb = null;
 			for (int idx = 0; idx < buffi.length; idx++) {
@@ -210,10 +238,8 @@ public class SukuServlet extends HttpServlet {
 						if (hexi.indexOf(rivi.charAt(0)) >= 0) {
 
 							for (int j = 0; j < (rivi.length() - 1); j += 2) {
-								x1 = Integer.parseInt(rivi.substring(j, j + 1),
-										16);
-								x2 = Integer.parseInt(
-										rivi.substring(j + 1, j + 2), 16);
+								x1 = Integer.parseInt(rivi.substring(j, j + 1), 16);
+								x2 = Integer.parseInt(rivi.substring(j + 1, j + 2), 16);
 
 								brivi[bi++] = (byte) (((x1 << 4) & 0xf0) | (x2 & 0xf));
 								// if (riviYksi) {
@@ -237,9 +263,8 @@ public class SukuServlet extends HttpServlet {
 
 			}
 			// logger.info("muutetaan objektiksi: : oss: " + oss.size());
-			ObjectInputStream obj = new ObjectInputStream(
-					new ByteArrayInputStream(oss.toByteArray()));
-			SukuData suku = (SukuData) obj.readObject();
+			final ObjectInputStream obj = new ObjectInputStream(new ByteArrayInputStream(oss.toByteArray()));
+			final SukuData suku = (SukuData) obj.readObject();
 			logger.fine("oli: " + suku);
 			// if (suku != null) {
 			// if (suku.persLong != null) {
@@ -255,7 +280,7 @@ public class SukuServlet extends HttpServlet {
 			suku.cmd = prm;
 			return suku;
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 
 			e.printStackTrace();
 			return null;
@@ -265,21 +290,19 @@ public class SukuServlet extends HttpServlet {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest
-	 * , javax.servlet.http.HttpServletResponse)
+	 *
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.
+	 * HttpServletRequest , javax.servlet.http.HttpServletResponse)
 	 */
 	@Override
-	public void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// System.out.println("GET");
 		processRequest(null, req, resp);
 	}
 
 	@SuppressWarnings("rawtypes")
-	private void processRequest(SukuData sukuData, HttpServletRequest req,
-			HttpServletResponse resp) throws IOException {
+	private void processRequest(SukuData sukuData, HttpServletRequest req, HttpServletResponse resp)
+			throws IOException {
 
 		// Enumeration enu = req.getHeaderNames();
 		// String nimi;
@@ -322,13 +345,13 @@ public class SukuServlet extends HttpServlet {
 
 		String uno;
 		int userno = 0;
-		LinkedHashMap<String, String> vpara = new LinkedHashMap<String, String>();
+		final LinkedHashMap<String, String> vpara = new LinkedHashMap<String, String>();
 
 		if (sukuData == null) {
 
-			Enumeration enu = req.getParameterNames();
+			final Enumeration enu = req.getParameterNames();
 			String key;
-			StringBuilder sbx = new StringBuilder();
+			final StringBuilder sbx = new StringBuilder();
 			while (enu.hasMoreElements()) {
 				key = (String) enu.nextElement();
 				vpara.put(key, req.getParameter(key));
@@ -343,9 +366,9 @@ public class SukuServlet extends HttpServlet {
 			// cmd = req.getParameter("cmd");
 			// vpara.remove("cmd");
 		} else {
-			String[] requs = sukuData.cmd.split("&");
-			for (String requ : requs) {
-				String parms[] = requ.split("=");
+			final String[] requs = sukuData.cmd.split("&");
+			for (final String requ : requs) {
+				final String parms[] = requ.split("=");
 				vpara.put(parms[0], parms[1]);
 			}
 
@@ -363,35 +386,35 @@ public class SukuServlet extends HttpServlet {
 		if (uno != null) {
 			try {
 				userno = Integer.parseInt(uno);
-			} catch (NumberFormatException e) {
+			} catch (final NumberFormatException e) {
 				// TODO: Ignored?
 			}
 		}
 
 		if ((userid != null) && (passwd != null)) {
 			userno = ++usercount;
-			UserInfo ui = new UserInfo("" + userno, userid, passwd);
+			final UserInfo ui = new UserInfo("" + userno, userid, passwd);
 			this.usermap.put("" + userno, ui);
-			PrintWriter out = resp.getWriter();
+			final PrintWriter out = resp.getWriter();
 			resp.setHeader("Content-Type", "text/html");
 			out.println("" + userno + "/" + AntVersion.antVersion);
 
-			Cookie cok = new Cookie("userid", "" + userno);
+			final Cookie cok = new Cookie("userid", "" + userno);
 			cok.setMaxAge(1800);
 			resp.addCookie(cok);
 
 			return;
 		}
 
-		UserInfo ui = this.usermap.get("" + userno);
+		final UserInfo ui = this.usermap.get("" + userno);
 
-		ArrayList<String> v = new ArrayList<String>();
+		final ArrayList<String> v = new ArrayList<String>();
 
-		Set<Map.Entry<String, String>> entries = vpara.entrySet();
-		Iterator<Map.Entry<String, String>> it = entries.iterator();
+		final Set<Map.Entry<String, String>> entries = vpara.entrySet();
+		final Iterator<Map.Entry<String, String>> it = entries.iterator();
 
 		while (it.hasNext()) {
-			Map.Entry<String, String> entry = it.next();
+			final Map.Entry<String, String> entry = it.next();
 			v.add(entry.getKey().toString() + "=" + entry.getValue().toString());
 		}
 
@@ -399,7 +422,7 @@ public class SukuServlet extends HttpServlet {
 
 		if ((cmd == null) || (ui == null) || (userno == 0)) {
 			logger.info("cmd=null");
-			PrintWriter out = resp.getWriter();
+			final PrintWriter out = resp.getWriter();
 			resp.setHeader("Content-Type", "text/html");
 			out.println("FinFamily");
 			return;
@@ -417,19 +440,17 @@ public class SukuServlet extends HttpServlet {
 		SukuServer sk;
 
 		try {
-			//TODO: FixMe
+			// TODO: FixMe
 			sk = new SukuServerImpl(ui.getUserId(), ui.openFile, false);
 
 			resp.addHeader("Content-Encoding", "gzip");
-			ServletOutputStream sos = resp.getOutputStream();
-			logger.fine("log: " + this.dbServer + "/" + this.dbDatabase + "/"
-					+ this.dbUser + "/" + this.dbPassword);
+			final ServletOutputStream sos = resp.getOutputStream();
+			logger.fine("log: " + this.dbServer + "/" + this.dbDatabase + "/" + this.dbUser + "/" + this.dbPassword);
 
-			//TODO: FixMe
-			sk.getConnection(this.dbServer, this.dbDatabase, this.dbUser,
-					this.dbPassword, false);
+			// TODO: FixMe
+			sk.getConnection(this.dbServer, this.dbDatabase, this.dbUser, this.dbPassword, false);
 
-			SukuData fam = sk.getSukuData(sukuData, params);
+			final SukuData fam = sk.getSukuData(sukuData, params);
 
 			logger.fine("Returning fam: " + fam);
 
@@ -439,18 +460,18 @@ public class SukuServlet extends HttpServlet {
 			try {
 				gos = new GZIPOutputStream(sos);
 				// gos = new ByteArrayOutputStream(sos);
-				ObjectOutputStream oos = new ObjectOutputStream(gos);
+				final ObjectOutputStream oos = new ObjectOutputStream(gos);
 				oos.writeObject(fam);
 				oos.close();
 				// gos.close();
 				logger.info("oos: closed");
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				logger.log(Level.WARNING, "GZIP send", e);
 				throw new SukuException("getShortPersonList", e);
 
 			}
 
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			logger.log(Level.WARNING, "servlet", e);
 
 		}
@@ -462,7 +483,7 @@ public class SukuServlet extends HttpServlet {
 	private String initEnv(String text) {
 		try {
 			return (String) this.ctx.lookup(text);
-		} catch (NamingException e) {
+		} catch (final NamingException e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -470,7 +491,7 @@ public class SukuServlet extends HttpServlet {
 
 	/**
 	 * This is from the old servlet
-	 * 
+	 *
 	 * @param req
 	 * @param outputPath
 	 * @param fileName
@@ -479,18 +500,17 @@ public class SukuServlet extends HttpServlet {
 	 * @throws FileNotFoundException
 	 */
 	private SukuData extractFile(HttpServletRequest req, String fileName)
-			throws IOException, UnsupportedEncodingException,
-			FileNotFoundException {
-		SukuData suku = new SukuData();
+			throws IOException, UnsupportedEncodingException, FileNotFoundException {
+		final SukuData suku = new SukuData();
 		int input = -1;
 		try {
-			InputStream is = req.getInputStream();
+			final InputStream is = req.getInputStream();
 
-			ByteArrayOutputStream boss = new ByteArrayOutputStream();
+			final ByteArrayOutputStream boss = new ByteArrayOutputStream();
 			boolean endParams = false;
-			StringBuilder params = new StringBuilder();
+			final StringBuilder params = new StringBuilder();
 			while ((input = is.read()) >= 0) {
-				char c = (char) input;
+				final char c = (char) input;
 				if (!endParams) {
 					if (c == '\r') {
 						// TODO:
@@ -511,7 +531,7 @@ public class SukuServlet extends HttpServlet {
 			suku.cmd = URLDecoder.decode(params.toString(), "UTF-8");
 
 			logger.info("params:" + params.toString() + ":" + suku);
-			byte buffi[] = boss.toByteArray();
+			final byte buffi[] = boss.toByteArray();
 			// logger.info("buffi:" + buffi.length);
 			String rivi = "XXX";
 
@@ -534,17 +554,16 @@ public class SukuServlet extends HttpServlet {
 			// logger.fine("create ex:" + ee.toString());
 			// }
 			String postFix = null;
-			int idxType = fileName.lastIndexOf(".");
+			final int idxType = fileName.lastIndexOf(".");
 			if (idxType > 0) {
 				postFix = fileName.substring(idxType);
 			}
 
-			File t = File.createTempFile("finfamily", postFix);
-			logger.fine("temp cerated [" + t.exists() + ") : at: "
-					+ t.getAbsolutePath());
+			final File t = File.createTempFile("finfamily", postFix);
+			logger.fine("temp cerated [" + t.exists() + ") : at: " + t.getAbsolutePath());
 			suku.generalText = t.getAbsolutePath();
-			FileOutputStream foss = new FileOutputStream(t);
-			byte brivi[] = new byte[32 * 1024];
+			final FileOutputStream foss = new FileOutputStream(t);
+			final byte brivi[] = new byte[32 * 1024];
 
 			StringBuilder sb = null;
 			for (int idx = 0; idx < buffi.length; idx++) {
@@ -570,10 +589,8 @@ public class SukuServlet extends HttpServlet {
 						if (hexi.indexOf(rivi.charAt(0)) >= 0) {
 
 							for (int j = 0; j < (rivi.length() - 1); j += 2) {
-								x1 = Integer.parseInt(rivi.substring(j, j + 1),
-										16);
-								x2 = Integer.parseInt(
-										rivi.substring(j + 1, j + 2), 16);
+								x1 = Integer.parseInt(rivi.substring(j, j + 1), 16);
+								x2 = Integer.parseInt(rivi.substring(j + 1, j + 2), 16);
 
 								brivi[bi++] = (byte) (((x1 << 4) & 0xf0) | (x2 & 0xf));
 
@@ -588,7 +605,7 @@ public class SukuServlet extends HttpServlet {
 
 			foss.close();
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.log(Level.WARNING, "extractFile", e);
 
 		}
@@ -607,7 +624,7 @@ public class SukuServlet extends HttpServlet {
 
 		/**
 		 * Instantiates a new user info.
-		 * 
+		 *
 		 * @param userno
 		 *            the userno
 		 * @param userid
@@ -624,7 +641,7 @@ public class SukuServlet extends HttpServlet {
 
 		/**
 		 * Gets the user no.
-		 * 
+		 *
 		 * @return the user no
 		 */
 		String getUserNo() {
@@ -634,7 +651,7 @@ public class SukuServlet extends HttpServlet {
 
 		/**
 		 * Gets the user id.
-		 * 
+		 *
 		 * @return the user id
 		 */
 		String getUserId() {
@@ -643,13 +660,12 @@ public class SukuServlet extends HttpServlet {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
 		public String toString() {
-			return this.userno + "/" + this.userid + "/" + this.passwd + "/"
-					+ this.lastUsed;
+			return this.userno + "/" + this.userid + "/" + this.passwd + "/" + this.lastUsed;
 
 		}
 

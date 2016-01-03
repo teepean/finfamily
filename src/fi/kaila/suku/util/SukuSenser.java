@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util;
 
 import java.awt.BorderLayout;
@@ -16,7 +46,7 @@ import fi.kaila.suku.util.SukuTextField.Field;
 
 /**
  * The Class SukuSenser.
- * 
+ *
  * @author Kalle A singleton class that displays an intellisens window below a
  *         SukuTextField
  */
@@ -31,7 +61,7 @@ public class SukuSenser implements MouseListener {
 		model = new Vector<String>();
 
 		lista = new JList(model);
-		JScrollPane scroller = new JScrollPane(lista);
+		final JScrollPane scroller = new JScrollPane(lista);
 
 		// lista.addListSelectionListener(this);
 		lista.addMouseListener(this);
@@ -43,9 +73,8 @@ public class SukuSenser implements MouseListener {
 	// private String tag = null;
 	// private SukuTextField.Field fld = Field.Fld_Null;
 	// private SukuTextField parent;
-	private String[] paikat = { "Helsinki", "Espoo", "Tampere", "Porvoo",
-			"Bromarf", "Hangö", "Tyrvää", "Tammela", "Peuramaa", "Borgå",
-			"Heinola", "Hämeenlinna" };
+	private String[] paikat = { "Helsinki", "Espoo", "Tampere", "Porvoo", "Bromarf", "Hangö", "Tyrvää", "Tammela",
+			"Peuramaa", "Borgå", "Heinola", "Hämeenlinna" };
 
 	private String[] givennames = null;
 	private String[] patronymes = null;
@@ -56,7 +85,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * Initialize the places.
-	 * 
+	 *
 	 * @param places
 	 *            the new places
 	 */
@@ -66,7 +95,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * Initialize the givennames.
-	 * 
+	 *
 	 * @param givennames
 	 *            the new givennames
 	 */
@@ -76,7 +105,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * Initialize the patronymes.
-	 * 
+	 *
 	 * @param patronymes
 	 *            the new patronymes
 	 */
@@ -86,7 +115,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * Initialize the surnames.
-	 * 
+	 *
 	 * @param surnames
 	 *            the new surnames
 	 */
@@ -96,7 +125,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * Initialize the groups.
-	 * 
+	 *
 	 * @param groups
 	 *            the new groups
 	 */
@@ -106,7 +135,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * initialize the descriptions.
-	 * 
+	 *
 	 * @param descriptions
 	 *            the new descriptions
 	 */
@@ -116,7 +145,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * initialize the noticetypes.
-	 * 
+	 *
 	 * @param noticeTypes
 	 *            the new notice types
 	 */
@@ -126,7 +155,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * Gets the single instance of SukuSenser.
-	 * 
+	 *
 	 * @return the handle
 	 */
 	public static SukuSenser getInstance() {
@@ -143,7 +172,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * Show intellisens.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 * @param tag
@@ -152,50 +181,50 @@ public class SukuSenser implements MouseListener {
 	 *            the fld
 	 */
 	public void showSens(SukuTextField parent, String tag, Field fld) {
-		Rectangle rt = parent.getBounds();
-		Point pt = new Point(rt.x, rt.y);
+		final Rectangle rt = parent.getBounds();
+		final Point pt = new Point(rt.x, rt.y);
 		SwingUtilities.convertPointToScreen(pt, parent.getParent());
-		Rectangle rs = new Rectangle();
+		final Rectangle rs = new Rectangle();
 		rs.x = pt.x;
 		rs.y = pt.y + rt.height;
 		rs.width = rt.width;
 		rs.height = 100;
 		this.parent = parent;
 		sens.setBounds(rs);
-		String txt = parent.getText();
+		final String txt = parent.getText();
 		if (txt.length() > 0) {
 			model.clear();
 			switch (fld) {
 			case Fld_Place:
-				for (String element : paikat) {
+				for (final String element : paikat) {
 					if (element.toLowerCase().startsWith(txt.toLowerCase())) {
 						model.add(element);
 					}
 				}
 				break;
 			case Fld_Givenname:
-				for (String givenname : givennames) {
+				for (final String givenname : givennames) {
 					if (givenname.toLowerCase().startsWith(txt.toLowerCase())) {
 						model.add(givenname);
 					}
 				}
 				break;
 			case Fld_Patronyme:
-				for (String patronyme : patronymes) {
+				for (final String patronyme : patronymes) {
 					if (patronyme.toLowerCase().startsWith(txt.toLowerCase())) {
 						model.add(patronyme);
 					}
 				}
 				break;
 			case Fld_Surname:
-				for (String surname : surnames) {
+				for (final String surname : surnames) {
 					if (surname.toLowerCase().startsWith(txt.toLowerCase())) {
 						model.add(surname);
 					}
 				}
 				break;
 			case Fld_Type:
-				for (String noticeType : noticeTypes) {
+				for (final String noticeType : noticeTypes) {
 					if (noticeType.toLowerCase().startsWith(txt.toLowerCase())) {
 						model.add(noticeType);
 					}
@@ -203,15 +232,14 @@ public class SukuSenser implements MouseListener {
 				break;
 			case Fld_Description:
 				if (tag != null) {
-					for (String description : descriptions) {
-						int iix = description.indexOf(';');
+					for (final String description : descriptions) {
+						final int iix = description.indexOf(';');
 						if (iix > 0) {
-							String myTag = description.substring(0, iix);
-							String myText = description.substring(iix + 1);
+							final String myTag = description.substring(0, iix);
+							final String myText = description.substring(iix + 1);
 							if (myTag.equals(tag)) {
 
-								if (myText.toLowerCase().startsWith(
-										txt.toLowerCase())) {
+								if (myText.toLowerCase().startsWith(txt.toLowerCase())) {
 									model.add(myText);
 								}
 							}
@@ -220,7 +248,7 @@ public class SukuSenser implements MouseListener {
 				}
 				break;
 			case Fld_Group:
-				for (String group : groups) {
+				for (final String group : groups) {
 					if (group.toLowerCase().startsWith(txt.toLowerCase())) {
 						model.add(group);
 					}
@@ -245,7 +273,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * return top element from list.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 * @return the sens
@@ -267,7 +295,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * Checks if is visible.
-	 * 
+	 *
 	 * @return visible state of senser
 	 */
 	public boolean isVisible() {
@@ -278,7 +306,7 @@ public class SukuSenser implements MouseListener {
 
 	/**
 	 * move selection in sens-list forward or backward.
-	 * 
+	 *
 	 * @param direction
 	 *            the direction
 	 */
@@ -289,9 +317,9 @@ public class SukuSenser implements MouseListener {
 		} else if (direction == 38) {
 			listIndex--;
 		} else if (direction == 10) {
-			int indexi = lista.getSelectedIndex();
+			final int indexi = lista.getSelectedIndex();
 			if ((indexi >= 0) && (indexi < model.size())) {
-				String aux = (String) lista.getSelectedValue();
+				final String aux = (String) lista.getSelectedValue();
 				if (parent != null) {
 					parent.setText(aux);
 				}
@@ -318,14 +346,14 @@ public class SukuSenser implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	@Override
 	public void mouseClicked(MouseEvent m) {
-		int indexi = lista.getSelectedIndex();
+		final int indexi = lista.getSelectedIndex();
 		if ((indexi >= 0) && (indexi < model.size())) {
-			String aux = (String) lista.getSelectedValue();
+			final String aux = (String) lista.getSelectedValue();
 			if (parent != null) {
 				parent.setText(aux);
 			}
@@ -337,7 +365,7 @@ public class SukuSenser implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -347,7 +375,7 @@ public class SukuSenser implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -357,7 +385,7 @@ public class SukuSenser implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -367,7 +395,7 @@ public class SukuSenser implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */

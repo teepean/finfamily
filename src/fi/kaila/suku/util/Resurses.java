@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util;
 
 import java.text.Collator;
@@ -13,7 +43,7 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * Commonly used constants and access to resourceBudle.
- * 
+ *
  * @author FIKAAKAIL
  */
 public class Resurses {
@@ -494,15 +524,13 @@ public class Resurses {
 			+ "|CHRA|CONF|FCOM|ORND|NATU|CENS|PROB|WILL|GRAD|RETI|";
 
 	/** The gedcom attributes. */
-	public static String gedcomAttributes = "|OCCU|EDUC|TITL|PROP|FACT"
-			+ "|CAST|DSCR|EDUC|IDNO|NATI|RELI";
+	public static String gedcomAttributes = "|OCCU|EDUC|TITL|PROP|FACT" + "|CAST|DSCR|EDUC|IDNO|NATI|RELI";
 
 	private Resurses() {
 		if (resources == null) {
 			// Locale.setDefault(currentLocale);
 			resources = new ExcelBundle();
-			resources.importBundle(Suku.getFinFamilyXls(), "Program",
-					currentLocale);
+			resources.importBundle(Suku.getFinFamilyXls(), "Program", currentLocale);
 			// resources = ExcelBundle.getBundle("excel/FinFamily", "Program",
 			// currentLocale);
 		}
@@ -510,7 +538,7 @@ public class Resurses {
 
 	/**
 	 * Change locale for Excel bundle.
-	 * 
+	 *
 	 * @param newLocale
 	 *            the new locale
 	 */
@@ -519,8 +547,7 @@ public class Resurses {
 		repoLangu = newLocale;
 		myself = null;
 		resources = new ExcelBundle();
-		resources
-				.importBundle(Suku.getFinFamilyXls(), "Program", currentLocale);
+		resources.importBundle(Suku.getFinFamilyXls(), "Program", currentLocale);
 	}
 
 	// private static String getBundle() {
@@ -538,7 +565,7 @@ public class Resurses {
 
 	/**
 	 * Gets the report string.
-	 * 
+	 *
 	 * @param tag
 	 *            the tag
 	 * @return report text for tag
@@ -546,7 +573,7 @@ public class Resurses {
 	public static synchronized String getReportString(String tag) {
 		if (repoTexts == null) {
 			repoTexts = new ExcelBundle();
-			Locale locRepo = new Locale(getLanguage());
+			final Locale locRepo = new Locale(getLanguage());
 			repoTexts.importBundle(Suku.getFinFamilyXls(), "Report", locRepo);
 		}
 		if (repoTexts == null) {
@@ -557,20 +584,20 @@ public class Resurses {
 
 	/**
 	 * Set report language.
-	 * 
+	 *
 	 * @param langu
 	 *            the new language
 	 */
 	public static synchronized void setLanguage(String langu) {
 		repoLangu = langu;
-		Locale lloca = new Locale(repoLangu);
+		final Locale lloca = new Locale(repoLangu);
 		PersonShortData.fiCollator = Collator.getInstance(lloca);
 		repoTexts = null;
 	}
 
 	/**
 	 * Gets the default country.
-	 * 
+	 *
 	 * @return the default country
 	 */
 	public static synchronized String getDefaultCountry() {
@@ -579,14 +606,13 @@ public class Resurses {
 		}
 		SukuData sets;
 		try {
-			sets = Suku.kontroller.getSukuData("cmd=getsettings",
-					"type=country", "index=0");
+			sets = Suku.kontroller.getSukuData("cmd=getsettings", "type=country", "index=0");
 
 			if ((sets.vvTypes != null) && (sets.vvTypes.size() > 0)) {
-				String[] parts = sets.vvTypes.get(0);
+				final String[] parts = sets.vvTypes.get(0);
 				return parts[1];
 			}
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 
 			logger.log(Level.WARNING, "Failed to get default country", e);
 
@@ -597,31 +623,29 @@ public class Resurses {
 
 	/**
 	 * Sets the default country.
-	 * 
+	 *
 	 * @param countryCode
 	 *            the new default country
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public static synchronized void setDefaultCountry(String countryCode)
-			throws SukuException {
+	public static synchronized void setDefaultCountry(String countryCode) throws SukuException {
 		if (myself == null) {
 			myself = new Resurses();
 		}
 
-		ArrayList<String> v = new ArrayList<String>();
+		final ArrayList<String> v = new ArrayList<String>();
 
 		v.add("country=" + countryCode);
-		SukuData req = new SukuData();
+		final SukuData req = new SukuData();
 		req.generalArray = v.toArray(new String[0]);
-		Suku.kontroller.getSukuData(req, "cmd=savesettings", "type=country",
-				"index=0");
+		Suku.kontroller.getSukuData(req, "cmd=savesettings", "type=country", "index=0");
 
 	}
 
 	/**
 	 * Gets the language.
-	 * 
+	 *
 	 * @return the report languagecode
 	 */
 	public static synchronized String getLanguage() {
@@ -630,7 +654,7 @@ public class Resurses {
 
 	/**
 	 * set data format.
-	 * 
+	 *
 	 * @param format
 	 *            the new date format
 	 */
@@ -640,7 +664,7 @@ public class Resurses {
 
 	/**
 	 * date format is one of "FI","SE","UK","US".
-	 * 
+	 *
 	 * @return the date format
 	 */
 	public static synchronized String getDateFormat() {
@@ -649,7 +673,7 @@ public class Resurses {
 
 	/**
 	 * gets string from resource bundle.
-	 * 
+	 *
 	 * @param name
 	 *            the name
 	 * @return value of name
@@ -660,7 +684,7 @@ public class Resurses {
 		}
 		try {
 			return resources.getString(name);
-		} catch (MissingResourceException e) {
+		} catch (final MissingResourceException e) {
 			logger.warning("Missing resource[" + name + "]");
 			return name;
 		}

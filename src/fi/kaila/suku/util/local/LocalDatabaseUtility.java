@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.local;
 
 import java.sql.Connection;
@@ -11,13 +41,12 @@ import fi.kaila.suku.util.SukuException;
 
 /**
  * Help for login routine.
- * 
+ *
  * @author Kalle
  */
 public class LocalDatabaseUtility {
 
-	private static Logger logger = Logger.getLogger(LocalDatabaseUtility.class
-			.getName());
+	private static Logger logger = Logger.getLogger(LocalDatabaseUtility.class.getName());
 
 	/**
 	 * Gets the list of databases.
@@ -30,8 +59,7 @@ public class LocalDatabaseUtility {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public static String[] getListOfDatabases(Connection con, boolean isH2)
-			throws SukuException {
+	public static String[] getListOfDatabases(Connection con, boolean isH2) throws SukuException {
 
 		String sql = "";
 		if (isH2) {
@@ -39,14 +67,14 @@ public class LocalDatabaseUtility {
 		} else {
 			sql = "select datname from pg_database where datname not in ('postgres','template1','template0') order by datname ";
 		}
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		try {
-			Statement stm = con.createStatement();
+			final Statement stm = con.createStatement();
 
-			ResultSet rs = stm.executeQuery(sql);
+			final ResultSet rs = stm.executeQuery(sql);
 
 			while (rs.next()) {
-				if(rs.getString(1) != "INFORMATION_SCHEMA" ) {
+				if (rs.getString(1) != "INFORMATION_SCHEMA") {
 					if (sb.length() > 0) {
 						sb.append(";");
 					}
@@ -57,7 +85,7 @@ public class LocalDatabaseUtility {
 
 			return sb.toString().split(";");
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "databasenames list", e);
 
 			throw new SukuException(e);
@@ -82,15 +110,15 @@ public class LocalDatabaseUtility {
 
 		String sql = "";
 		if (isH2) {
-			sql  = "select NAME from INFORMATION_SCHEMA.USERS ORDER BY NAME";
+			sql = "select NAME from INFORMATION_SCHEMA.USERS ORDER BY NAME";
 		} else {
 			sql = "select rolname from pg_roles where rolname != 'postgres' order by rolname ";
 		}
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		try {
-			Statement stm = con.createStatement();
+			final Statement stm = con.createStatement();
 
-			ResultSet rs = stm.executeQuery(sql);
+			final ResultSet rs = stm.executeQuery(sql);
 
 			while (rs.next()) {
 				if (sb.length() > 0) {
@@ -102,7 +130,7 @@ public class LocalDatabaseUtility {
 
 			return sb.toString().split(";");
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "usernames list", e);
 
 			throw new SukuException(e);
@@ -121,19 +149,18 @@ public class LocalDatabaseUtility {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public static String[] getListOfSchemas(Connection con, boolean isH2)
-			throws SukuException {
+	public static String[] getListOfSchemas(Connection con, boolean isH2) throws SukuException {
 		String sql = "";
 		if (isH2) {
 			sql = "select SCHEMA_NAME from INFORMATION_SCHEMA.SCHEMATA where SCHEMA_NAME NOT IN ('INFORMATION_SCHEMA','PUBLIC')";
 		} else {
 			sql = "select * from pg_namespace where nspname not like 'pg%' and nspname <> 'information_schema' ";
 		}
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		try {
-			Statement stm = con.createStatement();
+			final Statement stm = con.createStatement();
 
-			ResultSet rs = stm.executeQuery(sql);
+			final ResultSet rs = stm.executeQuery(sql);
 
 			while (rs.next()) {
 				if (sb.length() > 0) {
@@ -145,7 +172,7 @@ public class LocalDatabaseUtility {
 
 			return sb.toString().split(";");
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "schemas list", e);
 
 			throw new SukuException(e);
@@ -175,7 +202,7 @@ public class LocalDatabaseUtility {
 				stm.executeUpdate("set search_path to " + schema);
 			}
 			stm.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			resu = e.getMessage();
 			e.printStackTrace();
 		}
@@ -184,7 +211,7 @@ public class LocalDatabaseUtility {
 
 	/**
 	 * Creates the new schema.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 * @param schema
@@ -198,7 +225,7 @@ public class LocalDatabaseUtility {
 			stm = con.createStatement();
 			stm.executeUpdate("create schema " + schema);
 			stm.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			resu = e.getMessage();
 			e.printStackTrace();
 		}
@@ -207,7 +234,7 @@ public class LocalDatabaseUtility {
 
 	/**
 	 * Drop named schema from current database.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 * @param name
@@ -225,7 +252,7 @@ public class LocalDatabaseUtility {
 			stm.executeUpdate("drop schema " + name + " cascade");
 			stm.executeUpdate("set search_path to public ");
 			stm.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			resu = e.getMessage();
 			e.printStackTrace();
 		}

@@ -3,7 +3,7 @@
 <h1>FinFamily </h1>
 
 <p>Swing-based java-application for managing genealogical data.</p>
-  <p>The genealogical data is stored in a PostgreSQL database</p>
+  <p>The genealogical data is stored in a PostgreSQL or H2 database</p>
   
   <p>The main class for the swing application is {@link fi.kaila.suku.swing.Suku Swing entry}.</p>
   <p>The main class for the webstart application is {@link fi.kaila.suku.webstart.Suku Webstart entry}.</p>
@@ -15,10 +15,10 @@
   <ul>
   <li>User interface consisting of swing displays</li> 
   <li>A Kontroller that connects the User interface to the server application</li>
-  <li>Server application that manages the <strong>PostrgreSQL</strong> database.</li>
+  <li>Server application that manages the <strong>PostrgreSQL and H2</strong> databases.</li>
   </ul>
   
-  <p>FinFamily requires Java 6SE and the PostgreSQL database. At least Windows and Linux 
+  <p>FinFamily requires Java 7 SE and the PostgreSQL or H2 database. At least Windows and Linux 
   systems support these. Possibly the application can be used on a Mac computer.</p>
   
    
@@ -43,38 +43,38 @@
 <hr/> 
 <h2><a name="lic">FinFamily License</a></h2>
 
-<p>Copyright (c) 2009, Kaarle Kaila</p>
-<p>All rights reserved.</p>
-  
- <ul>
- <li>Redistribution and use in source and binary forms, 
- with or without modification, are permitted provided that the following conditions are met:</li>
- <ul>
- <li>Redistributions of source code must retain the above copyright notice, 
- this list of conditions and the following disclaimer.</li>
- <li>Redistributions in binary form must reproduce the above 
- copyright notice, this list of conditions and the following 
- disclaimer in the documentation and/or other materials provided with the distribution.</li>
- <li>Neither the name of Kaarle Kaila nor the names of its contributors 
- may be used to endorse or promote products derived from this software without 
- specific prior written permission.</li>
- </ul>
- </ul>
- 
- <p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
- "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, 
- THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR 
- PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS 
- BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR 
- CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE 
- GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) 
- HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, 
- STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY 
- OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</p>
- 
- 
+<pre>
+Software License Agreement (BSD License)
 
- 
+Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are
+permitted provided that the following conditions are met:
+
+  1. Redistributions of source code must retain the above copyright notice, this list of
+     conditions and the following disclaimer.
+
+  2. Redistributions in binary form must reproduce the above copyright notice, this list
+     of conditions and the following disclaimer in the documentation and/or other materials
+     provided with the distribution.
+
+ THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+ The views and conclusions contained in the software and documentation are those of the
+ authors and should not be interpreted as representing official policies, either expressed
+ or implied, of Kaarle Kaila and Mika Halonen.
+</pre>
+
+
+
  <p>See also <a href="http://www.opensource.org/licenses/bsd-license.php">The BSD License</a></p>
 
 

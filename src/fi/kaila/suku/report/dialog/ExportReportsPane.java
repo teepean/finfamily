@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.report.dialog;
 
 import javax.swing.BorderFactory;
@@ -14,7 +44,7 @@ import fi.kaila.suku.util.Resurses;
 public class ExportReportsPane extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -37,7 +67,7 @@ public class ExportReportsPane extends JPanel {
 	 */
 	public ExportReportsPane() {
 		setLayout(null);
-		int rtypx = 10;
+		final int rtypx = 10;
 		int rtypy = 20;
 
 		JPanel pp = new JPanel();
@@ -45,8 +75,7 @@ public class ExportReportsPane extends JPanel {
 		pp.setBounds(10, 0, 280, 200);
 
 		// pane = new JPanel();
-		pp.setBorder(BorderFactory.createTitledBorder(Resurses
-				.getString("TB.REPORT")));
+		pp.setBorder(BorderFactory.createTitledBorder(Resurses.getString("TB.REPORT")));
 		// pane.setLayout(new GridLayout(0, 1));
 		// pp.setBounds(rtypx, rtypy, 250, 70);
 
@@ -98,10 +127,9 @@ public class ExportReportsPane extends JPanel {
 		pp = new JPanel();
 		pp.setLayout(null);
 		pp.setBounds(10, 200, 150, 130);
-		pp.setBorder(BorderFactory.createTitledBorder(Resurses
-				.getString("TB.SHOWSETS")));
+		pp.setBorder(BorderFactory.createTitledBorder(Resurses.getString("TB.SHOWSETS")));
 		add(pp);
-		int rtypsx = 5;
+		final int rtypsx = 5;
 		int rtypsy = 13;
 
 		givenName = new JCheckBox(Resurses.getString("TB.GIVENNAME"));
@@ -132,15 +160,15 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Gets the ancestors.
-	 * 
+	 *
 	 * @return number of ancestors
 	 */
 	public int getAncestors() {
-		String aux = genAncestors.getText();
+		final String aux = genAncestors.getText();
 		try {
 			return Integer.parseInt(aux);
 
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			return 0;
 		}
 
@@ -148,15 +176,15 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Gets the descendants.
-	 * 
+	 *
 	 * @return number of descendants
 	 */
 	public int getDescendants() {
-		String aux = genDescendants.getText();
+		final String aux = genDescendants.getText();
 		try {
 			return Integer.parseInt(aux);
 
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			return 0;
 		}
 
@@ -164,15 +192,15 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Gets the young from.
-	 * 
+	 *
 	 * @return number of ......
 	 */
 	public int getYoungFrom() {
-		String aux = genYoungFrom.getText();
+		final String aux = genYoungFrom.getText();
 		try {
 			return Integer.parseInt(aux);
 
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			return 0;
 		}
 
@@ -180,7 +208,7 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Checks if is adopted.
-	 * 
+	 *
 	 * @return true is also adopted are included
 	 */
 	public boolean isAdopted() {
@@ -189,7 +217,7 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Checks if is parents.
-	 * 
+	 *
 	 * @return true to include also other parents
 	 */
 	public boolean isParents() {
@@ -198,7 +226,7 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Checks if is spouses.
-	 * 
+	 *
 	 * @return true if also other spouses are included
 	 */
 	public boolean isSpouses() {
@@ -207,7 +235,7 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Checks if is givenname.
-	 * 
+	 *
 	 * @return to show given name
 	 */
 	public boolean isGivenname() {
@@ -216,7 +244,7 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Checks if is surname.
-	 * 
+	 *
 	 * @return to show surname
 	 */
 	public boolean isSurname() {
@@ -225,7 +253,7 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Checks if is occupation.
-	 * 
+	 *
 	 * @return to show occupation
 	 */
 	public boolean isOccupation() {
@@ -234,7 +262,7 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Checks if is lived.
-	 * 
+	 *
 	 * @return to show birth and death years
 	 */
 	public boolean isLived() {
@@ -243,7 +271,7 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Checks if is place.
-	 * 
+	 *
 	 * @return to show place
 	 */
 	public boolean isPlace() {
@@ -252,7 +280,7 @@ public class ExportReportsPane extends JPanel {
 
 	/**
 	 * Checks if is married.
-	 * 
+	 *
 	 * @return to show married date
 	 */
 	public boolean isMarried() {

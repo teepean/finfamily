@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing;
 
 import java.awt.Color;
@@ -35,16 +65,15 @@ import fi.kaila.suku.util.pojo.PlaceLocationData;
 
 /**
  * Shows map of Finland with locations of relatives.
- * 
+ *
  * @author Kalle
  */
-public class SuomiMap extends JFrame implements ActionListener,
-		SukuMapInterface {
+public class SuomiMap extends JFrame implements ActionListener, SukuMapInterface {
 
 	private static Logger logger = Logger.getLogger(SuomiMap.class.getName());
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private final ISuku parent;
@@ -78,7 +107,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 */
@@ -103,15 +132,13 @@ public class SuomiMap extends JFrame implements ActionListener,
 		setLayout(null);
 		setLocation(200, 10);
 
-		InputStream in = this.getClass().getResourceAsStream(
-				"/images/suomikartta.jpg");
+		final InputStream in = this.getClass().getResourceAsStream("/images/suomikartta.jpg");
 		// File f = new File("resources/images/suomikartta.jpg");
 		try {
 			this.kartta = ImageIO.read(in);
 
-			suomiSize = new Rectangle(0, 0, this.kartta.getWidth(),
-					this.kartta.getHeight());
-		} catch (IOException e1) {
+			suomiSize = new Rectangle(0, 0, this.kartta.getWidth(), this.kartta.getHeight());
+		} catch (final IOException e1) {
 			e1.printStackTrace();
 			logger.log(Level.WARNING, "Cannot read suomikartta", e1);
 			this.kartta = null;
@@ -131,7 +158,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 		this.currentPlaces = new JTextArea("");
 		// this.currentPlace.setFont(fnt);
 		this.currentPlaces.setEditable(false);
-		JScrollPane jsc = new JScrollPane(this.currentPlaces);
+		final JScrollPane jsc = new JScrollPane(this.currentPlaces);
 		jsc.setBounds(20 + kartta.getWidth(), 20, 160, 100);
 		this.getContentPane().add(jsc);
 
@@ -141,7 +168,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		this.missingPlacesList = new JTextArea();
 		this.missingPlacesList.setEditable(false);
-		JScrollPane js = new JScrollPane(this.missingPlacesList);
+		final JScrollPane js = new JScrollPane(this.missingPlacesList);
 		js.setBounds(20 + kartta.getWidth(), 140, 160, kartta.getHeight() - 140);
 		this.getContentPane().add(js);
 
@@ -168,7 +195,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 	/**
 	 * display map with listed places.
-	 * 
+	 *
 	 * @param places
 	 *            the places
 	 */
@@ -181,9 +208,9 @@ public class SuomiMap extends JFrame implements ActionListener,
 		// paikkddoja = places.length;
 		//
 		// }
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 
-		for (PlaceLocationData place : places) {
+		for (final PlaceLocationData place : places) {
 			if (place.getLatitude() == 0) {
 				sb.append(place.getName() + "(" + place.getCount() + ")\n");
 			}
@@ -197,11 +224,10 @@ public class SuomiMap extends JFrame implements ActionListener,
 	/**
 	 * The Class KarttaPanel.
 	 */
-	class KarttaPanel extends JPanel implements MouseListener,
-			MouseMotionListener {
+	class KarttaPanel extends JPanel implements MouseListener, MouseMotionListener {
 
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -215,7 +241,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 		 */
 		@Override
@@ -228,33 +254,29 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 			if (showGrid) {
 
-				Font redFont = new Font("SansSerif", Font.PLAIN, 9);
-				FontMetrics fm = g.getFontMetrics(redFont);
+				final Font redFont = new Font("SansSerif", Font.PLAIN, 9);
+				final FontMetrics fm = g.getFontMetrics(redFont);
 
 				g.setColor(Color.red);
 				g.setFont(redFont);
-				Graphics2D gg = (Graphics2D) g;
+				final Graphics2D gg = (Graphics2D) g;
 				for (float yy = 60f; yy < 71f; yy += 1f) {
-					PointD pWest = convertToPointD(19, yy);
-					PointD pEast = convertToPointD(33, yy);
-					PointD pTxt = convertToPointD(suomiLeft + 0.1, yy + 0.25);
-					g.drawLine((int) pWest.x, (int) pWest.y, (int) pEast.x,
-							(int) pEast.y);
-					gg.drawString("" + (int) yy, (float) pTxt.x,
-							(float) (pTxt.y + fm.getHeight()));
+					final PointD pWest = convertToPointD(19, yy);
+					final PointD pEast = convertToPointD(33, yy);
+					final PointD pTxt = convertToPointD(suomiLeft + 0.1, yy + 0.25);
+					g.drawLine((int) pWest.x, (int) pWest.y, (int) pEast.x, (int) pEast.y);
+					gg.drawString("" + (int) yy, (float) pTxt.x, (float) (pTxt.y + fm.getHeight()));
 				}
 
 				// gg.drawLine(19,59,33,59);
 				// gg.drawString("KALLEN KOE", 19, 59);
 
 				for (float xx = 19f; xx < 33.5f; xx += 1f) {
-					PointD pSouth = convertToPointD(xx, 60);
-					PointD pNorth = convertToPointD(xx, 70);
-					PointD pTxt = convertToPointD(xx - 0.3, 60);
-					g.drawLine((int) pSouth.x, (int) pSouth.y, (int) pNorth.x,
-							(int) pNorth.y);
-					gg.drawString("" + (int) xx, (float) pTxt.x,
-							(float) (pTxt.y + fm.getHeight()));
+					final PointD pSouth = convertToPointD(xx, 60);
+					final PointD pNorth = convertToPointD(xx, 70);
+					final PointD pTxt = convertToPointD(xx - 0.3, 60);
+					g.drawLine((int) pSouth.x, (int) pSouth.y, (int) pNorth.x, (int) pNorth.y);
+					gg.drawString("" + (int) xx, (float) pTxt.x, (float) (pTxt.y + fm.getHeight()));
 				}
 			}
 
@@ -268,8 +290,8 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 				if (place.getLatitude() > 0) {
 
-					Rectangle rec = convertToRectangle(place.getLongitude(),
-							place.getLatitude(), place.getCount());
+					final Rectangle rec = convertToRectangle(place.getLongitude(), place.getLatitude(),
+							place.getCount());
 
 					// if (debWrite)
 					// {
@@ -285,22 +307,20 @@ public class SuomiMap extends JFrame implements ActionListener,
 			}
 		}
 
-		private Rectangle convertToRectangle(double xtude, double ytude,
-				int count) {
+		private Rectangle convertToRectangle(double xtude, double ytude, int count) {
 			// PointD xyz1 = convertToPointD(18.44, 59.65); // left bottom
 			// PointD xyz2 = convertToPointD(18.44, 70.3); // left bottom
 			// PointD xyz3 = convertToPointD(33.4, 59.65); // left bottom
 			// PointD xyz4 = convertToPointD(33.4, 70.3); // left bottom
 
-			PointD pp = convertToPointD(xtude, ytude);
+			final PointD pp = convertToPointD(xtude, ytude);
 
 			int displayCount = count;
 			if (count > 20) {
 				displayCount = 20;
 			}
-			return new Rectangle((int) (pp.x - ((displayCount * 2) / 2)),
-					(int) (pp.y - ((displayCount * 2) / 2)), displayCount * 2,
-					displayCount * 2);
+			return new Rectangle((int) (pp.x - ((displayCount * 2) / 2)), (int) (pp.y - ((displayCount * 2) / 2)),
+					displayCount * 2, displayCount * 2);
 		}
 
 		private PointD convertToPointD(double xtude, double ytude) {
@@ -308,15 +328,15 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 			xoffset = xoffset / (suomiRight - suomiLeft);
 
-			double suomix = suomiSize.getWidth();
-			double paikkaX = suomix * xoffset;
+			final double suomix = suomiSize.getWidth();
+			final double paikkaX = suomix * xoffset;
 
-			double YY = ytude - suomiBottom;
+			final double YY = ytude - suomiBottom;
 
-			double y = (0.03 * YY * YY) + (1.7 * YY);
-			double yoffset = y / 21.9; // (suomiTop - suomiLong);
-			double suomiy = suomiSize.getHeight();
-			double paikkaY = suomiy * yoffset;
+			final double y = (0.03 * YY * YY) + (1.7 * YY);
+			final double yoffset = y / 21.9; // (suomiTop - suomiLong);
+			final double suomiy = suomiSize.getHeight();
+			final double paikkaY = suomiy * yoffset;
 
 			return new PointD(paikkaX, (suomiy - paikkaY));
 
@@ -327,7 +347,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * javax.swing.JComponent#processMouseEvent(java.awt.event.MouseEvent)
 		 */
@@ -344,36 +364,33 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * javax.swing.JComponent#processMouseMotionEvent(java.awt.event.MouseEvent
-		 * )
+		 *
+		 * @see javax.swing.JComponent#processMouseMotionEvent(java.awt.event.
+		 * MouseEvent )
 		 */
 		@Override
 		protected void processMouseMotionEvent(MouseEvent e) {
 			if (mouseIsHere) {
 				int idx;
 				PlaceLocationData place;
-				int x = e.getX();
-				int y = e.getY();
+				final int x = e.getX();
+				final int y = e.getY();
 
 				for (idx = 0; idx < places.length; idx++) {
 
 					place = places[idx];
 
 					if (place.getLatitude() > 0) {
-						Rectangle rec = convertToRectangle(
-								place.getLongitude(), place.getLatitude(),
+						final Rectangle rec = convertToRectangle(place.getLongitude(), place.getLatitude(),
 								place.getCount());
 
 						if (rec.contains(x, y)) {
-							String selectedPlace = place.getName() + "("
-									+ place.getCount() + ")";
-							String olde = currentPlaces.getText();
+							final String selectedPlace = place.getName() + "(" + place.getCount() + ")";
+							final String olde = currentPlaces.getText();
 
-							String[] oldPlaces = olde.split("\n");
+							final String[] oldPlaces = olde.split("\n");
 
-							StringBuilder sb = new StringBuilder();
+							final StringBuilder sb = new StringBuilder();
 							int rc = 8;
 							if (oldPlaces.length < 8) {
 								rc = oldPlaces.length;
@@ -399,7 +416,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 		 */
@@ -410,7 +427,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 		 */
@@ -421,7 +438,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 		 */
@@ -432,7 +449,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 		 */
@@ -443,7 +460,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 		 */
@@ -454,10 +471,9 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent
-		 * )
+		 *
+		 * @see java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.
+		 * MouseEvent )
 		 */
 		@Override
 		public void mouseDragged(MouseEvent arg0) {
@@ -466,10 +482,9 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent
-		 * )
+		 *
+		 * @see java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.
+		 * MouseEvent )
 		 */
 		@Override
 		public void mouseMoved(MouseEvent arg) {
@@ -491,7 +506,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 		/**
 		 * Instantiates a new point d.
-		 * 
+		 *
 		 * @param x
 		 *            the x
 		 * @param y
@@ -508,7 +523,7 @@ public class SuomiMap extends JFrame implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */

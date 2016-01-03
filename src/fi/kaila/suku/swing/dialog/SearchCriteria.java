@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.Dimension;
@@ -39,16 +69,15 @@ import fi.kaila.suku.util.pojo.SukuData;
 /**
  * Window that is shown before database search is made Windows contains the
  * search criterias used in the search and columns to display.
- * 
+ *
  * @author FIKAAKAIL
  */
 public class SearchCriteria extends JDialog implements ActionListener {
 
-	private static Logger logger = Logger.getLogger(SearchCriteria.class
-			.getName());
+	private static Logger logger = Logger.getLogger(SearchCriteria.class.getName());
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -112,37 +141,24 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	private final char[] sexcodes = { 0, 'M', 'F', 'U' };
 
-	private final ColTable[] coltables = {
-			new ColTable(Resurses.COLUMN_T_SEX, true),
-			new ColTable(Resurses.COLUMN_T_ISMARR, true),
-			new ColTable(Resurses.COLUMN_T_ISCHILD, true),
-			new ColTable(Resurses.COLUMN_T_ISPARE, true),
-			new ColTable(Resurses.COLUMN_T_UNKN, true),
-			new ColTable(Resurses.COLUMN_T_NAME, true),
-			new ColTable(Resurses.COLUMN_T_PATRONYME, true),
-			new ColTable(Resurses.COLUMN_T_BIRT, true),
-			new ColTable(Resurses.COLUMN_T_BIRTPLACE, true),
-			new ColTable(Resurses.COLUMN_T_BIRTVILLAGE, false),
-			new ColTable(Resurses.COLUMN_T_BIRTFARM, false),
-			new ColTable(Resurses.COLUMN_T_BIRTCROFT, false),
-			new ColTable(Resurses.COLUMN_T_DEAT, true),
-			new ColTable(Resurses.COLUMN_T_DEATPLACE, true),
-			new ColTable(Resurses.COLUMN_T_DEATVILLAGE, false),
-			new ColTable(Resurses.COLUMN_T_DEATFARM, false),
-			new ColTable(Resurses.COLUMN_T_DEATCROFT, false),
-			new ColTable(Resurses.COLUMN_T_OCCUPATION, true),
-			new ColTable(Resurses.COLUMN_T_GROUP, false),
-			new ColTable(Resurses.COLUMN_T_REFN, false),
-			new ColTable(Resurses.COLUMN_T_PID, false) };
+	private final ColTable[] coltables = { new ColTable(Resurses.COLUMN_T_SEX, true),
+			new ColTable(Resurses.COLUMN_T_ISMARR, true), new ColTable(Resurses.COLUMN_T_ISCHILD, true),
+			new ColTable(Resurses.COLUMN_T_ISPARE, true), new ColTable(Resurses.COLUMN_T_UNKN, true),
+			new ColTable(Resurses.COLUMN_T_NAME, true), new ColTable(Resurses.COLUMN_T_PATRONYME, true),
+			new ColTable(Resurses.COLUMN_T_BIRT, true), new ColTable(Resurses.COLUMN_T_BIRTPLACE, true),
+			new ColTable(Resurses.COLUMN_T_BIRTVILLAGE, false), new ColTable(Resurses.COLUMN_T_BIRTFARM, false),
+			new ColTable(Resurses.COLUMN_T_BIRTCROFT, false), new ColTable(Resurses.COLUMN_T_DEAT, true),
+			new ColTable(Resurses.COLUMN_T_DEATPLACE, true), new ColTable(Resurses.COLUMN_T_DEATVILLAGE, false),
+			new ColTable(Resurses.COLUMN_T_DEATFARM, false), new ColTable(Resurses.COLUMN_T_DEATCROFT, false),
+			new ColTable(Resurses.COLUMN_T_OCCUPATION, true), new ColTable(Resurses.COLUMN_T_GROUP, false),
+			new ColTable(Resurses.COLUMN_T_REFN, false), new ColTable(Resurses.COLUMN_T_PID, false) };
 
-	private final ColTable[] proptables = {
-			new ColTable(Resurses.COLUMN_T_ALL_NAMES, true),
-			new ColTable(Resurses.COLUMN_T_BIRT_CHR, true),
-			new ColTable(Resurses.COLUMN_T_DEAT_BURI, true) };
+	private final ColTable[] proptables = { new ColTable(Resurses.COLUMN_T_ALL_NAMES, true),
+			new ColTable(Resurses.COLUMN_T_BIRT_CHR, true), new ColTable(Resurses.COLUMN_T_DEAT_BURI, true) };
 
 	/**
 	 * Gets the col index.
-	 * 
+	 *
 	 * @param colName
 	 *            the col name
 	 * @return get full column index for column name tag
@@ -162,7 +178,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Gets the model index.
-	 * 
+	 *
 	 * @param viewIdx
 	 *            the view idx
 	 * @return the model index
@@ -184,7 +200,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Gets the view index.
-	 * 
+	 *
 	 * @param modelIdx
 	 *            the model idx
 	 * @return the view index
@@ -218,7 +234,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * get index of named column.
-	 * 
+	 *
 	 * @param colname
 	 *            the colname
 	 * @return column index
@@ -243,7 +259,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Gets the col name.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return name of indexed column
@@ -275,13 +291,13 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Checks if is property set.
-	 * 
+	 *
 	 * @param prop
 	 *            property name
 	 * @return true if all names is set for pro
 	 */
 	public boolean isPropertySet(String prop) {
-		int col = getPropIndex(prop);
+		final int col = getPropIndex(prop);
 
 		return this.proptables[col].currState;
 	}
@@ -290,7 +306,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Gets the criteria.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @return Singleton instance of SearchCriteria
@@ -298,13 +314,12 @@ public class SearchCriteria extends JDialog implements ActionListener {
 	 *             the suku exception
 	 */
 	public static SearchCriteria getCriteria(JFrame owner) throws SukuException {
-		Object o = new Object();
+		final Object o = new Object();
 
 		synchronized (o) {
 			if (myself == null) {
 				if (owner == null) {
-					throw new SukuException(
-							Resurses.getString(Resurses.CRITERIA_INIT_ERROR));
+					throw new SukuException(Resurses.getString(Resurses.CRITERIA_INIT_ERROR));
 				}
 				myself = new SearchCriteria(owner);
 			}
@@ -328,10 +343,10 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		int idx;
 		ColTable tbl;
 		JLabel lbl;
-		Border bvlr = BorderFactory.createBevelBorder(BevelBorder.RAISED);
-		Border bvll = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
+		final Border bvlr = BorderFactory.createBevelBorder(BevelBorder.RAISED);
+		final Border bvll = BorderFactory.createBevelBorder(BevelBorder.LOWERED);
 
-		Border bvl = BorderFactory.createCompoundBorder(bvlr, bvll);
+		final Border bvl = BorderFactory.createCompoundBorder(bvlr, bvll);
 		this.colpanel = new JPanel(new GridLayout(0, 1));
 		getContentPane().add(this.colpanel);
 		this.colpanel.setBounds(720, y + 10, 150, 300);
@@ -347,8 +362,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 				tbl.setCurrentState(true);
 			} else {
 				this.colpanel.add(tbl.getChkBox());
-				bb = Utils.getBooleanPref(this, tbl.getColName(),
-						tbl.getCurrentState());
+				bb = Utils.getBooleanPref(this, tbl.getColName(), tbl.getCurrentState());
 				// System.out.println("BB on " + bb + "/" + idx + "/" +
 				// tbl.getColName() + "/" + tbl.getCurrentState());
 
@@ -364,14 +378,12 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		for (idx = 0; idx < this.proptables.length; idx++) {
 			tbl = this.proptables[idx];
 			this.colpanel.add(tbl.getChkBox());
-			boolean bb = Utils.getBooleanPref(this, tbl.getColName(),
-					tbl.getCurrentState());
+			final boolean bb = Utils.getBooleanPref(this, tbl.getColName(), tbl.getCurrentState());
 			tbl.getChkBox().setSelected(bb);
 			tbl.setCurrentState(bb);
 		}
 
-		TitledBorder tit = BorderFactory.createTitledBorder(bvl,
-				Resurses.getString(Resurses.CRITERIA_NAME));
+		TitledBorder tit = BorderFactory.createTitledBorder(bvl, Resurses.getString(Resurses.CRITERIA_NAME));
 
 		this.namePanel = new JPanel(new GridLayout(2, 0, 10, 10));
 		getContentPane().add(this.namePanel);
@@ -405,8 +417,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		getContentPane().add(this.birtPanel);
 		this.birtPanel.setBounds(10, y, 710, 80);
 
-		tit = BorderFactory.createTitledBorder(bvl,
-				Resurses.getString(Resurses.CRITERIA_BIRT));
+		tit = BorderFactory.createTitledBorder(bvl, Resurses.getString(Resurses.CRITERIA_BIRT));
 
 		this.birtPanel.setBorder(tit);
 
@@ -429,8 +440,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		y += 80;
 
-		tit = BorderFactory.createTitledBorder(bvl,
-				Resurses.getString(Resurses.CRITERIA_DEAT));
+		tit = BorderFactory.createTitledBorder(bvl, Resurses.getString(Resurses.CRITERIA_DEAT));
 
 		this.deatPanel = new JPanel(new GridLayout(2, 3, 10, 10));
 		getContentPane().add(this.deatPanel);
@@ -456,8 +466,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		y += 80;
 
-		tit = BorderFactory.createTitledBorder(bvl,
-				Resurses.getString(Resurses.CRITERIA_CREATED));
+		tit = BorderFactory.createTitledBorder(bvl, Resurses.getString(Resurses.CRITERIA_CREATED));
 
 		this.createdPanel = new JPanel(new GridLayout(2, 3, 2, 2));
 		getContentPane().add(this.createdPanel);
@@ -475,8 +484,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		this.createdToDate = new DateTextField();
 		this.createdPanel.add(this.createdToDate);
 
-		tit = BorderFactory.createTitledBorder(bvl,
-				Resurses.getString(Resurses.CRITERIA_VIEW));
+		tit = BorderFactory.createTitledBorder(bvl, Resurses.getString(Resurses.CRITERIA_VIEW));
 
 		this.viewPanel = new JPanel(new GridLayout(2, 4, 10, 10));
 		getContentPane().add(this.viewPanel);
@@ -492,8 +500,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		y += 80;
 
-		tit = BorderFactory.createTitledBorder(bvl,
-				Resurses.getString("CRITERIA_PLACE_NOTICE"));
+		tit = BorderFactory.createTitledBorder(bvl, Resurses.getString("CRITERIA_PLACE_NOTICE"));
 
 		placePanel = new JPanel(new GridLayout(2, 3, 10, 10));
 		getContentPane().add(this.placePanel);
@@ -512,10 +519,8 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		lbl = new JLabel(Resurses.getString(Resurses.CRITERIA_CROFT));
 		placePanel.add(lbl);
 
-		noticeExist = new JCheckBox(
-				Resurses.getString(Resurses.CRITERIA_NOTICE_MISSING));
-		noticeExist.setToolTipText(Resurses
-				.getString(Resurses.CRITERIA_NOTICE_MISSING));
+		noticeExist = new JCheckBox(Resurses.getString(Resurses.CRITERIA_NOTICE_MISSING));
+		noticeExist.setToolTipText(Resurses.getString(Resurses.CRITERIA_NOTICE_MISSING));
 		placePanel.add(noticeExist);
 
 		place = new JTextField();
@@ -533,8 +538,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		noticeList = new JComboBox();
 		placePanel.add(noticeList);
 
-		tit = BorderFactory.createTitledBorder(bvl,
-				Resurses.getString("CRITERIA_SEX_SURETY"));
+		tit = BorderFactory.createTitledBorder(bvl, Resurses.getString("CRITERIA_SEX_SURETY"));
 
 		sexPanel = new JPanel(new GridLayout(2, 0, 10, 10));
 		getContentPane().add(sexPanel);
@@ -544,7 +548,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		surety = new SukuSuretyField();
 		sexPanel.add(surety);
 
-		String sexes[] = new String[4];
+		final String sexes[] = new String[4];
 		sexes[0] = "";
 		sexes[1] = Resurses.getString("SEX_" + sexcodes[1]);
 		sexes[2] = Resurses.getString("SEX_" + sexcodes[2]);
@@ -554,8 +558,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		y += 80;
 
-		tit = BorderFactory.createTitledBorder(bvl,
-				Resurses.getString(Resurses.CRITERIA_FULL_TEXT));
+		tit = BorderFactory.createTitledBorder(bvl, Resurses.getString(Resurses.CRITERIA_FULL_TEXT));
 
 		textPanel = new JPanel(new GridLayout(2, 1, 10, 10));
 		getContentPane().add(textPanel);
@@ -570,21 +573,21 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		y = 460;
 
-		JButton ok = new JButton(Resurses.getString("CRITERIA_MAKE_QUERY"));
+		final JButton ok = new JButton(Resurses.getString("CRITERIA_MAKE_QUERY"));
 		// this.ok.setDefaultCapable(true);
 		getContentPane().add(ok);
 		ok.setActionCommand(Resurses.OK);
 		ok.addActionListener(this);
 		ok.setBounds(580, y, 140, 24);
 
-		JButton reset = new JButton(Resurses.getString(Resurses.RESET));
+		final JButton reset = new JButton(Resurses.getString(Resurses.RESET));
 		// this.ok.setDefaultCapable(true);
 		getContentPane().add(reset);
 		reset.setActionCommand(Resurses.RESET);
 		reset.addActionListener(this);
 		reset.setBounds(730, y, 140, 24);
 
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds((d.width / 2) - 450, (d.height / 2) - 300, 900, y + 100);
 		setResizable(false);
 		getRootPane().setDefaultButton(ok);
@@ -593,7 +596,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Gets the col table.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return column at idx
@@ -604,7 +607,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Gets the col table count.
-	 * 
+	 *
 	 * @return count of columns
 	 */
 	public int getColTableCount() {
@@ -617,7 +620,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 	public void populateFields() {
 
 		try {
-			SukuTypesModel typesModel = Utils.typeInstance();
+			final SukuTypesModel typesModel = Utils.typeInstance();
 			typesModel.initTypes();
 			noticeList.removeAllItems();
 			// String[] names = new String[typesModel.getTypesTagsCount()];
@@ -626,15 +629,14 @@ public class SearchCriteria extends JDialog implements ActionListener {
 				noticeList.addItem(typesModel.getTypesName(i));
 			}
 
-			SukuData sets = Suku.kontroller.getSukuData("cmd=getsettings",
-					"type=query");
+			final SukuData sets = Suku.kontroller.getSukuData("cmd=getsettings", "type=query");
 			resetArguments();
 			int preferredVid = 0;
 			int preferredIndex = -1;
 			viewList.removeAllItems();
-			for (String element : sets.generalArray) {
+			for (final String element : sets.generalArray) {
 
-				String[] parts = element.split("=");
+				final String[] parts = element.split("=");
 				if (parts.length == 2) {
 					if (parts[0].equals("patronyme")) {
 						patronyme.setText(parts[1]);
@@ -676,7 +678,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 							try {
 								preferredVid = Integer.parseInt(vnum[0]);
 
-							} catch (NumberFormatException ne) {
+							} catch (final NumberFormatException ne) {
 								// NumberFormatException ignored
 							}
 
@@ -691,7 +693,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 					} else if (parts[0].equals("croft")) {
 						croft.setText(parts[1]);
 					} else if (parts[0].equals("notice")) {
-						SukuTypesModel model = Utils.typeInstance();
+						final SukuTypesModel model = Utils.typeInstance();
 						int indx = 0;
 						for (int j = 0; j < model.getTypesTagsCount(); j++) {
 							if (parts[1].equals(model.getTypesTag(j))) {
@@ -708,14 +710,14 @@ public class SearchCriteria extends JDialog implements ActionListener {
 						int suretyValue = 100;
 						try {
 							suretyValue = Integer.parseInt(parts[1]);
-						} catch (NumberFormatException ne) {
+						} catch (final NumberFormatException ne) {
 							// NumberFormatException ignored
 						}
 						surety.setSurety(suretyValue);
 
 					} else if (parts[0].equals("sex")) {
 						int sexIndex = 0;
-						char s = parts[1].charAt(0);
+						final char s = parts[1].charAt(0);
 						for (int j = 0; j < sexcodes.length; j++) {
 							if (s == sexcodes[j]) {
 								sexIndex = j;
@@ -732,18 +734,18 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 			}
 
-			SukuData vlist = Suku.kontroller.getSukuData("cmd=viewlist");
-			String[] lista = vlist.generalArray;
+			final SukuData vlist = Suku.kontroller.getSukuData("cmd=viewlist");
+			final String[] lista = vlist.generalArray;
 			viewList.removeAllItems();
 			viewArray = lista;
 			viewList.addItem("");
 			for (int i = 0; i < viewArray.length; i++) {
-				String[] pp = viewArray[i].split(";");
+				final String[] pp = viewArray[i].split(";");
 				if (pp.length > 1) {
 					int vid = 0;
 					try {
 						vid = Integer.parseInt(pp[0]);
-					} catch (NumberFormatException ne) {
+					} catch (final NumberFormatException ne) {
 						// NumberFormatException ignored
 					}
 					if (vid == preferredVid) {
@@ -755,12 +757,11 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 			}
 
-			if ((preferredIndex >= 0)
-					&& (preferredIndex < (viewList.getItemCount() - 1))) {
+			if ((preferredIndex >= 0) && (preferredIndex < (viewList.getItemCount() - 1))) {
 				viewList.setSelectedIndex(preferredIndex + 1);
 			}
 
-			String sn = surname.getText();
+			final String sn = surname.getText();
 			if (!sn.isEmpty()) {
 				surname.selectAll();
 			}
@@ -774,7 +775,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 				patronyme.selectAll();
 			}
 
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			//
 		}
 	}
@@ -783,10 +784,10 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		if ((viewArray == null) || (viewArray.length == 0)) {
 			return 0;
 		}
-		int jidx = this.viewList.getSelectedIndex();
+		final int jidx = this.viewList.getSelectedIndex();
 		if ((jidx > 0) && (jidx <= viewArray.length)) {
-			String aux = viewArray[jidx - 1];
-			int ppidx = aux.indexOf(';');
+			final String aux = viewArray[jidx - 1];
+			final int ppidx = aux.indexOf(';');
 			if (ppidx > 0) {
 				return Integer.parseInt(aux.substring(0, ppidx));
 			}
@@ -797,21 +798,18 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Checks for relative info.
-	 * 
+	 *
 	 * @return true if person has any relatives
 	 */
 	public boolean hasRelativeInfo() {
 
-		if (this.coltables[getColIndex(Resurses.COLUMN_T_ISMARR)]
-				.getCurrentState()) {
+		if (this.coltables[getColIndex(Resurses.COLUMN_T_ISMARR)].getCurrentState()) {
 			return true;
 		}
-		if (this.coltables[getColIndex(Resurses.COLUMN_T_ISPARE)]
-				.getCurrentState()) {
+		if (this.coltables[getColIndex(Resurses.COLUMN_T_ISPARE)].getCurrentState()) {
 			return true;
 		}
-		if (this.coltables[getColIndex(Resurses.COLUMN_T_ISCHILD)]
-				.getCurrentState()) {
+		if (this.coltables[getColIndex(Resurses.COLUMN_T_ISCHILD)].getCurrentState()) {
 			return true;
 		}
 		return false;
@@ -819,7 +817,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Gets the column count.
-	 * 
+	 *
 	 * @return Number of active (current) columns
 	 */
 	public int getColumnCount() {
@@ -828,7 +826,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Fetch current column.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return column at current idx
@@ -853,7 +851,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * The Class ColTable.
-	 * 
+	 *
 	 * @author FIKAAKAIL inner class for column for the table
 	 */
 	public class ColTable {
@@ -872,7 +870,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		/**
 		 * Instantiates a new col table.
-		 * 
+		 *
 		 * @param colname
 		 *            the colname
 		 * @param defState
@@ -884,8 +882,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 			if (me == null) {
 				this.defState = defState;
 			} else {
-				this.defState = Utils.getBooleanPref(me, getColName(),
-						getCurrentState());
+				this.defState = Utils.getBooleanPref(me, getColName(), getCurrentState());
 			}
 			this.currState = defState;
 
@@ -893,7 +890,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		/**
 		 * Gets the chk box.
-		 * 
+		 *
 		 * @return the chk box
 		 */
 		JCheckBox getChkBox() {
@@ -902,7 +899,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		/**
 		 * Sets the current state.
-		 * 
+		 *
 		 * @param state
 		 *            the column state (true = show column)
 		 */
@@ -912,7 +909,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		/**
 		 * Gets the current state.
-		 * 
+		 *
 		 * @return current state of column
 		 */
 		public boolean getCurrentState() {
@@ -921,7 +918,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		/**
 		 * Gets the default state.
-		 * 
+		 *
 		 * @return default state for the column
 		 */
 		public boolean getDefaultState() {
@@ -930,7 +927,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		/**
 		 * Gets the col name.
-		 * 
+		 *
 		 * @return name id of column
 		 */
 		public String getColName() {
@@ -941,7 +938,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * get file contents.
-	 * 
+	 *
 	 * @param fieldId
 	 *            the field id
 	 * @return nameId of field
@@ -959,7 +956,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Gets the field count.
-	 * 
+	 *
 	 * @return no of fields
 	 */
 	public int getFieldCount() {
@@ -977,7 +974,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Gets the criteria field.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return contents of requested field idx
@@ -1027,9 +1024,9 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		case 17:
 			return croft.getText();
 		case 18:
-			int noticeIdx = noticeList.getSelectedIndex();
+			final int noticeIdx = noticeList.getSelectedIndex();
 			if (noticeIdx > 0) {
-				SukuTypesModel model = Utils.typeInstance();
+				final SukuTypesModel model = Utils.typeInstance();
 				return model.getTypesTag(noticeIdx - 1);
 			}
 			return null;
@@ -1039,7 +1036,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		case 20:
 			return "" + surety.getSurety();
 		case 21:
-			int sexIdx = sex.getSelectedIndex();
+			final int sexIdx = sex.getSelectedIndex();
 			if (sexIdx > 0) {
 				return "" + sexcodes[sexIdx];
 			}
@@ -1055,7 +1052,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/**
 	 * Gets the field name.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return name of requested field idx
@@ -1115,13 +1112,13 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		int idx;
 		boolean bvalue;
 		if (cmd == null) {
@@ -1133,7 +1130,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		} else if (cmd.equals(Resurses.OK)) {
 
 			for (idx = 0; idx < this.coltables.length; idx++) {
-				ColTable tbl = this.coltables[idx];
+				final ColTable tbl = this.coltables[idx];
 
 				bvalue = tbl.getChkBox().isSelected();
 				logger.finest("VCOL: " + tbl.getColName() + "/" + bvalue);
@@ -1143,7 +1140,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 			}
 
 			for (idx = 0; idx < this.proptables.length; idx++) {
-				ColTable tbl = this.proptables[idx];
+				final ColTable tbl = this.proptables[idx];
 
 				bvalue = tbl.getChkBox().isSelected();
 				logger.finest("VCOLP: " + tbl.getColName() + "/" + bvalue);
@@ -1152,7 +1149,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 				tbl.setCurrentState(bvalue);
 			}
 
-			ArrayList<String> v = new ArrayList<String>();
+			final ArrayList<String> v = new ArrayList<String>();
 			String tmpDate;
 			v.add("patronyme=" + patronyme.getText());
 			v.add("surname=" + surname.getText());
@@ -1180,19 +1177,19 @@ public class SearchCriteria extends JDialog implements ActionListener {
 			v.add("createdToDate=" + createdToDate.getText());
 			v.add("viewGroup=" + viewGroup.getText());
 
-			int vid = this.getViewId();
+			final int vid = this.getViewId();
 			preferredView = null;
 			if (vid > 0) {
 
 				int ppnum = 0;
 
-				for (String element : viewArray) {
-					String[] pp = element.split(";");
+				for (final String element : viewArray) {
+					final String[] pp = element.split(";");
 
 					try {
 						ppnum = Integer.parseInt(pp[0]);
 
-					} catch (NumberFormatException ne) {
+					} catch (final NumberFormatException ne) {
 						// NumberFormatException ignored
 					}
 
@@ -1212,10 +1209,10 @@ public class SearchCriteria extends JDialog implements ActionListener {
 			v.add("farm=" + farm.getText());
 			v.add("croft=" + croft.getText());
 
-			int noticeIdx = noticeList.getSelectedIndex();
+			final int noticeIdx = noticeList.getSelectedIndex();
 			if (noticeIdx > 0) {
-				SukuTypesModel model = Utils.typeInstance();
-				String tag = model.getTypesTag(noticeIdx - 1);
+				final SukuTypesModel model = Utils.typeInstance();
+				final String tag = model.getTypesTag(noticeIdx - 1);
 				if (tag != null) {
 					v.add("notice=" + tag);
 				}
@@ -1224,28 +1221,27 @@ public class SearchCriteria extends JDialog implements ActionListener {
 			if (noticeExist.isSelected()) {
 				v.add("noticeExists=false");
 			}
-			int suretyValue = surety.getSurety();
+			final int suretyValue = surety.getSurety();
 			if (suretyValue < 100) {
 				v.add("surety=" + suretyValue);
 			}
-			int sexIndex = sex.getSelectedIndex();
+			final int sexIndex = sex.getSelectedIndex();
 			if ((sexIndex > 0) && (sexIndex < sexcodes.length)) {
 
-				char sexValue = sexcodes[sexIndex];
+				final char sexValue = sexcodes[sexIndex];
 
 				if (sexValue != 0) {
 					v.add("sex=" + sexValue);
 				}
 			}
 			v.add("fullText=" + fullText.getText());
-			SukuData request = new SukuData();
+			final SukuData request = new SukuData();
 			request.generalArray = v.toArray(new String[0]);
 			try {
 				Utils.println(this, "talleen settingsejä:" + request);
-				Suku.kontroller.getSukuData(request, "cmd=updatesettings",
-						"type=query");
-			} catch (SukuException e1) {
-				String tmp = "Failed to write query settings ";
+				Suku.kontroller.getSukuData(request, "cmd=updatesettings", "type=query");
+			} catch (final SukuException e1) {
+				final String tmp = "Failed to write query settings ";
 				Utils.println(this, tmp + e1.toString());
 				logger.log(Level.WARNING, tmp, e1);
 			}
@@ -1300,7 +1296,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 	 */
 	class DateTextField extends JPanel {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private final JTextField createdDate;
@@ -1312,14 +1308,14 @@ public class SearchCriteria extends JDialog implements ActionListener {
 			this.setLayout(null);
 			this.createdDate = new JTextField();
 			this.add(createdDate);
-			JCalendarButton calDate = new JCalendarButton();
+			final JCalendarButton calDate = new JCalendarButton();
 			this.add(calDate);
 
 			calDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
 				@Override
 				public void propertyChange(java.beans.PropertyChangeEvent evt) {
 					if (evt.getNewValue() instanceof Date) {
-						String df = Resurses.getDateFormat();
+						final String df = Resurses.getDateFormat();
 						String dff = "yyyy.MM.dd";
 						if (df != null) {
 							if (df.equals("FI")) {
@@ -1330,8 +1326,8 @@ public class SearchCriteria extends JDialog implements ActionListener {
 								dff = "MM/dd/yyyy";
 							}
 						}
-						SimpleDateFormat sf = new SimpleDateFormat(dff);
-						Date dat = (Date) evt.getNewValue();
+						final SimpleDateFormat sf = new SimpleDateFormat(dff);
+						final Date dat = (Date) evt.getNewValue();
 						StringBuffer sb = new StringBuffer();
 						sb = sf.format(dat, sb, new FieldPosition(0));
 						createdDate.setText(sb.toString());
@@ -1339,7 +1335,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 				}
 			});
 
-			Dimension dd = calDate.getPreferredSize();
+			final Dimension dd = calDate.getPreferredSize();
 			this.createdDate.setBounds(0, 0, 155, dd.height);
 			calDate.setBounds(160, 0, dd.width, dd.height);
 
@@ -1347,7 +1343,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		/**
 		 * Sets the text.
-		 * 
+		 *
 		 * @param text
 		 *            the new text
 		 */
@@ -1357,7 +1353,7 @@ public class SearchCriteria extends JDialog implements ActionListener {
 
 		/**
 		 * Gets the text.
-		 * 
+		 *
 		 * @return the text
 		 */
 		public String getText() {

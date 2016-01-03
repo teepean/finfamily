@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.Dimension;
@@ -34,11 +64,10 @@ import fi.kaila.suku.util.pojo.SukuData;
 /**
  * The Class SqlCommandDialog.
  */
-public class SqlCommandDialog extends JDialog implements ActionListener,
-		ComponentListener {
+public class SqlCommandDialog extends JDialog implements ActionListener, ComponentListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -68,11 +97,11 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 
 	/**
 	 * This class executes sql-commands to db.
-	 * 
+	 *
 	 * sql command is executed calling the server
-	 * 
+	 *
 	 * SukuData resu = Suku.kontroll
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 * @throws SukuException
@@ -82,16 +111,14 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 		super(parent, Resurses.getString("MENU_TOOLS_SQL"), false);
 		setLayout(null);
 		getRootPane().addComponentListener(this);
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		Dimension size = new Dimension(650, 500);
-		setBounds((d.width / 2) - 325, (d.height / 2) - 250, size.width,
-				size.height);
-		String loca = Suku.kontroller.getPref(parent, Resurses.LOCALE, "xx");
-		int y = 30;
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension size = new Dimension(650, 500);
+		setBounds((d.width / 2) - 325, (d.height / 2) - 250, size.width, size.height);
+		final String loca = Suku.kontroller.getPref(parent, Resurses.LOCALE, "xx");
+		final int y = 30;
 		inputArea = new JTextArea();
 		inputArea.setLineWrap(true);
-		JScrollPane inputScroll = new JScrollPane(inputArea,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		final JScrollPane inputScroll = new JScrollPane(inputArea, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		inputArea.setWrapStyleWord(true);
 		inputArea.setLineWrap(true);
@@ -99,12 +126,10 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 		columnNames = new Vector<String>();
 		outputTable = new JTable(rowData, columnNames);
 
-		JScrollPane outputScroll = new JScrollPane(outputTable,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		final JScrollPane outputScroll = new JScrollPane(outputTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-		this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true,
-				inputScroll, outputScroll);
+		this.splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, inputScroll, outputScroll);
 		add(this.splitPane);
 		this.splitPane.setBounds(10, y, size.width - 40, size.height - 200);
 		this.splitPane.setDividerLocation(0.5);
@@ -120,15 +145,14 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 
 		extractCommands(loca);
 
-		this.resetView = new JCheckBox(
-				Resurses.getString("DIALOG_VIEW_ADD_EMPTY_VIEW"));
+		this.resetView = new JCheckBox(Resurses.getString("DIALOG_VIEW_ADD_EMPTY_VIEW"));
 		add(this.resetView);
 
 		SukuData vlist;
 
 		vlist = Suku.kontroller.getSukuData("cmd=viewlist");
 
-		String[] lista = vlist.generalArray;
+		final String[] lista = vlist.generalArray;
 		this.viewList = new JComboBox();
 
 		add(this.viewList);
@@ -136,13 +160,13 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 		viewList.addItem(Resurses.getString("TOOLS_SQL_SELECTVIEW"));
 		viewIds = new int[lista.length];
 		for (int i = 0; i < lista.length; i++) {
-			String[] pp = lista[i].split(";");
+			final String[] pp = lista[i].split(";");
 			if (pp.length > 1) {
 				int vid = 0;
 				try {
 					vid = Integer.parseInt(pp[0]);
 					viewIds[i] = vid;
-				} catch (NumberFormatException ne) {
+				} catch (final NumberFormatException ne) {
 					viewIds[i] = 0;
 				}
 				viewList.addItem(pp[1]);
@@ -165,13 +189,12 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 	}
 
 	private void extractCommands(String loca) {
-		InputStream in = this.getClass()
-				.getResourceAsStream("/sql/queries.sql");
+		final InputStream in = this.getClass().getResourceAsStream("/sql/queries.sql");
 
 		String rivi = null;
 		String defaultrivi = null;
 		StringBuilder sb = new StringBuilder();
-		Vector<String> lista = new Vector<String>();
+		final Vector<String> lista = new Vector<String>();
 		try {
 			while ((rivi = readRivi(in)) != null) {
 
@@ -183,7 +206,7 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 					}
 				} else {
 					if (rivi.trim().endsWith(";")) {
-						int lo = rivi.lastIndexOf(";");
+						final int lo = rivi.lastIndexOf(";");
 						sb.append(rivi.substring(0, lo));
 						lista.add(sb.toString());
 						selectExisting.addItem(defaultrivi);
@@ -199,7 +222,7 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 
 			}
 			preparedCommands = lista.toArray(new String[0]);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.log(Level.WARNING, "Creating prepared commands", e);
 		}
 
@@ -208,7 +231,7 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 	private String readRivi(InputStream in) throws IOException {
 		int nextByte = 0;
 
-		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		final ByteArrayOutputStream bout = new ByteArrayOutputStream();
 		while ((nextByte = in.read()) >= 0) {
 			if (nextByte == '\n') {
 				break;
@@ -228,46 +251,43 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 
 	private void executeSQL() {
 		try {
-			String sql = inputArea.getText();
-			SukuData req = new SukuData();
+			final String sql = inputArea.getText();
+			final SukuData req = new SukuData();
 			req.generalText = sql;
 			this.columnNames.clear();
 			this.rowData.clear();
 			SukuData resu = null;
-			boolean emptyView = this.resetView.isSelected();
-			int viewIdx = this.viewList.getSelectedIndex();
+			final boolean emptyView = this.resetView.isSelected();
+			final int viewIdx = this.viewList.getSelectedIndex();
 			if (viewIdx > 0) {
-				resu = Suku.kontroller.getSukuData(req, "cmd=sql",
-						"type=select", "empty=" + emptyView, "vid="
-								+ viewIds[viewIdx - 1]);
+				resu = Suku.kontroller.getSukuData(req, "cmd=sql", "type=select", "empty=" + emptyView,
+						"vid=" + viewIds[viewIdx - 1]);
 			} else {
 
-				resu = Suku.kontroller.getSukuData(req, "cmd=sql",
-						"type=select");
+				resu = Suku.kontroller.getSukuData(req, "cmd=sql", "type=select");
 			}
 			if (resu.resu != null) {
 				errorField.setText(resu.resu);
 				return;
 			}
 			if (resu.resuCount > 0) {
-				errorField.setText(Resurses.getString("MENU_TOOLS_SQL_COUNT")
-						+ " " + resu.resuCount);
+				errorField.setText(Resurses.getString("MENU_TOOLS_SQL_COUNT") + " " + resu.resuCount);
 			} else {
 
 				rowData = new Vector<Vector<String>>();
 				columnNames = new Vector<String>();
 				if (resu.vvTexts != null) {
 					for (int i = 0; i < resu.vvTexts.size(); i++) {
-						String[] ss = resu.vvTexts.get(i);
+						final String[] ss = resu.vvTexts.get(i);
 						if (i == 0) {
 
-							for (String element : ss) {
+							for (final String element : ss) {
 								columnNames.add(element);
 							}
 
 						} else {
-							Vector<String> row = new Vector<String>();
-							for (String element : ss) {
+							final Vector<String> row = new Vector<String>();
+							for (final String element : ss) {
 								row.add(element);
 							}
 							rowData.add(row);
@@ -277,19 +297,16 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 					}
 
 					outputTable = new JTable(rowData, columnNames);
-					errorField.setText(Resurses
-							.getString("MENU_TOOLS_SQL_COUNT")
-							+ " = "
-							+ rowData.size());
+					errorField.setText(Resurses.getString("MENU_TOOLS_SQL_COUNT") + " = " + rowData.size());
 					outputTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-					TableColumnModel tc = outputTable.getColumnModel();
+					final TableColumnModel tc = outputTable.getColumnModel();
 					TableColumn cc;
 					for (int k = 0; k < columnNames.size(); k++) {
 						cc = tc.getColumn(k);
 						cc.setMinWidth(10);
 					}
 
-					JScrollPane outputScroll = new JScrollPane(outputTable,
+					final JScrollPane outputScroll = new JScrollPane(outputTable,
 							ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 							ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
@@ -301,7 +318,7 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 				}
 			}
 
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			errorField.setText(e.getMessage());
 			return;
 		}
@@ -309,7 +326,7 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -323,7 +340,7 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 			setVisible(false);
 		}
 		if (e.getSource() == selectExisting) {
-			int idx = selectExisting.getSelectedIndex();
+			final int idx = selectExisting.getSelectedIndex();
 			if (idx > 0) {
 				splitPane.setDividerLocation(0.5);
 				inputArea.setText(preparedCommands[idx - 1]);
@@ -333,40 +350,33 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
 	 * ComponentEvent)
 	 */
 	@Override
 	public void componentResized(ComponentEvent e) {
 
-		Dimension size = getSize();
-		int rootx = getRootPane().getLocation().x;
-		int rooty = getRootPane().getLocation().y;
+		final Dimension size = getSize();
+		final int rootx = getRootPane().getLocation().x;
+		final int rooty = getRootPane().getLocation().y;
 
 		this.splitPane.setBounds(10, 30, size.width - 40, size.height - 200);
-		this.errorField.setBounds(10, 30 + this.splitPane.getHeight() + 5,
-				this.splitPane.getWidth(), 24);
+		this.errorField.setBounds(10, 30 + this.splitPane.getHeight() + 5, this.splitPane.getWidth(), 24);
 
-		selectExisting.setBounds(10, 30 + this.splitPane.getHeight() + 34,
-				this.splitPane.getWidth() - 20, 24);
+		selectExisting.setBounds(10, 30 + this.splitPane.getHeight() + 34, this.splitPane.getWidth() - 20, 24);
 
-		viewList.setBounds(10, 30 + this.splitPane.getHeight() + 64,
-				this.splitPane.getWidth() - 200, 24);
-		resetView.setBounds(this.splitPane.getWidth() - 190,
-				30 + this.splitPane.getHeight() + 64, 190, 24);
-		ok.setBounds((rootx + size.width) - 250, (rooty + size.height) - 95,
-				100, 24);
-		cancel.setBounds((rootx + size.width) - 140,
-				(rooty + size.height) - 95, 100, 24);
+		viewList.setBounds(10, 30 + this.splitPane.getHeight() + 64, this.splitPane.getWidth() - 200, 24);
+		resetView.setBounds(this.splitPane.getWidth() - 190, 30 + this.splitPane.getHeight() + 64, 190, 24);
+		ok.setBounds((rootx + size.width) - 250, (rooty + size.height) - 95, 100, 24);
+		cancel.setBounds((rootx + size.width) - 140, (rooty + size.height) - 95, 100, 24);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentMoved(ComponentEvent e) {
@@ -375,10 +385,9 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentShown(ComponentEvent e) {
@@ -387,7 +396,7 @@ public class SqlCommandDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
 	 * ComponentEvent)
 	 */

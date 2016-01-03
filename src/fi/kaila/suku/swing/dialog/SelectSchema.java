@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.Dimension;
@@ -22,14 +52,13 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * Select existing or create new schema.
- * 
+ *
  * @author kalle
  */
-public class SelectSchema extends JDialog implements ActionListener,
-		MouseInputListener {
+public class SelectSchema extends JDialog implements ActionListener, MouseInputListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -43,7 +72,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 	/**
 	 * Constructor that always shows the schema textfield.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @param db
@@ -61,7 +90,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @param db
@@ -71,8 +100,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public SelectSchema(JFrame owner, String db, boolean allowNew)
-			throws SukuException {
+	public SelectSchema(JFrame owner, String db, boolean allowNew) throws SukuException {
 		super(owner, Resurses.getString("SCHEMA"), true);
 		// this.owner = owner;
 		this.postDb = db;
@@ -81,7 +109,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 	}
 
 	private void constructMe(boolean allowNew) throws SukuException {
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
 		setBounds((d.width / 2) - 150, (d.height / 2) - 170, 300, 340);
 		setLayout(null);
@@ -94,7 +122,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 			labelValue = "SCHEMA_SELECTNEW";
 		}
 
-		JLabel lbl = new JLabel(Resurses.getString(labelValue));
+		final JLabel lbl = new JLabel(Resurses.getString(labelValue));
 		getContentPane().add(lbl);
 		lbl.setBounds(10, y, 200, 20);
 		y += 20;
@@ -102,8 +130,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 		getContentPane().add(schema);
 		schema.setBounds(10, y, 200, 20);
 		schema.setVisible(allowNew);
-		SukuData schemas = Suku.kontroller.getSukuData("cmd=schema",
-				"type=count");
+		final SukuData schemas = Suku.kontroller.getSukuData("cmd=schema", "type=count");
 		schemaList = schemas.generalArray;
 		if (!allowNew) {
 			if (schemaList.length == 1) {
@@ -115,12 +142,12 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 		scList.addMouseListener(this);
 
-		JScrollPane scroll = new JScrollPane(scList);
+		final JScrollPane scroll = new JScrollPane(scList);
 		getContentPane().add(scroll);
 		scroll.setBounds(10, y + 20, 240, 200);
 
 		y += 240;
-		JButton ok = new JButton(Resurses.getString("OK"));
+		final JButton ok = new JButton(Resurses.getString("OK"));
 		getContentPane().add(ok);
 		ok.setBounds(30, y, 80, 24);
 		ok.setActionCommand("OK");
@@ -129,7 +156,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 		getRootPane().setDefaultButton(ok);
 
-		JButton cancel = new JButton(Resurses.getString("CANCEL"));
+		final JButton cancel = new JButton(Resurses.getString("CANCEL"));
 		getContentPane().add(cancel);
 		cancel.setBounds(120, y, 80, 24);
 		cancel.setActionCommand("CANCEL");
@@ -164,10 +191,10 @@ public class SelectSchema extends JDialog implements ActionListener,
 	 */
 	public boolean isExistingSchema(boolean isH2) {
 
-		String aux = getSchema(isH2);
+		final String aux = getSchema(isH2);
 		if (aux != null) {
 
-			for (String element : schemaList) {
+			for (final String element : schemaList) {
 				if (aux.equalsIgnoreCase(element)) {
 					return true;
 				}
@@ -178,13 +205,13 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		if (cmd == null) {
 			return;
 		}
@@ -197,13 +224,13 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	@Override
 	public void mouseClicked(java.awt.event.MouseEvent e) {
-		int clickCount = e.getClickCount();
-		int idx = scList.getSelectedIndex();
+		final int clickCount = e.getClickCount();
+		final int idx = scList.getSelectedIndex();
 		if (idx >= 0) {
 			schema.setText(schemaList[idx]);
 			// if (schema.isVisible()) {
@@ -218,7 +245,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -228,7 +255,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -238,7 +265,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -248,7 +275,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
@@ -259,7 +286,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent
 	 * )
@@ -271,7 +298,7 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */

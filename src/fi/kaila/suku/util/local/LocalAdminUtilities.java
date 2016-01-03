@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.local;
 
 import java.awt.Cursor;
@@ -29,13 +59,13 @@ import fi.kaila.suku.util.Utils;
 /**
  * Admin part of application uses database directly from user side This is not
  * available in webstart version.
- * 
+ *
  * @author Kalle
  */
 public class LocalAdminUtilities extends JFrame implements ActionListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -56,7 +86,7 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 * @throws ClassNotFoundException
@@ -74,9 +104,9 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 
 	private void initMe() {
 
-		JMenuBar menubar = new JMenuBar();
+		final JMenuBar menubar = new JMenuBar();
 		setJMenuBar(menubar);
-		JMenu mFile = new JMenu(Resurses.getString(Resurses.DATABASE));
+		final JMenu mFile = new JMenu(Resurses.getString(Resurses.DATABASE));
 		menubar.add(mFile);
 
 		// JMenuItem mConn = new
@@ -91,8 +121,7 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 		this.mNewUser.setActionCommand(Resurses.NEWUSER);
 		this.mNewUser.addActionListener(this);
 
-		this.mChangePassword = new JMenuItem(
-				Resurses.getString(Resurses.CHANGEPASSWORD));
+		this.mChangePassword = new JMenuItem(Resurses.getString(Resurses.CHANGEPASSWORD));
 		this.mChangePassword.setEnabled(false);
 		mFile.add(this.mChangePassword);
 		this.mChangePassword.setActionCommand(Resurses.CHANGEPASSWORD);
@@ -112,7 +141,7 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 		this.mDropDatabase.addActionListener(this);
 
 		mFile.addSeparator();
-		JMenuItem mExit = new JMenuItem(Resurses.getString(Resurses.EXIT));
+		final JMenuItem mExit = new JMenuItem(Resurses.getString(Resurses.EXIT));
 		mFile.add(mExit);
 		mExit.setActionCommand(Resurses.EXIT);
 		mExit.addActionListener(this);
@@ -126,7 +155,7 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 		this.getContentPane().add(lbl);
 
 		// mDb = new JMenu("DB");
-		String[] data = { "" };// {"one", "two", "three", "four"};
+		final String[] data = { "" };// {"one", "two", "three", "four"};
 		this.dblista = new JList(data);
 		this.dblista.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		// this.dblista.setBounds(30,30,200,100);
@@ -134,7 +163,7 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 
 		// this.missingPlaceList = new JTextArea();
 		// this.missingPlaceList.setEditable(false);
-		JScrollPane js = new JScrollPane(this.dblista);
+		final JScrollPane js = new JScrollPane(this.dblista);
 		js.setBounds(30, 80, 200, 200);
 		this.getContentPane().add(js);
 
@@ -178,14 +207,14 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 
 	/**
 	 * Connect postgres.
-	 * 
+	 *
 	 * @return true is succeeded to connect to databse
 	 */
 	public boolean connectPostgres() {
 		/** The is H2 database. */
-		boolean isH2 = false;
+		final boolean isH2 = false;
 
-		AdminConnectDialog pdlg = new AdminConnectDialog(this);
+		final AdminConnectDialog pdlg = new AdminConnectDialog(this);
 		pdlg.setVisible(true);
 		postPassword = pdlg.getPassword();
 
@@ -195,14 +224,14 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 			String[] datalista;
 			String[] userlista;
 			try {
-				Connection con = getConnection();
+				final Connection con = getConnection();
 				datalista = LocalDatabaseUtility.getListOfDatabases(con, isH2);
 				// this.dblista.removeAll();
 				this.dblista.setListData(datalista);
 
 				userlista = LocalDatabaseUtility.getListOfUsers(con, isH2);
 				this.userCombo.removeAllItems();
-				for (String element : userlista) {
+				for (final String element : userlista) {
 					this.userCombo.addItem(element);
 
 				}
@@ -216,18 +245,15 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 
 				return true;
 
-			} catch (Exception e1) {
+			} catch (final Exception e1) {
 				postPassword = null;
-				JOptionPane
-						.showMessageDialog(this, "Error: " + e1.getMessage());
+				JOptionPane.showMessageDialog(this, "Error: " + e1.getMessage());
 				return false;
 			}
 		} else {
 			postPassword = null;
-			JOptionPane.showMessageDialog(this,
-					Resurses.getString("CONNEADMIN"),
-					Resurses.getString("STAT_FOR_YOUR_INFORMATION"),
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, Resurses.getString("CONNEADMIN"),
+					Resurses.getString("STAT_FOR_YOUR_INFORMATION"), JOptionPane.INFORMATION_MESSAGE);
 			return false;
 		}
 
@@ -235,16 +261,16 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		/** The is H2 database. */
-		boolean isH2 = false;
- 
-		String cmd = e.getActionCommand();
+		final boolean isH2 = false;
+
+		final String cmd = e.getActionCommand();
 
 		if (cmd == null) {
 			return;
@@ -255,56 +281,51 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 			String newUser = null;
 			String newPassword = null;
 
-			LocalUserAdmin ladm = new LocalUserAdmin(this);
+			final LocalUserAdmin ladm = new LocalUserAdmin(this);
 			ladm.setVisible(true);
 
 			newUser = Utils.toUsAscii(ladm.getUserid());
 			newPassword = ladm.getPassword();
 
-			if ((newUser != null) && (newPassword != null)
-					&& (newUser.length() > 2) && (newPassword.length() > 2)) {
+			if ((newUser != null) && (newPassword != null) && (newUser.length() > 2) && (newPassword.length() > 2)) {
 
 				for (int i = 0; i < this.userCombo.getItemCount(); i++) {
-					String aux = (String) this.userCombo.getItemAt(i);
+					final String aux = (String) this.userCombo.getItemAt(i);
 
 					if ((aux != null) && aux.equalsIgnoreCase(newUser)) {
-						JOptionPane.showMessageDialog(this,
-								Resurses.getString("ADMINUSEREXIST"));
+						JOptionPane.showMessageDialog(this, Resurses.getString("ADMINUSEREXIST"));
 						return;
 					}
 				}
 
 				try {
-					String sql = "CREATE ROLE " + newUser
-							+ " WITH LOGIN PASSWORD '" + newPassword + "' ";
+					final String sql = "CREATE ROLE " + newUser + " WITH LOGIN PASSWORD '" + newPassword + "' ";
 
-					Connection con = getConnection();
-					Statement stm = con.createStatement();
+					final Connection con = getConnection();
+					final Statement stm = con.createStatement();
 					stm.executeUpdate(sql);
 
-					String[] userlista = LocalDatabaseUtility
-							.getListOfUsers(con, isH2);
+					final String[] userlista = LocalDatabaseUtility.getListOfUsers(con, isH2);
 					this.userCombo.removeAllItems();
-					for (String element : userlista) {
+					for (final String element : userlista) {
 						this.userCombo.addItem(element);
 
 					}
 					stm.close();
 					con.close();
 
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(this,
-							"Error: " + e1.getMessage());
+					JOptionPane.showMessageDialog(this, "Error: " + e1.getMessage());
 				}
 
 			}
 		} else if (cmd.equals(Resurses.CHANGEPASSWORD)) {
 
-			String oldUser = (String) this.userCombo.getSelectedItem();
+			final String oldUser = (String) this.userCombo.getSelectedItem();
 			String newPassword = null;
 
-			LocalUserAdmin ladm = new LocalUserAdmin(this);
+			final LocalUserAdmin ladm = new LocalUserAdmin(this);
 			ladm.setUserid(oldUser);
 
 			ladm.setVisible(true);
@@ -313,55 +334,50 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 
 			if (newPassword != null) {
 				try {
-					String sql = "alter user " + oldUser + " password  '"
-							+ newPassword + "'";
-					Connection con = getConnection();
-					Statement stm = con.createStatement();
+					final String sql = "alter user " + oldUser + " password  '" + newPassword + "'";
+					final Connection con = getConnection();
+					final Statement stm = con.createStatement();
 					stm.executeUpdate(sql);
 					stm.close();
 					con.close();
 
-				} catch (SQLException e1) {
+				} catch (final SQLException e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(this,
-							"Error: " + e1.getMessage());
+					JOptionPane.showMessageDialog(this, "Error: " + e1.getMessage());
 				}
 
 			}
 		} else if (cmd.equals(Resurses.NEWDB)) {
 
-			String newDb = Utils.toUsAscii(JOptionPane.showInputDialog(this,
-					Resurses.getString("NEWDATABASENAME")));
-			Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
+			final String newDb = Utils
+					.toUsAscii(JOptionPane.showInputDialog(this, Resurses.getString("NEWDATABASENAME")));
+			final Cursor hourglassCursor = new Cursor(Cursor.WAIT_CURSOR);
 			setCursor(hourglassCursor);
 
-			String owner = (String) this.userCombo.getSelectedItem();
+			final String owner = (String) this.userCombo.getSelectedItem();
 
 			if ((owner != null) && (newDb != null) && (newDb.length() > 0)) {
 				try {
-					String sql = "create database " + newDb + " owner = "
-							+ owner + " encoding = 'UTF8'";
-					Connection con = getConnection();
-					Statement stm = con.createStatement();
+					final String sql = "create database " + newDb + " owner = " + owner + " encoding = 'UTF8'";
+					final Connection con = getConnection();
+					final Statement stm = con.createStatement();
 					stm.executeUpdate(sql);
-					String[] datalista = LocalDatabaseUtility
-							.getListOfDatabases(con, isH2);
+					final String[] datalista = LocalDatabaseUtility.getListOfDatabases(con, isH2);
 					this.dblista.setListData(datalista);
 					stm.close();
 					con.close();
 
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(this,
-							"Error: " + e1.getMessage());
+					JOptionPane.showMessageDialog(this, "Error: " + e1.getMessage());
 				}
-				Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
+				final Cursor normalCursor = new Cursor(Cursor.DEFAULT_CURSOR);
 				setCursor(normalCursor);
 			}
 
 		} else if (cmd.equals(Resurses.DROPDB)) {
 
-			String dbname = (String) this.dblista.getSelectedValue();
+			final String dbname = (String) this.dblista.getSelectedValue();
 
 			if (dbname == null) {
 				return;
@@ -371,20 +387,18 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 					Resurses.getString("ASKTODROP") + " " + dbname) == JOptionPane.YES_OPTION) {
 
 				try {
-					String sql = "drop database " + dbname + " ";
-					Connection con = getConnection();
-					Statement stm = con.createStatement();
+					final String sql = "drop database " + dbname + " ";
+					final Connection con = getConnection();
+					final Statement stm = con.createStatement();
 					stm.executeUpdate(sql);
-					String[] datalista = LocalDatabaseUtility
-							.getListOfDatabases(con, isH2);
+					final String[] datalista = LocalDatabaseUtility.getListOfDatabases(con, isH2);
 					this.dblista.setListData(datalista);
 					stm.close();
 					con.close();
 
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(this,
-							"Error: " + e1.getMessage());
+					JOptionPane.showMessageDialog(this, "Error: " + e1.getMessage());
 				}
 
 			}

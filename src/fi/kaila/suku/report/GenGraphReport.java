@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.report;
 
 import java.io.BufferedOutputStream;
@@ -7,14 +37,6 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import jxl.Workbook;
-import jxl.write.Label;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import jxl.write.biff.RowsExceededException;
 import fi.kaila.suku.report.dialog.ReportWorkerDialog;
 import fi.kaila.suku.swing.Suku;
 import fi.kaila.suku.util.Resurses;
@@ -24,6 +46,14 @@ import fi.kaila.suku.util.Utils;
 import fi.kaila.suku.util.pojo.PersonShortData;
 import fi.kaila.suku.util.pojo.Relation;
 import fi.kaila.suku.util.pojo.SukuData;
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 
 /**
  * <h1>GenGraph Report</h1>.
@@ -34,7 +64,7 @@ public class GenGraphReport extends CommonReport {
 
 	/**
 	 * Constructor for GenGraphReport.
-	 * 
+	 *
 	 * @param caller
 	 *            the caller
 	 * @param typesTable
@@ -42,8 +72,7 @@ public class GenGraphReport extends CommonReport {
 	 * @param repoWriter
 	 *            the repo writer
 	 */
-	public GenGraphReport(ReportWorkerDialog caller, SukuTypesTable typesTable,
-			ReportInterface repoWriter) {
+	public GenGraphReport(ReportWorkerDialog caller, SukuTypesTable typesTable, ReportInterface repoWriter) {
 		super(caller, typesTable, repoWriter);
 	}
 
@@ -58,22 +87,22 @@ public class GenGraphReport extends CommonReport {
 			return;
 		}
 
-		int genAnc = caller.getOtherPane().getAncestors();
-		int genDesc = caller.getOtherPane().getDescendants();
-		int youngFrom = caller.getOtherPane().getYoungFrom();
+		final int genAnc = caller.getOtherPane().getAncestors();
+		final int genDesc = caller.getOtherPane().getDescendants();
+		final int youngFrom = caller.getOtherPane().getYoungFrom();
 
-		boolean adopted = caller.getOtherPane().isAdopted();
-		boolean parents = caller.getOtherPane().isParents();
-		boolean spouses = caller.getOtherPane().isSpouses();
-		boolean givenName = caller.getOtherPane().isGivenname();
-		boolean surname = caller.getOtherPane().isSurname();
-		boolean occu = caller.getOtherPane().isOccupation();
-		boolean lived = caller.getOtherPane().isLived();
-		boolean place = caller.getOtherPane().isPlace();
-		boolean married = caller.getOtherPane().isMarried();
+		final boolean adopted = caller.getOtherPane().isAdopted();
+		final boolean parents = caller.getOtherPane().isParents();
+		final boolean spouses = caller.getOtherPane().isSpouses();
+		final boolean givenName = caller.getOtherPane().isGivenname();
+		final boolean surname = caller.getOtherPane().isSurname();
+		final boolean occu = caller.getOtherPane().isOccupation();
+		final boolean lived = caller.getOtherPane().isLived();
+		final boolean place = caller.getOtherPane().isPlace();
+		final boolean married = caller.getOtherPane().isMarried();
 
-		logger.info("asked for " + genAnc + " ancestors, " + genDesc
-				+ " descendants and " + youngFrom + " backwards generations");
+		logger.info("asked for " + genAnc + " ancestors, " + genDesc + " descendants and " + youngFrom
+				+ " backwards generations");
 
 		try {
 			//
@@ -87,36 +116,30 @@ public class GenGraphReport extends CommonReport {
 			// vlist.pers
 			// and all its Relation into array
 			// vlist.relation
-			SukuData vlist = caller.getKontroller().getSukuData("cmd=person",
-					"mode=relations", "pid=" + caller.getPid(),
-					"lang=" + Resurses.getLanguage());
+			final SukuData vlist = caller.getKontroller().getSukuData("cmd=person", "mode=relations",
+					"pid=" + caller.getPid(), "lang=" + Resurses.getLanguage());
 
 			// logger.info("GenGraphReport");
 
-			BufferedOutputStream bstr = new BufferedOutputStream(
-					Suku.kontroller.getOutputStream());
-			WritableWorkbook workbook = Workbook.createWorkbook(bstr);
+			final BufferedOutputStream bstr = new BufferedOutputStream(Suku.kontroller.getOutputStream());
+			final WritableWorkbook workbook = Workbook.createWorkbook(bstr);
 			// WritableWorkbook workbook = Workbook.createWorkbook(new
 			// File("output.xls"));
 
-			WritableSheet sheet = workbook.createSheet("DescLista", 0);
+			final WritableSheet sheet = workbook.createSheet("DescLista", 0);
 
 			// Create a cell format for Times 16, bold and italic
-			WritableFont arial10italic = new WritableFont(WritableFont.ARIAL,
-					10, WritableFont.NO_BOLD, true);
-			WritableCellFormat italic10format = new WritableCellFormat(
-					arial10italic);
+			final WritableFont arial10italic = new WritableFont(WritableFont.ARIAL, 10, WritableFont.NO_BOLD, true);
+			final WritableCellFormat italic10format = new WritableCellFormat(arial10italic);
 
-			WritableFont arial10bold = new WritableFont(WritableFont.ARIAL, 10,
-					WritableFont.BOLD, false);
-			WritableCellFormat italic10bold = new WritableCellFormat(
-					arial10bold);
+			final WritableFont arial10bold = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD, false);
+			final WritableCellFormat italic10bold = new WritableCellFormat(arial10bold);
 
-			Label label = new Label(0, 0, "Tulos");
+			final Label label = new Label(0, 0, "Tulos");
 			sheet.addCell(label);
 			int row = 2;
 			for (int i = 0; i < vlist.pers.length; i++) {
-				PersonShortData pp = vlist.pers[i];
+				final PersonShortData pp = vlist.pers[i];
 
 				row = addPersonToSheet(sheet, row, pp);
 
@@ -126,17 +149,14 @@ public class GenGraphReport extends CommonReport {
 				if (vlist.relations != null) {
 					// this is a sample demo to show how to get father for
 					// person in vlist
-					for (Relation relation : vlist.relations) {
-						Relation r = relation; // here is relation j
+					for (final Relation relation : vlist.relations) {
+						final Relation r = relation; // here is relation j
 						if (r.getTag().equals("FATH") && !isAdopted(r)) {
 							// now r contains the Relation for father
-							SukuData fdata = caller.getKontroller()
-									.getSukuData("cmd=person",
-											"mode=relations",
-											"pid=" + r.getRelative(),
-											"lang=" + Resurses.getLanguage());
+							final SukuData fdata = caller.getKontroller().getSukuData("cmd=person", "mode=relations",
+									"pid=" + r.getRelative(), "lang=" + Resurses.getLanguage());
 							// read father into fdata
-							PersonShortData ppf = fdata.pers[i];
+							final PersonShortData ppf = fdata.pers[i];
 							row = addPersonToSheet(sheet, row, ppf); // print
 							// father
 							// to
@@ -153,38 +173,32 @@ public class GenGraphReport extends CommonReport {
 			workbook.close();
 			bstr.close();
 
-			String report = Suku.kontroller.getFilePath();
+			final String report = Suku.kontroller.getFilePath();
 			Utils.openExternalFile(report);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (RowsExceededException e) {
+		} catch (final RowsExceededException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (WriteException e) {
+		} catch (final WriteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (SukuException e) {
-			logger.log(Level.INFO, Resurses.getString(Resurses.CREATE_REPORT),
-					e);
-			JOptionPane.showMessageDialog(
-					caller,
-					Resurses.getString(Resurses.CREATE_REPORT) + ":"
-							+ e.getMessage());
+		} catch (final SukuException e) {
+			logger.log(Level.INFO, Resurses.getString(Resurses.CREATE_REPORT), e);
+			JOptionPane.showMessageDialog(caller, Resurses.getString(Resurses.CREATE_REPORT) + ":" + e.getMessage());
 			return;
 		}
 
 	}
 
-	private int addPersonToSheet(WritableSheet sheet, int row,
-			PersonShortData pp) throws WriteException, RowsExceededException {
+	private int addPersonToSheet(WritableSheet sheet, int row, PersonShortData pp)
+			throws WriteException, RowsExceededException {
 		Label label;
-		String bdate = pp.getBirtDate() == null ? null : pp.getBirtDate()
-				.substring(0, 4);
-		String ddate = pp.getDeatDate() == null ? null : pp.getDeatDate()
-				.substring(0, 4);
+		final String bdate = pp.getBirtDate() == null ? null : pp.getBirtDate().substring(0, 4);
+		final String ddate = pp.getDeatDate() == null ? null : pp.getDeatDate().substring(0, 4);
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append(pp.getAlfaName());
 		if (bdate != null) {
 			sb.append(" ");
@@ -203,7 +217,7 @@ public class GenGraphReport extends CommonReport {
 
 	/**
 	 * Check if this describes an adoption
-	 * 
+	 *
 	 * @param rela
 	 * @return true if relation describes an adoption
 	 */
@@ -221,7 +235,7 @@ public class GenGraphReport extends CommonReport {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.report.CommonReport#setVisible(boolean)
 	 */
 	@Override

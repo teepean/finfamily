@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.pojo;
 
 import java.io.Serializable;
@@ -7,13 +37,13 @@ import java.sql.Timestamp;
 
 /**
  * Container class for UnitLanguage table.
- * 
+ *
  * @author Kalle
  */
 public class UnitLanguage implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -44,13 +74,17 @@ public class UnitLanguage implements Serializable {
 	/** The note text - varchar, -- Note textfield (L). */
 	String noteText = null;
 
-	/** The media title - varchar, -- text describing the multimedia file (L). */
+	/**
+	 * The media title - varchar, -- text describing the multimedia file (L).
+	 */
 	String mediaTitle = null;
 	//
 	/** The modified - timestamp, -- timestamp modified. */
 	Timestamp modified = null;
 
-	/** The create date - timestamp not null default now() -- timestamp created. */
+	/**
+	 * The create date - timestamp not null default now() -- timestamp created.
+	 */
 	Timestamp createDate = null;
 
 	/** The modified by userid. */
@@ -61,7 +95,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Instantiates a new unit language.
-	 * 
+	 *
 	 * @param rs
 	 *            the rs
 	 * @throws SQLException
@@ -78,7 +112,8 @@ public class UnitLanguage implements Serializable {
 		noteText = rs.getString("notetext");
 		mediaTitle = rs.getString("mediatitle");
 		@SuppressWarnings("unused")
-		String[] RefNames = null; // varchar, -- List of names within notice for
+		final String[] RefNames = null; // varchar, -- List of names within
+										// notice for
 		// index
 		modified = rs.getTimestamp("modified");
 		createDate = rs.getTimestamp("createDate");
@@ -89,7 +124,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Instantiates a new unit language.
-	 * 
+	 *
 	 * @param langCode
 	 *            the lang code
 	 */
@@ -99,7 +134,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Sets the to be deleted.
-	 * 
+	 *
 	 * @param value
 	 *            true if this is to be deleted
 	 */
@@ -116,7 +151,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Checks if is to be deleted.
-	 * 
+	 *
 	 * @return true if this is to be deleted
 	 */
 	public boolean isToBeDeleted() {
@@ -125,7 +160,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Checks if is to be updated.
-	 * 
+	 *
 	 * @return true if this is to be updated
 	 */
 	public boolean isToBeUpdated() {
@@ -134,7 +169,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the pnid.
-	 * 
+	 *
 	 * @return person notice id
 	 */
 	public int getPnid() {
@@ -143,7 +178,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the pid.
-	 * 
+	 *
 	 * @return pid (person id)
 	 */
 	public int getPid() {
@@ -152,7 +187,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the lang code.
-	 * 
+	 *
 	 * @return langcode
 	 */
 	public String getLangCode() {
@@ -161,7 +196,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the tag.
-	 * 
+	 *
 	 * @return tag
 	 */
 	public String getTag() {
@@ -170,7 +205,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the notice type.
-	 * 
+	 *
 	 * @return notice type
 	 */
 	public String getNoticeType() {
@@ -179,7 +214,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Sets the notice type.
-	 * 
+	 *
 	 * @param text
 	 *            the new notice type
 	 */
@@ -193,7 +228,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the description.
-	 * 
+	 *
 	 * @return description
 	 */
 	public String getDescription() {
@@ -202,7 +237,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Sets the description.
-	 * 
+	 *
 	 * @param text
 	 *            the new description
 	 */
@@ -216,7 +251,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the place.
-	 * 
+	 *
 	 * @return place
 	 */
 	public String getPlace() {
@@ -225,7 +260,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Sets the place.
-	 * 
+	 *
 	 * @param text
 	 *            the new place
 	 */
@@ -239,7 +274,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the note text.
-	 * 
+	 *
 	 * @return notetext
 	 */
 	public String getNoteText() {
@@ -248,7 +283,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Sets the note text.
-	 * 
+	 *
 	 * @param text
 	 *            the new note text
 	 */
@@ -262,7 +297,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the media title.
-	 * 
+	 *
 	 * @return media title
 	 */
 	public String getMediaTitle() {
@@ -271,7 +306,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Sets the media title.
-	 * 
+	 *
 	 * @param text
 	 *            the new media title
 	 */
@@ -285,7 +320,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the modified.
-	 * 
+	 *
 	 * @return time when modified
 	 */
 	public Timestamp getModified() {
@@ -294,7 +329,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the modified by.
-	 * 
+	 *
 	 * @return userid of last modifier
 	 */
 	public String getModifiedBy() {
@@ -303,7 +338,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the created.
-	 * 
+	 *
 	 * @return time when created
 	 */
 	public Timestamp getCreated() {
@@ -312,7 +347,7 @@ public class UnitLanguage implements Serializable {
 
 	/**
 	 * Gets the created by.
-	 * 
+	 *
 	 * @return userid of creater
 	 */
 	public String getCreatedBy() {

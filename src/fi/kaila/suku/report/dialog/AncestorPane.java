@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.report.dialog;
 
 import java.awt.GridLayout;
@@ -16,13 +46,13 @@ import fi.kaila.suku.util.pojo.PersonShortData;
 
 /**
  * <h1>Ancestor report settings pane</h1>.
- * 
+ *
  * @author Kalle
  */
 public class AncestorPane extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -35,13 +65,13 @@ public class AncestorPane extends JPanel {
 
 	/**
 	 * Constructor sets up ths fields.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 */
 	public AncestorPane(ReportWorkerDialog parent) {
 
-		int rtypx = 10;
+		final int rtypx = 10;
 		int rtypy = 10;
 
 		setLayout(null);
@@ -59,26 +89,22 @@ public class AncestorPane extends JPanel {
 		add(pp);
 		rtypy += 24;
 
-		JPanel pane = new JPanel();
-		pane.setBorder(BorderFactory.createTitledBorder(Resurses
-				.getString("REPORT.ANC.NUMBERING")));
+		final JPanel pane = new JPanel();
+		pane.setBorder(BorderFactory.createTitledBorder(Resurses.getString("REPORT.ANC.NUMBERING")));
 		pane.setLayout(new GridLayout(0, 1));
 		pane.setBounds(rtypx, rtypy, 250, 160);
 
 		ancestorNumberingFormatGroup = new ButtonGroup();
-		JRadioButton formd = new JRadioButton(
-				Resurses.getString("REPORT.ANC.NUMBERING.STRADONIZ"));
+		JRadioButton formd = new JRadioButton(Resurses.getString("REPORT.ANC.NUMBERING.STRADONIZ"));
 		formd.setActionCommand(ReportWorkerDialog.SET_ANC_STRADONIZ);
 		ancestorNumberingFormatGroup.add(formd);
 		formd.setSelected(true);
 		pane.add(formd);
-		formd = new JRadioButton(
-				Resurses.getString("REPORT.ANC.NUMBERING.HAGER"));
+		formd = new JRadioButton(Resurses.getString("REPORT.ANC.NUMBERING.HAGER"));
 		formd.setActionCommand(ReportWorkerDialog.SET_ANC_HAGER);
 		ancestorNumberingFormatGroup.add(formd);
 		pane.add(formd);
-		formd = new JRadioButton(
-				Resurses.getString("REPORT.ANC.NUMBERING.ESPOLIN"));
+		formd = new JRadioButton(Resurses.getString("REPORT.ANC.NUMBERING.ESPOLIN"));
 		formd.setActionCommand(ReportWorkerDialog.SET_ANC_ESPOLIN);
 		ancestorNumberingFormatGroup.add(formd);
 		pane.add(formd);
@@ -94,14 +120,14 @@ public class AncestorPane extends JPanel {
 		formd.setActionCommand("REPORT.LISTA.GRAPHVIZ");
 		ancestorNumberingFormatGroup.add(formd);
 		pane.add(formd);
-		PersonLongData psp = parent.getSukuParent().getSubject();
+		final PersonLongData psp = parent.getSukuParent().getSubject();
 
 		formd = new JRadioButton(Resurses.getString("REPORT.RELATION.SHOW"));
 		formd.setActionCommand("REPORT.RELATION.SHOW");
 		ancestorNumberingFormatGroup.add(formd);
 		pane.add(formd);
 		if (psp != null) {
-			PersonShortData pss = new PersonShortData(psp);
+			final PersonShortData pss = new PersonShortData(psp);
 			lb = new JLabel("    " + pss.getName(false, false));
 			pane.add(lb);
 		}
@@ -110,13 +136,11 @@ public class AncestorPane extends JPanel {
 		}
 
 		rtypy += 180;
-		ancestorShowFamily = new JCheckBox(
-				Resurses.getString("REPORT.ANC.SHOW.FAMILY"));
+		ancestorShowFamily = new JCheckBox(Resurses.getString("REPORT.ANC.SHOW.FAMILY"));
 		ancestorShowFamily.setBounds(rtypx, rtypy, 280, 20);
 		add(ancestorShowFamily);
 		rtypy += 22;
-		ancestorAllBranches = new JCheckBox(
-				Resurses.getString("REPORT.ANC.ALL.BRANCHES"));
+		ancestorAllBranches = new JCheckBox(Resurses.getString("REPORT.ANC.ALL.BRANCHES"));
 		ancestorAllBranches.setBounds(rtypx, rtypy, 280, 20);
 		add(ancestorAllBranches);
 		rtypy += 22;
@@ -149,7 +173,7 @@ public class AncestorPane extends JPanel {
 
 	/**
 	 * Gets the generations.
-	 * 
+	 *
 	 * @return no of generations
 	 */
 	public int getGenerations() {
@@ -157,7 +181,7 @@ public class AncestorPane extends JPanel {
 		int gen = 0;
 		try {
 			gen = Integer.parseInt(generations.getText());
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			gen = 99;
 			generations.setText("99");
 		}
@@ -166,7 +190,7 @@ public class AncestorPane extends JPanel {
 
 	/**
 	 * Sets the generations.
-	 * 
+	 *
 	 * @param string
 	 *            the new generations
 	 */
@@ -177,7 +201,7 @@ public class AncestorPane extends JPanel {
 
 	/**
 	 * Value in the buttomngroup is the getActionCommand().
-	 * 
+	 *
 	 * @return the ButtonGroup for numbering of ancestors
 	 */
 	public ButtonGroup getNumberingFormat() {
@@ -186,7 +210,7 @@ public class AncestorPane extends JPanel {
 
 	/**
 	 * Gets the showfamily.
-	 * 
+	 *
 	 * @return true if ancestor family is to be shown also
 	 */
 	public boolean getShowfamily() {
@@ -195,7 +219,7 @@ public class AncestorPane extends JPanel {
 
 	/**
 	 * Gets the all branches.
-	 * 
+	 *
 	 * @return true if all ancestor branches are to be shown
 	 */
 	public boolean getAllBranches() {
@@ -204,7 +228,7 @@ public class AncestorPane extends JPanel {
 
 	/**
 	 * Sets the show family.
-	 * 
+	 *
 	 * @param value
 	 *            set true to show also ancestro family
 	 */
@@ -215,7 +239,7 @@ public class AncestorPane extends JPanel {
 
 	/**
 	 * Sets the all branches.
-	 * 
+	 *
 	 * @param value
 	 *            set true to include all ancestor brances
 	 */
@@ -225,7 +249,7 @@ public class AncestorPane extends JPanel {
 
 	/**
 	 * TODO decide if this is needed.
-	 * 
+	 *
 	 * @return no of descendant geneartions to print
 	 */
 	public String getShowDescGen() {
@@ -234,7 +258,7 @@ public class AncestorPane extends JPanel {
 
 	/**
 	 * TODO decide if this is needed.
-	 * 
+	 *
 	 * @param string
 	 *            no of descendants generations for the ancestor
 	 */

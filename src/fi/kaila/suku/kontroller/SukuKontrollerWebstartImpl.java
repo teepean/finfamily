@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.kontroller;
 
 import java.io.ByteArrayInputStream;
@@ -27,9 +57,9 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * The Class SukuKontrollerWebstartImpl.
- * 
+ *
  * @author FIKAAKAIL
- * 
+ *
  *         webstart implementation for kontroller
  */
 public class SukuKontrollerWebstartImpl implements SukuKontroller {
@@ -44,15 +74,14 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 	public SukuKontrollerWebstartImpl() {
 		logger = Logger.getLogger(this.getClass().getName());
 		try {
-			BasicService bs = (BasicService) ServiceManager
-					.lookup("javax.jnlp.BasicService");
+			final BasicService bs = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
 			if (bs != null) {
 
 				this.codebase = bs.getCodeBase().toString();
 
 			}
 
-		} catch (UnavailableServiceException e) {
+		} catch (final UnavailableServiceException e) {
 
 			this.codebase = "http://localhost/suku/";
 			e.printStackTrace();
@@ -71,28 +100,27 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * fi.kaila.suku.kontroller.SukuKontroller#getConnection(java.lang.String,
 	 * java.lang.String, java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void getConnection(String host, String dbname, String userid,
-			String passwd, boolean isH2) throws SukuException {
+	public void getConnection(String host, String dbname, String userid, String passwd, boolean isH2)
+			throws SukuException {
 		schema = null;
 		isConnected = false;
 		this.isH2 = isH2;
-		String requri = this.codebase + "SukuServlet?userid=" + userid
-				+ "&passwd=" + passwd;
+		final String requri = this.codebase + "SukuServlet?userid=" + userid + "&passwd=" + passwd;
 
 		int resu;
 
 		try {
 
-			URL url = new URL(requri);
-			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+			final URL url = new URL(requri);
+			final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
-			String encoding = uc.getContentEncoding();
+			final String encoding = uc.getContentEncoding();
 
 			resu = uc.getResponseCode();
 
@@ -105,7 +133,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 					in = uc.getInputStream();
 				}
 
-				byte b[] = new byte[1024];
+				final byte b[] = new byte[1024];
 
 				int pit = in.read(b);
 				for (int i = 0; i < pit; i++) {
@@ -114,9 +142,9 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 						break;
 					}
 				}
-				String aux = new String(b, 0, pit);
+				final String aux = new String(b, 0, pit);
 
-				String auxes[] = aux.split("/");
+				final String auxes[] = aux.split("/");
 
 				this.userno = auxes[0];
 				if (auxes.length > 1) {
@@ -130,16 +158,15 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 				throw new Exception();
 			}
 
-		} catch (Exception e) {
-			throw new SukuException(Resurses.getString("ERR_NOT_CONNECTED")
-					+ " [" + e.toString() + "]");
+		} catch (final Exception e) {
+			throw new SukuException(Resurses.getString("ERR_NOT_CONNECTED") + " [" + e.toString() + "]");
 		}
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#resetConnection()
 	 */
 	@Override
@@ -150,7 +177,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#setDBType()
 	 */
 	@Override
@@ -161,7 +188,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#getPref(java.lang.Object,
 	 * java.lang.String, java.lang.String)
 	 */
@@ -171,24 +198,22 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 		String aux;
 
 		try {
-			PersistenceService ps = (PersistenceService) ServiceManager
-					.lookup("javax.jnlp.PersistenceService");
-			BasicService bs = (BasicService) ServiceManager
-					.lookup("javax.jnlp.BasicService");
-			URL baseURL = bs.getCodeBase();
+			final PersistenceService ps = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
+			final BasicService bs = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
+			final URL baseURL = bs.getCodeBase();
 
-			URL editorURL = new URL(baseURL, key);
+			final URL editorURL = new URL(baseURL, key);
 
-			FileContents fc = ps.get(editorURL);
-			DataInputStream is = new DataInputStream(fc.getInputStream());
+			final FileContents fc = ps.get(editorURL);
+			final DataInputStream is = new DataInputStream(fc.getInputStream());
 			aux = is.readUTF();
 			is.close();
 
 			return aux;
-		} catch (FileNotFoundException fe) {
+		} catch (final FileNotFoundException fe) {
 
 			return def;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Utils.println(this, "Kaatui: e=" + e);
 			e.printStackTrace();
 		}
@@ -199,7 +224,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#putPref(java.lang.Object,
 	 * java.lang.String, java.lang.String)
 	 */
@@ -208,32 +233,29 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 		PersistenceService ps;
 		try {
-			ps = (PersistenceService) ServiceManager
-					.lookup("javax.jnlp.PersistenceService");
+			ps = (PersistenceService) ServiceManager.lookup("javax.jnlp.PersistenceService");
 
-			BasicService bs = (BasicService) ServiceManager
-					.lookup("javax.jnlp.BasicService");
-			URL baseURL = bs.getCodeBase();
+			final BasicService bs = (BasicService) ServiceManager.lookup("javax.jnlp.BasicService");
+			final URL baseURL = bs.getCodeBase();
 
-			URL keyURL = new URL(baseURL, key);
+			final URL keyURL = new URL(baseURL, key);
 			FileContents fc = null;
 			try {
 				fc = ps.get(keyURL);
 				ps.delete(keyURL);
-			} catch (FileNotFoundException fe) {
+			} catch (final FileNotFoundException fe) {
 				System.out.println("putPref fnf " + fe.toString());
 
 			}
 			ps.create(keyURL, 1024);
 			fc = ps.get(keyURL);
 
-			DataOutputStream os = new DataOutputStream(
-					fc.getOutputStream(false));
+			final DataOutputStream os = new DataOutputStream(fc.getOutputStream(false));
 
 			os.writeUTF(value);
 			os.flush();
 			os.close();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			System.out.println("putPref e " + e.toString());
 			e.printStackTrace();
 		}
@@ -242,7 +264,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * fi.kaila.suku.kontroller.SukuKontroller#getSukuData(java.lang.String[])
 	 */
@@ -253,7 +275,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * fi.kaila.suku.kontroller.SukuKontroller#openLocalFile(java.lang.String)
 	 */
@@ -264,8 +286,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 		InputStream iis = null;
 
 		try {
-			fos = (FileOpenService) ServiceManager
-					.lookup("javax.jnlp.FileOpenService");
+			fos = (FileOpenService) ServiceManager.lookup("javax.jnlp.FileOpenService");
 
 			fc = fos.openFileDialog(null, null);
 			if (fc == null) {
@@ -273,14 +294,13 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 			}
 
 			iis = fc.getInputStream();
-			int resu = KontrollerUtils.openFile(this.codebase, this.userno,
-					getFileName(), iis);
+			final int resu = KontrollerUtils.openFile(this.codebase, this.userno, getFileName(), iis);
 			if (resu == 200) {
 				return true;
 			}
 			Utils.println(this, "openFile returned response " + resu);
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Utils.println(this, e.toString());
 			e.printStackTrace();
 		}
@@ -290,23 +310,21 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * fi.kaila.suku.kontroller.SukuKontroller#getSukuData(fi.kaila.suku.util
 	 * .pojo.SukuData, java.lang.String[])
 	 */
 	@Override
-	public SukuData getSukuData(SukuData request, String... params)
-			throws SukuException {
+	public SukuData getSukuData(SukuData request, String... params) throws SukuException {
 
-		return KontrollerUtils.getSukuData(this.codebase, this.userno, request,
-				params);
+		return KontrollerUtils.getSukuData(this.codebase, this.userno, request, params);
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#getFileLength()
 	 */
 	@Override
@@ -314,7 +332,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 		if (fc != null) {
 			try {
 				return fc.getLength();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				Utils.println(this, e.toString());
 			}
 		}
@@ -324,7 +342,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#getInputStream()
 	 */
 	@Override
@@ -333,7 +351,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 		if (fc != null) {
 			try {
 				return fc.getInputStream();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				Utils.println(this, "getInputStream " + e.toString());
 				return null;
 			}
@@ -345,7 +363,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#getFileName()
 	 */
 	@Override
@@ -353,7 +371,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 		if (fc != null) {
 			try {
 				return fc.getName();
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				Utils.println(this, "getFileName: " + e.toString());
 
 			}
@@ -363,7 +381,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * fi.kaila.suku.kontroller.SukuKontroller#createLocalFile(java.lang.String)
 	 */
@@ -376,20 +394,19 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 		FileSaveService fos;
 		try {
-			fos = (FileSaveService) ServiceManager
-					.lookup("javax.jnlp.FileSaveService");
+			fos = (FileSaveService) ServiceManager.lookup("javax.jnlp.FileSaveService");
 
-			String[] extensions = new String[1];
+			final String[] extensions = new String[1];
 			extensions[0] = filter;
 
-			byte[] buffi = { '0', '1', '2', '3' };
+			final byte[] buffi = { '0', '1', '2', '3' };
 
-			ByteArrayInputStream in = new ByteArrayInputStream(buffi);
+			final ByteArrayInputStream in = new ByteArrayInputStream(buffi);
 
 			fc = fos.saveFileDialog(null, extensions, in, "FinFamily");
 
 			return true;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Utils.println(this, "createLocal: " + e.toString());
 
 			e.printStackTrace();
@@ -400,7 +417,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#getOutputStream()
 	 */
 	@Override
@@ -411,21 +428,20 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#openFile(java.lang.String)
 	 */
 	@Override
 	public InputStream openLocalFile(String path) {
 
 		try {
-			FileOpenService fos = (FileOpenService) ServiceManager
-					.lookup("javax.jnlp.FileOpenService");
+			final FileOpenService fos = (FileOpenService) ServiceManager.lookup("javax.jnlp.FileOpenService");
 
 			fc = fos.openFileDialog(null, null);
 			if (fc != null) {
 				return fc.getInputStream();
 			}
-		} catch (Exception e1) {
+		} catch (final Exception e1) {
 			Utils.println(this, "openfile: " + e1.toString());
 
 		}
@@ -435,7 +451,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#getFilePath()
 	 */
 	@Override
@@ -446,7 +462,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#isRemote()
 	 */
 	@Override
@@ -457,7 +473,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#saveFile(java.lang.String,
 	 * java.io.InputStream)
 	 */
@@ -469,16 +485,15 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 		FileSaveService fos;
 		try {
-			fos = (FileSaveService) ServiceManager
-					.lookup("javax.jnlp.FileSaveService");
+			fos = (FileSaveService) ServiceManager.lookup("javax.jnlp.FileSaveService");
 
-			String[] extensions = new String[1];
+			final String[] extensions = new String[1];
 			extensions[0] = Resurses.getString("FULL_PATHNAME") + " " + filter;
 
 			fc = fos.saveFileDialog(null, extensions, in, "FinFamily" + filter);
 
 			return true;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Utils.println(this, "createLocal: " + e.toString());
 
 			e.printStackTrace();
@@ -488,7 +503,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#isWebStart()
 	 */
 	@Override
@@ -499,7 +514,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#isConnected()
 	 */
 	@Override
@@ -509,7 +524,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#isH2()
 	 */
 	@Override
@@ -519,7 +534,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#getSchema()
 	 */
 	@Override
@@ -530,7 +545,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.kontroller.SukuKontroller#setSchema(java.lang.String)
 	 */
 	@Override

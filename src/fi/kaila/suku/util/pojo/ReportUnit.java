@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.pojo;
 
 import java.io.Serializable;
@@ -5,7 +35,7 @@ import java.util.Vector;
 
 /**
  * ReportUnit contains whole structure of one table.
- * 
+ *
  * @author Kaarle Kaila
  */
 public class ReportUnit implements Serializable {
@@ -28,7 +58,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Gets the parent.
-	 * 
+	 *
 	 * @return Vector of parents
 	 */
 	public Vector<ReportTableMember> getParent() {
@@ -37,7 +67,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Gets the child.
-	 * 
+	 *
 	 * @return Vector of children
 	 */
 	public Vector<ReportTableMember> getChild() {
@@ -46,7 +76,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Gets the member count.
-	 * 
+	 *
 	 * @return count of members in table
 	 */
 	public int getMemberCount() {
@@ -55,14 +85,14 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Gets the member.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return member at idx
 	 */
 	public ReportTableMember getMember(int idx) {
 		ReportTableMember mem = null;
-		int pares = asParent.size();
+		final int pares = asParent.size();
 		if (idx < pares) {
 			mem = asParent.get(idx);
 		} else if ((idx - pares) < asChild.size()) {
@@ -74,7 +104,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Adds the parent.
-	 * 
+	 *
 	 * @param pare
 	 *            at end
 	 */
@@ -89,7 +119,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Adds the child.
-	 * 
+	 *
 	 * @param chil
 	 *            at end
 	 */
@@ -104,7 +134,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Sets the pid.
-	 * 
+	 *
 	 * @param pid
 	 *            the new pid
 	 */
@@ -114,7 +144,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Gets the pid.
-	 * 
+	 *
 	 * @return pid
 	 */
 	public int getPid() {
@@ -123,7 +153,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Sets the table no.
-	 * 
+	 *
 	 * @param tableNo
 	 *            the new table no
 	 */
@@ -133,7 +163,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Gets the table no.
-	 * 
+	 *
 	 * @return tableno
 	 */
 	public long getTableNo() {
@@ -142,7 +172,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Sets the gen.
-	 * 
+	 *
 	 * @param gen
 	 *            = generation
 	 */
@@ -152,7 +182,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Gets the gen.
-	 * 
+	 *
 	 * @return generation
 	 */
 	public int getGen() {
@@ -161,7 +191,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Sets the parent table.
-	 * 
+	 *
 	 * @param parentTab
 	 *            tableno of parent table
 	 */
@@ -171,13 +201,13 @@ public class ReportUnit implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("pid=" + pid + ",tab=" + tableNo + ",gen=" + gen);
 
 		if (fatherPid > 0) {
@@ -188,7 +218,7 @@ public class ReportUnit implements Serializable {
 		}
 		if (asParent.size() > 0) {
 			for (int i = 0; i < asParent.size(); i++) {
-				ReportTableMember rm = asParent.get(i);
+				final ReportTableMember rm = asParent.get(i);
 				if (i == 0) {
 					sb.append("\n  asparent=" + rm);
 				} else {
@@ -199,7 +229,7 @@ public class ReportUnit implements Serializable {
 
 		if (asChild.size() > 0) {
 			for (int i = 0; i < asChild.size(); i++) {
-				ReportTableMember rm = asChild.get(i);
+				final ReportTableMember rm = asChild.get(i);
 				if (i == 0) {
 					sb.append("\n  aschild=" + rm);
 				} else {
@@ -213,7 +243,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Sets the father pid.
-	 * 
+	 *
 	 * @param fatherPid
 	 *            the fatherPid to set
 	 */
@@ -223,7 +253,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Gets the father pid.
-	 * 
+	 *
 	 * @return the fatherPid
 	 */
 	public int getFatherPid() {
@@ -232,7 +262,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Sets the mother pid.
-	 * 
+	 *
 	 * @param motherPid
 	 *            the motherPid to set
 	 */
@@ -242,7 +272,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Gets the mother pid.
-	 * 
+	 *
 	 * @return the motherPid
 	 */
 	public int getMotherPid() {
@@ -251,7 +281,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Sets the page no.
-	 * 
+	 *
 	 * @param pageNo
 	 *            the pageNo to set
 	 */
@@ -263,7 +293,7 @@ public class ReportUnit implements Serializable {
 
 	/**
 	 * Gets the page no.
-	 * 
+	 *
 	 * @return the pageNo
 	 */
 	public int getPageNo() {

@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.report.dialog;
 
 import java.awt.GridLayout;
@@ -14,13 +44,13 @@ import fi.kaila.suku.util.Resurses;
 
 /**
  * The descendant part of report settings.
- * 
+ *
  * @author Kalle
  */
 public class DescendantPane extends JPanel {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTextField generations = null;
@@ -36,7 +66,7 @@ public class DescendantPane extends JPanel {
 	 */
 	public DescendantPane() {
 
-		int rtypx = 10;
+		final int rtypx = 10;
 		int rtypy = 10;
 
 		setLayout(null);
@@ -76,8 +106,7 @@ public class DescendantPane extends JPanel {
 		adopted.setBounds(rtypx, rtypy, 200, 20);
 		add(adopted);
 		rtypy += 20;
-		bothParents = new JCheckBox(
-				Resurses.getString("REPORT.DESC.BOTHPARENTS"));
+		bothParents = new JCheckBox(Resurses.getString("REPORT.DESC.BOTHPARENTS"));
 		bothParents.setBounds(rtypx, rtypy, 200, 20);
 		add(bothParents);
 		rtypy += 20;
@@ -96,8 +125,7 @@ public class DescendantPane extends JPanel {
 		lb.setBounds(50, 0, 180, 20);
 
 		pane = new JPanel();
-		pane.setBorder(BorderFactory.createTitledBorder(Resurses
-				.getString("REPORT.DESC.LISTA")));
+		pane.setBorder(BorderFactory.createTitledBorder(Resurses.getString("REPORT.DESC.LISTA")));
 		pane.setLayout(new GridLayout(0, 1));
 		pane.setBounds(rtypx, rtypy, 250, 70);
 
@@ -133,15 +161,13 @@ public class DescendantPane extends JPanel {
 		rtypy += 70;
 
 		pane = new JPanel();
-		pane.setBorder(BorderFactory.createTitledBorder(Resurses
-				.getString("REPORT.DESC.ORDER")));
+		pane.setBorder(BorderFactory.createTitledBorder(Resurses.getString("REPORT.DESC.ORDER")));
 		pane.setLayout(new GridLayout(0, 1));
 
 		pane.setBounds(rtypx, rtypy, 250, 120);
 
 		tableOrder = new ButtonGroup();
-		JRadioButton radio = new JRadioButton(
-				Resurses.getString("REPORT.DESC.ORDER.TABLE"));
+		JRadioButton radio = new JRadioButton(Resurses.getString("REPORT.DESC.ORDER.TABLE"));
 		tableOrder.add(radio);
 		radio.setActionCommand(ReportWorkerDialog.SET_ORDER_TAB);
 		radio.setSelected(true);
@@ -154,13 +180,11 @@ public class DescendantPane extends JPanel {
 		tableOrder.add(radio);
 		radio.setActionCommand(ReportWorkerDialog.SET_ORDER_FEMALE);
 		pane.add(radio);
-		radio = new JRadioButton(
-				Resurses.getString("REPORT.DESC.ORDER.MALEFIRST"));
+		radio = new JRadioButton(Resurses.getString("REPORT.DESC.ORDER.MALEFIRST"));
 		tableOrder.add(radio);
 		radio.setActionCommand(ReportWorkerDialog.SET_ORDER_FIRSTMALE);
 		pane.add(radio);
-		radio = new JRadioButton(
-				Resurses.getString("REPORT.DESC.ORDER.REGISTER"));
+		radio = new JRadioButton(Resurses.getString("REPORT.DESC.ORDER.REGISTER"));
 		tableOrder.add(radio);
 		radio.setActionCommand(ReportWorkerDialog.SET_ORDER_REG);
 		pane.add(radio);
@@ -183,7 +207,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * Gets the generations.
-	 * 
+	 *
 	 * @return no of generations
 	 */
 	public int getGenerations() {
@@ -191,7 +215,7 @@ public class DescendantPane extends JPanel {
 		int gen = 0;
 		try {
 			gen = Integer.parseInt(generations.getText());
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			gen = 99;
 			generations.setText("99");
 		}
@@ -200,14 +224,14 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * Gets the start table.
-	 * 
+	 *
 	 * @return start table number
 	 */
 	public int getStartTable() {
 		int tab = 1;
 		try {
 			tab = Integer.parseInt(startTable.getText());
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			tab = 1;
 			generations.setText("1");
 		}
@@ -216,7 +240,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * Gets the spouse ancestors.
-	 * 
+	 *
 	 * @return no of spouse ancestor generations
 	 */
 	public int getSpouseAncestors() {
@@ -224,7 +248,7 @@ public class DescendantPane extends JPanel {
 		int gen = 0;
 		try {
 			gen = Integer.parseInt(spouseAncestors.getText());
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			gen = 99;
 			spouseAncestors.setText("0");
 		}
@@ -233,7 +257,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * Gets the child ancestors.
-	 * 
+	 *
 	 * @return no of child ancestor generations
 	 */
 	public int getChildAncestors() {
@@ -241,7 +265,7 @@ public class DescendantPane extends JPanel {
 		int gen = 0;
 		try {
 			gen = Integer.parseInt(childAncestors.getText());
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			gen = 99;
 			childAncestors.setText("0");
 		}
@@ -250,7 +274,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * Gets the table order.
-	 * 
+	 *
 	 * @return buttongroup for tableorder
 	 */
 	public ButtonGroup getTableOrder() {
@@ -259,7 +283,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * set generations.
-	 * 
+	 *
 	 * @param string
 	 *            the new generations
 	 */
@@ -270,7 +294,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * set start table number.
-	 * 
+	 *
 	 * @param tab
 	 *            the new start table
 	 */
@@ -280,7 +304,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * Sets the spouse ancestors.
-	 * 
+	 *
 	 * @param string
 	 *            the new spouse ancestors
 	 */
@@ -291,7 +315,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * Sets the child ancestors.
-	 * 
+	 *
 	 * @param string
 	 *            the new child ancestors
 	 */
@@ -302,7 +326,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * Gets the adopted.
-	 * 
+	 *
 	 * @return treu to show also adoped
 	 */
 	public boolean getAdopted() {
@@ -311,7 +335,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * Checks if is both parents.
-	 * 
+	 *
 	 * @return true, if is both parents
 	 */
 	public boolean isBothParents() {
@@ -320,7 +344,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * Sets the adopted.
-	 * 
+	 *
 	 * @param value
 	 *            the new adopted
 	 */
@@ -331,7 +355,7 @@ public class DescendantPane extends JPanel {
 
 	/**
 	 * Sets the both parents.
-	 * 
+	 *
 	 * @param value
 	 *            the new both parents
 	 */

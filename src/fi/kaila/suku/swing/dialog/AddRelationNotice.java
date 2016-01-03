@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.event.ActionEvent;
@@ -16,11 +46,10 @@ import fi.kaila.suku.util.SukuException;
 
 /**
  * Dialog to add relation notice.
- * 
+ *
  * @author Kalle
  */
-public class AddRelationNotice extends JDialog implements ActionListener,
-		MouseListener {
+public class AddRelationNotice extends JDialog implements ActionListener, MouseListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -39,7 +68,7 @@ public class AddRelationNotice extends JDialog implements ActionListener,
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @param isMarriage
@@ -47,8 +76,7 @@ public class AddRelationNotice extends JDialog implements ActionListener,
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public AddRelationNotice(Suku owner, boolean isMarriage)
-			throws SukuException {
+	public AddRelationNotice(Suku owner, boolean isMarriage) throws SukuException {
 		super(owner, Resurses.getString("DIALOG_ADD_NOTICE"), true);
 
 		// Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -86,7 +114,7 @@ public class AddRelationNotice extends JDialog implements ActionListener,
 
 		koko = new JList(kokoLista);
 		koko.addMouseListener(this);
-		JScrollPane kokoScroll = new JScrollPane(koko);
+		final JScrollPane kokoScroll = new JScrollPane(koko);
 		getContentPane().add(kokoScroll);
 		kokoScroll.setBounds(10, 10, 120, 80);
 
@@ -94,7 +122,7 @@ public class AddRelationNotice extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the selected tag.
-	 * 
+	 *
 	 * @return tag to be added
 	 */
 	public String getSelectedTag() {
@@ -103,7 +131,7 @@ public class AddRelationNotice extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -114,12 +142,12 @@ public class AddRelationNotice extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		int idx = koko.getSelectedIndex();
+		final int idx = koko.getSelectedIndex();
 		selectedTag = kokoTags[idx];
 		setVisible(false);
 
@@ -127,7 +155,7 @@ public class AddRelationNotice extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -137,7 +165,7 @@ public class AddRelationNotice extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -147,7 +175,7 @@ public class AddRelationNotice extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -157,7 +185,7 @@ public class AddRelationNotice extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */

@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.report;
 
 import java.util.ArrayList;
@@ -33,9 +63,9 @@ import fi.kaila.suku.util.pojo.UnitNotice;
 
 /**
  * <h1>Ancestor report creator</h1>
- * 
+ *
  * The ancestor report structure is created here.
- * 
+ *
  * @author Kalle
  */
 public class AncestorReport extends CommonReport {
@@ -44,7 +74,7 @@ public class AncestorReport extends CommonReport {
 
 	/**
 	 * Constructor for Ancestor report.
-	 * 
+	 *
 	 * @param caller
 	 *            the caller
 	 * @param typesTable
@@ -52,50 +82,39 @@ public class AncestorReport extends CommonReport {
 	 * @param repoWriter
 	 *            the repo writer
 	 */
-	public AncestorReport(ReportWorkerDialog caller, SukuTypesTable typesTable,
-			ReportInterface repoWriter) {
+	public AncestorReport(ReportWorkerDialog caller, SukuTypesTable typesTable, ReportInterface repoWriter) {
 		super(caller, typesTable, repoWriter);
 
 	}
 
 	/**
 	 * execute the ancestor report.
-	 * 
+	 *
 	 * @throws SukuException
 	 *             the suku exception
 	 */
 	@Override
 	public void executeReport() throws SukuException {
 		SukuData vlist = null;
-		String order = caller.getAncestorPane().getNumberingFormat()
-				.getSelection().getActionCommand();
+		final String order = caller.getAncestorPane().getNumberingFormat().getSelection().getActionCommand();
 
-		boolean showFamily = caller.getAncestorPane().getShowfamily();
-		int generations = caller.getAncestorPane().getGenerations();
+		final boolean showFamily = caller.getAncestorPane().getShowfamily();
+		final int generations = caller.getAncestorPane().getGenerations();
 
-		logger.info("Ancestor report for " + caller.getPid() + ", order="
-				+ order + ", include family = [" + showFamily + "] with ["
-				+ generations + "] generations");
+		logger.info("Ancestor report for " + caller.getPid() + ", order=" + order + ", include family = [" + showFamily
+				+ "] with [" + generations + "] generations");
 
 		try {
-			vlist = caller.getKontroller().getSukuData(
-					"cmd=" + Resurses.CMD_CREATE_TABLES,
-					"type=" + Resurses.CMD_ANC_TYPE,
-					"generations=" + generations, "order=" + order,
+			vlist = caller.getKontroller().getSukuData("cmd=" + Resurses.CMD_CREATE_TABLES,
+					"type=" + Resurses.CMD_ANC_TYPE, "generations=" + generations, "order=" + order,
 					"family=" + showFamily, "pid=" + caller.getPid());
-		} catch (SukuException e) {
-			logger.log(Level.INFO, Resurses.getString(Resurses.CREATE_REPORT),
-					e);
-			JOptionPane.showMessageDialog(
-					caller,
-					Resurses.getString(Resurses.CREATE_REPORT) + ":"
-							+ e.getMessage());
+		} catch (final SukuException e) {
+			logger.log(Level.INFO, Resurses.getString(Resurses.CREATE_REPORT), e);
+			JOptionPane.showMessageDialog(caller, Resurses.getString(Resurses.CREATE_REPORT) + ":" + e.getMessage());
 		}
 
 		if ((vlist != null) && (vlist.resu != null)) {
-			JOptionPane.showMessageDialog(caller,
-					Resurses.getString(Resurses.CREATE_REPORT) + " ["
-							+ vlist.resu + "]");
+			JOptionPane.showMessageDialog(caller, Resurses.getString(Resurses.CREATE_REPORT) + " [" + vlist.resu + "]");
 			return;
 		}
 		tables = vlist.tables;
@@ -116,12 +135,10 @@ public class AncestorReport extends CommonReport {
 			}
 			try {
 				printNameIndex();
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 				logger.log(Level.WARNING, "NameIndex", e);
-				JOptionPane.showMessageDialog(
-						caller,
-						Resurses.getString(Resurses.CREATE_REPORT) + ":"
-								+ e.getMessage());
+				JOptionPane.showMessageDialog(caller,
+						Resurses.getString(Resurses.CREATE_REPORT) + ":" + e.getMessage());
 			}
 			repoWriter.closeReport();
 
@@ -129,8 +146,7 @@ public class AncestorReport extends CommonReport {
 
 	}
 
-	private void createFullStradoReport(HashMap<Integer, ReportUnit> reportUnits)
-			throws SukuException {
+	private void createFullStradoReport(HashMap<Integer, ReportUnit> reportUnits) throws SukuException {
 		textReferences = new HashMap<String, PersonInTables>();
 
 		ReportUnitAll ftab = null;
@@ -142,7 +158,7 @@ public class AncestorReport extends CommonReport {
 		Vector<ReportUnitAll> genlistNext = null;
 
 		Vector<ReportUnitAll> genlist = new Vector<ReportUnitAll>();
-		ReportUnitAll ra = new ReportUnitAll();
+		final ReportUnitAll ra = new ReportUnitAll();
 		ra.r = tables.get(0);
 		ra.gene = 1;
 		ra.tabNo = 1;
@@ -150,7 +166,7 @@ public class AncestorReport extends CommonReport {
 		boolean firstTable = true;
 		while (true) {
 			genlistNext = new Vector<ReportUnitAll>();
-			for (ReportUnitAll ua : genlist) {
+			for (final ReportUnitAll ua : genlist) {
 				if (firstTable) {
 					ftab = ua;
 					mtab = new ReportUnitAll();
@@ -176,8 +192,7 @@ public class AncestorReport extends CommonReport {
 
 				if ((ua.r.getFatherPid() > 0) || (ua.r.getMotherPid() > 0)) {
 
-					createAncestorTable(0, ftab.r, mtab.r,
-							(ftab.r != null ? ftab.tabNo : mtab.tabNo));
+					createAncestorTable(0, ftab.r, mtab.r, (ftab.r != null ? ftab.tabNo : mtab.tabNo));
 
 					if (ftab.r != null) {
 						genlistNext.add(ftab);
@@ -214,7 +229,7 @@ public class AncestorReport extends CommonReport {
 
 		while (i < tables.size()) {
 
-			ReportUnit tab = tables.get(i);
+			final ReportUnit tab = tables.get(i);
 			ftab = null;
 			mtab = null;
 
@@ -224,9 +239,7 @@ public class AncestorReport extends CommonReport {
 
 				if ((i > 0) && ((tab.getTableNo() % 2) == 0)) {
 					ftab = tab;
-					if ((i < (tables.size() - 1))
-							&& ((tab.getTableNo() + 1) == tables.get(i + 1)
-									.getTableNo())) {
+					if ((i < (tables.size() - 1)) && ((tab.getTableNo() + 1) == tables.get(i + 1).getTableNo())) {
 						mtab = tables.get(i + 1);
 					}
 
@@ -254,10 +267,9 @@ public class AncestorReport extends CommonReport {
 		long currTab = 0;
 		for (int i = 0; i < tables.size(); i++) {
 
-			ReportUnit tab = tables.get(i);
+			final ReportUnit tab = tables.get(i);
 
-			createAncestorTable(i, tab, null, currTab == tab.getTableNo() ? 0
-					: tab.getTableNo());
+			createAncestorTable(i, tab, null, currTab == tab.getTableNo() ? 0 : tab.getTableNo());
 			// createDescendantTable(i, tab);
 			currTab = tab.getTableNo();
 		}
@@ -268,7 +280,7 @@ public class AncestorReport extends CommonReport {
 
 	/**
 	 * Ancestor report family table is created here.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @param ftab
@@ -280,8 +292,7 @@ public class AncestorReport extends CommonReport {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	protected void createAncestorTable(int idx, ReportUnit ftab,
-			ReportUnit mtab, long tableNum) throws SukuException {
+	protected void createAncestorTable(int idx, ReportUnit ftab, ReportUnit mtab, long tableNum) throws SukuException {
 		BodyText bt = null;
 		ReportTableMember subjectmember;
 		SukuData pappadata = null;
@@ -292,26 +303,23 @@ public class AncestorReport extends CommonReport {
 		// long motherTable = 0;
 		//
 		// long currTabNo = 0;
-		boolean fams = caller.getAncestorPane().getShowfamily();
-		String order = caller.getAncestorPane().getNumberingFormat()
-				.getSelection().getActionCommand();
-		if (!order.equals("ESPOLIN")
-				&& caller.getAncestorPane().getAllBranches()) {
+		final boolean fams = caller.getAncestorPane().getShowfamily();
+		final String order = caller.getAncestorPane().getNumberingFormat().getSelection().getActionCommand();
+		if (!order.equals("ESPOLIN") && caller.getAncestorPane().getAllBranches()) {
 			// currTabNo = tableNum;
 		}
 		PersonLongData xdata = null;
 		// UnitNotice[] xnotices = null;
-		StringBuilder tabOwner = new StringBuilder();
+		final StringBuilder tabOwner = new StringBuilder();
 		if (ftab != null) {
 			// fatherTable = ftab.getTableNo();
 			mainTab = ftab;
 			subjectmember = ftab.getParent().get(0);
 
 			try {
-				pappadata = caller.getKontroller().getSukuData("cmd=person",
-						"pid=" + subjectmember.getPid(),
+				pappadata = caller.getKontroller().getSukuData("cmd=person", "pid=" + subjectmember.getPid(),
 						"lang=" + Resurses.getLanguage());
-			} catch (SukuException e1) {
+			} catch (final SukuException e1) {
 				logger.log(Level.WARNING, "background reporting", e1);
 				JOptionPane.showMessageDialog(caller, e1.getMessage());
 				return;
@@ -324,10 +332,9 @@ public class AncestorReport extends CommonReport {
 			subjectmember = mtab.getParent().get(0);
 
 			try {
-				mammadata = caller.getKontroller().getSukuData("cmd=person",
-						"pid=" + subjectmember.getPid(),
+				mammadata = caller.getKontroller().getSukuData("cmd=person", "pid=" + subjectmember.getPid(),
 						"lang=" + Resurses.getLanguage());
-			} catch (SukuException e1) {
+			} catch (final SukuException e1) {
 				logger.log(Level.WARNING, "background reporting", e1);
 				JOptionPane.showMessageDialog(caller, e1.getMessage());
 				return;
@@ -341,8 +348,8 @@ public class AncestorReport extends CommonReport {
 		}
 
 		for (int i = 0; i < mainTab.getMemberCount(); i++) {
-			ReportTableMember mem = mainTab.getMember(i);
-			PersonInTables pt = personReferences.get(mem.getPid());
+			final ReportTableMember mem = mainTab.getMember(i);
+			final PersonInTables pt = personReferences.get(mem.getPid());
 			if (pt != null) {
 				if (mainTab.getTableNo() > 0) {
 					pt.addOwner(mainTab.getTableNo());
@@ -351,7 +358,7 @@ public class AncestorReport extends CommonReport {
 		}
 
 		for (int j = 0; j < xdata.getNotices().length; j++) {
-			UnitNotice nn = xdata.getNotices()[j];
+			final UnitNotice nn = xdata.getNotices()[j];
 			if (nn.getTag().equals("NAME")) {
 				tabOwner.append(nn.getSurname());
 				if (tabOwner.length() > 0) {
@@ -362,9 +369,8 @@ public class AncestorReport extends CommonReport {
 			}
 		}
 
-		float prose = (idx * 100f) / tables.size();
-		caller.setRunnerValue("" + (int) prose + ";" + tableNum + ":"
-				+ tabOwner.toString());
+		final float prose = (idx * 100f) / tables.size();
+		caller.setRunnerValue("" + (int) prose + ";" + tableNum + ":" + tabOwner.toString());
 
 		bt = new TableHeaderText();
 		String genText = "";
@@ -405,13 +411,13 @@ public class AncestorReport extends CommonReport {
 				tab = mtab;
 			}
 
-			HashMap<Long, Long> mp = new HashMap<Long, Long>();
+			final HashMap<Long, Long> mp = new HashMap<Long, Long>();
 			for (int j = 0; j < tab.getChild().size(); j++) {
-				ReportTableMember mom = tab.getChild().get(j);
+				final ReportTableMember mom = tab.getChild().get(j);
 
 				long mytab = 0;
 
-				ReportUnit ru = personTables.get(mom.getPid());
+				final ReportUnit ru = personTables.get(mom.getPid());
 				if (ru != null) {
 					mytab = ru.getTableNo();
 					if (mytab > 0) {
@@ -424,18 +430,17 @@ public class AncestorReport extends CommonReport {
 			}
 			if (mp.size() > 0) {
 				bt.addText("(");
-				bt.addText(typesTable.getTextValue((mp.size() == 1 ? "FROMTABLE"
-						: "FROMTABLES")));
+				bt.addText(typesTable.getTextValue((mp.size() == 1 ? "FROMTABLE" : "FROMTABLES")));
 				bt.addText(" ");
 
-				Iterator<Long> ki = mp.keySet().iterator();
+				final Iterator<Long> ki = mp.keySet().iterator();
 				boolean setComma = false;
 				while (ki.hasNext()) {
 					if (setComma) {
 						bt.addText(",");
 					}
 					setComma = true;
-					String tt = toPrintTable(ki.next(), true);
+					final String tt = toPrintTable(ki.next(), true);
 					bt.addLink(" " + tt, true, false, false, "" + tt);
 					// bt.addText(toPrintTable(ki.next(), true));
 				}
@@ -476,8 +481,7 @@ public class AncestorReport extends CommonReport {
 				if (!order.equals("ESPOLIN")) {
 					addParentReference(tab, bt);
 				}
-				printNotices(bt, pappadata.persLong, getTypeColumn(fid),
-						ftab.getTableNo());
+				printNotices(bt, pappadata.persLong, getTypeColumn(fid), ftab.getTableNo());
 			} else {
 				printNameNn(bt);
 			}
@@ -494,10 +498,8 @@ public class AncestorReport extends CommonReport {
 
 				Relation marr = null;
 				if ((mammadata != null) && (mammadata.relations != null)) {
-					for (Relation rr : mammadata.relations) {
-						if (rr.getTag().equals("HUSB")
-								&& (fid == rr.getRelative())
-								&& (mid == rr.getPid())) {
+					for (final Relation rr : mammadata.relations) {
+						if (rr.getTag().equals("HUSB") && (fid == rr.getRelative()) && (mid == rr.getPid())) {
 							marr = rr;
 							break;
 						}
@@ -506,12 +508,11 @@ public class AncestorReport extends CommonReport {
 				if (marr != null) {
 					if (marr.getNotices() != null) {
 
-						StringBuilder sb = new StringBuilder();
+						final StringBuilder sb = new StringBuilder();
 						for (int i = 0; i < marr.getNotices().length; i++) {
-							RelationNotice rn = marr.getNotices()[i];
+							final RelationNotice rn = marr.getNotices()[i];
 
-							String spouType = printRelationNotice(rn, "", 0,
-									false);
+							final String spouType = printRelationNotice(rn, "", 0, false);
 							if (!spouType.isEmpty()) {
 								sb.append(spouType);
 								sb.append(". ");
@@ -552,9 +553,7 @@ public class AncestorReport extends CommonReport {
 				if (!order.equals("ESPOLIN")) {
 					addParentReference(tab, bt);
 				}
-				printNotices(bt, mammadata.persLong,
-						getTypeColumn(mammadata.persLong.getPid()),
-						mtab.getTableNo());
+				printNotices(bt, mammadata.persLong, getTypeColumn(mammadata.persLong.getPid()), mtab.getTableNo());
 			} else {
 				printNameNn(bt);
 			}
@@ -584,8 +583,7 @@ public class AncestorReport extends CommonReport {
 				}
 
 				try {
-					sdata = caller.getKontroller().getSukuData("cmd=person",
-							"pid=" + spouseMember.getPid());
+					sdata = caller.getKontroller().getSukuData("cmd=person", "pid=" + spouseMember.getPid());
 					String tmp;
 					if ("M".equals(sdata.persLong.getSex())) {
 						tmp = "HUSB";
@@ -596,14 +594,13 @@ public class AncestorReport extends CommonReport {
 					RelationNotice rnn[] = null;
 					if (sdata.relations != null) {
 
-						for (Relation relation : sdata.relations) {
+						for (final Relation relation : sdata.relations) {
 							if (relation.getRelative() == tab.getPid()) {
 								if (relation.getNotices() != null) {
 									rnn = relation.getNotices();
 
-									RelationNotice rn = rnn[0];
-									spouType = printRelationNotice(rn,
-											spouType, spouNum, true);
+									final RelationNotice rn = rnn[0];
+									spouType = printRelationNotice(rn, spouType, spouNum, true);
 
 								}
 
@@ -617,7 +614,7 @@ public class AncestorReport extends CommonReport {
 					bt.addText(" ");
 
 					fromTable = "";
-					int typesColumn = getTypeColumn(spouseMember.getPid());
+					final int typesColumn = getTypeColumn(spouseMember.getPid());
 					ref = personReferences.get(spouseMember.getPid());
 					// if (ref != null) {
 					// typesColumn = ref.getTypesColumn(tableNum, true, true,
@@ -633,7 +630,7 @@ public class AncestorReport extends CommonReport {
 					}
 					if ((rnn != null) && (rnn.length > 1)) {
 						for (int i = 1; i < rnn.length; i++) {
-							RelationNotice rn = rnn[i];
+							final RelationNotice rn = rnn[i];
 							spouType = printRelationNotice(rn, null, 0, false);
 							if (spouType.length() > 0) {
 								bt.addText(" ");
@@ -651,8 +648,7 @@ public class AncestorReport extends CommonReport {
 						// fromTable = ref.getReferences(tab.getTableNo(), true,
 						// true, false);
 						if (fromTable.length() > 0) {
-							bt.addLink(typesTable.getTextValue("TABLE")
-									+ "\u00A0" + fromTable + ". ", true, false,
+							bt.addLink(typesTable.getTextValue("TABLE") + "\u00A0" + fromTable + ". ", true, false,
 									false, "" + fromTable);
 							// bt.addText(typesTable.getTextValue("TABLE")
 							// + "\u00A0" + fromTable + ". ", true, false);
@@ -667,8 +663,7 @@ public class AncestorReport extends CommonReport {
 					for (int i = 0; i < spouseMember.getSubCount(); i++) {
 						bt = new SubPersonText();
 						bt.addText(spouseMember.getSubDadMom(i) + " ");
-						SukuData sub = caller.getKontroller().getSukuData(
-								"cmd=person",
+						final SukuData sub = caller.getKontroller().getSukuData("cmd=person",
 								"pid=" + spouseMember.getSubPid(i));
 						notices = sub.persLong.getNotices();
 						if (sub.persLong.getPrivacy() == null) {
@@ -680,15 +675,13 @@ public class AncestorReport extends CommonReport {
 						fromTable = "";
 						ref = personReferences.get(spouseMember.getSubPid(i));
 						if (ref != null) {
-							fromTable = ref.getReferences(tableNum, true, true,
-									true, 0);
+							fromTable = ref.getReferences(tableNum, true, true, true, 0);
 							if (fromTable.length() > 0) {
 								// bt.addText(typesTable.getTextValue("ALSO")
 								// + "\u00A0" + fromTable + ". ", true,
 								// false);
-								bt.addLink(typesTable.getTextValue("ALSO")
-										+ "\u00A0" + fromTable + ". ", true,
-										false, false, "" + fromTable);
+								bt.addLink(typesTable.getTextValue("ALSO") + "\u00A0" + fromTable + ". ", true, false,
+										false, "" + fromTable);
 							}
 						}
 
@@ -696,7 +689,7 @@ public class AncestorReport extends CommonReport {
 
 					}
 
-				} catch (SukuException e1) {
+				} catch (final SukuException e1) {
 					logger.log(Level.WARNING, "background reporting", e1);
 
 				}
@@ -711,14 +704,14 @@ public class AncestorReport extends CommonReport {
 			if (tab == null) {
 				tab = mtab;
 			}
-			ArrayList<ReportTableMember> full = new ArrayList<ReportTableMember>();
+			final ArrayList<ReportTableMember> full = new ArrayList<ReportTableMember>();
 
 			for (int i = 0; i < tab.getChild().size(); i++) {
-				ReportTableMember mem = tab.getChild().get(i);
+				final ReportTableMember mem = tab.getChild().get(i);
 				boolean addMe = false;
 				if ((ftab != null) && (mtab != null)) {
 					for (int j = 0; j < mtab.getChild().size(); j++) {
-						ReportTableMember mom = mtab.getChild().get(j);
+						final ReportTableMember mom = mtab.getChild().get(j);
 						if (mem.getPid() == mom.getPid()) {
 							addMe = true;
 							break;
@@ -735,7 +728,7 @@ public class AncestorReport extends CommonReport {
 			SukuData cdata;
 			ReportTableMember childMember;
 
-			String toTable = "";
+			final String toTable = "";
 
 			for (int ichil = 0; ichil < full.size(); ichil++) {
 				if (ichil == 0) {
@@ -753,14 +746,13 @@ public class AncestorReport extends CommonReport {
 				// childMember = tab.getChild().get(ichil);
 				childMember = full.get(ichil);
 				try {
-					cdata = caller.getKontroller().getSukuData("cmd=person",
-							"pid=" + childMember.getPid());
+					cdata = caller.getKontroller().getSukuData("cmd=person", "pid=" + childMember.getPid());
 
-					String ownerTag = "FATH";
+					final String ownerTag = "FATH";
 
 					// check if child is adopted
 					String adopTag = null;
-					for (Relation relation : cdata.relations) {
+					for (final Relation relation : cdata.relations) {
 						if (ownerTag.equals(relation.getTag())) {
 							if (relation.getNotices() != null) {
 								adopTag = relation.getNotices()[0].getTag();
@@ -776,20 +768,15 @@ public class AncestorReport extends CommonReport {
 					// bt.addText(pareTxt);
 					// }
 					if (adopTag != null) {
-						bt.addText("(" + typesTable.getTextValue(adopTag)
-								+ ") ");
+						bt.addText("(" + typesTable.getTextValue(adopTag) + ") ");
 					}
 					if (cdata.persLong.getPrivacy() == null) {
 
-						printName(bt, cdata.persLong, (toTable.isEmpty() ? 2
-								: 3));
+						printName(bt, cdata.persLong, (toTable.isEmpty() ? 2 : 3));
 
-						addChildReference(ftab, mtab, cdata.persLong.getPid(),
-								typesTable.getTextValue("TABLE"), bt);
+						addChildReference(ftab, mtab, cdata.persLong.getPid(), typesTable.getTextValue("TABLE"), bt);
 
-						printNotices(bt, cdata.persLong,
-								getTypeColumn(cdata.persLong.getPid()),
-								tab.getTableNo());
+						printNotices(bt, cdata.persLong, getTypeColumn(cdata.persLong.getPid()), tab.getTableNo());
 					} else {
 						printNameNn(bt);
 					}
@@ -801,7 +788,7 @@ public class AncestorReport extends CommonReport {
 						repoWriter.addText(bt);
 
 					}
-				} catch (SukuException e1) {
+				} catch (final SukuException e1) {
 					logger.log(Level.WARNING, "SukuException", e1);
 				}
 			}
@@ -826,12 +813,11 @@ public class AncestorReport extends CommonReport {
 					ArrayList<ReportTableMember> other = new ArrayList<ReportTableMember>();
 
 					for (int i = 0; i < tab.getParent().size(); i++) {
-						ReportTableMember mem = tab.getParent().get(i);
+						final ReportTableMember mem = tab.getParent().get(i);
 
 						boolean addMe = true;
 
-						if ((mem.getPid() == ftab.getPid())
-								|| (mem.getPid() == mtab.getPid())) {
+						if ((mem.getPid() == ftab.getPid()) || (mem.getPid() == mtab.getPid())) {
 							addMe = false;
 						}
 
@@ -846,11 +832,9 @@ public class AncestorReport extends CommonReport {
 							bt.addText(parentText);
 							bt.addText(" ");
 							if (other.size() > 1) {
-								bt.addText(typesTable.getTextValue("SPOUSES")
-										.toLowerCase());
+								bt.addText(typesTable.getTextValue("SPOUSES").toLowerCase());
 							} else {
-								bt.addText(typesTable.getTextValue(
-										isMale ? "WIFE" : "HUSB").toLowerCase());
+								bt.addText(typesTable.getTextValue(isMale ? "WIFE" : "HUSB").toLowerCase());
 							}
 							bt.addText(":");
 							repoWriter.addText(bt);
@@ -860,18 +844,13 @@ public class AncestorReport extends CommonReport {
 						childMember = other.get(ichil);
 
 						try {
-							cdata = caller.getKontroller()
-									.getSukuData("cmd=person",
-											"pid=" + childMember.getPid());
+							cdata = caller.getKontroller().getSukuData("cmd=person", "pid=" + childMember.getPid());
 
 							notices = cdata.persLong.getNotices();
 							if (cdata.persLong.getPrivacy() == null) {
-								printName(bt, cdata.persLong,
-										(toTable.isEmpty() ? 2 : 3));
-								addChildReference(ftab, mtab, tab.getPid(),
-										typesTable.getTextValue("TABLE"), bt);
-								printNotices(bt, cdata.persLong, tab.getPid(),
-										tab.getTableNo());
+								printName(bt, cdata.persLong, (toTable.isEmpty() ? 2 : 3));
+								addChildReference(ftab, mtab, tab.getPid(), typesTable.getTextValue("TABLE"), bt);
+								printNotices(bt, cdata.persLong, tab.getPid(), tab.getTableNo());
 							} else {
 								printNameNn(bt);
 							}
@@ -879,7 +858,7 @@ public class AncestorReport extends CommonReport {
 								repoWriter.addText(bt);
 
 							}
-						} catch (SukuException e1) {
+						} catch (final SukuException e1) {
 							logger.log(Level.WARNING, "SukuException", e1);
 						}
 					}
@@ -887,12 +866,12 @@ public class AncestorReport extends CommonReport {
 					other = new ArrayList<ReportTableMember>();
 
 					for (int i = 0; i < tab.getChild().size(); i++) {
-						ReportTableMember mem = tab.getChild().get(i);
+						final ReportTableMember mem = tab.getChild().get(i);
 
 						boolean addMe = true;
 
 						for (int j = 0; j < full.size(); j++) {
-							ReportTableMember mom = full.get(j);
+							final ReportTableMember mom = full.get(j);
 							if (mem.getPid() == mom.getPid()) {
 								addMe = false;
 								break;
@@ -909,11 +888,9 @@ public class AncestorReport extends CommonReport {
 							bt.addText(parentText);
 							bt.addText(" ");
 							if (other.size() > 1) {
-								bt.addText(typesTable.getTextValue("CHILDREN")
-										.toLowerCase());
+								bt.addText(typesTable.getTextValue("CHILDREN").toLowerCase());
 							} else {
-								bt.addText(typesTable.getTextValue("CHIL")
-										.toLowerCase());
+								bt.addText(typesTable.getTextValue("CHIL").toLowerCase());
 							}
 							bt.addText(":");
 							repoWriter.addText(bt);
@@ -924,19 +901,16 @@ public class AncestorReport extends CommonReport {
 						// childMember = tab.getChild().get(ichil);
 
 						try {
-							cdata = caller.getKontroller()
-									.getSukuData("cmd=person",
-											"pid=" + childMember.getPid());
+							cdata = caller.getKontroller().getSukuData("cmd=person", "pid=" + childMember.getPid());
 
-							String ownerTag = "FATH";
+							final String ownerTag = "FATH";
 
 							// check if child is adopted
 							String adopTag = null;
-							for (Relation relation : cdata.relations) {
+							for (final Relation relation : cdata.relations) {
 								if (ownerTag.equals(relation.getTag())) {
 									if (relation.getNotices() != null) {
-										adopTag = relation.getNotices()[0]
-												.getTag();
+										adopTag = relation.getNotices()[0].getTag();
 
 									}
 									break;
@@ -947,17 +921,12 @@ public class AncestorReport extends CommonReport {
 							notices = cdata.persLong.getNotices();
 
 							if (adopTag != null) {
-								bt.addText("("
-										+ typesTable.getTextValue(adopTag)
-										+ ") ");
+								bt.addText("(" + typesTable.getTextValue(adopTag) + ") ");
 							}
 							if (cdata.persLong.getPrivacy() == null) {
-								printName(bt, cdata.persLong,
-										(toTable.isEmpty() ? 2 : 3));
-								addChildReference(ftab, mtab, tab.getPid(),
-										typesTable.getTextValue("TABLE"), bt);
-								printNotices(bt, cdata.persLong, tab.getPid(),
-										tab.getTableNo());
+								printName(bt, cdata.persLong, (toTable.isEmpty() ? 2 : 3));
+								addChildReference(ftab, mtab, tab.getPid(), typesTable.getTextValue("TABLE"), bt);
+								printNotices(bt, cdata.persLong, tab.getPid(), tab.getTableNo());
 							} else {
 								printNameNn(bt);
 							}
@@ -965,7 +934,7 @@ public class AncestorReport extends CommonReport {
 								repoWriter.addText(bt);
 
 							}
-						} catch (SukuException e1) {
+						} catch (final SukuException e1) {
 							logger.log(Level.WARNING, "SukuException", e1);
 						}
 					}
@@ -983,14 +952,14 @@ public class AncestorReport extends CommonReport {
 
 	/**
 	 * Used to close / hide the report writer.
-	 * 
+	 *
 	 * @param b
 	 *            the new visible
 	 */
 	@Override
 	public void setVisible(boolean b) {
 		if (repoWriter instanceof JFrame) {
-			JFrame ff = (JFrame) repoWriter;
+			final JFrame ff = (JFrame) repoWriter;
 			ff.setVisible(b);
 		}
 
@@ -1012,12 +981,12 @@ public class AncestorReport extends CommonReport {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
 		public String toString() {
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 
 			sb.append("tab(" + tabNo + ") ;");
 			sb.append("gen(" + gene + ") ;");

@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util;
 
 import java.awt.Dimension;
@@ -13,7 +43,7 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * Component contains the table for the notices types.
- * 
+ *
  * @author Kalle
  */
 public class SukuTypesTable extends JTable {
@@ -34,7 +64,7 @@ public class SukuTypesTable extends JTable {
 
 	/**
 	 * Instantiates a new suku types table.
-	 * 
+	 *
 	 * @param dim
 	 *            dimension of Preferred Scrollable Viewport Size
 	 */
@@ -54,7 +84,7 @@ public class SukuTypesTable extends JTable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.JTable#createDefaultTableHeader()
 	 */
 	@Override
@@ -66,8 +96,8 @@ public class SukuTypesTable extends JTable {
 			@Override
 			public String getToolTipText(MouseEvent e) {
 
-				java.awt.Point p = e.getPoint();
-				int index = this.columnModel.getColumnIndexAtX(p.x);
+				final java.awt.Point p = e.getPoint();
+				final int index = this.columnModel.getColumnIndexAtX(p.x);
 				return Resurses.getString("TYPES_COLUMN_" + index);
 			}
 		};
@@ -75,7 +105,7 @@ public class SukuTypesTable extends JTable {
 
 	/**
 	 * Gets the tag at the indicated index position.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return the indexed tag
@@ -86,19 +116,19 @@ public class SukuTypesTable extends JTable {
 
 	/**
 	 * Get report value for tag.
-	 * 
+	 *
 	 * @param tag
 	 *            the tag
 	 * @return name of type
 	 */
 	public String getTypeText(String tag) {
-		Integer iidx = model.getTypeText(tag);
+		final Integer iidx = model.getTypeText(tag);
 		if (iidx == null) {
 			return tag;
 		}
-		int idx = iidx.intValue();
+		final int idx = iidx.intValue();
 		if (idx >= 0) {
-			String txt = (String) model.getTypesData(idx, 6);
+			final String txt = (String) model.getTypesData(idx, 6);
 			if (txt != null) {
 				return txt;
 			}
@@ -112,7 +142,7 @@ public class SukuTypesTable extends JTable {
 
 	/**
 	 * Gets the type rule.
-	 * 
+	 *
 	 * @param type
 	 *            the type
 	 * @return rule for requested type
@@ -124,19 +154,19 @@ public class SukuTypesTable extends JTable {
 
 	/**
 	 * Gets the tag name.
-	 * 
+	 *
 	 * @param tag
 	 *            the tag
 	 * @return name of tag e.g. BIRT tag returns Birth in English
 	 */
 	public String getTagName(String tag) {
-		Integer iidx = model.getTypeText(tag);
+		final Integer iidx = model.getTypeText(tag);
 		if (iidx == null) {
 			return tag;
 		}
-		int idx = iidx.intValue();
+		final int idx = iidx.intValue();
 		if (idx >= 0) {
-			String txt = model.getTypesName(idx);
+			final String txt = model.getTypesName(idx);
 			if (txt != null) {
 				return txt;
 			}
@@ -148,7 +178,7 @@ public class SukuTypesTable extends JTable {
 
 	/**
 	 * Get report value for tag.
-	 * 
+	 *
 	 * @param tag
 	 *            the tag
 	 * @return value of tag
@@ -163,7 +193,7 @@ public class SukuTypesTable extends JTable {
 
 	/**
 	 * get state of setting for tag.
-	 * 
+	 *
 	 * @param tag
 	 *            the tag
 	 * @param col
@@ -175,14 +205,14 @@ public class SukuTypesTable extends JTable {
 		if ((col < 1) || (col > 5)) {
 			return false;
 		}
-		Integer idxInt = model.getTypeText(tag);
+		final Integer idxInt = model.getTypeText(tag);
 		if (idxInt == null) {
 			return true;
 		}
-		int idx = idxInt.intValue();
+		final int idx = idxInt.intValue();
 		if (idx >= 0) {
 
-			Boolean value = (Boolean) model.getTypesData(idx, col);
+			final Boolean value = (Boolean) model.getTypesData(idx, col);
 			if (value != null) {
 				return value;
 			}
@@ -194,7 +224,7 @@ public class SukuTypesTable extends JTable {
 
 	/**
 	 * Save report settings.
-	 * 
+	 *
 	 * @param type
 	 *            name of setting type (e.g. report types)
 	 * @param settingsIndex
@@ -204,12 +234,12 @@ public class SukuTypesTable extends JTable {
 
 		Suku.kontroller.putPref(this, Resurses.SETTING_IDX, "" + settingsIndex);
 
-		ArrayList<String> v = new ArrayList<String>();
+		final ArrayList<String> v = new ArrayList<String>();
 
-		int typeCount = getRowCount();
+		final int typeCount = getRowCount();
 
 		for (int row = 0; row < typeCount; row++) {
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			sb.append(getTypesTag(row));
 			sb.append("=");
 			sb.append((Boolean) getValueAt(row, 1) ? "X" : "O");
@@ -224,22 +254,19 @@ public class SukuTypesTable extends JTable {
 
 		try {
 			// String parms[] = v.toArray(new String[0]);
-			SukuData req = new SukuData();
+			final SukuData req = new SukuData();
 			req.generalArray = v.toArray(new String[0]);
 			// Utils.println(this, "# of parms: " + parms.length);
-			SukuData reposet = Suku.kontroller.getSukuData(req,
-					"cmd=savesettings", "type=" + type, "index="
-							+ settingsIndex);
+			final SukuData reposet = Suku.kontroller.getSukuData(req, "cmd=savesettings", "type=" + type,
+					"index=" + settingsIndex);
 
 			if ((reposet.resu != null) && !reposet.resu.equals(Resurses.OK)) {
-				JOptionPane.showMessageDialog(this, reposet.resu,
-						Resurses.getString(Resurses.SUKU),
+				JOptionPane.showMessageDialog(this, reposet.resu, Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 			}
 
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
@@ -248,7 +275,7 @@ public class SukuTypesTable extends JTable {
 
 	/**
 	 * Load report settings.
-	 * 
+	 *
 	 * @param type
 	 *            of setting
 	 * @param settingsIndex
@@ -257,18 +284,18 @@ public class SukuTypesTable extends JTable {
 	public void loadReportSettings(String type, int settingsIndex) {
 
 		try {
-			SukuData sets = Suku.kontroller.getSukuData("cmd=getsettings",
-					"type=" + type, "index=" + settingsIndex);
+			final SukuData sets = Suku.kontroller.getSukuData("cmd=getsettings", "type=" + type,
+					"index=" + settingsIndex);
 			String vx[] = null;
 
 			for (int i = 0; i < sets.vvTypes.size(); i++) {
 
 				vx = sets.vvTypes.get(i);
 
-				int typeCount = getRowCount();
+				final int typeCount = getRowCount();
 				for (int row = 0; row < typeCount; row++) {
 
-					String tag = getTypesTag(row);
+					final String tag = getTypesTag(row);
 
 					if (vx[0].equals(tag)) {
 						if (vx[1].length() > 4) {
@@ -309,11 +336,9 @@ public class SukuTypesTable extends JTable {
 				}
 			}
 
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(this, "error fetching setting "
-					+ settingsIndex + ": " + e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
-					JOptionPane.ERROR_MESSAGE);
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(this, "error fetching setting " + settingsIndex + ": " + e.getMessage(),
+					Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
 
 			e.printStackTrace();
 		}

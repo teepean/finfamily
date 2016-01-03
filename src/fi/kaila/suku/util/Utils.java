@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util;
 
 import java.awt.Color;
@@ -34,7 +64,7 @@ import fi.kaila.suku.util.pojo.ReportUnit;
 
 /**
  * general static utilities.
- * 
+ *
  * @author FIKAAKAIL
  */
 public class Utils {
@@ -61,7 +91,7 @@ public class Utils {
 
 	/**
 	 * Get boolean preference from local repository.
-	 * 
+	 *
 	 * @param o
 	 *            the o
 	 * @param key
@@ -77,7 +107,7 @@ public class Utils {
 			sdef = "true";
 		}
 
-		SukuKontroller kontroller = Suku.getKontroller();
+		final SukuKontroller kontroller = Suku.getKontroller();
 
 		resu = kontroller.getPref(o, key, sdef);
 
@@ -94,7 +124,7 @@ public class Utils {
 
 	/**
 	 * Put boolean preference into local repository.
-	 * 
+	 *
 	 * @param o
 	 *            the o
 	 * @param key
@@ -107,14 +137,14 @@ public class Utils {
 		if (value) {
 			svalue = "true";
 		}
-		SukuKontroller kontroller = Suku.getKontroller();
+		final SukuKontroller kontroller = Suku.getKontroller();
 
 		kontroller.putPref(o, key, svalue);
 	}
 
 	/**
 	 * convert dbdate date to viewable textformat.
-	 * 
+	 *
 	 * @param dbDate
 	 *            the db date
 	 * @param trimDate
@@ -122,7 +152,7 @@ public class Utils {
 	 * @return in text format
 	 */
 	public static String textDate(String dbDate, boolean trimDate) {
-		String df = Resurses.getDateFormat();
+		final String df = Resurses.getDateFormat();
 		if (dbDate == null) {
 			return null;
 		}
@@ -155,7 +185,7 @@ public class Utils {
 					dd = "" + d;
 				}
 			}
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			// NumberFormatException ignored
 		}
 
@@ -185,10 +215,10 @@ public class Utils {
 
 	/**
 	 * convert dbdate date mont part to int.
-	 * 
+	 *
 	 * @param dbDate
 	 *            the db date
-	 * 
+	 *
 	 * @return in text format
 	 */
 	public static int textDateMonth(String dbDate) {
@@ -208,7 +238,7 @@ public class Utils {
 		try {
 			// y = Integer.parseInt(yy);
 			m = Integer.parseInt(mm);
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			// NumberFormatException ignored
 		}
 
@@ -217,7 +247,7 @@ public class Utils {
 
 	/**
 	 * Db try date.
-	 * 
+	 *
 	 * @param textDate
 	 *            the text date
 	 * @return db date or null if wrong date
@@ -225,14 +255,14 @@ public class Utils {
 	public static String dbTryDate(String textDate) {
 		try {
 			return dbDate(textDate);
-		} catch (SukuDateException e) {
+		} catch (final SukuDateException e) {
 			return null;
 		}
 	}
 
 	/**
 	 * convert viewable textdate to dbformat.
-	 * 
+	 *
 	 * @param textDate
 	 *            the text date
 	 * @return date in dbformat
@@ -243,16 +273,16 @@ public class Utils {
 		if ((textDate == null) || textDate.isEmpty()) {
 			return null;
 		}
-		String df = Resurses.getDateFormat();
+		final String df = Resurses.getDateFormat();
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 
 		sb.append(Resurses.getString("ERROR_WRONGDATE"));
 		sb.append(" ");
 		sb.append(textDate);
 
-		String parts[] = textDate.split("\\.|,|/|-");
-		int parti[] = { -1, -1, -1 };
+		final String parts[] = textDate.split("\\.|,|/|-");
+		final int parti[] = { -1, -1, -1 };
 		if (parts.length > 3) {
 			throw new SukuDateException(sb.toString());
 		}
@@ -260,14 +290,14 @@ public class Utils {
 			try {
 
 				parti[i] = Integer.parseInt(parts[i].trim());
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				throw new SukuDateException(sb.toString());
 			}
 		}
 
-		SimpleDateFormat dfor = new SimpleDateFormat("yyyyMMdd");
-		String today = dfor.format(new java.util.Date());
-		int nowy = Integer.parseInt(today.substring(0, 4));
+		final SimpleDateFormat dfor = new SimpleDateFormat("yyyyMMdd");
+		final String today = dfor.format(new java.util.Date());
+		final int nowy = Integer.parseInt(today.substring(0, 4));
 		int y = -1;
 		int m = -1;
 		int d = -1;
@@ -312,13 +342,11 @@ public class Utils {
 			leap = 30;
 		}
 		if (y > nowy) {
-			throw new SukuDateException(Resurses.getString("ERROR_FUTURE")
-					+ " [" + textDate + "]");
+			throw new SukuDateException(Resurses.getString("ERROR_FUTURE") + " [" + textDate + "]");
 		}
 
 		if ((m >= 0) && ((m == 0) || (m > 12))) {
-			throw new SukuDateException(Resurses.getString("ERROR_MONTH")
-					+ " [" + textDate + "]");
+			throw new SukuDateException(Resurses.getString("ERROR_MONTH") + " [" + textDate + "]");
 		}
 		if (d >= 0) {
 			if ((d > 0) && (d <= 31)) {
@@ -351,8 +379,7 @@ public class Utils {
 				d = -1;
 			}
 			if (d < 0) {
-				throw new SukuDateException(Resurses.getString("ERROR_DAY")
-						+ " [" + textDate + "]");
+				throw new SukuDateException(Resurses.getString("ERROR_DAY") + " [" + textDate + "]");
 			}
 		}
 
@@ -369,11 +396,9 @@ public class Utils {
 		}
 		if (parts.length == 3) {
 			if (df.equals("SE")) {
-				return strl(parti[0], 4) + strl(parti[1], 2)
-						+ strl(parti[2], 2);
+				return strl(parti[0], 4) + strl(parti[1], 2) + strl(parti[2], 2);
 			} else if (df.equals("US")) {
-				return strl(parti[2], 4) + strl(parti[0], 2)
-						+ strl(parti[1], 2);
+				return strl(parti[2], 4) + strl(parti[0], 2) + strl(parti[1], 2);
 			}
 			return strl(parti[2], 4) + strl(parti[1], 2) + strl(parti[0], 2);
 
@@ -384,7 +409,7 @@ public class Utils {
 
 	/**
 	 * Modify name to Proper name using capital latters as first character.
-	 * 
+	 *
 	 * @param names
 	 *            the names
 	 * @return the proper name
@@ -396,9 +421,9 @@ public class Utils {
 		if (names.isEmpty()) {
 			return "";
 		}
-		String name[] = names.split(" ");
+		final String name[] = names.split(" ");
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < name.length; i++) {
 			if (!name[i].isEmpty()) {
 				if (sb.length() > 0) {
@@ -420,12 +445,12 @@ public class Utils {
 		if (i == 0) {
 			return null;
 		}
-		String text = "" + i;
+		final String text = "" + i;
 
 		if (text.length() == len) {
 			return text;
 		}
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		for (int j = 0; j < len; j++) {
 			sb.append("0");
 		}
@@ -437,18 +462,17 @@ public class Utils {
 
 	/**
 	 * Create from report tables a HasMap of persons in the report.
-	 * 
+	 *
 	 * @param tables
 	 *            Vector that contains all tables for report
 	 * @return a HashMap containing a list of all persons in report with
 	 *         information on tables where they exist
 	 */
-	public static HashMap<Integer, PersonInTables> getDescendantToistot(
-			Vector<ReportUnit> tables) {
-		HashMap<Integer, PersonInTables> personReferences = new HashMap<Integer, PersonInTables>();
+	public static HashMap<Integer, PersonInTables> getDescendantToistot(Vector<ReportUnit> tables) {
+		final HashMap<Integer, PersonInTables> personReferences = new HashMap<Integer, PersonInTables>();
 
 		for (int i = 0; i < tables.size(); i++) {
-			ReportUnit tab = tables.get(i);
+			final ReportUnit tab = tables.get(i);
 			PersonInTables ref;
 			ReportTableMember member;
 
@@ -473,39 +497,31 @@ public class Utils {
 					if (ref == null) {
 						ref = new PersonInTables(member.getSubPid(m));
 						ref.references.add(Long.valueOf(tab.getTableNo()));
-						personReferences.put(
-								Integer.valueOf(member.getSubPid(m)), ref);
+						personReferences.put(Integer.valueOf(member.getSubPid(m)), ref);
 					} else {
 						ref.references.add(tab.getTableNo());
 					}
 				}
 
 				if (member.getSpouses() != null) {
-					ReportTableMember[] spouseMembers = member.getSpouses();
+					final ReportTableMember[] spouseMembers = member.getSpouses();
 					ReportTableMember spouseMember;
-					for (ReportTableMember spouseMember2 : spouseMembers) {
+					for (final ReportTableMember spouseMember2 : spouseMembers) {
 						spouseMember = spouseMember2;
 						ref = personReferences.get(spouseMember.getPid());
 						if (ref == null) {
 							ref = new PersonInTables(spouseMember.getPid());
 							ref.asParents.add(Long.valueOf(tab.getTableNo()));
-							personReferences
-									.put(Integer.valueOf(spouseMember.getPid()),
-											ref);
+							personReferences.put(Integer.valueOf(spouseMember.getPid()), ref);
 						} else {
 							ref.asParents.add(tab.getTableNo());
 						}
 						for (int m = 0; m < spouseMember.getSubCount(); m++) {
-							ref = personReferences.get(spouseMember
-									.getSubPid(m));
+							ref = personReferences.get(spouseMember.getSubPid(m));
 							if (ref == null) {
-								ref = new PersonInTables(
-										spouseMember.getSubPid(m));
-								ref.references.add(Long.valueOf(tab
-										.getTableNo()));
-								personReferences.put(Integer
-										.valueOf(spouseMember.getSubPid(m)),
-										ref);
+								ref = new PersonInTables(spouseMember.getSubPid(m));
+								ref.references.add(Long.valueOf(tab.getTableNo()));
+								personReferences.put(Integer.valueOf(spouseMember.getSubPid(m)), ref);
 							} else {
 								ref.references.add(tab.getTableNo());
 							}
@@ -522,8 +538,7 @@ public class Utils {
 					if (ref == null) {
 						ref = new PersonInTables(member.getPid());
 						ref.addOwner(tab.getTableNo());
-						personReferences.put(Integer.valueOf(member.getPid()),
-								ref);
+						personReferences.put(Integer.valueOf(member.getPid()), ref);
 					} else {
 						ref.addOwner(tab.getTableNo());
 
@@ -549,8 +564,7 @@ public class Utils {
 					if (ref == null) {
 						ref = new PersonInTables(member.getSubPid(m));
 						ref.references.add(Long.valueOf(tab.getTableNo()));
-						personReferences.put(
-								Integer.valueOf(member.getSubPid(m)), ref);
+						personReferences.put(Integer.valueOf(member.getSubPid(m)), ref);
 					} else {
 						ref.references.add(tab.getTableNo());
 					}
@@ -562,7 +576,7 @@ public class Utils {
 
 	/**
 	 * Nv.
-	 * 
+	 *
 	 * @param text
 	 *            the text
 	 * @return empty string if null or text
@@ -576,7 +590,7 @@ public class Utils {
 
 	/**
 	 * Vn.
-	 * 
+	 *
 	 * @param text
 	 *            the text
 	 * @return null if empty string or text
@@ -590,7 +604,7 @@ public class Utils {
 
 	/**
 	 * used primarily to display year only.
-	 * 
+	 *
 	 * @param text
 	 *            the text
 	 * @return 4 first chars of string if exist
@@ -607,21 +621,21 @@ public class Utils {
 
 	/**
 	 * check if name begins with von part.
-	 * 
+	 *
 	 * @param name
 	 *            to check
 	 * @return parts
 	 */
 	public static int isKnownPrefix(String name) {
-		String[] prexesu = Resurses.getString("NAME_VON").split(";");
-		String[] prexes = new String[prexesu.length];
+		final String[] prexesu = Resurses.getString("NAME_VON").split(";");
+		final String[] prexes = new String[prexesu.length];
 		int ii = prexes.length;
 		int len = 0;
 		// lets put them in order so that longest strings comes first
 		while (ii > 0) {
 
 			len++;
-			for (String element : prexesu) {
+			for (final String element : prexesu) {
 				if (element.length() == len) {
 					ii--;
 					prexes[ii] = element;
@@ -629,7 +643,7 @@ public class Utils {
 			}
 		}
 
-		for (String prexe : prexes) {
+		for (final String prexe : prexes) {
 			if (name.equalsIgnoreCase(prexe)) {
 				return prexe.length();
 			}
@@ -644,19 +658,18 @@ public class Utils {
 
 	/**
 	 * Extract patronyme.
-	 * 
+	 *
 	 * @param noticeGivenName
 	 *            the notice given name
 	 * @param patronymePart
 	 *            the patronyme part
 	 * @return patronym for true, else givenname
 	 */
-	public static String extractPatronyme(String noticeGivenName,
-			boolean patronymePart) {
+	public static String extractPatronyme(String noticeGivenName, boolean patronymePart) {
 
 		if (patronymeEnds == null) {
 
-			String tmp = Resurses.getString("PATRONYM_ENDINGS");
+			final String tmp = Resurses.getString("PATRONYM_ENDINGS");
 			patronymeEnds = tmp.split(";");
 		}
 		if (noticeGivenName == null) {
@@ -664,13 +677,13 @@ public class Utils {
 		}
 		int j;
 		String trimmedName = null;
-		int nl = noticeGivenName.length();
+		final int nl = noticeGivenName.length();
 		if (noticeGivenName.endsWith(".") && (nl > 1)) {
 			trimmedName = noticeGivenName.substring(0, nl - 1);
 		} else {
 			trimmedName = noticeGivenName;
 		}
-		for (String patronymeEnd : patronymeEnds) {
+		for (final String patronymeEnd : patronymeEnds) {
 			if (trimmedName.endsWith(patronymeEnd)) {
 				j = trimmedName.lastIndexOf(' ');
 				if (j > 0) {
@@ -695,14 +708,14 @@ public class Utils {
 
 	/**
 	 * command to start the external application for the file.
-	 * 
+	 *
 	 * @param url
 	 *            the url
 	 */
 	public static void openExternalFile(String url) {
 
 		if (Suku.kontroller.isRemote()) {
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			sb.append(Resurses.getString("WEBSTART_OPEN"));
 			sb.append("\n");
 			sb.append(url);
@@ -714,22 +727,20 @@ public class Utils {
 
 		try {
 
-			String os = System.getProperty("os.name");
+			final String os = System.getProperty("os.name");
 			// System.out.println("OS:" + os);
 			if (os.toLowerCase().indexOf("windows") >= 0) {
 
-				String[] cmds = { "rundll32", "url.dll,FileProtocolHandler",
-						url };
-				Process p = Runtime.getRuntime().exec(cmds);
-				int result = p.waitFor();
+				final String[] cmds = { "rundll32", "url.dll,FileProtocolHandler", url };
+				final Process p = Runtime.getRuntime().exec(cmds);
+				final int result = p.waitFor();
 				if (result != 0) {
-					StringBuilder sb = new StringBuilder();
+					final StringBuilder sb = new StringBuilder();
 					sb.append(Resurses.getString("FAILED_TO_OPEN"));
 					sb.append("\n");
 					sb.append(url);
 
-					JOptionPane.showMessageDialog(Suku.getFrame(),
-							sb.toString());
+					JOptionPane.showMessageDialog(Suku.getFrame(), sb.toString());
 					return;
 				}
 
@@ -737,9 +748,9 @@ public class Utils {
 
 				// this should work on mac
 
-				String[] macs = { "open", "" };
+				final String[] macs = { "open", "" };
 				macs[1] = url;
-				Process p = Runtime.getRuntime().exec(macs);
+				final Process p = Runtime.getRuntime().exec(macs);
 				p.waitFor();
 			}
 
@@ -754,7 +765,7 @@ public class Utils {
 			//
 			// }
 
-		} catch (Throwable t) {
+		} catch (final Throwable t) {
 			logger.log(Level.INFO, "rundll32", t);
 
 		}
@@ -771,7 +782,7 @@ public class Utils {
 
 	/**
 	 * Type instance.
-	 * 
+	 *
 	 * @return the types model
 	 */
 	public static SukuTypesModel typeInstance() {
@@ -783,15 +794,15 @@ public class Utils {
 	}
 
 	/**
-	 * 
+	 *
 	 * filenames in the backup is prefixed by a number (numbers) like
-	 * 
+	 *
 	 * 76_myImage.jpg
-	 * 
+	 *
 	 * of 76_456_myImage.jpg
-	 * 
+	 *
 	 * The tidying removes the number and returns myImage.jpg
-	 * 
+	 *
 	 * @param name
 	 *            raw filename
 	 * @return tidy file name
@@ -816,7 +827,7 @@ public class Utils {
 			try {
 				Integer.parseInt(name.substring(0, idx));
 				name = name.substring(idx + 1);
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				return name;
 			}
 
@@ -826,7 +837,7 @@ public class Utils {
 
 	/**
 	 * Scale image.
-	 * 
+	 *
 	 * @param immPath
 	 *            the imm path
 	 * @param image
@@ -839,8 +850,8 @@ public class Utils {
 	 * @throws Exception
 	 *             the exception
 	 */
-	public static BufferedImage scaleImage(String immPath, BufferedImage image,
-			int pWidth, int pHeight) throws Exception {
+	public static BufferedImage scaleImage(String immPath, BufferedImage image, int pWidth, int pHeight)
+			throws Exception {
 		return scaleImage(immPath, image, pWidth, pHeight, 0);
 	}
 
@@ -850,7 +861,7 @@ public class Utils {
 	 * http://www.webmaster-talk.com/coding-forum
 	 * /63227-image-resizing-in-java.html#post301529 made by Rick Palmer
 	 * Modified to use java ImageIO for output
-	 * 
+	 *
 	 * @param immPath
 	 *            the imm path
 	 * @param image
@@ -865,17 +876,17 @@ public class Utils {
 	 * @throws Exception
 	 *             the exception
 	 */
-	public static BufferedImage scaleImage(String immPath, BufferedImage image,
-			int pWidth, int pHeight, int trailerHeight) throws Exception {
+	public static BufferedImage scaleImage(String immPath, BufferedImage image, int pWidth, int pHeight,
+			int trailerHeight) throws Exception {
 
 		int thumbWidth = pWidth;
 		int thumbHeight = pHeight;
 
 		// Make sure the aspect ratio is maintained, so the image is not skewed
-		double thumbRatio = (double) thumbWidth / (double) thumbHeight;
-		int imageWidth = image.getWidth(null);
-		int imageHeight = image.getHeight(null);
-		double imageRatio = (double) imageWidth / (double) imageHeight;
+		final double thumbRatio = (double) thumbWidth / (double) thumbHeight;
+		final int imageWidth = image.getWidth(null);
+		final int imageHeight = image.getHeight(null);
+		final double imageRatio = (double) imageWidth / (double) imageHeight;
 		if (thumbRatio < imageRatio) {
 			thumbHeight = (int) (thumbWidth / imageRatio);
 		} else {
@@ -883,36 +894,30 @@ public class Utils {
 		}
 
 		if ((immPath != null) && !immPath.isEmpty()) {
-			return magickScaled(immPath, image, thumbWidth, thumbHeight,
-					trailerHeight);
+			return magickScaled(immPath, image, thumbWidth, thumbHeight, trailerHeight);
 		}
 
 		// Draw the scaled image
-		BufferedImage thumbImage = new BufferedImage(thumbWidth, thumbHeight
-				+ trailerHeight, BufferedImage.TYPE_INT_RGB);
-		Graphics2D graphics2D = thumbImage.createGraphics();
-		graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-		graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		final BufferedImage thumbImage = new BufferedImage(thumbWidth, thumbHeight + trailerHeight,
+				BufferedImage.TYPE_INT_RGB);
+		final Graphics2D graphics2D = thumbImage.createGraphics();
+		graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+		graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		graphics2D.setColor(Color.white);
-		graphics2D
-				.fillRect(0, 0, thumbImage.getWidth(), thumbImage.getHeight());
+		graphics2D.fillRect(0, 0, thumbImage.getWidth(), thumbImage.getHeight());
 		graphics2D.drawImage(image, 0, 0, thumbWidth, thumbHeight, null);
 
-		ByteArrayOutputStream outimg = new ByteArrayOutputStream();
+		final ByteArrayOutputStream outimg = new ByteArrayOutputStream();
 		ImageWriter writer = null;
-		java.util.Iterator<ImageWriter> iter = ImageIO
-				.getImageWritersByFormatName("jpg");
+		final java.util.Iterator<ImageWriter> iter = ImageIO.getImageWritersByFormatName("jpg");
 		if (iter.hasNext()) {
 			writer = iter.next();
 		} else {
 			return null;
 		}
-		ImageOutputStream ios = ImageIO.createImageOutputStream(outimg);
+		final ImageOutputStream ios = ImageIO.createImageOutputStream(outimg);
 		writer.setOutput(ios);
-		ImageWriteParam parimg = new JPEGImageWriteParam(
-				java.util.Locale.getDefault());
+		final ImageWriteParam parimg = new JPEGImageWriteParam(java.util.Locale.getDefault());
 
 		parimg.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
 
@@ -929,15 +934,14 @@ public class Utils {
 
 	}
 
-	private static BufferedImage magickScaled(String immPath,
-			BufferedImage image, int pWidth, int pHeight, int trailerHeight)
-			throws IOException, InterruptedException {
+	private static BufferedImage magickScaled(String immPath, BufferedImage image, int pWidth, int pHeight,
+			int trailerHeight) throws IOException, InterruptedException {
 
-		File fin = File.createTempFile("Finfamily", ".jpg");
+		final File fin = File.createTempFile("Finfamily", ".jpg");
 
-		File fout = File.createTempFile("Finfamily", ".jpg");
+		final File fout = File.createTempFile("Finfamily", ".jpg");
 
-		ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
+		final ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
 		byte[] resultImageAsRawBytes = null;
 		// W R I T E
 		ImageIO.write(image, "jpeg", baos);
@@ -952,10 +956,10 @@ public class Utils {
 		fos.write(resultImageAsRawBytes);
 		fos.close();
 
-		Runtime rt = Runtime.getRuntime();
+		final Runtime rt = Runtime.getRuntime();
 
-		StringBuilder stv = new StringBuilder();
-		int spaceExist = immPath.indexOf(" ");
+		final StringBuilder stv = new StringBuilder();
+		final int spaceExist = immPath.indexOf(" ");
 		if (spaceExist >= 0) {
 			stv.append("\"");
 			stv.append(immPath);
@@ -970,8 +974,7 @@ public class Utils {
 			stv.append("-resize " + pWidth);
 			stv.append("x" + (pHeight));
 			stv.append(" -background white");
-			stv.append(" -extent " + pWidth + "x"
-					+ (pHeight + trailerHeight));
+			stv.append(" -extent " + pWidth + "x" + (pHeight + trailerHeight));
 		}
 		stv.append(" ");
 		stv.append(fin.getAbsolutePath());
@@ -980,7 +983,7 @@ public class Utils {
 
 		logger.fine(stv.toString());
 
-		Process pr = rt.exec(stv.toString());
+		final Process pr = rt.exec(stv.toString());
 
 		// Vector<String> rtv = new Vector<String>();
 		// rtv.add(immPath);
@@ -989,18 +992,17 @@ public class Utils {
 		// rtv.add(fout.getAbsolutePath());
 		// Process pr = rt.exec(rtv.toArray(new String[0]), null, null);
 
-		BufferedReader input = new BufferedReader(new InputStreamReader(
-				pr.getErrorStream()));
+		final BufferedReader input = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
 		String line = null;
 		while ((line = input.readLine()) != null) {
 			logger.info(line);
 		}
-		int exitVal = pr.waitFor();
+		final int exitVal = pr.waitFor();
 
-		logger.fine("conversion from " + fin.getAbsolutePath() + " to "
-				+ fout.getAbsolutePath() + " resulted in " + exitVal);
+		logger.fine("conversion from " + fin.getAbsolutePath() + " to " + fout.getAbsolutePath() + " resulted in "
+				+ exitVal);
 
-		BufferedImage nxtImg = ImageIO.read(fout);
+		final BufferedImage nxtImg = ImageIO.read(fout);
 
 		fin.delete();
 		fout.delete();
@@ -1010,7 +1012,7 @@ public class Utils {
 
 	/**
 	 * A Common method for debugging using System.out.println("text");
-	 * 
+	 *
 	 * @param source
 	 *            the source
 	 * @param text
@@ -1019,9 +1021,8 @@ public class Utils {
 	@SuppressWarnings("unused")
 	public static void println(Object source, String text) {
 		if (false) {
-			String name = (source == null) ? "" : source.getClass().getName()
-					+ " :";
-			int ii = name.lastIndexOf(".");
+			String name = (source == null) ? "" : source.getClass().getName() + " :";
+			final int ii = name.lastIndexOf(".");
 			if (ii > 0) {
 				name = name.substring(ii + 1);
 			}
@@ -1032,7 +1033,7 @@ public class Utils {
 
 	/**
 	 * remove diacritcs from text.
-	 * 
+	 *
 	 * @param text
 	 *            the text
 	 * @return the string
@@ -1041,7 +1042,7 @@ public class Utils {
 		if (text == null) {
 			return null;
 		}
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < text.length(); i++) {
 			String c = text.substring(i, i + 1);
@@ -1070,7 +1071,7 @@ public class Utils {
 
 	/**
 	 * Graphviz do.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 * @param exeTask
@@ -1085,10 +1086,10 @@ public class Utils {
 	 * @throws InterruptedException
 	 *             the interrupted exception
 	 */
-	public static int graphvizDo(JFrame parent, String exeTask, String infile,
-			String endi) throws IOException, InterruptedException {
+	public static int graphvizDo(JFrame parent, String exeTask, String infile, String endi)
+			throws IOException, InterruptedException {
 		String filetype = "jpeg";
-		int lastDot = endi.lastIndexOf(".");
+		final int lastDot = endi.lastIndexOf(".");
 		if (lastDot > 0) {
 			filetype = endi.substring(lastDot + 1);
 			if (filetype.length() > 10) {
@@ -1096,26 +1097,26 @@ public class Utils {
 			}
 		}
 
-		Runtime rt = Runtime.getRuntime();
-		Vector<String> rtv = new Vector<String>();
+		final Runtime rt = Runtime.getRuntime();
+		final Vector<String> rtv = new Vector<String>();
 		rtv.add(exeTask);
 		rtv.add("-T" + filetype);
 
 		String dirname = null;
 		File dir = null;
-		int dirIdx = infile.replace('\\', '/').lastIndexOf('/');
+		final int dirIdx = infile.replace('\\', '/').lastIndexOf('/');
 		if (dirIdx > 0) {
 			dirname = infile.substring(0, dirIdx);
 			dir = new File(dirname);
-			//infile = infile.substring(dirIdx + 1);
-		}	
-		
+			// infile = infile.substring(dirIdx + 1);
+		}
+
 		rtv.add(infile);
 
 		rtv.add("-o");
 		rtv.add(endi);
 
-		Process pr = rt.exec(rtv.toArray(new String[0]), null, dir);
+		final Process pr = rt.exec(rtv.toArray(new String[0]), null, dir);
 		// boolean dont = false;
 		// if (dont) {
 		// int counter = 0;
@@ -1142,10 +1143,9 @@ public class Utils {
 		// }
 		// }
 		// }
-		BufferedReader input = new BufferedReader(new InputStreamReader(
-				pr.getErrorStream()));
+		final BufferedReader input = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
 		String line = null;
-		StringBuilder respo = new StringBuilder();
+		final StringBuilder respo = new StringBuilder();
 		while ((line = input.readLine()) != null) {
 			if (respo.length() > 0) {
 				respo.append("\n");
@@ -1153,12 +1153,11 @@ public class Utils {
 			respo.append(line);
 			logger.info(line);
 		}
-		int exitVal = pr.waitFor();
+		final int exitVal = pr.waitFor();
 
 		logger.info("conversion to " + endi + " resulted in " + exitVal);
 		if ((exitVal != 0) || (respo.length() > 0)) {
-			SukuPad pad = new SukuPad(parent, "Graphviz response [" + exitVal
-					+ "]\n\n" + respo.toString());
+			final SukuPad pad = new SukuPad(parent, "Graphviz response [" + exitVal + "]\n\n" + respo.toString());
 			pad.setVisible(true);
 
 		} else {

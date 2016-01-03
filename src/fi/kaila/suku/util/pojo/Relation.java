@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.pojo;
 
 import java.io.Serializable;
@@ -5,13 +35,13 @@ import java.sql.Timestamp;
 
 /**
  * Relation table row as POJO object.
- * 
+ *
  * @author Kalle
  */
 public class Relation implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -62,7 +92,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Instantiates a new relation.
-	 * 
+	 *
 	 * @param rid
 	 *            the rid
 	 * @param aid
@@ -82,9 +112,8 @@ public class Relation implements Serializable {
 	 * @param createdBy
 	 *            the created by
 	 */
-	public Relation(int rid, int aid, int bid, String tag, int surety,
-			Timestamp modified, Timestamp created, String modifiedBy,
-			String createdBy) {
+	public Relation(int rid, int aid, int bid, String tag, int surety, Timestamp modified, Timestamp created,
+			String modifiedBy, String createdBy) {
 		this.rid = rid;
 		this.aid = aid;
 		this.bid = bid;
@@ -101,7 +130,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Sets the rid.
-	 * 
+	 *
 	 * @param rid
 	 *            the new rid
 	 */
@@ -113,12 +142,12 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the adopted.
-	 * 
+	 *
 	 * @return adopted status
 	 */
 	public String getAdopted() {
 		if (notices != null) {
-			for (RelationNotice notice : notices) {
+			for (final RelationNotice notice : notices) {
 				if (notice.getTag().equals("ADOP")) {
 					return "a";
 				}
@@ -129,7 +158,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Set value for relation surety.
-	 * 
+	 *
 	 * @param surety
 	 *            the new surety
 	 */
@@ -146,7 +175,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the notice.
-	 * 
+	 *
 	 * @param tag
 	 *            the tag
 	 * @return first notice of type tag
@@ -155,7 +184,7 @@ public class Relation implements Serializable {
 		if (notices == null) {
 			return null;
 		}
-		for (RelationNotice notice : notices) {
+		for (final RelationNotice notice : notices) {
 			if (notice.getTag().equals(tag)) {
 				return notice;
 			}
@@ -166,7 +195,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Sets the notices.
-	 * 
+	 *
 	 * @param notices
 	 *            an array of relationNotice objects for the relation
 	 */
@@ -176,7 +205,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the notices.
-	 * 
+	 *
 	 * @return the array of relationnotices
 	 */
 	public RelationNotice[] getNotices() {
@@ -185,7 +214,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Sets the to be deleted.
-	 * 
+	 *
 	 * @param value
 	 *            true if this is to be deleted
 	 */
@@ -196,7 +225,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Sets the to be updated.
-	 * 
+	 *
 	 * @param value
 	 *            true if this is to be deleted
 	 */
@@ -207,7 +236,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Checks if is to be deleted.
-	 * 
+	 *
 	 * @return true if it is to be deleted
 	 */
 	public boolean isToBeDeleted() {
@@ -216,7 +245,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Checks if is to be updated.
-	 * 
+	 *
 	 * @return true if is to be updated
 	 */
 	public boolean isToBeUpdated() {
@@ -225,7 +254,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the tag.
-	 * 
+	 *
 	 * @return tag
 	 */
 	public String getTag() {
@@ -234,7 +263,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the rid.
-	 * 
+	 *
 	 * @return rid
 	 */
 	public int getRid() {
@@ -243,7 +272,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the relative.
-	 * 
+	 *
 	 * @return relative pid
 	 */
 	public int getRelative() {
@@ -252,7 +281,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the pid.
-	 * 
+	 *
 	 * @return pid
 	 */
 	public int getPid() {
@@ -261,7 +290,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Sets the pid.
-	 * 
+	 *
 	 * @param pid
 	 *            the new pid
 	 */
@@ -274,7 +303,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Sets the relative.
-	 * 
+	 *
 	 * @param pid
 	 *            for relative
 	 */
@@ -287,7 +316,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the surety.
-	 * 
+	 *
 	 * @return (0,20,40,60,80,100)
 	 */
 	public int getSurety() {
@@ -296,7 +325,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the created.
-	 * 
+	 *
 	 * @return created time
 	 */
 	public Timestamp getCreated() {
@@ -305,7 +334,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the created by.
-	 * 
+	 *
 	 * @return userid of creater
 	 */
 	public String getCreatedBy() {
@@ -314,7 +343,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the modified.
-	 * 
+	 *
 	 * @return modifieud time
 	 */
 	public Timestamp getModified() {
@@ -323,7 +352,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the modified by.
-	 * 
+	 *
 	 * @return userid of modifier
 	 */
 	public String getModifiedBy() {
@@ -332,7 +361,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Sets the short person.
-	 * 
+	 *
 	 * @param pers
 	 *            teh short person for the relation
 	 */
@@ -343,7 +372,7 @@ public class Relation implements Serializable {
 
 	/**
 	 * Gets the short person.
-	 * 
+	 *
 	 * @return get the short person of this relation
 	 */
 	public PersonShortData getShortPerson() {
@@ -352,7 +381,7 @@ public class Relation implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

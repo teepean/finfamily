@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.Dimension;
@@ -34,17 +64,16 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * various settings will be done here.
- * 
+ *
  * @author Kalle
  */
 public class SettingsDialog extends JDialog implements ActionListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private static Logger logger = Logger.getLogger(SettingsDialog.class
-			.getName());
+	private static Logger logger = Logger.getLogger(SettingsDialog.class.getName());
 	private JComboBox loca = null;
 	private JComboBox repolang = null;
 	private JComboBox dateFormat = null;
@@ -75,7 +104,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
 	/**
 	 * Instantiates a new settings dialog.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @throws SukuException
@@ -85,27 +114,23 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		super(owner, Resurses.getString("SETTINGS"), true);
 		this.owner = owner;
 		setLayout(null);
-		int x = 20;
+		final int x = 20;
 		int y = 20;
 		int scaleImageIndex = 0;
 
-		String[] locatexts = ExcelBundle.getLangNames();
+		final String[] locatexts = ExcelBundle.getLangNames();
 		locas = ExcelBundle.getLangCodes();
 
-		String[] dateFormats = Resurses.getString("LOCALIZAT_DATEFORMATS")
-				.split(";");
+		final String[] dateFormats = Resurses.getString("LOCALIZAT_DATEFORMATS").split(";");
 		dateCodes = Resurses.getString("LOCALIZAT_DATECODES").split(";");
 		boolean openStreetMap = false;
-		if (Suku.kontroller.getPref(owner, "USE_OPEN_STREETMAP", "false")
-				.equals("true")) {
+		if (Suku.kontroller.getPref(owner, "USE_OPEN_STREETMAP", "false").equals("true")) {
 			openStreetMap = true;
 		}
 
-		String databaseViewFontSize = Suku.kontroller.getPref(owner,
-				"DB_VIEW_FONTSIZE", "11");
+		final String databaseViewFontSize = Suku.kontroller.getPref(owner, "DB_VIEW_FONTSIZE", "11");
 
-		String scaleImageText = Suku.kontroller.getPref(owner, "SCALE_IMAGE",
-				"0");
+		final String scaleImageText = Suku.kontroller.getPref(owner, "SCALE_IMAGE", "0");
 		if (scaleImageText != null) {
 			scaleImageIndex = Integer.parseInt(scaleImageText);
 		}
@@ -130,8 +155,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		}
 		loca.setSelectedIndex(locaIndex);
 
-		useOpenStreetMap = new JCheckBox(
-				Resurses.getString("USE_OPEN_STREETMAP"), openStreetMap);
+		useOpenStreetMap = new JCheckBox(Resurses.getString("USE_OPEN_STREETMAP"), openStreetMap);
 		getContentPane().add(useOpenStreetMap);
 
 		useOpenStreetMap.setBounds(x + 210, y, 200, 20);
@@ -151,8 +175,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
 		y += 20;
 
-		String[] langnames = new String[Suku.getRepoLanguageCount()];
-		String[] langcodes = new String[Suku.getRepoLanguageCount()];
+		final String[] langnames = new String[Suku.getRepoLanguageCount()];
+		final String[] langcodes = new String[Suku.getRepoLanguageCount()];
 		for (int i = 0; i < langnames.length; i++) {
 			langnames[i] = Suku.getRepoLanguage(i, false);
 			langcodes[i] = Suku.getRepoLanguage(i, true);
@@ -176,10 +200,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		}
 		SukuData countdata = null;
 		try {
-			countdata = Suku.kontroller
-					.getSukuData("cmd=get", "type=countries");
+			countdata = Suku.kontroller.getSukuData("cmd=get", "type=countries");
 			selectedCc = Resurses.getDefaultCountry();
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			countdata = new SukuData();
 		}
 		if (countdata.generalArray == null) {
@@ -189,7 +212,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 			// JOptionPane.ERROR_MESSAGE);
 			ccodes = new String[1];
 			ccodes[0] = "FI";
-			String nulcountries[] = { "Finland" };
+			final String nulcountries[] = { "Finland" };
 
 			defaultCountryCode = new JComboBox(nulcountries);
 			getContentPane().add(defaultCountryCode);
@@ -200,9 +223,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		} else {
 			int seleId = -1;
 			ccodes = new String[countdata.generalArray.length];
-			String countries[] = new String[countdata.generalArray.length];
+			final String countries[] = new String[countdata.generalArray.length];
 			for (int i = 0; i < countdata.generalArray.length; i++) {
-				String parts[] = countdata.generalArray[i].split(";");
+				final String parts[] = countdata.generalArray[i].split(";");
 				ccodes[i] = parts[0];
 				if (ccodes[i].equals(selectedCc)) {
 					seleId = i;
@@ -224,7 +247,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		getContentPane().add(lbl);
 		lbl.setBounds(x + 210, y + 60, 200, 20);
 
-		String scales[] = new String[5];
+		final String scales[] = new String[5];
 		scales[0] = Resurses.getString("IMAGE_SCALE_NO");
 		scales[1] = Resurses.getString("IMAGE_SCALE_JAVA");
 		scales[2] = Resurses.getString("IMAGE_SCALE_GT") + " 2";
@@ -272,7 +295,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
 		y += 24;
 
-		String lfdef = Suku.kontroller.getPref(owner, "LOOK_AND_FEEL", "");
+		final String lfdef = Suku.kontroller.getPref(owner, "LOOK_AND_FEEL", "");
 
 		lafInfo = UIManager.getInstalledLookAndFeels();
 		int defLf = 0;
@@ -297,7 +320,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		lbl.setBounds(x, y, 400, 20);
 		y += 20;
 
-		String grpath = Suku.kontroller.getPref(owner, "GRAPHVIZ", "");
+		final String grpath = Suku.kontroller.getPref(owner, "GRAPHVIZ", "");
 		graphVizPath = new JTextField(grpath);
 		graphVizPath.setBounds(x, y, 440, 20);
 		graphVizPath.setEditable(false);
@@ -314,7 +337,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		lbl.setBounds(x, y, 400, 20);
 		y += 20;
 
-		String impath = Suku.kontroller.getPref(owner, "IMAGEMAGICK", "");
+		final String impath = Suku.kontroller.getPref(owner, "IMAGEMAGICK", "");
 		imageMagickPath = new JTextField(impath);
 		imageMagickPath.setBounds(x, y, 440, 20);
 		imageMagickPath.setEditable(false);
@@ -357,9 +380,9 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		urlvec.add("");
 		// urlvec.add(DEMO_URL);
 
-		String curre = Suku.kontroller.getPref(owner, "SERVERURL", "");
+		final String curre = Suku.kontroller.getPref(owner, "SERVERURL", "");
 		String old = Suku.kontroller.getPref(owner, "SERVEROLD", "");
-		String prev = Suku.kontroller.getPref(owner, "SERVERPREV", "");
+		final String prev = Suku.kontroller.getPref(owner, "SERVERPREV", "");
 		originUrl = curre;
 		if (curre.equals(old)) {
 			old = prev;
@@ -397,7 +420,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		if (Suku.kontroller.isWebStart()) {
 			graphVizSetup.setEnabled(false);
 		}
-		JButton ok = new JButton(Resurses.OK);
+		final JButton ok = new JButton(Resurses.OK);
 		// this.ok.setDefaultCapable(true);
 		y += 36;
 		getContentPane().add(ok);
@@ -405,11 +428,10 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		ok.addActionListener(this);
 		ok.setBounds(330, y, 100, 24);
 
-		int myheight = y + 80;
+		final int myheight = y + 80;
 
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((d.width / 2) - 300, (d.height / 2) - (myheight / 2), 540,
-				myheight);
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds((d.width / 2) - 300, (d.height / 2) - (myheight / 2), 540, myheight);
 		setResizable(false);
 		getRootPane().setDefaultButton(ok);
 
@@ -417,21 +439,21 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		boolean askRestart = false;
 		if (cmd == null) {
 			return;
 		}
 		if (cmd.equals("GRAPHVIZ")) {
 
-			JFileChooser chooser = new JFileChooser();
+			final JFileChooser chooser = new JFileChooser();
 
 			chooser.setFileFilter(new fi.kaila.suku.util.SettingFilter("exe"));
 			chooser.setDialogTitle("Open exe file");
@@ -442,11 +464,11 @@ public class SettingsDialog extends JDialog implements ActionListener {
 				owner.mToolsAuxGraphviz.setEnabled(false);
 				return;
 			}
-			File f = chooser.getSelectedFile();
+			final File f = chooser.getSelectedFile();
 			if (f == null) {
 				return;
 			}
-			String filename = f.getAbsolutePath();
+			final String filename = f.getAbsolutePath();
 
 			if ((filename == null) || filename.isEmpty()) {
 				Suku.kontroller.putPref(owner, "GRAPHVIZ", "");
@@ -462,7 +484,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		}
 		if (cmd.equals("IMAGEMAGICK")) {
 
-			JFileChooser chooser = new JFileChooser();
+			final JFileChooser chooser = new JFileChooser();
 
 			chooser.setFileFilter(new fi.kaila.suku.util.SettingFilter("exe"));
 			chooser.setDialogTitle("Open exe file");
@@ -472,12 +494,12 @@ public class SettingsDialog extends JDialog implements ActionListener {
 				imageMagickPath.setText("");
 				return;
 			}
-			File f = chooser.getSelectedFile();
+			final File f = chooser.getSelectedFile();
 			if (f == null) {
 
 				return;
 			}
-			String filename = f.getAbsolutePath();
+			final String filename = f.getAbsolutePath();
 
 			if ((filename == null) || filename.isEmpty()) {
 				Suku.kontroller.putPref(owner, "IMAGEMAGICK", "");
@@ -493,7 +515,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
 		if (cmd.equals("FINFAMILY.XLS")) {
 
-			JFileChooser chooser = new JFileChooser();
+			final JFileChooser chooser = new JFileChooser();
 			chooser.setFileFilter(new fi.kaila.suku.util.SettingFilter("xls"));
 			chooser.setDialogTitle("Open xls file");
 
@@ -502,12 +524,12 @@ public class SettingsDialog extends JDialog implements ActionListener {
 				excelPath.setText("");
 				return;
 			}
-			File f = chooser.getSelectedFile();
+			final File f = chooser.getSelectedFile();
 			if (f == null) {
 
 				return;
 			}
-			String filename = f.getAbsolutePath();
+			final String filename = f.getAbsolutePath();
 
 			if ((filename == null) || filename.isEmpty()) {
 				Suku.kontroller.putPref(owner, "FINFAMILY.XLS", "");
@@ -525,8 +547,7 @@ public class SettingsDialog extends JDialog implements ActionListener {
 
 		if (cmd.equals(Resurses.OK)) {
 
-			String newPath = Suku.kontroller
-					.getPref(owner, "FINFAMILY.XLS", "");
+			final String newPath = Suku.kontroller.getPref(owner, "FINFAMILY.XLS", "");
 			if (!newPath.equals(exPath)) {
 				askRestart = true;
 				Suku.setFinFamilyXls(newPath);
@@ -548,81 +569,74 @@ public class SettingsDialog extends JDialog implements ActionListener {
 				String resp = null;
 				try {
 					url = new URL(input + "SukuServlet");
-					HttpURLConnection uc = (HttpURLConnection) url
-							.openConnection();
+					final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 
-					int resu = uc.getResponseCode();
+					final int resu = uc.getResponseCode();
 
 					if (resu == 200) {
-						byte buff[] = new byte[1024];
-						InputStream in = uc.getInputStream();
-						int len = in.read(buff);
+						final byte buff[] = new byte[1024];
+						final InputStream in = uc.getInputStream();
+						final int len = in.read(buff);
 						resp = new String(buff, 0, len);
 						uc.disconnect();
 
 					}
-				} catch (Exception e1) {
+				} catch (final Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				if ((resp != null)
-						&& resp.toLowerCase().startsWith("finfamily")) {
+				if ((resp != null) && resp.toLowerCase().startsWith("finfamily")) {
 					Suku.kontroller.putPref(owner, "SERVERURL", input);
 					if (!input.equals(originUrl)) {
 						askRestart = true;
 					}
 					// serverUrl.setText(input);
 				} else {
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString("SERVER_ERROR"),
-							Resurses.getString(Resurses.SUKU),
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, Resurses.getString("SERVER_ERROR"),
+							Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
 				}
 			}
-			int newLoca = loca.getSelectedIndex();
+			final int newLoca = loca.getSelectedIndex();
 			Suku.kontroller.putPref(owner, Resurses.LOCALE, locas[newLoca]);
 			if (!originLanguage.equals(locas[newLoca])) {
 				askRestart = true;
 			}
 
-			int newLang = repolang.getSelectedIndex();
+			final int newLang = repolang.getSelectedIndex();
 			if (newLang >= 0) {
-				Suku.kontroller.putPref(owner, Resurses.REPOLANG,
-						Suku.getRepoLanguage(newLang, true));
+				Suku.kontroller.putPref(owner, Resurses.REPOLANG, Suku.getRepoLanguage(newLang, true));
 				Resurses.setLanguage(Suku.getRepoLanguage(newLang, true));
 			}
-			int imageScaler = imageScaling.getSelectedIndex();
+			final int imageScaler = imageScaling.getSelectedIndex();
 			Suku.kontroller.putPref(owner, "SCALE_IMAGE", "" + imageScaler);
 			owner.setImageScalerIndex(imageScaler);
 
-			int seleId = defaultCountryCode.getSelectedIndex();
+			final int seleId = defaultCountryCode.getSelectedIndex();
 			if (seleId >= 0) {
 				selectedCc = ccodes[seleId];
 			}
 
 			try {
 				Resurses.setDefaultCountry(selectedCc);
-			} catch (SukuException e1) {
+			} catch (final SukuException e1) {
 				owner.setStatus(e1.getMessage());
 				// JOptionPane.showMessageDialog(this, e1.getMessage(),
 				// Resurses.getString(Resurses.SUKU),
 				// JOptionPane.ERROR_MESSAGE);
 			}
 
-			int newDateIndex = dateFormat.getSelectedIndex();
-			Suku.kontroller.putPref(owner, Resurses.DATEFORMAT,
-					dateCodes[newDateIndex]);
+			final int newDateIndex = dateFormat.getSelectedIndex();
+			Suku.kontroller.putPref(owner, Resurses.DATEFORMAT, dateCodes[newDateIndex]);
 			Resurses.setDateFormat(dateCodes[newDateIndex]);
 			Utils.resetSukuModel();
 
-			boolean openStreetMap = useOpenStreetMap.isSelected();
-			Suku.kontroller.putPref(owner, "USE_OPEN_STREETMAP", ""
-					+ openStreetMap);
+			final boolean openStreetMap = useOpenStreetMap.isSelected();
+			Suku.kontroller.putPref(owner, "USE_OPEN_STREETMAP", "" + openStreetMap);
 
-			String fntSize = dbFontSize.getText();
+			final String fntSize = dbFontSize.getText();
 			Suku.kontroller.putPref(owner, "DB_VIEW_FONTSIZE", fntSize);
 
-			String lf = lfNames[lookAndFeel.getSelectedIndex()];
+			final String lf = lfNames[lookAndFeel.getSelectedIndex()];
 			Suku.kontroller.putPref(owner, "LOOK_AND_FEEL", lf);
 
 			int lfIdx = -1;
@@ -635,27 +649,24 @@ public class SettingsDialog extends JDialog implements ActionListener {
 			try {
 				if (lfIdx < 0) {
 
-					UIManager.setLookAndFeel(UIManager
-							.getSystemLookAndFeelClassName());
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 				} else {
 					UIManager.setLookAndFeel(lafInfo[lfIdx].getClassName());
 				}
 				SwingUtilities.updateComponentTreeUI(owner);
 
-			} catch (Exception e1) {
+			} catch (final Exception e1) {
 				logger.log(Level.WARNING, "look_and_feel", e1);
 			}
 
 			setVisible(false);
 			if (askRestart) {
 				if ((missingKeys != null) && !missingKeys.isEmpty()) {
-					SukuPad pad = new SukuPad(this, missingKeys);
+					final SukuPad pad = new SukuPad(this, missingKeys);
 					pad.setVisible(true);
 				}
-				JOptionPane.showMessageDialog(this,
-						Resurses.getString("RESTART_FINFAMILY"),
-						Resurses.getString(Resurses.SUKU),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, Resurses.getString("RESTART_FINFAMILY"),
+						Resurses.getString(Resurses.SUKU), JOptionPane.INFORMATION_MESSAGE);
 			}
 		}
 	}
@@ -663,18 +674,18 @@ public class SettingsDialog extends JDialog implements ActionListener {
 	private String checkForMissingNames(String filename) {
 
 		ExcelBundle original = new ExcelBundle();
-		Locale testLocale = new Locale("en");
+		final Locale testLocale = new Locale("en");
 		original.importBundle("excel/FinFamily", "Program", testLocale);
 		ExcelBundle newBundle = new ExcelBundle();
 		newBundle.importBundle(filename, "Program", testLocale);
 
-		StringBuilder missing = new StringBuilder();
+		final StringBuilder missing = new StringBuilder();
 
 		Iterator<String> it = original.getBundleMap().keySet().iterator();
 
 		while (it.hasNext()) {
-			String nextKey = it.next();
-			String value = newBundle.getBundleMap().get(nextKey);
+			final String nextKey = it.next();
+			final String value = newBundle.getBundleMap().get(nextKey);
 			if (value == null) {
 
 				if (missing.length() == 0) {
@@ -696,8 +707,8 @@ public class SettingsDialog extends JDialog implements ActionListener {
 		it = original.getBundleMap().keySet().iterator();
 		boolean wasFirstReport = true;
 		while (it.hasNext()) {
-			String nextKey = it.next();
-			String value = newBundle.getBundleMap().get(nextKey);
+			final String nextKey = it.next();
+			final String value = newBundle.getBundleMap().get(nextKey);
 			if (value == null) {
 				if (missing.length() == 0) {
 					missing.append(Resurses.getString("SETTINGS_MISSING_KEYS"));

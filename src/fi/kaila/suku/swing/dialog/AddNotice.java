@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.event.MouseEvent;
@@ -17,7 +47,7 @@ import fi.kaila.suku.util.Utils;
 
 /**
  * Dialog to request for notice to be added.
- * 
+ *
  * @author Kalle
  */
 public class AddNotice extends JDialog implements MouseListener {
@@ -39,7 +69,7 @@ public class AddNotice extends JDialog implements MouseListener {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @throws SukuException
@@ -52,26 +82,26 @@ public class AddNotice extends JDialog implements MouseListener {
 		//
 		// setBounds(d.width/2-300,d.height/2-200,300,400);
 		setLayout(null);
-		SukuTypesModel types = Utils.typeInstance();
+		final SukuTypesModel types = Utils.typeInstance();
 
 		for (int i = 0; i < types.getTypesTagsCount(); i++) {
-			String tag = types.getTypesTags(i);
-			String value = types.getTypesName(i);
+			final String tag = types.getTypesTags(i);
+			final String value = types.getTypesName(i);
 			kokoMap.put(tag, value);
 		}
 
 		for (int i = 0; i < types.getTypesTagsCount(); i++) {
-			String tag = types.getTypesTags(i);
+			final String tag = types.getTypesTags(i);
 			kokoTags.add(tag);
 
-			String value = types.getTypesName(i);
+			final String value = types.getTypesName(i);
 			kokoLista.add(value);
 
 		}
 
 		koko = new JList(kokoLista);
 		koko.addMouseListener(this);
-		JScrollPane kokoScroll = new JScrollPane(koko);
+		final JScrollPane kokoScroll = new JScrollPane(koko);
 		getContentPane().add(kokoScroll);
 		kokoScroll.setBounds(10, 10, 120, 340);
 
@@ -79,7 +109,7 @@ public class AddNotice extends JDialog implements MouseListener {
 
 	/**
 	 * Gets the selected tag.
-	 * 
+	 *
 	 * @return the tag selected to be added
 	 */
 	public String getSelectedTag() {
@@ -88,12 +118,12 @@ public class AddNotice extends JDialog implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		int idx = koko.getSelectedIndex();
+		final int idx = koko.getSelectedIndex();
 		selectedTag = kokoTags.get(idx);
 		setVisible(false);
 
@@ -101,7 +131,7 @@ public class AddNotice extends JDialog implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -111,7 +141,7 @@ public class AddNotice extends JDialog implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -121,7 +151,7 @@ public class AddNotice extends JDialog implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -131,7 +161,7 @@ public class AddNotice extends JDialog implements MouseListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */

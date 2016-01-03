@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.server.utils;
 
 import java.sql.Connection;
@@ -23,7 +53,7 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * Server side class for report creator.
- * 
+ *
  * @author Kalle
  */
 public class ReportUtil {
@@ -37,7 +67,7 @@ public class ReportUtil {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param con
 	 *            connection instance to the PostgreSQL database
 	 */
@@ -66,7 +96,7 @@ public class ReportUtil {
 
 	/**
 	 * Create descendant table structure.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @param generations
@@ -85,10 +115,9 @@ public class ReportUtil {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public SukuData createDescendantStructure(int pid, int generations,
-			int spouGen, int chilGen, String order, boolean adopted)
-			throws SQLException, SukuException {
-		SukuData fam = new SukuData();
+	public SukuData createDescendantStructure(int pid, int generations, int spouGen, int chilGen, String order,
+			boolean adopted) throws SQLException, SukuException {
+		final SukuData fam = new SukuData();
 		unitMap = new HashMap<Integer, ReportUnit>();
 
 		females = null;
@@ -96,19 +125,17 @@ public class ReportUtil {
 			females = new HashMap<Integer, ReportTableMember>();
 		}
 
-		ReportTableMember chi = new ReportTableMember();
+		final ReportTableMember chi = new ReportTableMember();
 		chi.setPid(pid);
 
 		@SuppressWarnings("unused")
-		int lasttab = createDescendantTables(0, 0, chi, 1, generations, order,
-				adopted, 0);
+		final int lasttab = createDescendantTables(0, 0, chi, 1, generations, order, adopted, 0);
 
 		if (females != null) {
-			int round = females.size();
+			final int round = females.size();
 			if (round > 0) {
 				unitMap = new HashMap<Integer, ReportUnit>();
-				createDescendantTables(0, 0, chi, 1, generations,
-						ReportWorkerDialog.SET_ORDER_NEWMALE, adopted, round);
+				createDescendantTables(0, 0, chi, 1, generations, ReportWorkerDialog.SET_ORDER_NEWMALE, adopted, round);
 			}
 		}
 
@@ -116,8 +143,8 @@ public class ReportUtil {
 
 		setRunnerValue(Resurses.getString("REPORT_DESC_COUNTING"));
 		tableNo = 1;
-		int gen = 0;
-		ReportUnit unit = unitMap.get(pid);
+		final int gen = 0;
+		final ReportUnit unit = unitMap.get(pid);
 		unit.setTableNo(tableNo);
 		unit.setGen(gen);
 		tables.add(unit);
@@ -157,17 +184,17 @@ public class ReportUtil {
 	private void addChildAncestors(int gen) throws SQLException {
 
 		for (int i = 0; i < tables.size(); i++) {
-			ReportUnit unit = tables.get(i);
+			final ReportUnit unit = tables.get(i);
 			// String sex = null;
 			String pareSex = null;
-			ReportTableMember famParent = unit.getParent().get(0);
+			final ReportTableMember famParent = unit.getParent().get(0);
 			if (famParent == null) {
 				return;
 			}
 			pareSex = famParent.getSex();
 			for (int j = 0; j < unit.getChild().size(); j++) {
 
-				ReportTableMember member = unit.getChild().get(j);
+				final ReportTableMember member = unit.getChild().get(j);
 				// if (j == 0) {
 				// sex = member.getSex();
 				// }
@@ -188,19 +215,18 @@ public class ReportUtil {
 	private void addSpouseAncestors(int gen) throws SQLException {
 		String fromTable;
 		for (int i = 0; i < tables.size(); i++) {
-			ReportUnit unit = tables.get(i);
+			final ReportUnit unit = tables.get(i);
 			int startIdx = 1;
 			if (unit.getGen() == 0) {
 				startIdx = 0;
 			}
 			for (int j = startIdx; j < unit.getParent().size(); j++) {
-				ReportTableMember member = unit.getParent().get(j);
+				final ReportTableMember member = unit.getParent().get(j);
 				// HashMap<Integer,PersonInTables> personReferences
-				PersonInTables ref = personReferences.get(member.getPid());
+				final PersonInTables ref = personReferences.get(member.getPid());
 				fromTable = "";
 				if (ref != null) {
-					fromTable = ref.getReferences(unit.getTableNo(), true,
-							true, false, 0);
+					fromTable = ref.getReferences(unit.getTableNo(), true, true, false, 0);
 				}
 				if (fromTable.isEmpty()) {
 					addAncestorsToMember(unit, member, 1, gen, null);
@@ -209,19 +235,17 @@ public class ReportUtil {
 			}
 		}
 		for (int i = 0; i < tables.size(); i++) {
-			ReportUnit unit = tables.get(i);
+			final ReportUnit unit = tables.get(i);
 			for (int j = 0; j < unit.getChild().size(); j++) {
-				ReportTableMember member = unit.getChild().get(j);
+				final ReportTableMember member = unit.getChild().get(j);
 
-				ReportTableMember spouses[] = member.getSpouses();
+				final ReportTableMember spouses[] = member.getSpouses();
 				if (spouses != null) {
-					for (ReportTableMember spouse : spouses) {
-						PersonInTables ref = personReferences.get(spouse
-								.getPid());
+					for (final ReportTableMember spouse : spouses) {
+						final PersonInTables ref = personReferences.get(spouse.getPid());
 						fromTable = "";
 						if (ref != null) {
-							fromTable = ref.getReferences(unit.getTableNo(),
-									true, true, false, 0);
+							fromTable = ref.getReferences(unit.getTableNo(), true, true, false, 0);
 						}
 						if (fromTable.isEmpty()) {
 							addAncestorsToMember(unit, spouse, 1, gen, null);
@@ -233,11 +257,10 @@ public class ReportUtil {
 		}
 	}
 
-	private void addAncestorsToMember(ReportUnit unit,
-			ReportTableMember member, long strado, int gen, String parentSex)
+	private void addAncestorsToMember(ReportUnit unit, ReportTableMember member, long strado, int gen, String parentSex)
 			throws SQLException {
 
-		int pid = member.getPid();
+		final int pid = member.getPid();
 
 		addMemberParents(unit, member, pid, strado, parentSex, 0, gen);
 
@@ -245,23 +268,21 @@ public class ReportUtil {
 
 	}
 
-	private void addMemberParents(ReportUnit unit, ReportTableMember member,
-			int pid, long strado, String parentSex, int gen, int maxGen)
-			throws SQLException {
+	private void addMemberParents(ReportUnit unit, ReportTableMember member, int pid, long strado, String parentSex,
+			int gen, int maxGen) throws SQLException {
 		if (gen >= maxGen) {
 			return;
 		}
-		String sql = "select p.aid,p.bid,p.tag "
-				+ "from parent as p left join relationnotice as r on p.rid=r.rid "
-				+ "where aid=? and r.tag is null";
+		final String sql = "select p.aid,p.bid,p.tag "
+				+ "from parent as p left join relationnotice as r on p.rid=r.rid " + "where aid=? and r.tag is null";
 
 		int fatherPid = 0;
 		int motherPid = 0;
 		String tag;
-		PreparedStatement stm = con.prepareStatement(sql);
+		final PreparedStatement stm = con.prepareStatement(sql);
 		stm.setInt(1, pid);
 
-		ResultSet rs = stm.executeQuery();
+		final ResultSet rs = stm.executeQuery();
 
 		while (rs.next()) {
 			tag = rs.getString(3);
@@ -282,8 +303,7 @@ public class ReportUtil {
 
 			if (personReferences.get(fatherPid) == null) {
 				member.addSub(fatherPid, "M", strado * 2);
-				addMemberParents(unit, member, fatherPid, strado * 2, "M",
-						gen + 1, maxGen);
+				addMemberParents(unit, member, fatherPid, strado * 2, "M", gen + 1, maxGen);
 
 			}
 		}
@@ -291,15 +311,14 @@ public class ReportUtil {
 
 			if (personReferences.get(motherPid) == null) {
 				member.addSub(motherPid, "F", (strado * 2) + 1);
-				addMemberParents(unit, member, motherPid, (strado * 2) + 1,
-						"F", gen + 1, maxGen);
+				addMemberParents(unit, member, motherPid, (strado * 2) + 1, "F", gen + 1, maxGen);
 			}
 		}
 
 	}
 
 	/**
-	 * 
+	 *
 	 * @param parentTableNo
 	 *            table # of the parent
 	 * @param nexttab
@@ -319,11 +338,10 @@ public class ReportUtil {
 	 * @throws SQLException
 	 * @throws SukuException
 	 */
-	private int createDescendantTables(long parentTableNo, int nexttab,
-			ReportTableMember chi, int gen, int generations, String order,
-			boolean adopted, int round) throws SQLException, SukuException {
+	private int createDescendantTables(long parentTableNo, int nexttab, ReportTableMember chi, int gen, int generations,
+			String order, boolean adopted, int round) throws SQLException, SukuException {
 
-		ReportUnit pidTable = unitMap.get(chi.getPid());
+		final ReportUnit pidTable = unitMap.get(chi.getPid());
 
 		if (pidTable != null) {
 			return nexttab;
@@ -334,8 +352,7 @@ public class ReportUtil {
 		}
 
 		// create a table for the child
-		ReportUnit unit = createOneTable(nexttab, chi, gen, adopted, true,
-				false);
+		final ReportUnit unit = createOneTable(nexttab, chi, gen, adopted, true, false);
 
 		if ((nexttab == 0) && (unit.getChild().size() == 0)) {
 			unitMap.put(unit.getPid(), unit);
@@ -348,8 +365,7 @@ public class ReportUtil {
 		if (unit.getChild().size() == 0) {
 			if (unit.getParent().size() > 1) {
 				int idx = 0;
-				ReportTableMember[] spouses = new ReportTableMember[unit
-						.getParent().size() - 1];
+				final ReportTableMember[] spouses = new ReportTableMember[unit.getParent().size() - 1];
 				for (int i = 0; i < unit.getParent().size(); i++) {
 					if (unit.getPid() != unit.getParent().get(i).getPid()) {
 						spouses[idx++] = unit.getParent().get(i);
@@ -366,10 +382,10 @@ public class ReportUtil {
 			spoUnits = unitMap.get(unit.getParent().get(i).getPid());
 			if (spoUnits != null) {
 				for (int k = 0; k < unit.getChild().size(); k++) {
-					ReportTableMember ktm = unit.getChild().get(k);
+					final ReportTableMember ktm = unit.getChild().get(k);
 					int j = 0;
 					for (j = 0; j < spoUnits.getChild().size(); j++) {
-						ReportTableMember stm = spoUnits.getChild().get(j);
+						final ReportTableMember stm = spoUnits.getChild().get(j);
 						if (stm.getPid() == ktm.getPid()) {
 							break;
 						}
@@ -388,9 +404,8 @@ public class ReportUtil {
 		}
 		if (childrenAlreadyListed) {
 
-			if (order.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE)
-					&& chi.getSex().equals("M")) {
-				ReportTableMember rtm = spoUnits.getParent().get(0);
+			if (order.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE) && chi.getSex().equals("M")) {
+				final ReportTableMember rtm = spoUnits.getParent().get(0);
 				females.put(spoUnits.getPid(), rtm);
 
 			}
@@ -402,17 +417,17 @@ public class ReportUtil {
 		//
 		for (int i = 0; i < unit.getParent().size(); i++) {
 
-			int parePid = unit.getParent().get(i).getPid();
+			final int parePid = unit.getParent().get(i).getPid();
 
-			ReportUnit pareUnits = unitMap.get(parePid);
+			final ReportUnit pareUnits = unitMap.get(parePid);
 			// .get(unit.getParent().get(i).getPid());
 
 			//
 			// got table of spouse (if such exists)
 			//
 			if (pareUnits != null) {
-				int jsize = pareUnits.getChild().size();
-				int ksize = unit.getChild().size();
+				final int jsize = pareUnits.getChild().size();
+				final int ksize = unit.getChild().size();
 
 				//
 				// check that all children are part of other parents unit
@@ -420,12 +435,10 @@ public class ReportUtil {
 				if (ksize > jsize) {
 					int j = 0;
 					for (j = 0; j < jsize; j++) {
-						int nxtSpouseChildPid = pareUnits.getChild().get(j)
-								.getPid();
+						final int nxtSpouseChildPid = pareUnits.getChild().get(j).getPid();
 						int k = 0;
 						for (k = 0; k < ksize; k++) {
-							int nxtMyChildPid = pareUnits.getChild().get(k)
-									.getPid();
+							final int nxtMyChildPid = pareUnits.getChild().get(k).getPid();
 							if (nxtMyChildPid == nxtSpouseChildPid) {
 								break; // this says child found
 							}
@@ -439,8 +452,7 @@ public class ReportUtil {
 						// halonmi 20130311 >>>
 						j = 0;
 						for (j = 0; (j < ksize) && (j < jsize); j++) {
-							if (unit.getChild().get(j).getPid() != pareUnits
-									.getChild().get(j).getPid()) {
+							if (unit.getChild().get(j).getPid() != pareUnits.getChild().get(j).getPid()) {
 								break;
 							}
 						}
@@ -448,9 +460,7 @@ public class ReportUtil {
 							break;
 						}
 						// halonmi 20130311 <<<
-						if (order
-								.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE)
-								&& chi.getSex().equals("M")) {
+						if (order.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE) && chi.getSex().equals("M")) {
 							// FIRSTMALE report doesn't worked correctly.
 							// halonmi 20130309
 							females.put(unit.getPid(), chi);
@@ -468,19 +478,16 @@ public class ReportUtil {
 			}
 		}
 
-		if ((females != null)
-				&& ReportWorkerDialog.SET_ORDER_NEWMALE.equals(order)
+		if ((females != null) && ReportWorkerDialog.SET_ORDER_NEWMALE.equals(order)
 				&& (females.get(chi.getPid()) != null)) {
 			return nexttab;
 		}
 
 		int tableNo = nexttab + 1;
 		if (round > 0) {
-			setRunnerValue(Resurses.getString("REPORT_TABSTRUCT_INITMALE")
-					+ " [" + round + "]: " + tableNo);
+			setRunnerValue(Resurses.getString("REPORT_TABSTRUCT_INITMALE") + " [" + round + "]: " + tableNo);
 		} else {
-			setRunnerValue(Resurses.getString("REPORT_TABSTRUCT_INIT") + " "
-					+ tableNo);
+			setRunnerValue(Resurses.getString("REPORT_TABSTRUCT_INIT") + " " + tableNo);
 		}
 		unitMap.put(unit.getPid(), unit);
 
@@ -495,19 +502,15 @@ public class ReportUtil {
 
 		int nxttab = 0;
 		for (int rowno = 0; rowno < unit.getChild().size(); rowno++) {
-			ReportTableMember chix = unit.getChild().get(rowno);
+			final ReportTableMember chix = unit.getChild().get(rowno);
 
-			if (order.equals(ReportWorkerDialog.SET_ORDER_TAB)
-					|| order.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE)
+			if (order.equals(ReportWorkerDialog.SET_ORDER_TAB) || order.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE)
 					|| order.equals(ReportWorkerDialog.SET_ORDER_NEWMALE)
 					|| order.equals(ReportWorkerDialog.SET_ORDER_REG)
-					|| (order.equals(ReportWorkerDialog.SET_ORDER_MALE) && "M"
-							.equals(chix.getSex()))
-					|| (order.equals(ReportWorkerDialog.SET_ORDER_FEMALE) && "F"
-							.equals(chix.getSex()))) {
+					|| (order.equals(ReportWorkerDialog.SET_ORDER_MALE) && "M".equals(chix.getSex()))
+					|| (order.equals(ReportWorkerDialog.SET_ORDER_FEMALE) && "F".equals(chix.getSex()))) {
 
-				nxttab = createDescendantTables(tableNo, tableNo, chix,
-						gen + 1, generations, order, adopted, round);
+				nxttab = createDescendantTables(tableNo, tableNo, chix, gen + 1, generations, order, adopted, round);
 				if (nxttab > tableNo) {
 					tableNo = nxttab;
 				}
@@ -518,11 +521,10 @@ public class ReportUtil {
 
 	}
 
-	private int createAncestorTables(int nexttab, ReportTableMember chi,
-			int gen, int generations, boolean family, String order)
-			throws SQLException {
+	private int createAncestorTables(int nexttab, ReportTableMember chi, int gen, int generations, boolean family,
+			String order) throws SQLException {
 
-		ReportUnit pidTable = unitMap.get(chi.getPid());
+		final ReportUnit pidTable = unitMap.get(chi.getPid());
 
 		if (pidTable != null) {
 			return nexttab;
@@ -532,36 +534,33 @@ public class ReportUtil {
 			return nexttab;
 		}
 		// create a table for the child
-		ReportUnit unit = createOneTable(nexttab, chi, gen, true, family, true);
+		final ReportUnit unit = createOneTable(nexttab, chi, gen, true, family, true);
 
 		unitMap.put(unit.getPid(), unit);
 
 		if (unit.getFatherPid() > 0) {
-			ReportTableMember chif = new ReportTableMember();
+			final ReportTableMember chif = new ReportTableMember();
 			chif.setPid(unit.getFatherPid());
-			createAncestorTables(nexttab * 2, chif, gen + 1, generations,
-					family, order);
+			createAncestorTables(nexttab * 2, chif, gen + 1, generations, family, order);
 		}
 
 		if (unit.getMotherPid() > 0) {
-			ReportTableMember chim = new ReportTableMember();
+			final ReportTableMember chim = new ReportTableMember();
 			chim.setPid(unit.getMotherPid());
-			createAncestorTables((nexttab * 2) + 1, chim, gen + 1, generations,
-					family, order);
+			createAncestorTables((nexttab * 2) + 1, chim, gen + 1, generations, family, order);
 		}
 
 		return 0;
 
 	}
 
-	private ReportUnit createOneTable(int tabno, ReportTableMember chi,
-			int gen, boolean adopted, boolean includeFamily,
+	private ReportUnit createOneTable(int tabno, ReportTableMember chi, int gen, boolean adopted, boolean includeFamily,
 			boolean includeParents) throws SQLException {
 
 		String sql;
 
 		PreparedStatement stm;
-		int pid = chi.getPid();
+		final int pid = chi.getPid();
 
 		ResultSet rs;
 
@@ -578,7 +577,7 @@ public class ReportUtil {
 		rs.close();
 		stm.close();
 
-		ReportUnit unit = new ReportUnit();
+		final ReportUnit unit = new ReportUnit();
 		unit.setPid(pid);
 
 		ReportTableMember member = new ReportTableMember();
@@ -595,9 +594,9 @@ public class ReportUtil {
 
 			rs = stm.executeQuery();
 			while (rs.next()) {
-				int parep = rs.getInt(1);
-				String pare = rs.getString(2);
-				String adop = rs.getString(3);
+				final int parep = rs.getInt(1);
+				final String pare = rs.getString(2);
+				final String adop = rs.getString(3);
 				if (adop == null) {
 					if ("FATH".equals(pare)) {
 						unit.setFatherPid(parep);
@@ -613,8 +612,7 @@ public class ReportUtil {
 		if (!includeFamily) {
 			return unit;
 		}
-		sql = "select bid,s.tag,u.sex "
-				+ "from spouse as s inner join unit as u on s.bid=u.pid "
+		sql = "select bid,s.tag,u.sex " + "from spouse as s inner join unit as u on s.bid=u.pid "
 				+ "where s.aid=? order by relationrow";
 
 		stm = con.prepareStatement(sql);
@@ -622,9 +620,9 @@ public class ReportUtil {
 		int spousenum = 0;
 		rs = stm.executeQuery();
 		while (rs.next()) {
-			int bid = rs.getInt("bid");
-			String stag = rs.getString("tag");
-			String ssex = rs.getString("sex");
+			final int bid = rs.getInt("bid");
+			final String stag = rs.getString("tag");
+			final String ssex = rs.getString("sex");
 			spousenum++;
 
 			member = new ReportTableMember();
@@ -640,19 +638,17 @@ public class ReportUtil {
 		stm.close();
 
 		int childno = 0;
-		PreparedStatement adopstm = con
+		final PreparedStatement adopstm = con
 				.prepareStatement("select count(*) from relationnotice where tag='ADOP' and rid = ?");
 
-		PreparedStatement pareStm = con
-				.prepareStatement("select * from parent where aid=? and bid <> ? ");
+		final PreparedStatement pareStm = con.prepareStatement("select * from parent where aid=? and bid <> ? ");
 
 		// String adoptext = "";
 		// if (!adopted) {
 		// adoptext = "and r.tag is null";
 		// }
 
-		sql = "select c.bid,u.sex,c.rid "
-				+ "from (child as c inner join unit as u on c.bid=u.pid ) "
+		sql = "select c.bid,u.sex,c.rid " + "from (child as c inner join unit as u on c.bid=u.pid ) "
 				+ "where aid=? order by relationrow";
 
 		stm = con.prepareStatement(sql);
@@ -661,12 +657,12 @@ public class ReportUtil {
 		rs = stm.executeQuery();
 		// TODO
 		while (rs.next()) {
-			int bid = rs.getInt("bid");
-			String csex = rs.getString("sex");
+			final int bid = rs.getInt("bid");
+			final String csex = rs.getString("sex");
 
-			int rid = rs.getInt(3);
-			boolean isAdopted = isChildRelationAdopted(adopstm, rid);
-			int otherParentPid = getParentPid(pareStm, bid, pid);
+			final int rid = rs.getInt(3);
+			final boolean isAdopted = isChildRelationAdopted(adopstm, rid);
+			final int otherParentPid = getParentPid(pareStm, bid, pid);
 			member = new ReportTableMember();
 			member.setPid(bid);
 			member.setSex(csex);
@@ -688,11 +684,10 @@ public class ReportUtil {
 
 	}
 
-	private int getParentPid(PreparedStatement pst, int bid, int pid)
-			throws SQLException {
+	private int getParentPid(PreparedStatement pst, int bid, int pid) throws SQLException {
 		pst.setInt(1, bid);
 		pst.setInt(2, pid);
-		ResultSet rs = pst.executeQuery();
+		final ResultSet rs = pst.executeQuery();
 		int parePid = 0;
 		while (rs.next()) {
 			parePid = rs.getInt("bid");
@@ -702,13 +697,12 @@ public class ReportUtil {
 		return parePid;
 	}
 
-	private boolean isChildRelationAdopted(PreparedStatement pst, int rid)
-			throws SQLException {
+	private boolean isChildRelationAdopted(PreparedStatement pst, int rid) throws SQLException {
 
 		pst.setInt(1, rid);
 
 		int counter = 0;
-		ResultSet rs = pst.executeQuery();
+		final ResultSet rs = pst.executeQuery();
 		while (rs.next()) {
 			counter = rs.getInt(1);
 
@@ -723,14 +717,13 @@ public class ReportUtil {
 	/** The tables. */
 	Vector<ReportUnit> tables = new Vector<ReportUnit>();
 
-	private void calculateDescendantTableNumbers(ReportUnit tab,
-			HashMap<Integer, ReportUnit> unitMap) {
+	private void calculateDescendantTableNumbers(ReportUnit tab, HashMap<Integer, ReportUnit> unitMap) {
 
 		for (int i = 0; i < tab.getChild().size(); i++) {
-			ReportTableMember asChi = tab.getChild().get(i);
+			final ReportTableMember asChi = tab.getChild().get(i);
 
 			if (asChi.getMyTable() == 0) {
-				ReportUnit asOwner = unitMap.get(asChi.getPid());
+				final ReportUnit asOwner = unitMap.get(asChi.getPid());
 				if (asOwner != null) {
 					if (asOwner.getTableNo() == 0) {
 
@@ -750,22 +743,21 @@ public class ReportUtil {
 
 	}
 
-	private void calculateRegistryTableNumbers(Vector<ReportUnit> regs,
-			HashMap<Integer, ReportUnit> unitMap) {
+	private void calculateRegistryTableNumbers(Vector<ReportUnit> regs, HashMap<Integer, ReportUnit> unitMap) {
 		regs2 = new Vector<ReportUnit>();
 
 		for (int j = 0; j < regs.size(); j++) {
-			ReportUnit tab = regs.get(j);
+			final ReportUnit tab = regs.get(j);
 			// if (j == 0) {
 			// System.out.println("generation for " + tab.getPid() + "("
 			// + regs.size() + ") = " + tab.getGen());
 			// }
 
 			for (int i = 0; i < tab.getChild().size(); i++) {
-				ReportTableMember asChi = tab.getChild().get(i);
+				final ReportTableMember asChi = tab.getChild().get(i);
 
 				if (asChi.getMyTable() == 0) {
-					ReportUnit asOwner = unitMap.get(asChi.getPid());
+					final ReportUnit asOwner = unitMap.get(asChi.getPid());
 					if (asOwner != null) {
 						if (asOwner.getTableNo() == 0) {
 
@@ -794,7 +786,7 @@ public class ReportUtil {
 		if (logger.isLoggable(Level.FINER)) {
 			logger.finer(text);
 			for (int i = 0; i < tables.size(); i++) {
-				ReportUnit tab = tables.get(i);
+				final ReportUnit tab = tables.get(i);
 				logger.finer(tab.toString());
 			}
 		}
@@ -802,7 +794,7 @@ public class ReportUtil {
 
 	/**
 	 * Create data for the descendant list (Excel report).
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @return result in Sukudata pers = list of persons, generalArray 0 tag,
@@ -812,21 +804,20 @@ public class ReportUtil {
 	 * @throws SQLException
 	 *             the sQL exception
 	 */
-	public SukuData createDescendantLista(int pid) throws SukuException,
-			SQLException {
+	public SukuData createDescendantLista(int pid) throws SukuException, SQLException {
 		descListaPersons = new Vector<PersonShortData>();
 		descListaText = new Vector<String>();
 		descListaGen = new Vector<Integer>();
 		multicheck = new HashMap<Integer, PersonShortData>();
 		// descListaRelations= new Vector<RelationShortData> ();
-		PersonShortData p = new PersonShortData(this.con, pid, true);
+		final PersonShortData p = new PersonShortData(this.con, pid, true);
 		multicheck.put(p.getPid(), p);
 		descListaPersons.add(p);
 		descListaGen.add(0);
 		descListaText.add("SUBJ");
 		descListaCounter = 0;
 		insertIntoDescendantLista(pid, 0);
-		SukuData ddd = new SukuData();
+		final SukuData ddd = new SukuData();
 
 		ddd.pers = descListaPersons.toArray(new PersonShortData[0]);
 		ddd.generalArray = descListaText.toArray(new String[0]);
@@ -853,12 +844,10 @@ public class ReportUtil {
 	/** The multicheck. */
 	HashMap<Integer, PersonShortData> multicheck = null;
 
-	private void insertIntoDescendantLista(int pid, int gen)
-			throws SQLException, SukuException {
-		ArrayList<RelationShortData> rr = new ArrayList<RelationShortData>();
+	private void insertIntoDescendantLista(int pid, int gen) throws SQLException, SukuException {
+		final ArrayList<RelationShortData> rr = new ArrayList<RelationShortData>();
 		descListaCounter++;
-		setRunnerValue(Resurses.getString("REPORT.LISTA.DESCLISTA") + " ["
-				+ descListaCounter + "/" + gen + "] ");
+		setRunnerValue(Resurses.getString("REPORT.LISTA.DESCLISTA") + " [" + descListaCounter + "/" + gen + "] ");
 		String sql;
 		PreparedStatement stm;
 		ResultSet rs;
@@ -868,8 +857,8 @@ public class ReportUtil {
 		stm.setInt(1, pid);
 		rs = stm.executeQuery();
 		while (rs.next()) {
-			RelationShortData rel = new RelationShortData(pid, rs.getInt(1),
-					rs.getInt(2), rs.getString(3), rs.getInt(4));
+			final RelationShortData rel = new RelationShortData(pid, rs.getInt(1), rs.getInt(2), rs.getString(3),
+					rs.getInt(4));
 			rr.add(rel);
 		}
 		rs.close();
@@ -880,17 +869,16 @@ public class ReportUtil {
 		stm.setInt(1, pid);
 		rs = stm.executeQuery();
 		while (rs.next()) {
-			RelationShortData rel = new RelationShortData(pid, rs.getInt(1),
-					rs.getInt(2), rs.getString(3), rs.getInt(4));
+			final RelationShortData rel = new RelationShortData(pid, rs.getInt(1), rs.getInt(2), rs.getString(3),
+					rs.getInt(4));
 			rr.add(rel);
 		}
 		stm.close();
 
 		for (int i = 0; i < rr.size(); i++) {
-			RelationShortData rel = rr.get(i);
+			final RelationShortData rel = rr.get(i);
 
-			PersonShortData p = new PersonShortData(this.con,
-					rel.getRelationPid(), true);
+			final PersonShortData p = new PersonShortData(this.con, rel.getRelationPid(), true);
 			descListaPersons.add(p);
 			int mygen = gen;
 			if (rel.getTag().equals("CHIL")) {
@@ -909,7 +897,7 @@ public class ReportUtil {
 
 	/**
 	 * Creates the ancestor structure.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @param generations
@@ -922,12 +910,12 @@ public class ReportUtil {
 	 * @throws SQLException
 	 *             the sQL exception
 	 */
-	public SukuData createAncestorStructure(int pid, int generations,
-			boolean family, String order) throws SQLException {
-		SukuData fam = new SukuData();
+	public SukuData createAncestorStructure(int pid, int generations, boolean family, String order)
+			throws SQLException {
+		final SukuData fam = new SukuData();
 		unitMap = new HashMap<Integer, ReportUnit>();
 
-		ReportTableMember chi = new ReportTableMember();
+		final ReportTableMember chi = new ReportTableMember();
 		chi.setPid(pid);
 
 		createAncestorTables(1, chi, 1, generations, family, order);
@@ -935,7 +923,7 @@ public class ReportUtil {
 		Vector<ReportUnit> nxtvec = null;
 		if (order.equals(ReportWorkerDialog.SET_ANC_ESPOLIN)) {
 
-			ReportUnit cu = unitMap.get(pid);
+			final ReportUnit cu = unitMap.get(pid);
 			cu.setTableNo(0);
 			cu.setGen(0);
 			curvec.add(cu);
@@ -943,10 +931,9 @@ public class ReportUtil {
 			while (curvec.size() > 0) {
 				nxtvec = new Vector<ReportUnit>();
 				for (int i = 0; i < curvec.size(); i++) {
-					ReportUnit cux = curvec.get(i);
+					final ReportUnit cux = curvec.get(i);
 					if (cux.getTableNo() == 0) {
-						if ((cux.getFatherPid() == 0)
-								&& (cux.getMotherPid() == 0)) {
+						if ((cux.getFatherPid() == 0) && (cux.getMotherPid() == 0)) {
 							continue;
 						}
 						epsotab++;
@@ -957,9 +944,9 @@ public class ReportUtil {
 						ReportUnit moxx;
 						while (cuxx.getFatherPid() > 0) {
 							// int prepid=cuxx.getPid();
-							int pregen = cuxx.getGen();
-							int mopid = cuxx.getMotherPid();
-							int fapid = cuxx.getFatherPid();
+							final int pregen = cuxx.getGen();
+							final int mopid = cuxx.getMotherPid();
+							final int fapid = cuxx.getFatherPid();
 							cuxx = unitMap.get(fapid);
 							if (cuxx.getTableNo() == 0) {
 								cuxx.setTableNo(cux.getTableNo());
@@ -980,7 +967,7 @@ public class ReportUtil {
 
 		} else {
 
-			ReportUnit cu = unitMap.get(pid);
+			final ReportUnit cu = unitMap.get(pid);
 			cu.setTableNo(1);
 			cu.setGen(0);
 			curvec.add(cu);
@@ -989,12 +976,12 @@ public class ReportUtil {
 				nxtvec = new Vector<ReportUnit>();
 				for (int i = 0; i < curvec.size(); i++) {
 
-					ReportUnit cux = curvec.get(i);
+					final ReportUnit cux = curvec.get(i);
 					if (cux != null) {
 						tables.add(cux);
-						int fid = cux.getFatherPid();
+						final int fid = cux.getFatherPid();
 						if (fid > 0) {
-							ReportUnit cuf = unitMap.get(fid);
+							final ReportUnit cuf = unitMap.get(fid);
 							if ((cuf != null) && (cuf.getTableNo() == 0)) {
 								cuf.setTableNo(cux.getTableNo() * 2);
 								cuf.setGen(cux.getGen() + 1);
@@ -1004,9 +991,9 @@ public class ReportUtil {
 
 						}
 
-						int mid = cux.getMotherPid();
+						final int mid = cux.getMotherPid();
 						if (mid > 0) {
-							ReportUnit cum = unitMap.get(mid);
+							final ReportUnit cum = unitMap.get(mid);
 							if ((cum != null) && (cum.getTableNo() == 0)) {
 								cum.setTableNo((cux.getTableNo() * 2) + 1);
 								cum.setGen(cux.getGen() + 1);

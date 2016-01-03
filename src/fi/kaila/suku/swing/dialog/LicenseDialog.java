@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.Dimension;
@@ -18,14 +48,14 @@ import fi.kaila.suku.util.Resurses;
  */
 public class LicenseDialog extends JDialog implements ActionListener {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String OK = "OK";
 
 	/**
 	 * Instantiates a new license dialog.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 */
@@ -33,20 +63,20 @@ public class LicenseDialog extends JDialog implements ActionListener {
 		super(owner, Resurses.getString("LICENSE"), true);
 		setLayout(null);
 
-		JTextArea aboutArea = new JTextArea();
+		final JTextArea aboutArea = new JTextArea();
 		aboutArea.setEditable(false);
 		aboutArea.setLineWrap(true);
-		Font font = new Font("Verdana", Font.PLAIN, 10);
+		final Font font = new Font("Verdana", Font.PLAIN, 10);
 		aboutArea.setFont(font);
 
 		add(aboutArea);
-		aboutArea.setBounds(20, 20, 600, 400);
+		aboutArea.setBounds(20, 20, 620, 400);
 
-		StringBuilder about = new StringBuilder();
+		final StringBuilder about = new StringBuilder();
 
 		about.append("Software License Agreement (BSD License)\n");
 		about.append("\n");
-		about.append("Copyright 2010 Kaarle Kaila. All rights reserved.\n");
+		about.append("Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.\n");
 		about.append("\n");
 		about.append("Redistribution and use in source and binary forms, with or without modification, are\n");
 		about.append("permitted provided that the following conditions are met:\n");
@@ -58,7 +88,8 @@ public class LicenseDialog extends JDialog implements ActionListener {
 		about.append("      of conditions and the following disclaimer in the documentation and/or other materials\n");
 		about.append("      provided with the distribution.\n");
 		about.append("\n");
-		about.append("THIS SOFTWARE IS PROVIDED BY KAARLE KAILA ''AS IS'' AND ANY EXPRESS OR IMPLIED\n");
+		about.append(
+				"THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED\n");
 		about.append("WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND\n");
 		about.append("FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR\n");
 		about.append("CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR\n");
@@ -70,18 +101,18 @@ public class LicenseDialog extends JDialog implements ActionListener {
 		about.append("\n");
 		about.append("The views and conclusions contained in the software and documentation are those of the\n");
 		about.append("authors and should not be interpreted as representing official policies, either expressed\n");
-		about.append("or implied, of Kaarle Kaila.\n");
+		about.append("or implied, of Kaarle Kaila and Mika Halonen.\n");
 
 		aboutArea.setText(about.toString());
 
-		JButton ok = new JButton(OK);
+		final JButton ok = new JButton(OK);
 		getContentPane().add(ok);
 		ok.setBounds(520, 430, 100, 24);
 		ok.addActionListener(this);
 		ok.setDefaultCapable(true);
 
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds((d.width / 2) - 325, (d.height / 2) - 250, 650, 500);
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		setBounds((d.width / 2) - 325, (d.height / 2) - 250, 670, 500);
 		setResizable(false);
 
 		getRootPane().setDefaultButton(ok);
@@ -89,7 +120,7 @@ public class LicenseDialog extends JDialog implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */

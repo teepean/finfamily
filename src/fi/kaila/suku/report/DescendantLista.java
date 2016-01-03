@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.report;
 
 import java.io.BufferedOutputStream;
@@ -7,13 +37,6 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import jxl.Workbook;
-import jxl.write.Label;
-import jxl.write.Number;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
 import fi.kaila.suku.report.dialog.ReportWorkerDialog;
 import fi.kaila.suku.swing.Suku;
 import fi.kaila.suku.util.Resurses;
@@ -23,23 +46,30 @@ import fi.kaila.suku.util.SukuTypesTable;
 import fi.kaila.suku.util.Utils;
 import fi.kaila.suku.util.pojo.PersonShortData;
 import fi.kaila.suku.util.pojo.SukuData;
+import jxl.Workbook;
+import jxl.write.Label;
+import jxl.write.Number;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
 
 /**
- * 
+ *
  * <h1>Descendant List</h1>
- * 
+ *
  * <p>
  * The descendant list creates an excel report of the subjects descendans in a
  * compresssed format to give user a view of the database.
  * </p>
- * 
+ *
  * <p>
  * The report includes persons generation, birthyear, name and information on
  * selected notices that person has.
  * </p>
- * 
+ *
  * @author Kalle
- * 
+ *
  */
 public class DescendantLista extends CommonReport {
 
@@ -47,7 +77,7 @@ public class DescendantLista extends CommonReport {
 
 	/**
 	 * Construcor for Descendant report.
-	 * 
+	 *
 	 * @param caller
 	 *            the caller
 	 * @param typesTable
@@ -55,8 +85,7 @@ public class DescendantLista extends CommonReport {
 	 * @param repoWriter
 	 *            the repo writer
 	 */
-	public DescendantLista(ReportWorkerDialog caller,
-			SukuTypesTable typesTable, ReportInterface repoWriter) {
+	public DescendantLista(ReportWorkerDialog caller, SukuTypesTable typesTable, ReportInterface repoWriter) {
 		super(caller, typesTable, repoWriter);
 	}
 
@@ -71,24 +100,20 @@ public class DescendantLista extends CommonReport {
 			return;
 		}
 		try {
-			vlist = caller.getKontroller().getSukuData("cmd=crlista",
-					"type=" + Resurses.CMD_DESC_TYPE, "pid=" + caller.getPid());
-		} catch (SukuException e) {
-			logger.log(Level.INFO, Resurses.getString(Resurses.CREATE_REPORT),
-					e);
-			JOptionPane.showMessageDialog(
-					caller,
-					Resurses.getString(Resurses.CREATE_REPORT) + ":"
-							+ e.getMessage());
+			vlist = caller.getKontroller().getSukuData("cmd=crlista", "type=" + Resurses.CMD_DESC_TYPE,
+					"pid=" + caller.getPid());
+		} catch (final SukuException e) {
+			logger.log(Level.INFO, Resurses.getString(Resurses.CREATE_REPORT), e);
+			JOptionPane.showMessageDialog(caller, Resurses.getString(Resurses.CREATE_REPORT) + ":" + e.getMessage());
 			return;
 		}
-		SukuTypesModel types = Utils.typeInstance();
-		int alltags = types.getTypesTagsCount();
-		ArrayList<String> tname = new ArrayList<String>();
-		ArrayList<String> ttag = new ArrayList<String>();
+		final SukuTypesModel types = Utils.typeInstance();
+		final int alltags = types.getTypesTagsCount();
+		final ArrayList<String> tname = new ArrayList<String>();
+		final ArrayList<String> ttag = new ArrayList<String>();
 
 		for (int i = 0; i < alltags; i++) {
-			String tag = typesTable.getTypesTag(i);
+			final String tag = typesTable.getTypesTag(i);
 			if (typesTable.isType(tag, 2)) {
 				ttag.add(tag);
 				tname.add(typesTable.getTagName(tag));
@@ -99,24 +124,19 @@ public class DescendantLista extends CommonReport {
 
 		try {
 
-			BufferedOutputStream bstr = new BufferedOutputStream(
-					Suku.kontroller.getOutputStream());
-			WritableWorkbook workbook = Workbook.createWorkbook(bstr);
+			final BufferedOutputStream bstr = new BufferedOutputStream(Suku.kontroller.getOutputStream());
+			final WritableWorkbook workbook = Workbook.createWorkbook(bstr);
 			// WritableWorkbook workbook = Workbook.createWorkbook(new
 			// File("output.xls"));
 
-			WritableSheet sheet = workbook.createSheet("DescLista", 0);
+			final WritableSheet sheet = workbook.createSheet("DescLista", 0);
 
 			// Create a cell format for Times 16, bold and italic
-			WritableFont arial10italic = new WritableFont(WritableFont.ARIAL,
-					10, WritableFont.NO_BOLD, true);
-			WritableCellFormat italic10format = new WritableCellFormat(
-					arial10italic);
+			final WritableFont arial10italic = new WritableFont(WritableFont.ARIAL, 10, WritableFont.NO_BOLD, true);
+			final WritableCellFormat italic10format = new WritableCellFormat(arial10italic);
 
-			WritableFont arial10bold = new WritableFont(WritableFont.ARIAL, 10,
-					WritableFont.BOLD, false);
-			WritableCellFormat italic10bold = new WritableCellFormat(
-					arial10bold);
+			final WritableFont arial10bold = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD, false);
+			final WritableCellFormat italic10bold = new WritableCellFormat(arial10bold);
 
 			Label label = new Label(0, 0, "Pid");
 			sheet.addCell(label);
@@ -128,10 +148,10 @@ public class DescendantLista extends CommonReport {
 			sheet.addCell(label);
 			label = new Label(4, 0, "Refn");
 			sheet.addCell(label);
-			WritableSheet wsh = sheet;
+			final WritableSheet wsh = sheet;
 
 			int col = 0;
-			int tagcol = 5;
+			final int tagcol = 5;
 			for (col = 0; col < (tname.size() + 32); col++) {
 				wsh.setColumnView(col, 5);
 			}
@@ -141,19 +161,18 @@ public class DescendantLista extends CommonReport {
 			}
 
 			col += tagcol;
-			int genpids[] = new int[64];
-			int genspids[] = new int[64];
-			String gensex[] = new String[64];
+			final int genpids[] = new int[64];
+			final int genspids[] = new int[64];
+			final String gensex[] = new String[64];
 			for (int i = 0; i < genpids.length; i++) {
 				genpids[i] = 0;
 				genspids[i] = 0;
 				gensex[i] = "U";
 			}
-			ArrayList<ListPerson> lpp = new ArrayList<ListPerson>();
-			ArrayList<ListPerson> lspouses = new ArrayList<ListPerson>();
+			final ArrayList<ListPerson> lpp = new ArrayList<ListPerson>();
+			final ArrayList<ListPerson> lspouses = new ArrayList<ListPerson>();
 			for (int i = 0; i < vlist.pidArray.length; i++) {
-				ListPerson lp = new ListPerson(vlist.pers[i],
-						vlist.pidArray[i], vlist.generalArray[i]);
+				final ListPerson lp = new ListPerson(vlist.pers[i], vlist.pidArray[i], vlist.generalArray[i]);
 				if (lp.tag.equals("WIFE") || lp.tag.equals("HUSB")) {
 					lspouses.add(lp);
 				} else {
@@ -161,7 +180,7 @@ public class DescendantLista extends CommonReport {
 					if (lp.gene > 0) {
 
 						for (mymp = 0; mymp < lspouses.size(); mymp++) {
-							ListPerson ppp = lspouses.get(mymp);
+							final ListPerson ppp = lspouses.get(mymp);
 							int morsa = lp.ps.getFatherPid();
 							if (gensex[lp.gene - 1].equals("M")) {
 								morsa = lp.ps.getMotherPid();
@@ -173,7 +192,7 @@ public class DescendantLista extends CommonReport {
 						}
 						if ((mymp >= 0) && (mymp < lspouses.size())) {
 
-							ListPerson lps = lspouses.get(mymp);
+							final ListPerson lps = lspouses.get(mymp);
 							lpp.add(lps);
 							lspouses.remove(mymp);
 							genspids[lps.gene] = lps.ps.getPid();
@@ -183,13 +202,13 @@ public class DescendantLista extends CommonReport {
 
 					// first flush all spouses for the generation
 					for (mymp = 0; mymp < lspouses.size(); mymp++) {
-						ListPerson ppp = lspouses.get(mymp);
+						final ListPerson ppp = lspouses.get(mymp);
 						if (ppp.gene >= lp.gene) {
 							break;
 						}
 					}
 					while (lspouses.size() > mymp) {
-						int lasidx = lspouses.size() - 1;
+						final int lasidx = lspouses.size() - 1;
 						lpp.add(lspouses.get(lasidx));
 						lspouses.remove(lasidx);
 					}
@@ -198,8 +217,7 @@ public class DescendantLista extends CommonReport {
 					genpids[lp.gene] = lp.ps.getPid();
 					gensex[lp.gene] = lp.ps.getSex();
 
-					if ((lp.gene > 0)
-							&& (lp.ps.getFatherPid() != genspids[lp.gene - 1])
+					if ((lp.gene > 0) && (lp.ps.getFatherPid() != genspids[lp.gene - 1])
 							&& (lp.ps.getMotherPid() != genspids[lp.gene - 1])) {
 						lp.noParent = true;
 					}
@@ -208,47 +226,45 @@ public class DescendantLista extends CommonReport {
 
 			Number number;
 			for (int i = 0; i < lpp.size(); i++) {
-				int gen = lpp.get(i).gene;
-				PersonShortData pp = lpp.get(i).ps;
-				String text = lpp.get(i).tag;
-				boolean noPare = lpp.get(i).noParent;
+				final int gen = lpp.get(i).gene;
+				final PersonShortData pp = lpp.get(i).ps;
+				final String text = lpp.get(i).tag;
+				final boolean noPare = lpp.get(i).noParent;
 				number = new Number(0, i + 1, pp.getPid());
 				sheet.addCell(number);
 
 				number = new Number(1, i + 1, gen);
 				sheet.addCell(number);
-				String grp = pp.getGroup();
+				final String grp = pp.getGroup();
 				if (grp != null) {
 					label = new Label(3, i + 1, grp);
 					sheet.addCell(label);
 				}
-				String refn = pp.getRefn();
+				final String refn = pp.getRefn();
 				if (refn != null) {
 					label = new Label(4, i + 1, refn);
 					sheet.addCell(label);
 				}
-				int byear = pp.getBirtYear();
+				final int byear = pp.getBirtYear();
 				if (byear > 0) {
 					number = new Number(2, i + 1, byear);
 					sheet.addCell(number);
 				}
 				// label = new Label(2, i+1, text);
 				// sheet.addCell(label);
-				int coln = col + gen;
-				String bdate = pp.getBirtDate() == null ? null : Utils
-						.textDate(pp.getBirtDate(), false);
+				final int coln = col + gen;
+				final String bdate = pp.getBirtDate() == null ? null : Utils.textDate(pp.getBirtDate(), false);
 				// label = new Label(col, i+1,date );
 				// sheet.addCell(label);
 				// col++;
-				String ddate = pp.getDeatDate() == null ? null : Utils
-						.textDate(pp.getDeatDate(), false);
+				final String ddate = pp.getDeatDate() == null ? null : Utils.textDate(pp.getDeatDate(), false);
 				// label = new Label(col, i+1, date);
 				// sheet.addCell(label);
 				//
 				// col++;
 
 				for (int jj = 0; jj < ttag.size(); jj++) {
-					String tagv = pp.tagValue(ttag.get(jj));
+					final String tagv = pp.tagValue(ttag.get(jj));
 					if (tagv != null) {
 
 						label = new Label(jj + tagcol, i + 1, tagv);
@@ -259,7 +275,7 @@ public class DescendantLista extends CommonReport {
 					label = new Label(coln - 1, i + 1, "?", italic10bold);
 					sheet.addCell(label);
 				}
-				StringBuilder sb = new StringBuilder();
+				final StringBuilder sb = new StringBuilder();
 				sb.append(pp.getAlfaName());
 				if (bdate != null) {
 					sb.append(" ");
@@ -272,8 +288,7 @@ public class DescendantLista extends CommonReport {
 				if (text.equals("CHIL")) {
 					label = new Label(coln, i + 1, sb.toString(), italic10bold);
 				} else {
-					label = new Label(coln, i + 1, sb.toString(),
-							italic10format);
+					label = new Label(coln, i + 1, sb.toString(), italic10format);
 				}
 
 				sheet.addCell(label);
@@ -284,14 +299,11 @@ public class DescendantLista extends CommonReport {
 			workbook.close();
 			bstr.close();
 
-			String report = Suku.kontroller.getFilePath();
+			final String report = Suku.kontroller.getFilePath();
 			Utils.openExternalFile(report);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.log(Level.WARNING, "descendant lista", e);
-			JOptionPane.showMessageDialog(
-					caller,
-					Resurses.getString("REPORT.LISTA.DESCLISTA") + ":"
-							+ e.getMessage());
+			JOptionPane.showMessageDialog(caller, Resurses.getString("REPORT.LISTA.DESCLISTA") + ":" + e.getMessage());
 			// // TODO Auto-generated catch block
 			// e.printStackTrace();
 			// } catch (RowsExceededException e) {
@@ -312,7 +324,7 @@ public class DescendantLista extends CommonReport {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.report.CommonReport#setVisible(boolean)
 	 */
 	@Override
@@ -342,7 +354,7 @@ public class DescendantLista extends CommonReport {
 
 		/**
 		 * Instantiates a new list person.
-		 * 
+		 *
 		 * @param ps
 		 *            the ps
 		 * @param gene

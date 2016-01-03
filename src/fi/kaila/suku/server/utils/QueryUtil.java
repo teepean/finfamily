@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.server.utils;
 
 import java.net.URLDecoder;
@@ -16,9 +46,9 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * The Class QueryUtil.
- * 
+ *
  * @author Kalle
- * 
+ *
  *         Utility class to do queries to the database
  */
 public class QueryUtil {
@@ -34,7 +64,7 @@ public class QueryUtil {
 
 	/**
 	 * Initialize with database connection.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 */
@@ -47,7 +77,7 @@ public class QueryUtil {
 
 	/**
 	 * Query database.
-	 * 
+	 *
 	 * @param params
 	 *            the params
 	 * @return the query result
@@ -58,14 +88,14 @@ public class QueryUtil {
 
 		String[] pari;
 		String decod;
-		ArrayList<PersonShortData> personList = new ArrayList<PersonShortData>();
-		HashMap<Integer, PersonShortData> persMap = new HashMap<Integer, PersonShortData>();
+		final ArrayList<PersonShortData> personList = new ArrayList<PersonShortData>();
+		final HashMap<Integer, PersonShortData> persMap = new HashMap<Integer, PersonShortData>();
 		int idx;
 
 		boolean needsRelativeInfo = false;
 
 		try {
-			StringBuilder seleSQL = new StringBuilder();
+			final StringBuilder seleSQL = new StringBuilder();
 
 			seleSQL.append("select u.pid,u.sex,u.userrefn,");
 			seleSQL.append("u.groupid,u.tag,n.tag,n.givenname,");
@@ -75,9 +105,9 @@ public class QueryUtil {
 			seleSQL.append("from unit as u left join unitnotice ");
 			seleSQL.append("as n on u.pid = n.pid ");
 
-			StringBuilder fromSQL = new StringBuilder();
-			StringBuilder sbn = new StringBuilder();
-			StringBuilder free = new StringBuilder();
+			final StringBuilder fromSQL = new StringBuilder();
+			final StringBuilder sbn = new StringBuilder();
+			final StringBuilder free = new StringBuilder();
 
 			String searchPlace = null;
 			String searchVillage = null;
@@ -104,7 +134,7 @@ public class QueryUtil {
 							if (sbn.length() > 0) {
 								sbn.append("and ");
 							}
-							if (isH2){
+							if (isH2) {
 								sbn.append("givenname like '");
 							} else {
 								sbn.append("givenname ilike '");
@@ -116,7 +146,7 @@ public class QueryUtil {
 								sbn.append("and ");
 							}
 
-							if (isH2){
+							if (isH2) {
 								sbn.append("surname like '");
 							} else {
 								sbn.append("surname ilike '");
@@ -127,7 +157,7 @@ public class QueryUtil {
 							if (sbn.length() > 0) {
 								sbn.append("and ");
 							}
-							if (isH2){
+							if (isH2) {
 								sbn.append("patronym like '");
 							} else {
 								sbn.append("patronym ilike '");
@@ -144,15 +174,14 @@ public class QueryUtil {
 							searchCroft = decod;
 						} else if (pari[0].equals(Resurses.CRITERIA_NOTICE)) {
 							searchNoticeTag = decod;
-						} else if (pari[0]
-								.equals(Resurses.CRITERIA_NOTICE_EXISTS)) {
+						} else if (pari[0].equals(Resurses.CRITERIA_NOTICE_EXISTS)) {
 							searchNoNotice = true;
 						} else if (pari[0].equals(Resurses.CRITERIA_SEX)) {
 							searchSex = decod;
 						} else if (pari[0].equals(Resurses.CRITERIA_SURETY)) {
 							try {
 								searchMaxSurety = Integer.parseInt(decod);
-							} catch (NumberFormatException ne) {
+							} catch (final NumberFormatException ne) {
 								searchMaxSurety = 100;
 							}
 						} else if (pari[0].equals(Resurses.CRITERIA_FULL_TEXT)) {
@@ -196,7 +225,7 @@ public class QueryUtil {
 						fromSQL.append("and ");
 					}
 					isFirstCriteria = false;
-					if (isH2){
+					if (isH2) {
 						fromSQL.append("u.groupid like '");
 					} else {
 						fromSQL.append("u.groupid ilike '");
@@ -241,9 +270,8 @@ public class QueryUtil {
 						fromSQL.append(todate);
 						fromSQL.append("9999' ");
 					}
-					if ((begdate == null) && (todate == null)
-							&& (place != null)) {
-						if (isH2){
+					if ((begdate == null) && (todate == null) && (place != null)) {
+						if (isH2) {
 							fromSQL.append("place like '");
 						} else {
 							fromSQL.append("place ilike '");
@@ -251,7 +279,7 @@ public class QueryUtil {
 						fromSQL.append(toQuery(place));
 						fromSQL.append("%' ");
 					} else if (place != null) {
-						if (isH2){
+						if (isH2) {
 							fromSQL.append("and place like '");
 						} else {
 							fromSQL.append("and place ilike '");
@@ -301,9 +329,8 @@ public class QueryUtil {
 						fromSQL.append(todate);
 						fromSQL.append("9999' ");
 					}
-					if ((begdate == null) && (todate == null)
-							&& (place != null)) {
-						if (isH2){
+					if ((begdate == null) && (todate == null) && (place != null)) {
+						if (isH2) {
 							fromSQL.append("place like '");
 						} else {
 							fromSQL.append("place ilike '");
@@ -311,7 +338,7 @@ public class QueryUtil {
 						fromSQL.append(toQuery(place));
 						fromSQL.append("' ");
 					} else if (place != null) {
-						if (isH2){
+						if (isH2) {
 							fromSQL.append("and place like '");
 						} else {
 							fromSQL.append("and place ilike '");
@@ -349,7 +376,8 @@ public class QueryUtil {
 						fromSQL.append(todate);
 						fromSQL.append("' )");
 					} else {
-						fromSQL.append("u.pid in (select pid from unitnotice where coalesce(modified,createdate) between '");
+						fromSQL.append(
+								"u.pid in (select pid from unitnotice where coalesce(modified,createdate) between '");
 						fromSQL.append(begdate);
 						fromSQL.append("' and '");
 						fromSQL.append(todate);
@@ -379,8 +407,7 @@ public class QueryUtil {
 
 				}
 
-				if ((searchPlace != null) || (searchVillage != null)
-						|| (searchFarm != null) || (searchCroft != null)
+				if ((searchPlace != null) || (searchVillage != null) || (searchFarm != null) || (searchCroft != null)
 						|| (searchNoticeTag != null)) {
 					if (isFirstCriteria) {
 						fromSQL.append("where ");
@@ -388,9 +415,8 @@ public class QueryUtil {
 						fromSQL.append("and ");
 					}
 					isFirstPlaceCriteria = true;
-					if (((searchPlace != null) || (searchVillage != null)
-							|| (searchFarm != null) || (searchCroft != null))
-							&& (searchNoticeTag == null)) {
+					if (((searchPlace != null) || (searchVillage != null) || (searchFarm != null)
+							|| (searchCroft != null)) && (searchNoticeTag == null)) {
 						fromSQL.append("u.pid in (select pid from unitnotice where");
 						if (searchPlace != null) {
 							if (isFirstPlaceCriteria) {
@@ -398,7 +424,7 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							if (isH2){
+							if (isH2) {
 								fromSQL.append(" place like '");
 							} else {
 								fromSQL.append(" place ilike '");
@@ -412,7 +438,7 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							if (isH2){
+							if (isH2) {
 								fromSQL.append(" village like '");
 							} else {
 								fromSQL.append(" village ilike '");
@@ -426,7 +452,7 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							if (isH2){
+							if (isH2) {
 								fromSQL.append(" farm like '");
 							} else {
 								fromSQL.append(" farm ilike '");
@@ -440,7 +466,7 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							if (isH2){
+							if (isH2) {
 								fromSQL.append(" croft like '");
 							} else {
 								fromSQL.append(" croft ilike '");
@@ -449,9 +475,8 @@ public class QueryUtil {
 							fromSQL.append("%'");
 						}
 						fromSQL.append(") ");
-					} else if (((searchPlace != null)
-							|| (searchVillage != null) || (searchFarm != null) || (searchCroft != null))
-							&& (searchNoticeTag != null)) {
+					} else if (((searchPlace != null) || (searchVillage != null) || (searchFarm != null)
+							|| (searchCroft != null)) && (searchNoticeTag != null)) {
 						fromSQL.append("u.pid in (select pid from unitnotice where");
 						if (searchPlace != null) {
 							if (isFirstPlaceCriteria) {
@@ -459,7 +484,7 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							if (isH2){
+							if (isH2) {
 								fromSQL.append(" place like '");
 							} else {
 								fromSQL.append(" place ilike '");
@@ -473,7 +498,7 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							if (isH2){
+							if (isH2) {
 								fromSQL.append(" village like '");
 							} else {
 								fromSQL.append(" village ilike '");
@@ -487,7 +512,7 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							if (isH2){
+							if (isH2) {
 								fromSQL.append(" farm like '");
 							} else {
 								fromSQL.append(" farm ilike '");
@@ -501,7 +526,7 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							if (isH2){
+							if (isH2) {
 								fromSQL.append(" croft like '");
 							} else {
 								fromSQL.append(" croft ilike '");
@@ -512,9 +537,8 @@ public class QueryUtil {
 						fromSQL.append(" and tag = '");
 						fromSQL.append(searchNoticeTag);
 						fromSQL.append("') ");
-					} else if ((searchPlace == null) && (searchVillage == null)
-							&& (searchFarm == null) && (searchCroft == null)
-							&& (searchNoticeTag != null)) {
+					} else if ((searchPlace == null) && (searchVillage == null) && (searchFarm == null)
+							&& (searchCroft == null) && (searchNoticeTag != null)) {
 						if (!searchNoNotice) {
 							fromSQL.append("u.pid in (select pid from unitnotice where tag = '");
 							fromSQL.append(searchNoticeTag);
@@ -551,23 +575,20 @@ public class QueryUtil {
 					}
 					isFirstCriteria = false;
 
-					String[] parts = trimSpaces(searchFullText).split(" ");
+					final String[] parts = trimSpaces(searchFullText).split(" ");
 
 					free.append("(");
 					int valueAndOrNot = 0;
 					for (int i = 0; i < parts.length; i++) {
 
 						if (i > 0) {
-							if (parts[i].equalsIgnoreCase(Resurses
-									.getString("CRITERIA_AND"))) {
+							if (parts[i].equalsIgnoreCase(Resurses.getString("CRITERIA_AND"))) {
 								valueAndOrNot = 0;
 								continue;
-							} else if (parts[i].equalsIgnoreCase(Resurses
-									.getString("CRITERIA_OR"))) {
+							} else if (parts[i].equalsIgnoreCase(Resurses.getString("CRITERIA_OR"))) {
 								valueAndOrNot = 1;
 								continue;
-							} else if (parts[i].equalsIgnoreCase(Resurses
-									.getString("CRITERIA_NOT"))) {
+							} else if (parts[i].equalsIgnoreCase(Resurses.getString("CRITERIA_NOT"))) {
 								valueAndOrNot = 2;
 								continue;
 							}
@@ -576,7 +597,7 @@ public class QueryUtil {
 						}
 						free.append("u.pid ");
 						free.append((valueAndOrNot == 2 ? "not " : ""));
-						if (isH2){
+						if (isH2) {
 							free.append("in (select pid from fullTextView where fulltext like '%");
 						} else {
 							free.append("in (select pid from fullTextView where fulltext ilike '%");
@@ -591,7 +612,7 @@ public class QueryUtil {
 
 			}
 
-			StringBuilder sql = new StringBuilder();
+			final StringBuilder sql = new StringBuilder();
 
 			sql.append(seleSQL);
 			sql.append(fromSQL);
@@ -602,8 +623,8 @@ public class QueryUtil {
 
 			PersonShortData perso = null;
 
-			Statement stm = this.con.createStatement();
-			ResultSet rs = stm.executeQuery(sql.toString());
+			final Statement stm = this.con.createStatement();
+			final ResultSet rs = stm.executeQuery(sql.toString());
 			int currentPid = 0;
 			int pid;
 
@@ -663,8 +684,7 @@ public class QueryUtil {
 				}
 				if (dbntag != null) {
 					if (dbntag.equals("NAME")) {
-						perso.addName(dbgivenname, dbpatronym, dbprefix,
-								dbsurname, dbpostfix);
+						perso.addName(dbgivenname, dbpatronym, dbprefix, dbsurname, dbpostfix);
 					}
 
 					if (dbntag.equals("UNKN")) {
@@ -684,8 +704,7 @@ public class QueryUtil {
 
 					{
 
-						if ((perso.getBirtTag() == null)
-								|| dbntag.equals("BIRT")) {
+						if ((perso.getBirtTag() == null) || dbntag.equals("BIRT")) {
 							perso.setBirtTag(dbntag);
 							perso.setBirtDate(dbfromdate);
 							perso.setBirtPlace(dbplace);
@@ -700,8 +719,7 @@ public class QueryUtil {
 
 					{
 
-						if ((perso.getDeatTag() == null)
-								|| dbntag.equals("DEAT")) {
+						if ((perso.getDeatTag() == null) || dbntag.equals("DEAT")) {
 							perso.setDeatTag(dbntag);
 							perso.setDeatDate(dbfromdate);
 							perso.setDeatPlace(dbplace);
@@ -722,9 +740,10 @@ public class QueryUtil {
 			}
 			if (needsRelativeInfo) {
 
-				StringBuilder relSQL = new StringBuilder();
-				// relSQL.append("select tag,pid,count(*) from relation where pid in "
-				// + "(select pid  from unit u ");
+				final StringBuilder relSQL = new StringBuilder();
+				// relSQL.append("select tag,pid,count(*) from relation where
+				// pid in "
+				// + "(select pid from unit u ");
 				// relSQL.append(fromSQL);
 				// relSQL.append(") group by pid,tag order by pid");
 				// select a.tag,a.pid aid,b.pid bid
@@ -737,16 +756,15 @@ public class QueryUtil {
 				relSQL.append(fromSQL);
 				relSQL.append("order by u.pid");
 				logger.fine("Relative sql: " + relSQL.toString());
-				PreparedStatement pstm = this.con.prepareStatement(relSQL
-						.toString());
-				ResultSet prs = pstm.executeQuery();
+				final PreparedStatement pstm = this.con.prepareStatement(relSQL.toString());
+				final ResultSet prs = pstm.executeQuery();
 
 				while (prs.next()) {
 					rtag = prs.getString(1);
-					int aid = prs.getInt(2);
-					int bid = prs.getInt(3);
+					final int aid = prs.getInt(2);
+					final int bid = prs.getInt(3);
 
-					PersonShortData rp = persMap.get(aid);
+					final PersonShortData rp = persMap.get(aid);
 					if (rp != null) {
 
 						if (rtag.equals("HUSB") || rtag.equals("WIFE")) {
@@ -773,22 +791,22 @@ public class QueryUtil {
 
 			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 
 			throw new SukuException(e);
 		}
 
-		PersonShortData[] dt = new PersonShortData[0];
-		SukuData qlist = new SukuData();
+		final PersonShortData[] dt = new PersonShortData[0];
+		final SukuData qlist = new SukuData();
 		qlist.pers = personList.toArray(dt);
 		return qlist;
 	}
 
 	private String trimSpaces(String searchFullText) {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		boolean wasSpace = true;
 		for (int i = 0; i < searchFullText.length(); i++) {
-			char c = searchFullText.charAt(i);
+			final char c = searchFullText.charAt(i);
 			if (c == ' ') {
 				if (wasSpace) {
 					continue;
@@ -805,7 +823,7 @@ public class QueryUtil {
 
 	/**
 	 * Encode text for sql-queries e.f. O'Brien => O''Brien
-	 * 
+	 *
 	 * @param text
 	 * @return encoded text
 	 */
@@ -817,10 +835,10 @@ public class QueryUtil {
 			return text;
 		}
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < text.length(); i++) {
-			char c = text.charAt(i);
+			final char c = text.charAt(i);
 			switch (c) {
 			case '\'':
 				sb.append("''");

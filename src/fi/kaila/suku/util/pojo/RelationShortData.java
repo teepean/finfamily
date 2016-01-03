@@ -1,18 +1,48 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.pojo;
 
 import java.io.Serializable;
 
 /**
  * The Class RelationShortData.
- * 
+ *
  * @author FIKAAKAIL
- * 
+ *
  *         Short Family POJO
  */
 public class RelationShortData implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -42,7 +72,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Instantiates a new relation short data.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @param relationPid
@@ -54,8 +84,7 @@ public class RelationShortData implements Serializable {
 	 * @param surety
 	 *            the surety
 	 */
-	public RelationShortData(int pid, int relationPid, int order, String tag,
-			int surety) {
+	public RelationShortData(int pid, int relationPid, int order, String tag, int surety) {
 		this.pid = pid;
 		this.relationPid = relationPid;
 		this.tag = tag;
@@ -65,7 +94,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Sets the aux.
-	 * 
+	 *
 	 * @param auxIndex
 	 *            the new aux
 	 */
@@ -75,7 +104,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Gets the aux.
-	 * 
+	 *
 	 * @return the auxnumber
 	 */
 	public int getAux() {
@@ -84,7 +113,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Sets the marr date.
-	 * 
+	 *
 	 * @param rDate
 	 *            the new marr date
 	 */
@@ -94,7 +123,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Sets the div date.
-	 * 
+	 *
 	 * @param divDate
 	 *            the new div date
 	 */
@@ -104,7 +133,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Gets the pid.
-	 * 
+	 *
 	 * @return pid of "owner"
 	 */
 	public int getPid() {
@@ -113,7 +142,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Gets the surety.
-	 * 
+	 *
 	 * @return surety of relation
 	 */
 	public int getSurety() {
@@ -122,7 +151,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Gets the relation pid.
-	 * 
+	 *
 	 * @return pid of relative
 	 */
 	public int getRelationPid() {
@@ -131,7 +160,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Gets the tag.
-	 * 
+	 *
 	 * @return tag
 	 */
 	public String getTag() {
@@ -140,7 +169,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Gets the order.
-	 * 
+	 *
 	 * @return order # in family
 	 */
 	public int getOrder() {
@@ -149,7 +178,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Gets the date.
-	 * 
+	 *
 	 * @return main date of relation
 	 */
 	public String getDate() {
@@ -158,7 +187,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Sets the parent array.
-	 * 
+	 *
 	 * @param parentids
 	 *            the new parent array
 	 */
@@ -168,7 +197,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Gets the parent array.
-	 * 
+	 *
 	 * @return array of parent ids
 	 */
 	public int[] getParentArray() {
@@ -177,7 +206,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Gets the div date.
-	 * 
+	 *
 	 * @return divorce date of relation
 	 */
 	public String getDivDate() {
@@ -186,7 +215,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Sets the adopted.
-	 * 
+	 *
 	 * @param adopted
 	 *            the new adopted
 	 */
@@ -196,7 +225,7 @@ public class RelationShortData implements Serializable {
 
 	/**
 	 * Gets the adopted.
-	 * 
+	 *
 	 * @return the adopted
 	 */
 	public String getAdopted() {

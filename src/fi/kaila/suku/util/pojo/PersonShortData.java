@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.pojo;
 
 import java.awt.Dimension;
@@ -27,16 +57,15 @@ import fi.kaila.suku.util.Utils;
 
 /**
  * The Class PersonShortData.
- * 
+ *
  * @author FIKAAKAIL
- * 
+ *
  *         POJO for person data for display on lists etc read only
  */
-public class PersonShortData implements Serializable, Transferable,
-		Comparable<PersonShortData> {
+public class PersonShortData implements Serializable, Transferable, Comparable<PersonShortData> {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -102,7 +131,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the parent pid.
-	 * 
+	 *
 	 * @param pid
 	 *            the new parent pid
 	 */
@@ -112,7 +141,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the parent pid.
-	 * 
+	 *
 	 * @return pid
 	 */
 	public int getParentPid() {
@@ -121,7 +150,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the graph row count.
-	 * 
+	 *
 	 * @return row count for graph is 2 if occu, death exists, else its 1
 	 */
 	public int getGraphRowCount() {
@@ -135,7 +164,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the pid.
-	 * 
+	 *
 	 * @param pid
 	 *            the new pid
 	 */
@@ -145,7 +174,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the refn.
-	 * 
+	 *
 	 * @param refn
 	 *            the new refn
 	 */
@@ -155,7 +184,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the sex.
-	 * 
+	 *
 	 * @param sex
 	 *            the new sex
 	 */
@@ -165,7 +194,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the group.
-	 * 
+	 *
 	 * @param group
 	 *            the new group
 	 */
@@ -226,7 +255,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the birt date.
-	 * 
+	 *
 	 * @param birtDate
 	 *            the new birt date
 	 */
@@ -236,7 +265,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the birt place.
-	 * 
+	 *
 	 * @param birtPlace
 	 *            the new birt place
 	 */
@@ -246,7 +275,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the birt village.
-	 * 
+	 *
 	 * @param birtVillage
 	 *            the new birt village
 	 */
@@ -256,7 +285,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the birt farm.
-	 * 
+	 *
 	 * @param birtFarm
 	 *            the new birt farm
 	 */
@@ -266,7 +295,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the birt croft.
-	 * 
+	 *
 	 * @param birtCroft
 	 *            the new birt Croft
 	 */
@@ -276,7 +305,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the birt country.
-	 * 
+	 *
 	 * @param birtCountry
 	 *            the new birt country
 	 */
@@ -286,7 +315,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the birt tag.
-	 * 
+	 *
 	 * @param birtTag
 	 *            (can be CHR, BIRT or null)
 	 */
@@ -296,7 +325,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the deat date.
-	 * 
+	 *
 	 * @param deatDate
 	 *            the new deat date
 	 */
@@ -306,7 +335,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the deat place.
-	 * 
+	 *
 	 * @param deatPlace
 	 *            the new deat place
 	 */
@@ -316,7 +345,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the deat village.
-	 * 
+	 *
 	 * @param deatVillage
 	 *            the new deat village
 	 */
@@ -326,7 +355,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the deat farm.
-	 * 
+	 *
 	 * @param deatFarm
 	 *            the new deat farm
 	 */
@@ -336,7 +365,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the deat croft.
-	 * 
+	 *
 	 * @param deatCroft
 	 *            the new deat croft
 	 */
@@ -346,7 +375,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the deat country.
-	 * 
+	 *
 	 * @param deatCountry
 	 *            the new deat country
 	 */
@@ -356,7 +385,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the death cause.
-	 * 
+	 *
 	 * @param deatCause
 	 *            the new death cause
 	 */
@@ -366,7 +395,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the deat tag.
-	 * 
+	 *
 	 * @param deatTag
 	 *            the new deat tag
 	 */
@@ -376,7 +405,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the occupation.
-	 * 
+	 *
 	 * @param occu
 	 *            the new occupation
 	 */
@@ -386,7 +415,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the todo.
-	 * 
+	 *
 	 * @param hasUnkn
 	 *            i.e. a notice with tag Todo
 	 */
@@ -396,7 +425,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the marr count.
-	 * 
+	 *
 	 * @param marrCount
 	 *            the new marr count
 	 */
@@ -406,7 +435,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the child count.
-	 * 
+	 *
 	 * @param childCount
 	 *            the new child count
 	 */
@@ -416,7 +445,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the pare count.
-	 * 
+	 *
 	 * @param pareCount
 	 *            the new pare count
 	 */
@@ -426,7 +455,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the media title.
-	 * 
+	 *
 	 * @param mediaTitle
 	 *            the new media title
 	 */
@@ -436,7 +465,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the media filename.
-	 * 
+	 *
 	 * @param mediaFilename
 	 *            the new media filename
 	 */
@@ -446,7 +475,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the media data notice.
-	 * 
+	 *
 	 * @param mediaDataNotice
 	 *            the new media data notice
 	 */
@@ -457,13 +486,13 @@ public class PersonShortData implements Serializable, Transferable,
 	/**
 	 * If created with contructor that collects tag info then gives information
 	 * of tags, else returns always false.
-	 * 
+	 *
 	 * @param tag
 	 *            to query
 	 * @return true if person has tag, falks otherwise
 	 */
 	public String tagValue(String tag) {
-		String tagx = tagMap.get(tag);
+		final String tagx = tagMap.get(tag);
 		if (tagx == null) {
 			return null;
 		}
@@ -480,7 +509,7 @@ public class PersonShortData implements Serializable, Transferable,
 	/**
 	 * Add new name. This is intended for use with query database and default
 	 * constructor
-	 * 
+	 *
 	 * @param givenname
 	 *            the givenname
 	 * @param patronym
@@ -492,14 +521,12 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @param postfix
 	 *            the postfix
 	 */
-	public void addName(String givenname, String patronym, String prefix,
-			String surname, String postfix) {
-		ShortName nn = new ShortName(givenname, patronym, prefix, surname,
-				postfix);
+	public void addName(String givenname, String patronym, String prefix, String surname, String postfix) {
+		final ShortName nn = new ShortName(givenname, patronym, prefix, surname, postfix);
 		int namesize = 0;
 		if (names != null) {
 			namesize = names.length;
-			ShortName[] nnn = names;
+			final ShortName[] nnn = names;
 			names = new ShortName[namesize + 1];
 			for (int i = 0; i < nnn.length; i++) {
 				names[i] = nnn[i];
@@ -513,7 +540,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Constuctor for alias person used for indexes to add altarnatives name.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @param givenname
@@ -531,9 +558,8 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @param deatDate
 	 *            the deat date
 	 */
-	public PersonShortData(int pid, String givenname, String patronyme,
-			String prefix, String surname, String postfix, String birtDate,
-			String deatDate) {
+	public PersonShortData(int pid, String givenname, String patronyme, String prefix, String surname, String postfix,
+			String birtDate, String deatDate) {
 
 		this.pid = pid;
 		addName(givenname, patronyme, prefix, surname, postfix);
@@ -544,7 +570,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Copy constructor.
-	 * 
+	 *
 	 * @param lon
 	 *            the PersonLongData to construct the short object from
 	 */
@@ -552,14 +578,14 @@ public class PersonShortData implements Serializable, Transferable,
 
 		pid = lon.getPid();
 		sex = lon.getSex();
-		ArrayList<ShortName> sn = new ArrayList<ShortName>();
+		final ArrayList<ShortName> sn = new ArrayList<ShortName>();
 
 		for (int i = 0; i < lon.getNotices().length; i++) {
-			UnitNotice n = lon.getNotices()[i];
+			final UnitNotice n = lon.getNotices()[i];
 			if (n.getTag().equals("NAME")) {
 
-				ShortName nn = new ShortName(n.getGivenname(), n.getPatronym(),
-						n.getPrefix(), n.getSurname(), n.getPostfix());
+				final ShortName nn = new ShortName(n.getGivenname(), n.getPatronym(), n.getPrefix(), n.getSurname(),
+						n.getPostfix());
 
 				sn.add(nn);
 
@@ -605,7 +631,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Create short person dao with no list of all tags.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 * @param pid
@@ -619,7 +645,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Create short person dao with list of all tags.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 * @param pid
@@ -629,28 +655,24 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public PersonShortData(Connection con, int pid, boolean withParentIds)
-			throws SukuException {
+	public PersonShortData(Connection con, int pid, boolean withParentIds) throws SukuException {
 		helpConstruct(con, pid, withParentIds);
 	}
 
-	private void helpConstruct(Connection con, int pid, boolean withParentIds)
-			throws SukuException {
+	private void helpConstruct(Connection con, int pid, boolean withParentIds) throws SukuException {
 		this.pid = pid;
 		// this.famType = famType;
-		ArrayList<ShortName> sn = new ArrayList<ShortName>();
+		final ArrayList<ShortName> sn = new ArrayList<ShortName>();
 		// int nameIdx = 0;
 		// this.givenname = this.patronym = this.prefix = this.surname =
 		// this.postfix = null;
 
-		StringBuilder sql = new StringBuilder();
-		sql.append("select u.sex,u.userrefn,u.groupid,"
-				+ "u.tag,u.privacy,n.tag,n.givenname,");
+		final StringBuilder sql = new StringBuilder();
+		sql.append("select u.sex,u.userrefn,u.groupid," + "u.tag,u.privacy,n.tag,n.givenname,");
 		sql.append("n.patronym,n.prefix,n.surname,n.postfix,");
 		sql.append("n.fromdate,n.Place,n.Description,"
 				+ "n.pnid,n.mediadata,n.mediafilename,n.mediatitle,n.email,n.village,n.farm,n.croft ");
-		sql.append("from unit as u left join unitnotice "
-				+ "as n on u.pid = n.pid ");
+		sql.append("from unit as u left join unitnotice " + "as n on u.pid = n.pid ");
 		// if (!withAllTags) {
 		// sql.append("and n.tag in "
 		// + "('BIRT','DEAT','CHR','BURI','NAME','PHOT','OCCU','UNKN') ");
@@ -661,10 +683,11 @@ public class PersonShortData implements Serializable, Transferable,
 
 		// String ppsql = "select a.tag,b.pid "
 		// +
-		// "from relation as a inner join relation as b on a.rid=b.rid and a.pid <> b.pid "
+		// "from relation as a inner join relation as b on a.rid=b.rid and a.pid
+		// <> b.pid "
 		// + "where a.pid=? ";
 
-		String ppsql = "select a.tag,b.pid,n.tag "
+		final String ppsql = "select a.tag,b.pid,n.tag "
 				+ "from relation as a inner join relation as b on a.rid=b.rid and a.pid <> b.pid "
 				+ "left join relationnotice as n on a.rid=n.rid "
 				+ "where a.pid=? and a.tag in ('FATH','MOTH') and n.tag is null";
@@ -693,8 +716,7 @@ public class PersonShortData implements Serializable, Transferable,
 				content = "XX";
 				if (tag != null) {
 					if (tag.equals("NAME")) {
-						ShortName nn = new ShortName(rs.getString(7),
-								rs.getString(8), rs.getString(9),
+						final ShortName nn = new ShortName(rs.getString(7), rs.getString(8), rs.getString(9),
 								rs.getString(10), rs.getString(11));
 
 						sn.add(nn);
@@ -757,7 +779,7 @@ public class PersonShortData implements Serializable, Transferable,
 					int fid = 0;
 					int mid = 0;
 					while (pprs.next()) {
-						String ttag = pprs.getString(1);
+						final String ttag = pprs.getString(1);
 						if (ttag.equals("FATH")) {
 							if (fid == 0) {
 								fid = pprs.getInt(2);
@@ -776,35 +798,35 @@ public class PersonShortData implements Serializable, Transferable,
 
 			}
 			names = sn.toArray(new ShortName[0]);
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			throw new SukuException(e);
 		} finally {
 			try {
 				if (rs != null) {
 					rs.close();
 				}
-			} catch (SQLException rse) {
+			} catch (final SQLException rse) {
 				// SQLException
 			}
 			try {
 				if (pprs != null) {
 					pprs.close();
 				}
-			} catch (SQLException pprse) {
+			} catch (final SQLException pprse) {
 				// SQLException
 			}
 			try {
 				if (pstm != null) {
 					pstm.close();
 				}
-			} catch (SQLException pstme) {
+			} catch (final SQLException pstme) {
 				// SQLException
 			}
 			try {
 				if (ppstm != null) {
 					ppstm.close();
 				}
-			} catch (SQLException ppstme) {
+			} catch (final SQLException ppstme) {
 				// SQLException
 			}
 		}
@@ -813,7 +835,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the location.
-	 * 
+	 *
 	 * @param x
 	 *            the x
 	 * @param y
@@ -826,7 +848,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the size.
-	 * 
+	 *
 	 * @param w
 	 *            the w
 	 * @param h
@@ -839,7 +861,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the location.
-	 * 
+	 *
 	 * @return Point of upper left corner withing container
 	 */
 	public Point getLocation() {
@@ -848,7 +870,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the size.
-	 * 
+	 *
 	 * @return Dimension containing size of area
 	 */
 	public Dimension getSize() {
@@ -857,7 +879,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the pid.
-	 * 
+	 *
 	 * @return PID
 	 */
 	public int getPid() {
@@ -866,7 +888,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the refn.
-	 * 
+	 *
 	 * @return user refn
 	 */
 	public String getRefn() {
@@ -875,7 +897,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the sex.
-	 * 
+	 *
 	 * @return sex
 	 */
 	public String getSex() {
@@ -884,7 +906,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the group.
-	 * 
+	 *
 	 * @return group
 	 */
 	public String getGroup() {
@@ -893,7 +915,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the name count.
-	 * 
+	 *
 	 * @return name count
 	 */
 	public int getNameCount() {
@@ -905,7 +927,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the givenname.
-	 * 
+	 *
 	 * @return givenname 0 (first)
 	 */
 	public String getGivenname() {
@@ -914,7 +936,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the givenname.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return givenname idx
@@ -928,7 +950,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the patronym.
-	 * 
+	 *
 	 * @return patronym for first name
 	 */
 	public String getPatronym() {
@@ -938,7 +960,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the patronym.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return patronyme for name idx
@@ -952,7 +974,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the prefix.
-	 * 
+	 *
 	 * @return name prefix for first name
 	 */
 	public String getPrefix() {
@@ -962,7 +984,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the prefix.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return prefix for name idx
@@ -976,7 +998,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the surname.
-	 * 
+	 *
 	 * @return surname for first name
 	 */
 	public String getSurname() {
@@ -986,7 +1008,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the surname.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return surname for name idx
@@ -1000,7 +1022,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the postfix.
-	 * 
+	 *
 	 * @return name postfix for first name
 	 */
 	public String getPostfix() {
@@ -1010,7 +1032,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the postfix.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return postfix for name idx
@@ -1024,14 +1046,14 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the morenames.
-	 * 
+	 *
 	 * @return morenames
 	 */
 	public String getMorenames() {
 		if ((names == null) || (names.length < 2)) {
 			return null;
 		}
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		for (int i = 1; i < names.length; i++) {
 			if (i > 1) {
 				sb.append(";");
@@ -1050,7 +1072,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the birt date.
-	 * 
+	 *
 	 * @return birth date main part
 	 */
 	public String getBirtDate() {
@@ -1059,7 +1081,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the birt year.
-	 * 
+	 *
 	 * @return birth year as int
 	 */
 	public int getBirtYear() {
@@ -1071,7 +1093,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the deat year.
-	 * 
+	 *
 	 * @return death year as int
 	 */
 	public int getDeatYear() {
@@ -1083,7 +1105,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the birt tag.
-	 * 
+	 *
 	 * @return birth tag
 	 */
 	public String getBirtTag() {
@@ -1092,15 +1114,14 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the complete birt place.
-	 * 
+	 *
 	 * @return complete birt place
 	 */
 	public String getBirtPlaceComplete() {
 		String complete = "";
 
 		if (this.bPlace != null) {
-			if ((this.bVillage != null) || (this.bFarm != null)
-					|| (this.bCroft != null)) {
+			if ((this.bVillage != null) || (this.bFarm != null) || (this.bCroft != null)) {
 				complete = " (";
 
 				if (this.bVillage != null) {
@@ -1132,7 +1153,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the birt place.
-	 * 
+	 *
 	 * @return birt place
 	 */
 	public String getBirtPlace() {
@@ -1141,7 +1162,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the birt village.
-	 * 
+	 *
 	 * @return birt village
 	 */
 	public String getBirtVillage() {
@@ -1150,7 +1171,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the birt farm.
-	 * 
+	 *
 	 * @return birt farm
 	 */
 	public String getBirtFarm() {
@@ -1159,7 +1180,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the birt croft.
-	 * 
+	 *
 	 * @return birt croft
 	 */
 	public String getBirtCroft() {
@@ -1168,7 +1189,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the birth country.
-	 * 
+	 *
 	 * @return birth country
 	 */
 	public String getBirthCountry() {
@@ -1177,7 +1198,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the deat date.
-	 * 
+	 *
 	 * @return death data main part
 	 */
 	public String getDeatDate() {
@@ -1186,7 +1207,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the deat tag.
-	 * 
+	 *
 	 * @return deat tag (DEAT, BURI, null)
 	 */
 	public String getDeatTag() {
@@ -1195,15 +1216,14 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the complete death place.
-	 * 
+	 *
 	 * @return complete death place
 	 */
 	public String getDeatPlaceComplete() {
 		String complete = "";
 
 		if (this.dPlace != null) {
-			if ((this.dVillage != null) || (this.dFarm != null)
-					|| (this.dCroft != null)) {
+			if ((this.dVillage != null) || (this.dFarm != null) || (this.dCroft != null)) {
 				complete = " (";
 
 				if (this.dVillage != null) {
@@ -1235,7 +1255,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the deat place.
-	 * 
+	 *
 	 * @return death place
 	 */
 	public String getDeatPlace() {
@@ -1244,7 +1264,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the deat village.
-	 * 
+	 *
 	 * @return death village
 	 */
 	public String getDeatVillage() {
@@ -1253,7 +1273,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the deat farm.
-	 * 
+	 *
 	 * @return death farm
 	 */
 	public String getDeatFarm() {
@@ -1262,7 +1282,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the deat croft.
-	 * 
+	 *
 	 * @return death croft
 	 */
 	public String getDeatCroft() {
@@ -1271,7 +1291,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the deat country.
-	 * 
+	 *
 	 * @return death country
 	 */
 	public String getDeatCountry() {
@@ -1280,7 +1300,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the death cause.
-	 * 
+	 *
 	 * @return death cause
 	 */
 	public String getDeatCause() {
@@ -1289,7 +1309,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the chr date.
-	 * 
+	 *
 	 * @return christianed
 	 */
 	public String getChrDate() {
@@ -1298,7 +1318,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the buried date.
-	 * 
+	 *
 	 * @return buried
 	 */
 	public String getBuriedDate() {
@@ -1307,7 +1327,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the occupation.
-	 * 
+	 *
 	 * @return occupation
 	 */
 	public String getOccupation() {
@@ -1316,7 +1336,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the marr count.
-	 * 
+	 *
 	 * @return # of marriages
 	 */
 	public int getMarrCount() {
@@ -1325,7 +1345,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the child count.
-	 * 
+	 *
 	 * @return # of children
 	 */
 	public int getChildCount() {
@@ -1334,7 +1354,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the pare count.
-	 * 
+	 *
 	 * @return # of parents
 	 */
 	public int getPareCount() {
@@ -1343,7 +1363,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the todo.
-	 * 
+	 *
 	 * @return true if To do notice exists
 	 */
 	public boolean getUnkn() {
@@ -1352,7 +1372,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the media title.
-	 * 
+	 *
 	 * @return media title
 	 */
 	public String getMediaTitle() {
@@ -1361,7 +1381,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the media filename.
-	 * 
+	 *
 	 * @return media filename
 	 */
 	public String getMediaFilename() {
@@ -1370,7 +1390,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the media data notice.
-	 * 
+	 *
 	 * @return media notice id
 	 */
 	public int getMediaDataNotice() {
@@ -1392,7 +1412,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Checks for image.
-	 * 
+	 *
 	 * @return true if person has image
 	 */
 	public boolean hasImage() {
@@ -1404,14 +1424,14 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the image.
-	 * 
+	 *
 	 * @return image
 	 */
 	public BufferedImage getImage() {
 		if (this.imageData == null) {
 			return null;
 		}
-		ByteArrayInputStream bb = new ByteArrayInputStream(this.imageData);
+		final ByteArrayInputStream bb = new ByteArrayInputStream(this.imageData);
 
 		if (this.image != null) {
 			return this.image;
@@ -1419,7 +1439,7 @@ public class PersonShortData implements Serializable, Transferable,
 		try {
 			this.image = ImageIO.read(bb);
 			return this.image;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 
 			e.printStackTrace();
 			return null;
@@ -1429,7 +1449,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the media data.
-	 * 
+	 *
 	 * @return the image data
 	 */
 	public byte[] getMediaData() {
@@ -1438,7 +1458,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the image name.
-	 * 
+	 *
 	 * @return image namefield
 	 */
 	public String getImageName() {
@@ -1447,7 +1467,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -1455,14 +1475,11 @@ public class PersonShortData implements Serializable, Transferable,
 		// return "id="+this.pid + "/name=" + this.givenname + " " +
 		// this.surname + "/bd=" + this.bDate;
 		// }
-		StringBuilder sb = new StringBuilder();
-		sb.append(getPid() + "\t" + Resurses.getString("SEX_" + getSex())
-				+ "\t" + nv(getPrefix()) + "\t" + nv(getSurname()) + "\t"
-				+ nv(getMorenames()) + "\t" + nv(getGivenname()) + "\t"
-				+ nv(getPatronym()) + "\t" + nv(getPostfix()) + "\t"
-				+ nv(Utils.textDate(getBirtDate(), false)) + "\t"
-				+ nv(getBirtPlace()) + "\t" + nv(getBirtVillage()) + "\t"
-				+ nv(Utils.textDate(getDeatDate(), false)) + "\t"
+		final StringBuilder sb = new StringBuilder();
+		sb.append(getPid() + "\t" + Resurses.getString("SEX_" + getSex()) + "\t" + nv(getPrefix()) + "\t"
+				+ nv(getSurname()) + "\t" + nv(getMorenames()) + "\t" + nv(getGivenname()) + "\t" + nv(getPatronym())
+				+ "\t" + nv(getPostfix()) + "\t" + nv(Utils.textDate(getBirtDate(), false)) + "\t" + nv(getBirtPlace())
+				+ "\t" + nv(getBirtVillage()) + "\t" + nv(Utils.textDate(getDeatDate(), false)) + "\t"
 				+ nv(getDeatPlace()) + nv(getOccupation()));
 		int ii = getMarrCount();
 		String ttxt = ii == 0 ? "" : "" + ii;
@@ -1479,38 +1496,31 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the header.
-	 * 
+	 *
 	 * @return used for copy to clipbpard
 	 */
 	public String getHeader() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(Resurses.getString("T_PID") + "\t"
-				+ Resurses.getString("T_SEX") + "\t"
-				+ Resurses.getString("T_PREFIX") + "\t"
-				+ Resurses.getString("T_SURNAME") + "\t"
-				+ Resurses.getString("T_MORENAMES") + "\t"
-				+ Resurses.getString("T_GIVENNAME") + "\t"
-				+ Resurses.getString("T_PATRONYME") + "\t"
-				+ Resurses.getString("T_POSTFIX") + "\t"
-				+ Resurses.getString("T_BIRT") + "\t"
-				+ Resurses.getString("T_BIRTPLACE") + "\t"
-				+ Resurses.getString("T_DEAT") + "\t"
-				+ Resurses.getString("T_DEATPLACE")
-				+ Resurses.getString("T_OCCUPATION"));
-		sb.append("\t" + Resurses.getString("T_ISMARR") + "\t"
-				+ Resurses.getString("T_ISCHILD") + "\t"
+		final StringBuilder sb = new StringBuilder();
+		sb.append(
+				Resurses.getString("T_PID") + "\t" + Resurses.getString("T_SEX") + "\t" + Resurses.getString("T_PREFIX")
+						+ "\t" + Resurses.getString("T_SURNAME") + "\t" + Resurses.getString("T_MORENAMES") + "\t"
+						+ Resurses.getString("T_GIVENNAME") + "\t" + Resurses.getString("T_PATRONYME") + "\t"
+						+ Resurses.getString("T_POSTFIX") + "\t" + Resurses.getString("T_BIRT") + "\t"
+						+ Resurses.getString("T_BIRTPLACE") + "\t" + Resurses.getString("T_DEAT") + "\t"
+						+ Resurses.getString("T_DEATPLACE") + Resurses.getString("T_OCCUPATION"));
+		sb.append("\t" + Resurses.getString("T_ISMARR") + "\t" + Resurses.getString("T_ISCHILD") + "\t"
 				+ Resurses.getString("T_ISPARE"));
 		return sb.toString();
 	}
 
 	/**
 	 * Gets the text name.
-	 * 
+	 *
 	 * @return name as written
 	 */
 	public String getTextName() {
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		if (getGivenname() != null) {
 			sb.append(getGivenname());
 		}
@@ -1537,7 +1547,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the alfa name.
-	 * 
+	 *
 	 * @return for sorting order w/o patronyme
 	 */
 	public String getAlfaName() {
@@ -1546,14 +1556,14 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the alfa name.
-	 * 
+	 *
 	 * @param withPatronyme
 	 *            the with patronyme
 	 * @return name for sorting order with optional patronyme
 	 */
 	public String getAlfaName(boolean withPatronyme) {
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 
 		if (getPrefix() != null) {
 			sb.append(getPrefix());
@@ -1591,7 +1601,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * retrieve person name with givenname surname order.
-	 * 
+	 *
 	 * @param allNames
 	 *            is true if all names , else only preferred givenname
 	 * @param withPatronyme
@@ -1599,16 +1609,16 @@ public class PersonShortData implements Serializable, Transferable,
 	 * @return the name as requested
 	 */
 	public String getName(boolean allNames, boolean withPatronyme) {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 
 		if (getGivenname() != null) {
 			String name;
 			if (allNames) {
 				name = getGivenname();
 			} else {
-				String parts[] = getGivenname().split(" ");
+				final String parts[] = getGivenname().split(" ");
 				name = parts[0];
-				for (String part : parts) {
+				for (final String part : parts) {
 					if (part.indexOf('*') > 0) {
 						name = part;
 						break;
@@ -1616,7 +1626,7 @@ public class PersonShortData implements Serializable, Transferable,
 				}
 			}
 			for (int i = 0; i < name.length(); i++) {
-				char c = name.charAt(i);
+				final char c = name.charAt(i);
 				if (c != '*') {
 					sb.append(c);
 				}
@@ -1656,12 +1666,11 @@ public class PersonShortData implements Serializable, Transferable,
 	}
 
 	/** dataflavour for drag-and-drop. */
-	public static final DataFlavor[] df = { new DataFlavor(
-			PersonShortData.class, "PersonShortData") };
+	public static final DataFlavor[] df = { new DataFlavor(PersonShortData.class, "PersonShortData") };
 
 	/**
 	 * Gets the person short data flavour.
-	 * 
+	 *
 	 * @return dataflavour for drag-and-drop
 	 */
 	public static DataFlavor getPersonShortDataFlavour() {
@@ -1670,14 +1679,13 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer
 	 * .DataFlavor)
 	 */
 	@Override
-	public Object getTransferData(DataFlavor flavor)
-			throws UnsupportedFlavorException, IOException {
+	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
 
 		if (flavor.equals(df[0])) {
 			return this;
@@ -1687,7 +1695,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
 	 */
 	@Override
@@ -1698,7 +1706,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.
 	 * datatransfer.DataFlavor)
 	 */
@@ -1713,7 +1721,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the drag source.
-	 * 
+	 *
 	 * @param dragSource
 	 *            the new drag source
 	 */
@@ -1723,7 +1731,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the drag source.
-	 * 
+	 *
 	 * @return PersonSource enumerator
 	 */
 	public Utils.PersonSource getDragSource() {
@@ -1738,12 +1746,11 @@ public class PersonShortData implements Serializable, Transferable,
 	}
 
 	/** collator according to language. */
-	public static Collator fiCollator = Collator.getInstance(new Locale(
-			Resurses.getLanguage()));
+	public static Collator fiCollator = Collator.getInstance(new Locale(Resurses.getLanguage()));
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
@@ -1763,7 +1770,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the adopted.
-	 * 
+	 *
 	 * @param adopted
 	 *            the new adopted
 	 */
@@ -1773,7 +1780,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the adopted.
-	 * 
+	 *
 	 * @return adopted status
 	 */
 	public String getAdopted() {
@@ -1782,7 +1789,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the surety.
-	 * 
+	 *
 	 * @param surety
 	 *            the new surety
 	 */
@@ -1792,7 +1799,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the surety.
-	 * 
+	 *
 	 * @return the surety
 	 */
 	public int getSurety() {
@@ -1801,7 +1808,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the father pid.
-	 * 
+	 *
 	 * @param fatherPid
 	 *            the new father pid
 	 */
@@ -1811,7 +1818,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the father pid.
-	 * 
+	 *
 	 * @return the father pid
 	 */
 	public int getFatherPid() {
@@ -1820,7 +1827,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Sets the mother pid.
-	 * 
+	 *
 	 * @param motherPid
 	 *            the new mother pid
 	 */
@@ -1830,7 +1837,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the mother pid.
-	 * 
+	 *
 	 * @return the mother pid
 	 */
 	public int getMotherPid() {
@@ -1839,7 +1846,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the privacy.
-	 * 
+	 *
 	 * @return the privacy
 	 */
 	public String getPrivacy() {
@@ -1848,7 +1855,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * relapath is used (at least) by Relation search.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 */
@@ -1861,7 +1868,7 @@ public class PersonShortData implements Serializable, Transferable,
 
 	/**
 	 * Gets the relapath.
-	 * 
+	 *
 	 * @return the relapath
 	 */
 	public Vector<Integer> getRelapath() {
@@ -1878,8 +1885,7 @@ public class PersonShortData implements Serializable, Transferable,
 		private final String shSurname;
 		private final String shPostfix;
 
-		ShortName(String given, String patro, String pre, String sur,
-				String postf) {
+		ShortName(String given, String patro, String pre, String sur, String postf) {
 			shGivenname = given;
 			shPatronyme = patro;
 			shPrefix = pre;

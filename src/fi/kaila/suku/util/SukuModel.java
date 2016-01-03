@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util;
 
 import java.io.IOException;
@@ -15,7 +45,7 @@ import fi.kaila.suku.swing.dialog.SearchCriteria.ColTable;
 
 /**
  * The Suku table model to display list of persons.
- * 
+ *
  * @author FIKAAKAIL
  */
 public class SukuModel implements TableModel {
@@ -42,7 +72,7 @@ public class SukuModel implements TableModel {
 
 	/**
 	 * load icons in consrtuctor.
-	 * 
+	 *
 	 * @param suku
 	 *            the suku
 	 * @throws SukuException
@@ -51,13 +81,12 @@ public class SukuModel implements TableModel {
 	public SukuModel(Suku suku) throws SukuException {
 		this.suku = suku;
 		this.crit = SearchCriteria.getCriteria(null);
-		byte imbytes[] = new byte[8192];
+		final byte imbytes[] = new byte[8192];
 		int imsize;
 		InputStream in = null;
 		try {
 			if (womanIcon == null) {
-				in = this.getClass().getResourceAsStream(
-						"/images/womanicon.png");
+				in = this.getClass().getResourceAsStream("/images/womanicon.png");
 
 				imsize = in.read(imbytes);
 				if (imsize < imbytes.length) {
@@ -72,8 +101,7 @@ public class SukuModel implements TableModel {
 				}
 				in.close();
 
-				in = this.getClass().getResourceAsStream(
-						"/images/unknownicon.png");
+				in = this.getClass().getResourceAsStream("/images/unknownicon.png");
 				imsize = in.read(imbytes);
 				if (imsize < imbytes.length) {
 					unknownIcon = new ImageIcon(imbytes);
@@ -82,13 +110,13 @@ public class SukuModel implements TableModel {
 
 			// initModel();
 
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			throw new SukuException(e);
 		} finally {
 			if (in != null) {
 				try {
 					in.close();
-				} catch (IOException ignored) {
+				} catch (final IOException ignored) {
 					// IOException ignored
 				}
 			}
@@ -106,7 +134,7 @@ public class SukuModel implements TableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.TableModel#getRowCount()
 	 */
 	@Override
@@ -120,18 +148,18 @@ public class SukuModel implements TableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		SukuRow rw = this.tab.get(getRowCount() - 1);
+		final SukuRow rw = this.tab.get(getRowCount() - 1);
 		return "(" + (getRowCount() - 1) + ") " + rw.toString();
 	}
 
 	/**
 	 * reset table model.
-	 * 
+	 *
 	 */
 	public void resetModel() {
 		this.tab.clear();
@@ -141,7 +169,7 @@ public class SukuModel implements TableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.TableModel#getColumnCount()
 	 */
 	@Override
@@ -153,12 +181,12 @@ public class SukuModel implements TableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.TableModel#getColumnName(int)
 	 */
 	@Override
 	public String getColumnName(int idx) {
-		ColTable col = this.crit.getCurrentColTable(idx);
+		final ColTable col = this.crit.getCurrentColTable(idx);
 
 		if (col == null) {
 			return null;
@@ -170,13 +198,13 @@ public class SukuModel implements TableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.TableModel#getColumnClass(int)
 	 */
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Class getColumnClass(int idx) {
-		ColTable col = this.crit.getColTable(idx);
+		final ColTable col = this.crit.getColTable(idx);
 
 		if ((idx == 0) && col.getCurrentState()) {
 			return womanIcon.getClass();
@@ -187,7 +215,7 @@ public class SukuModel implements TableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.TableModel#isCellEditable(int, int)
 	 */
 	@Override
@@ -200,7 +228,7 @@ public class SukuModel implements TableModel {
 
 	/**
 	 * Gets the value at.
-	 * 
+	 *
 	 * @param argr
 	 *            the argr
 	 * @param argc
@@ -227,20 +255,20 @@ public class SukuModel implements TableModel {
 
 	/**
 	 * Adds the row.
-	 * 
+	 *
 	 * @param row
 	 *            the row
 	 */
 	public void addRow(SukuRow row) {
 		this.row = row;
-		int nxtRow = this.tab.size();
+		final int nxtRow = this.tab.size();
 		this.tab.add(nxtRow, this.row);
 
 	}
 
 	/**
 	 * insert row at specified position.
-	 * 
+	 *
 	 * @param index
 	 *            the index
 	 * @param row
@@ -255,7 +283,7 @@ public class SukuModel implements TableModel {
 
 	/**
 	 * remove row from model.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 */
@@ -265,7 +293,7 @@ public class SukuModel implements TableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.TableModel#setValueAt(java.lang.Object, int, int)
 	 */
 	@Override
@@ -284,7 +312,7 @@ public class SukuModel implements TableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.swing.table.TableModel#addTableModelListener(javax.swing.event.
 	 * TableModelListener)
@@ -296,7 +324,7 @@ public class SukuModel implements TableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.swing.table.TableModel#removeTableModelListener(javax.swing.event
 	 * .TableModelListener)

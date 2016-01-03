@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.panel;
 
 import java.awt.Color;
@@ -31,13 +61,13 @@ import fi.kaila.suku.util.pojo.UnitNotice;
 
 /**
  * database draft text is shown here.
- * 
+ *
  * @author Kalle
  */
 public class PersonTextPane extends JTextPane {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private AbstractDocument doc;
@@ -51,14 +81,13 @@ public class PersonTextPane extends JTextPane {
 
 		doc = new SukuDocument();
 		setDocument(doc);
-		StyledDocument styledDoc = getStyledDocument();
+		final StyledDocument styledDoc = getStyledDocument();
 
 		if (styledDoc instanceof AbstractDocument) {
 			doc = (AbstractDocument) styledDoc;
 			doc.setDocumentFilter(new DocumentSukuFilter());
 		} else {
-			JOptionPane.showMessageDialog(this, "FAIELD TO START DOCUMENT",
-					Resurses.getString(Resurses.SUKU),
+			JOptionPane.showMessageDialog(this, "FAIELD TO START DOCUMENT", Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 			logger.log(Level.WARNING, "CLOSE");
 			return;
@@ -68,15 +97,14 @@ public class PersonTextPane extends JTextPane {
 
 	/**
 	 * Gets the doc.
-	 * 
+	 *
 	 * @return the doc
 	 */
 	public AbstractDocument getDoc() {
 		return doc;
 	}
 
-	private void append(String text, AttributeSet a)
-			throws BadLocationException {
+	private void append(String text, AttributeSet a) throws BadLocationException {
 
 		doc.insertString(doc.getLength(), text, a);
 
@@ -84,7 +112,7 @@ public class PersonTextPane extends JTextPane {
 
 	/**
 	 * Gets the current pid.
-	 * 
+	 *
 	 * @return current pid for page
 	 */
 	public int getCurrentPid() {
@@ -93,7 +121,7 @@ public class PersonTextPane extends JTextPane {
 
 	/**
 	 * init the pane.
-	 * 
+	 *
 	 * @param pers
 	 *            the pers
 	 * @param relations
@@ -101,48 +129,47 @@ public class PersonTextPane extends JTextPane {
 	 * @param namlist
 	 *            the namlist
 	 */
-	public void initPerson(PersonLongData pers, Relation[] relations,
-			PersonShortData[] namlist) {
+	public void initPerson(PersonLongData pers, Relation[] relations, PersonShortData[] namlist) {
 
-		SimpleAttributeSet headerArial = new SimpleAttributeSet();
+		final SimpleAttributeSet headerArial = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(headerArial, "Arial");
 		StyleConstants.setFontSize(headerArial, 16);
 
-		SimpleAttributeSet bodyText = new SimpleAttributeSet();
+		final SimpleAttributeSet bodyText = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(bodyText, "Times New Roman");
 		StyleConstants.setFontSize(bodyText, 12);
 
-		SimpleAttributeSet bodyBold = new SimpleAttributeSet();
+		final SimpleAttributeSet bodyBold = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(bodyBold, "Times New Roman");
 		StyleConstants.setFontSize(bodyBold, 12);
 		StyleConstants.setBold(bodyBold, true);
 
-		SimpleAttributeSet underlinedBold = new SimpleAttributeSet();
+		final SimpleAttributeSet underlinedBold = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(underlinedBold, "Times New Roman");
 		StyleConstants.setFontSize(underlinedBold, 12);
 		StyleConstants.setBold(underlinedBold, true);
 		StyleConstants.setUnderline(underlinedBold, true);
 
-		SimpleAttributeSet blueTag = new SimpleAttributeSet();
+		final SimpleAttributeSet blueTag = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(blueTag, "Times New Roman");
 		StyleConstants.setFontSize(blueTag, 12);
 		StyleConstants.setForeground(blueTag, Color.blue);
 
-		SimpleAttributeSet greenTag = new SimpleAttributeSet();
+		final SimpleAttributeSet greenTag = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(greenTag, "Times New Roman");
 		StyleConstants.setFontSize(greenTag, 12);
 		StyleConstants.setForeground(greenTag, new Color(0, 98, 0));
 
-		SimpleAttributeSet redForte = new SimpleAttributeSet();
+		final SimpleAttributeSet redForte = new SimpleAttributeSet();
 		StyleConstants.setFontFamily(redForte, "Times New Roman");
 		StyleConstants.setFontSize(redForte, 12);
 		StyleConstants.setForeground(redForte, Color.red);
 
-		ArrayList<String> sources = new ArrayList<String>();
-		ArrayList<String> privateTexts = new ArrayList<String>();
+		final ArrayList<String> sources = new ArrayList<String>();
+		final ArrayList<String> privateTexts = new ArrayList<String>();
 
 		try {
-			boolean t = false; // for debugging resurses
+			final boolean t = false; // for debugging resurses
 
 			doc.remove(0, doc.getLength());
 
@@ -153,55 +180,46 @@ public class PersonTextPane extends JTextPane {
 			currentPid = pers.getPid();
 			// StringBuilder sb = new StringBuilder();
 
-			doc.insertString(0, Resurses.getString("TEXT_HEADER") + "\n",
-					headerArial);
+			doc.insertString(0, Resurses.getString("TEXT_HEADER") + "\n", headerArial);
 
 			if (t || (pers.getPrivacy() != null)) {
 				append(Resurses.getString("TEXT_PRIVACY") + "\n", bodyBold);
 			}
 
 			if (t || (pers.getGroupId() != null)) {
-				append(Resurses.getString("TEXT_GROUP") + " \t= "
-						+ pers.getGroupId() + "\n", bodyText);
+				append(Resurses.getString("TEXT_GROUP") + " \t= " + pers.getGroupId() + "\n", bodyText);
 
 			}
 
-			append(Resurses.getString("TEXT_SEX") + " \t= "
-					+ Resurses.getString("SEX_" + pers.getSex()) + "\n",
+			append(Resurses.getString("TEXT_SEX") + " \t= " + Resurses.getString("SEX_" + pers.getSex()) + "\n",
 					bodyText);
 
 			if (t || (pers.getSource() != null)) {
 				sources.add(pers.getSource());
-				append(Resurses.getString("TEXT_SOURCE") + " \t= ["
-						+ sources.size() + "]\n", bodyText);
+				append(Resurses.getString("TEXT_SOURCE") + " \t= [" + sources.size() + "]\n", bodyText);
 
 			}
 			if (t || (pers.getPrivateText() != null)) {
 				privateTexts.add(pers.getPrivateText());
-				append(Resurses.getString("TEXT_PRIVATE") + " \t= {"
-						+ privateTexts.size() + "}\n", bodyText);
+				append(Resurses.getString("TEXT_PRIVATE") + " \t= {" + privateTexts.size() + "}\n", bodyText);
 
 			}
 			if (t || (pers.getRefn() != null)) {
-				append(Resurses.getString("TEXT_REFN") + " \t= "
-						+ pers.getRefn() + "\n", bodyText);
+				append(Resurses.getString("TEXT_REFN") + " \t= " + pers.getRefn() + "\n", bodyText);
 
 			}
 
-			append(Resurses.getString("TEXT_CREATED") + " \t= "
-					+ pers.getCreated().toString(), bodyText);
+			append(Resurses.getString("TEXT_CREATED") + " \t= " + pers.getCreated().toString(), bodyText);
 			append("\n", bodyText);
 
-			append("\n" + Resurses.getString("TEXT_NOTICES") + "\n\n",
-					headerArial);
+			append("\n" + Resurses.getString("TEXT_NOTICES") + "\n\n", headerArial);
 
-			UnitNotice[] notices = pers.getNotices();
+			final UnitNotice[] notices = pers.getNotices();
 			String bl = ""; // blank before next word
-			for (UnitNotice notice : notices) {
+			for (final UnitNotice notice : notices) {
 				append("[" + notice.getTag(), blueTag);
 				if (notice.getSurety() < 80) {
-					append(";" + Resurses.getString("TEXT_SURETY") + "="
-							+ notice.getSurety() + " %", blueTag);
+					append(";" + Resurses.getString("TEXT_SURETY") + "=" + notice.getSurety() + " %", blueTag);
 				}
 				append("]", blueTag);
 				bl = "";
@@ -216,26 +234,21 @@ public class PersonTextPane extends JTextPane {
 				}
 
 				if (notice.getDatePrefix() != null) {
-					append(bl
-							+ Resurses.getString("DATE_"
-									+ notice.getDatePrefix()), bodyText);
+					append(bl + Resurses.getString("DATE_" + notice.getDatePrefix()), bodyText);
 					bl = " ";
 				}
 				if (notice.getFromDate() != null) {
-					append(bl + Utils.textDate(notice.getFromDate(), true),
-							bodyText);
+					append(bl + Utils.textDate(notice.getFromDate(), true), bodyText);
 					bl = " ";
 				}
 				if (notice.getToDate() != null) {
 					if (notice.getDatePrefix() != null) {
 						if (notice.getDatePrefix().equals("BET")) {
-							append(bl + Resurses.getString("DATE_AND"),
-									bodyText);
+							append(bl + Resurses.getString("DATE_AND"), bodyText);
 						} else if (notice.getDatePrefix().equals("FROM")) {
 							append(bl + Resurses.getString("DATE_TO"), bodyText);
 						}
-						append(bl + Utils.textDate(notice.getToDate(), true),
-								bodyText);
+						append(bl + Utils.textDate(notice.getToDate(), true), bodyText);
 
 					}
 
@@ -292,12 +305,12 @@ public class PersonTextPane extends JTextPane {
 					BufferedImage img = null;
 					try {
 						img = notice.getMediaImage();
-					} catch (IOException e) {
+					} catch (final IOException e) {
 						// Ignore
 					}
 					if (img != null) {
-						double imh = img.getHeight();
-						double imw = img.getWidth();
+						final double imh = img.getHeight();
+						final double imw = img.getWidth();
 						double newh = 300;
 						double neww = 300;
 
@@ -317,22 +330,18 @@ public class PersonTextPane extends JTextPane {
 
 						}
 
-						Image imgs = img.getScaledInstance((int) neww,
-								(int) newh, Image.SCALE_DEFAULT);
+						final Image imgs = img.getScaledInstance((int) neww, (int) newh, Image.SCALE_DEFAULT);
 
-						ImageIcon icon = new ImageIcon(imgs);
-						SimpleAttributeSet bodyImage = new SimpleAttributeSet();
-						StyleConstants.setFontFamily(bodyImage,
-								"Times New Roman");
+						final ImageIcon icon = new ImageIcon(imgs);
+						final SimpleAttributeSet bodyImage = new SimpleAttributeSet();
+						StyleConstants.setFontFamily(bodyImage, "Times New Roman");
 						StyleConstants.setFontSize(bodyImage, 12);
-						StyleConstants.setAlignment(bodyImage,
-								StyleConstants.ALIGN_CENTER);
+						StyleConstants.setAlignment(bodyImage, StyleConstants.ALIGN_CENTER);
 						StyleConstants.setIcon(bodyImage, icon);
 						append(notice.getMediaFilename(), bodyImage);
 					}
 					if (notice.getMediaTitle() != null) {
-						append("\n          " + notice.getMediaTitle(),
-								bodyText);
+						append("\n          " + notice.getMediaTitle(), bodyText);
 
 					}
 					append("\n\n", bodyText);
@@ -340,10 +349,8 @@ public class PersonTextPane extends JTextPane {
 
 				}
 
-				bl = appendName(bodyBold, underlinedBold, bl,
-						notice.getGivenname(), notice.getPatronym(),
-						notice.getPrefix(), notice.getSurname(),
-						notice.getPostfix());
+				bl = appendName(bodyBold, underlinedBold, bl, notice.getGivenname(), notice.getPatronym(),
+						notice.getPrefix(), notice.getSurname(), notice.getPostfix());
 
 				if (!bl.isEmpty()) {
 					append(". ", bodyText);
@@ -364,12 +371,11 @@ public class PersonTextPane extends JTextPane {
 
 			// do relations now
 
-			if ((relations != null) && (relations.length > 0)
-					&& (namlist != null)) {
+			if ((relations != null) && (relations.length > 0) && (namlist != null)) {
 
-				HashMap<Integer, PersonShortData> map = new HashMap<Integer, PersonShortData>();
+				final HashMap<Integer, PersonShortData> map = new HashMap<Integer, PersonShortData>();
 
-				for (PersonShortData element : namlist) {
+				for (final PersonShortData element : namlist) {
 					map.put(Integer.valueOf(element.getPid()), element);
 				}
 				append("\n", bodyText);
@@ -379,15 +385,13 @@ public class PersonTextPane extends JTextPane {
 				RelationNotice[] relNotices;
 				boolean activate = true;
 
-				for (Relation relation : relations) {
+				for (final Relation relation : relations) {
 
 					rel = relation;
-					if (rel.getTag().equals("FATH")
-							|| rel.getTag().equals("MOTH")) {
+					if (rel.getTag().equals("FATH") || rel.getTag().equals("MOTH")) {
 						if (activate) {
 							append("\n", bodyText);
-							append(Resurses.getString("TEXT_PARENTS"),
-									headerArial);
+							append(Resurses.getString("TEXT_PARENTS"), headerArial);
 							append("\n", bodyText);
 							activate = false;
 						}
@@ -400,10 +404,8 @@ public class PersonTextPane extends JTextPane {
 							bl = " ";
 						}
 
-						bl = appendName(bodyBold, underlinedBold, bl,
-								relative.getGivenname(),
-								relative.getPatronym(), relative.getPrefix(),
-								relative.getSurname(), relative.getPostfix());
+						bl = appendName(bodyBold, underlinedBold, bl, relative.getGivenname(), relative.getPatronym(),
+								relative.getPrefix(), relative.getSurname(), relative.getPostfix());
 
 						// append(bl + relative.getAlfaName(),bodyText);
 						append("\n", bodyText);
@@ -411,14 +413,12 @@ public class PersonTextPane extends JTextPane {
 				}
 
 				int wifenum = 0;
-				for (Relation relation : relations) {
+				for (final Relation relation : relations) {
 					rel = relation;
-					if (rel.getTag().equals("WIFE")
-							|| rel.getTag().equals("HUSB")) {
+					if (rel.getTag().equals("WIFE") || rel.getTag().equals("HUSB")) {
 						if (wifenum == 0) {
 							append("\n", bodyText);
-							append(Resurses.getString("TEXT_SPOUSES"),
-									headerArial);
+							append(Resurses.getString("TEXT_SPOUSES"), headerArial);
 							append("\n", bodyText);
 
 						}
@@ -427,16 +427,14 @@ public class PersonTextPane extends JTextPane {
 						append("[" + rel.getTag() + "]", greenTag);
 						bl = " ";
 						// append(" ("+wifenum +")",bodyText);
-						bl = appendName(bodyBold, underlinedBold, bl,
-								relative.getGivenname(),
-								relative.getPatronym(), relative.getPrefix(),
-								relative.getSurname(), relative.getPostfix());
+						bl = appendName(bodyBold, underlinedBold, bl, relative.getGivenname(), relative.getPatronym(),
+								relative.getPrefix(), relative.getSurname(), relative.getPostfix());
 
 						// append(bl + relative.getAlfaName(),bodyText);
 						RelationNotice rn;
 						relNotices = rel.getNotices();
 						if (relNotices != null) {
-							for (RelationNotice relNotice : relNotices) {
+							for (final RelationNotice relNotice : relNotices) {
 								rn = relNotice;
 								append("[" + rn.getTag() + "]", blueTag);
 								if (rn.getType() != null) {
@@ -448,36 +446,21 @@ public class PersonTextPane extends JTextPane {
 								}
 
 								if (rn.getDatePrefix() != null) {
-									append(bl
-											+ Resurses.getString("DATE_"
-													+ rn.getDatePrefix()),
-											bodyText);
+									append(bl + Resurses.getString("DATE_" + rn.getDatePrefix()), bodyText);
 									bl = " ";
 								}
 								if (rn.getFromDate() != null) {
-									append(bl
-											+ Utils.textDate(rn.getFromDate(),
-													true), bodyText);
+									append(bl + Utils.textDate(rn.getFromDate(), true), bodyText);
 									bl = " ";
 								}
 								if (rn.getToDate() != null) {
 									if (rn.getDatePrefix() != null) {
 										if (rn.getDatePrefix().equals("BET")) {
-											append(bl
-													+ Resurses
-															.getString("DATE_AND"),
-													bodyText);
-										} else if (rn.getDatePrefix().equals(
-												"FROM")) {
-											append(bl
-													+ Resurses
-															.getString("DATE_TO"),
-													bodyText);
+											append(bl + Resurses.getString("DATE_AND"), bodyText);
+										} else if (rn.getDatePrefix().equals("FROM")) {
+											append(bl + Resurses.getString("DATE_TO"), bodyText);
 										}
-										append(bl
-												+ Utils.textDate(
-														rn.getToDate(), true),
-												bodyText);
+										append(bl + Utils.textDate(rn.getToDate(), true), bodyText);
 									}
 									bl = " ";
 								}
@@ -488,14 +471,12 @@ public class PersonTextPane extends JTextPane {
 
 								if (rn.getSource() != null) {
 									sources.add(rn.getSource());
-									append(bl + "[" + sources.size() + "]",
-											bodyText);
+									append(bl + "[" + sources.size() + "]", bodyText);
 									bl = " ";
 								}
 								if (rn.getPrivateText() != null) {
 									privateTexts.add(rn.getPrivateText());
-									append(bl + "{" + privateTexts.size() + "}",
-											redForte);
+									append(bl + "{" + privateTexts.size() + "}", redForte);
 									bl = " ";
 								}
 							}
@@ -506,13 +487,12 @@ public class PersonTextPane extends JTextPane {
 				}
 
 				activate = true;
-				for (Relation relation : relations) {
+				for (final Relation relation : relations) {
 					rel = relation;
 					if (rel.getTag().equals("CHIL")) {
 						if (activate) {
 							append("\n", bodyText);
-							append(Resurses.getString("TEXT_CHILDREN"),
-									headerArial);
+							append(Resurses.getString("TEXT_CHILDREN"), headerArial);
 							append("\n", bodyText);
 							activate = false;
 						}
@@ -524,10 +504,8 @@ public class PersonTextPane extends JTextPane {
 							append(" [" + relNotices[0].getTag() + "]", blueTag);
 							bl = " ";
 						}
-						bl = appendName(bodyBold, underlinedBold, bl,
-								relative.getGivenname(),
-								relative.getPatronym(), relative.getPrefix(),
-								relative.getSurname(), relative.getPostfix());
+						bl = appendName(bodyBold, underlinedBold, bl, relative.getGivenname(), relative.getPatronym(),
+								relative.getPrefix(), relative.getSurname(), relative.getPostfix());
 						// append(bl + relative.getAlfaName(),bodyText);
 						append("\n", bodyText);
 					}
@@ -540,8 +518,7 @@ public class PersonTextPane extends JTextPane {
 			for (int i = 0; i < sources.size(); i++) {
 				if (i == 0) {
 					append("\n", bodyText);
-					append("\n" + Resurses.getString("TEXT_SOURCES"),
-							headerArial);
+					append("\n" + Resurses.getString("TEXT_SOURCES"), headerArial);
 
 				}
 				append("\n[" + (i + 1) + "]: " + sources.get(i), bodyText);
@@ -551,8 +528,7 @@ public class PersonTextPane extends JTextPane {
 			for (int i = 0; i < privateTexts.size(); i++) {
 				if (i == 0) {
 					append("\n", bodyText);
-					append("\n" + Resurses.getString("TEXT_PRIVATETEXTS"),
-							headerArial);
+					append("\n" + Resurses.getString("TEXT_PRIVATETEXTS"), headerArial);
 
 				}
 				append("\n{" + (i + 1) + "}: " + privateTexts.get(i), bodyText);
@@ -566,21 +542,20 @@ public class PersonTextPane extends JTextPane {
 			// bigTimes);
 			// doc.insertString(0, "Kallen koetta", attrs);
 
-		} catch (BadLocationException e) {
+		} catch (final BadLocationException e) {
 			logger.log(Level.WARNING, "FAILED", e);
 
 		}
 
 	}
 
-	private String appendName(SimpleAttributeSet bodyBold,
-			SimpleAttributeSet underlinedBold, String bl, String givenname,
-			String prefix, String patronym, String surname, String postfix)
-			throws BadLocationException {
+	private String appendName(SimpleAttributeSet bodyBold, SimpleAttributeSet underlinedBold, String bl,
+			String givenname, String prefix, String patronym, String surname, String postfix)
+					throws BadLocationException {
 
 		if (givenname != null) {
 
-			String[] parts = givenname.split(" ");
+			final String[] parts = givenname.split(" ");
 
 			for (int j = 0; j < parts.length; j++) {
 				if (j > 0) {
@@ -588,8 +563,7 @@ public class PersonTextPane extends JTextPane {
 					bl = "";
 				}
 				if (parts[j].endsWith("*")) {
-					append(bl + parts[j].substring(0, parts[j].length() - 1),
-							underlinedBold);
+					append(bl + parts[j].substring(0, parts[j].length() - 1), underlinedBold);
 				} else {
 					append(bl + parts[j], bodyBold);
 				}

@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.pojo;
 
 import java.awt.Color;
@@ -21,13 +51,13 @@ import fi.kaila.suku.util.Utils;
 
 /**
  * Container for the table (family).
- * 
+ *
  * @author fikaakail
  */
 public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -65,7 +95,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the area.
-	 * 
+	 *
 	 * @return the area for the table
 	 */
 	public Rectangle getArea() {
@@ -74,7 +104,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Sets the location.
-	 * 
+	 *
 	 * @param p
 	 *            the new location
 	 */
@@ -86,13 +116,13 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Exists person.
-	 * 
+	 *
 	 * @param pid
 	 *            person pid to check
 	 * @return true if person exists in table
 	 */
 	public boolean existsPerson(int pid) {
-		for (PersonShortData p : famMember) {
+		for (final PersonShortData p : famMember) {
 			if (p.getPid() == pid) {
 				return true;
 			}
@@ -102,7 +132,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Draw me.
-	 * 
+	 *
 	 * @param g
 	 *            the g
 	 * @param color
@@ -120,12 +150,12 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		g.setFont(textFont);
 		personAreas.clear();
 
-		Dimension d = getSize(g);
+		final Dimension d = getSize(g);
 
 		currentArea = new Rectangle(p.x, p.y, d.width, d.height);
-		int xmargin = 10;
+		final int xmargin = 10;
 		int y = p.y;
-		PersonShortData person = famMember.get(0);
+		final PersonShortData person = famMember.get(0);
 
 		g.setColor(Color.white);
 
@@ -133,7 +163,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		g.setColor(color);
 		g.drawRect(p.x, p.y, d.width + xmargin, d.height);
 		if (person.getPareCount() > 0) {
-			int rx = p.x + ((d.width + xmargin) / 2);
+			final int rx = p.x + ((d.width + xmargin) / 2);
 			g.setColor(Color.lightGray);
 			g.drawLine(rx - 20, p.y, rx + 20, p.y);
 		}
@@ -148,7 +178,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		pr.rectangle = new Rectangle(0, 0, d.width, d.height);
 		personAreas.add(pr);
 
-		int imgc = (person.getMediaFilename() == null) ? 0 : 1;
+		final int imgc = (person.getMediaFilename() == null) ? 0 : 1;
 		if (imgc > 0) {
 			y += separatorHeight;
 			imgx = p.x + separatorWidth;
@@ -188,11 +218,9 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		}
 
 		if (person.getBirtDate() != null) {
-			g.drawString("* " + Utils.textDate(person.getBirtDate(), false),
-					p.x, y);
+			g.drawString("* " + Utils.textDate(person.getBirtDate(), false), p.x, y);
 		}
-		if ((person.getBirtDate() != null)
-				|| (person.getBirtPlaceComplete() != null)) {
+		if ((person.getBirtDate() != null) || (person.getBirtPlaceComplete() != null)) {
 			y += rowHeight;
 		}
 		if (person.getDeatPlaceComplete() != null) {
@@ -200,12 +228,10 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		}
 
 		if (person.getDeatDate() != null) {
-			g.drawString("† " + Utils.textDate(person.getDeatDate(), false),
-					p.x, y);
+			g.drawString("† " + Utils.textDate(person.getDeatDate(), false), p.x, y);
 		}
 
-		if ((person.getDeatDate() != null)
-				|| (person.getDeatPlaceComplete() != null)) {
+		if ((person.getDeatDate() != null) || (person.getDeatPlaceComplete() != null)) {
 			y += rowHeight;
 		}
 
@@ -218,16 +244,16 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		}
 		g.setFont(textFont);
 		personAreas.clear();
-		Dimension d = getSize(g);
+		final Dimension d = getSize(g);
 
 		int sujet = 0;
 
-		FontMetrics fm = g.getFontMetrics(textFont);
+		final FontMetrics fm = g.getFontMetrics(textFont);
 
-		int datew = fm.stringWidth(" *13.04.1944"); // date width
+		final int datew = fm.stringWidth(" *13.04.1944"); // date width
 
 		currentArea = new Rectangle(p.x, p.y, d.width, d.height);
-		int xmargin = 25;
+		final int xmargin = 25;
 		int y = p.y;
 		PersonShortData person;
 
@@ -245,7 +271,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		BufferedImage img;
 		int imgx;
 		PersonRectangle pr;
-		int imgc = mainImageCount();
+		final int imgc = mainImageCount();
 		if (imgc > 0) {
 			y += separatorHeight;
 			imgx = p.x + separatorWidth;
@@ -266,13 +292,11 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 						yh = (yh * imageSize.height) / yh;
 					}
 
-					g.drawImage(img, imgx, y, (int) xw, (int) yh, Color.red,
-							null);
+					g.drawImage(img, imgx, y, (int) xw, (int) yh, Color.red, null);
 
 					pr = new PersonRectangle();
 					pr.person = person;
-					pr.rectangle = new Rectangle(imgx - p.x, y - p.y, (int) xw,
-							(int) yh);
+					pr.rectangle = new Rectangle(imgx - p.x, y - p.y, (int) xw, (int) yh);
 					personAreas.add(pr);
 
 					imgx += imageSize.width + separatorWidth;
@@ -290,28 +314,23 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		sujet = person.getPid();
 		pr = new PersonRectangle();
 		pr.person = person;
-		pr.rectangle = new Rectangle(0, y - p.y - rowHeight, d.width,
-				person.getGraphRowCount() * rowHeight);
+		pr.rectangle = new Rectangle(0, y - p.y - rowHeight, d.width, person.getGraphRowCount() * rowHeight);
 		personAreas.add(pr);
 
 		g.drawString(person.getTextName(), p.x, y);
 
 		if (person.getBirtDate() != null) {
-			g.drawString("* " + Utils.textDate(person.getBirtDate(), false),
-					p.x + xdate, y);
+			g.drawString("* " + Utils.textDate(person.getBirtDate(), false), p.x + xdate, y);
 		}
 		if (person.getBirtPlaceComplete() != null) {
-			g.drawString("  " + person.getBirtPlaceComplete(), p.x + xdate
-					+ datew, y);
+			g.drawString("  " + person.getBirtPlaceComplete(), p.x + xdate + datew, y);
 		}
 		if (person.getDeatDate() != null) {
 
-			g.drawString("† " + Utils.textDate(person.getDeatDate(), false),
-					p.x + xdate, y + rowHeight);
+			g.drawString("† " + Utils.textDate(person.getDeatDate(), false), p.x + xdate, y + rowHeight);
 		}
 		if (person.getDeatPlaceComplete() != null) {
-			g.drawString("  " + person.getDeatPlaceComplete(), p.x + xdate
-					+ datew + xmargin, y + rowHeight);
+			g.drawString("  " + person.getDeatPlaceComplete(), p.x + xdate + datew + xmargin, y + rowHeight);
 		}
 		if (person.getOccupation() != null) {
 
@@ -329,31 +348,23 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 			g.drawString(person.getTextName(), p.x + xmargin, y);
 			pr = new PersonRectangle();
 			pr.person = person;
-			pr.rectangle = new Rectangle(0, y - p.y - rowHeight, d.width,
-					person.getGraphRowCount() * rowHeight);
+			pr.rectangle = new Rectangle(0, y - p.y - rowHeight, d.width, person.getGraphRowCount() * rowHeight);
 			personAreas.add(pr);
 
 			if (person.getBirtDate() != null) {
-				g.drawString(
-						"* " + Utils.textDate(person.getBirtDate(), false), p.x
-								+ xdate, y);
+				g.drawString("* " + Utils.textDate(person.getBirtDate(), false), p.x + xdate, y);
 			}
 			if (person.getBirtPlaceComplete() != null) {
-				g.drawString("  " + person.getBirtPlaceComplete(), p.x + xdate
-						+ datew, y);
+				g.drawString("  " + person.getBirtPlaceComplete(), p.x + xdate + datew, y);
 			}
 			if (person.getDeatDate() != null) {
-				g.drawString(
-						"† " + Utils.textDate(person.getDeatDate(), false), p.x
-								+ xdate, y + rowHeight);
+				g.drawString("† " + Utils.textDate(person.getDeatDate(), false), p.x + xdate, y + rowHeight);
 			}
 			if (person.getDeatPlaceComplete() != null) {
-				g.drawString("  " + person.getDeatPlaceComplete(), p.x + xdate
-						+ datew, y + rowHeight);
+				g.drawString("  " + person.getDeatPlaceComplete(), p.x + xdate + datew, y + rowHeight);
 			}
 			if (person.getOccupation() != null) {
-				g.drawString(person.getOccupation(), p.x + xmargin, y
-						+ rowHeight);
+				g.drawString(person.getOccupation(), p.x + xmargin, y + rowHeight);
 			}
 			y += person.getGraphRowCount() * rowHeight;
 		}
@@ -378,12 +389,10 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 						yh = (yh * imageSize.height) / yh;
 					}
 
-					g.drawImage(img, imgx, y, (int) xw, (int) yh, Color.red,
-							null);
+					g.drawImage(img, imgx, y, (int) xw, (int) yh, Color.red, null);
 					pr = new PersonRectangle();
 					pr.person = person;
-					pr.rectangle = new Rectangle(imgx - p.x, y - p.y, (int) xw,
-							(int) yh);
+					pr.rectangle = new Rectangle(imgx - p.x, y - p.y, (int) xw, (int) yh);
 					personAreas.add(pr);
 
 					imgx += imageSize.width + separatorWidth;
@@ -397,12 +406,12 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		for (int i = childIdx; i < (childIdx + childCount); i++) {
 			person = famMember.get(i);
 			g.drawString(person.getTextName(), p.x + xmargin, y);
-			RelationShortData rr = famMemRel.get(i);
-			int[] rrr = rr.getParentArray();
+			final RelationShortData rr = famMemRel.get(i);
+			final int[] rrr = rr.getParentArray();
 			// StringBuilder sb = new StringBuilder();
 			int pareNo = 0;
 			if (rrr != null) {
-				for (int element : rrr) {
+				for (final int element : rrr) {
 					if (element != sujet) {
 						for (int k = spouseIdx; k < (spouseIdx + spouseCount); k++) {
 							if (famMember.get(k).getPid() == element) {
@@ -431,32 +440,25 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 				drawSurety(g, extra, p.x + 10, y);
 				// g.drawString(extra, p.x + 10, y);
 			}
-			pr.rectangle = new Rectangle(0, y - p.y - rowHeight, d.width,
-					person.getGraphRowCount() * rowHeight);
+			pr.rectangle = new Rectangle(0, y - p.y - rowHeight, d.width, person.getGraphRowCount() * rowHeight);
 			personAreas.add(pr);
 			if (person.getBirtDate() != null) {
-				g.drawString(
-						"* " + Utils.textDate(person.getBirtDate(), false), p.x
-								+ xdate, y);
+				g.drawString("* " + Utils.textDate(person.getBirtDate(), false), p.x + xdate, y);
 			}
 			if (person.getBirtPlaceComplete() != null) {
-				g.drawString("  " + person.getBirtPlaceComplete(), p.x + xdate
-						+ datew, y);
+				g.drawString("  " + person.getBirtPlaceComplete(), p.x + xdate + datew, y);
 			}
 			if (person.getDeatDate() != null) {
-				g.drawString(
-						"† " + Utils.textDate(person.getDeatDate(), false), p.x
-								+ xdate, y + rowHeight);
+				g.drawString("† " + Utils.textDate(person.getDeatDate(), false), p.x + xdate, y + rowHeight);
 			}
 			if (person.getDeatPlaceComplete() != null) {
-				g.drawString("  " + person.getDeatPlaceComplete(), p.x + xdate
-						+ datew, y + rowHeight);
+				g.drawString("  " + person.getDeatPlaceComplete(), p.x + xdate + datew, y + rowHeight);
 			}
 			if (person.getChildCount() > 0) {
 
-				int rx = currentArea.x + currentArea.width + xmargin;
-				int ry = y - (rowHeight / 2);
-				Color colo = g.getColor();
+				final int rx = currentArea.x + currentArea.width + xmargin;
+				final int ry = y - (rowHeight / 2);
+				final Color colo = g.getColor();
 				g.setColor(person.getSex().equals("M") ? Color.blue : Color.red);
 				g.drawLine(rx, ry, rx + 10, ry);
 				g.setColor(colo);
@@ -468,8 +470,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 			// + rowHeight);
 			// } else
 			if (person.getOccupation() != null) {
-				g.drawString(person.getOccupation(), p.x + xmargin, y
-						+ rowHeight);
+				g.drawString(person.getOccupation(), p.x + xmargin, y + rowHeight);
 			}
 			y += person.getGraphRowCount() * rowHeight;
 		}
@@ -478,27 +479,27 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	private void drawSurety(Graphics g, String suretyCode, int x, int y) {
 		if (suretyCode != null) {
-			String imgLocation = "/images/rela" + suretyCode + ".jpg";
+			final String imgLocation = "/images/rela" + suretyCode + ".jpg";
 			InputStream in = null;
 
-			byte imbytes[] = new byte[2048];
+			final byte imbytes[] = new byte[2048];
 			BufferedImage img = null;
 			try {
 				in = this.getClass().getResourceAsStream(imgLocation);
 				if (in != null) {
 					in.read(imbytes);
-					ByteArrayInputStream bb = new ByteArrayInputStream(imbytes);
+					final ByteArrayInputStream bb = new ByteArrayInputStream(imbytes);
 					img = ImageIO.read(bb);
 					g.drawImage(img, x, y - img.getHeight(), null);
 				}
-			} catch (IOException e) {
+			} catch (final IOException e) {
 
 				e.printStackTrace();
 			} finally {
 				if (in != null) {
 					try {
 						in.close();
-					} catch (IOException ignored) {
+					} catch (final IOException ignored) {
 						// Exception ignored
 					}
 				}
@@ -510,7 +511,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the size.
-	 * 
+	 *
 	 * @param g
 	 *            the g
 	 * @return size of table
@@ -526,7 +527,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 	private Dimension getPersonSize(Graphics g) {
 		int height = headerHeight;
 		int imagew = 0;
-		PersonShortData person = famMember.get(0);
+		final PersonShortData person = famMember.get(0);
 		if (person.getMediaFilename() != null) {
 			imagew = 1;
 		}
@@ -542,25 +543,23 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		}
 
 		height += getSubjectRows() * rowHeight;
-		if ((person.getBirtDate() != null)
-				|| (person.getBirtPlaceComplete() != null)) {
+		if ((person.getBirtDate() != null) || (person.getBirtPlaceComplete() != null)) {
 			height += rowHeight;
 		}
 
-		if ((person.getDeatDate() != null)
-				|| (person.getDeatPlaceComplete() != null)) {
+		if ((person.getDeatDate() != null) || (person.getDeatPlaceComplete() != null)) {
 			height += rowHeight;
 		}
 
 		xdate = 0;
 		xdatew = 0;
-		FontMetrics fm = g.getFontMetrics(textFont);
+		final FontMetrics fm = g.getFontMetrics(textFont);
 		int namew = 0;
 		int occuw = 0;
 		int birtw = 0;
 		int deatw = 0;
 		xdatew = fm.stringWidth(" *13.04.1944    "); // date width
-		int datemargin = fm.stringWidth("    ");
+		final int datemargin = fm.stringWidth("    ");
 		int placew = 0;
 		namew = fm.stringWidth(person.getTextName());
 		String xx;
@@ -619,7 +618,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 	}
 
 	private Dimension getTableSize(Graphics g) {
-		int xmargin = 25;
+		final int xmargin = 25;
 		int height = headerHeight * 2;
 		int imagew = mainImageCount();
 		if (imagew > 0) {
@@ -648,13 +647,13 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		int datew = 0;
 		int birtw = 0;
 		int deatw = 0;
-		FontMetrics fm = g.getFontMetrics(textFont);
+		final FontMetrics fm = g.getFontMetrics(textFont);
 		int namew = 0;
 		int occuw = 0;
 		datew = fm.stringWidth(" *13.04.1944"); // date width
 
 		for (int i = 0; i < (childIdx + childCount); i++) {
-			PersonShortData person = famMember.get(i);
+			final PersonShortData person = famMember.get(i);
 			String txt = person.getAlfaName();
 			if (txt == null) {
 				txt = "";
@@ -710,7 +709,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Main image count.
-	 * 
+	 *
 	 * @return count of images for parents
 	 */
 	public int mainImageCount() {
@@ -726,7 +725,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Child image count.
-	 * 
+	 *
 	 * @return count of child images
 	 */
 	public int childImageCount() {
@@ -742,7 +741,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the subject rows.
-	 * 
+	 *
 	 * @return no of rows for subject
 	 */
 	public int getSubjectRows() {
@@ -751,7 +750,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the spouse rows.
-	 * 
+	 *
 	 * @return no of rows for spouses
 	 */
 	public int getSpouseRows() {
@@ -764,7 +763,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the child rows.
-	 * 
+	 *
 	 * @return no of rows for children
 	 */
 	public int getChildRows() {
@@ -777,7 +776,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Sets the subject.
-	 * 
+	 *
 	 * @param subject
 	 *            the new subject
 	 */
@@ -799,7 +798,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the subject.
-	 * 
+	 *
 	 * @return teh subject
 	 */
 	public PersonShortData getSubject() {
@@ -811,7 +810,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the child count.
-	 * 
+	 *
 	 * @return count of children
 	 */
 	public int getChildCount() {
@@ -820,7 +819,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the child.
-	 * 
+	 *
 	 * @param index
 	 *            the index
 	 * @return child at index
@@ -834,7 +833,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the spouse count.
-	 * 
+	 *
 	 * @return no of spouses
 	 */
 	public int getSpouseCount() {
@@ -843,7 +842,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the spouse.
-	 * 
+	 *
 	 * @param index
 	 *            the index
 	 * @return spouse at index
@@ -857,7 +856,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the father count.
-	 * 
+	 *
 	 * @return count of fathers
 	 */
 	public int getFatherCount() {
@@ -866,7 +865,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the father.
-	 * 
+	 *
 	 * @param index
 	 *            the index
 	 * @return fatehr at index
@@ -880,7 +879,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the mother count.
-	 * 
+	 *
 	 * @return count of mothers
 	 */
 	public int getMotherCount() {
@@ -889,7 +888,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the mother.
-	 * 
+	 *
 	 * @param index
 	 *            the index
 	 * @return mother at index
@@ -903,7 +902,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * init structure.
-	 * 
+	 *
 	 * @param pers
 	 *            the pers
 	 * @param rels
@@ -911,28 +910,28 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 	 */
 	public void initRelatives(PersonShortData[] pers, RelationShortData[] rels) {
 
-		Vector<PersonShortData> spouVec = new Vector<PersonShortData>();
-		Vector<RelationShortData> spouRelVec = new Vector<RelationShortData>();
+		final Vector<PersonShortData> spouVec = new Vector<PersonShortData>();
+		final Vector<RelationShortData> spouRelVec = new Vector<RelationShortData>();
 
-		Vector<PersonShortData> chilVec = new Vector<PersonShortData>();
-		Vector<RelationShortData> chilRelVec = new Vector<RelationShortData>();
+		final Vector<PersonShortData> chilVec = new Vector<PersonShortData>();
+		final Vector<RelationShortData> chilRelVec = new Vector<RelationShortData>();
 
-		Vector<PersonShortData> fathVec = new Vector<PersonShortData>();
-		Vector<RelationShortData> fathRelVec = new Vector<RelationShortData>();
+		final Vector<PersonShortData> fathVec = new Vector<PersonShortData>();
+		final Vector<RelationShortData> fathRelVec = new Vector<RelationShortData>();
 
-		Vector<PersonShortData> mothVec = new Vector<PersonShortData>();
-		Vector<RelationShortData> mothRelVec = new Vector<RelationShortData>();
+		final Vector<PersonShortData> mothVec = new Vector<PersonShortData>();
+		final Vector<RelationShortData> mothRelVec = new Vector<RelationShortData>();
 
 		RelationShortData reld;
 		PersonShortData perd;
-		for (RelationShortData rel : rels) {
+		for (final RelationShortData rel : rels) {
 
 			reld = rel;
-			int relid = reld.getRelationPid();
+			final int relid = reld.getRelationPid();
 
 			if (reld.getTag().equals("WIFE") || reld.getTag().equals("HUSB")) {
 
-				for (PersonShortData per : pers) {
+				for (final PersonShortData per : pers) {
 					perd = per;
 					if (relid == perd.getPid()) {
 						perd.setSurety(reld.surety);
@@ -945,7 +944,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 				}
 			} else if (reld.getTag().equals("CHIL")) {
 
-				for (PersonShortData per : pers) {
+				for (final PersonShortData per : pers) {
 					perd = per;
 					if (relid == perd.getPid()) {
 						perd.setSurety(reld.surety);
@@ -957,7 +956,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 				}
 			} else if (reld.getTag().equals("FATH")) {
 
-				for (PersonShortData per : pers) {
+				for (final PersonShortData per : pers) {
 					perd = per;
 					if (relid == perd.getPid()) {
 						perd.setSurety(reld.surety);
@@ -969,7 +968,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 				}
 			} else if (reld.getTag().equals("MOTH")) {
 
-				for (PersonShortData per : pers) {
+				for (final PersonShortData per : pers) {
 					perd = per;
 					if (relid == perd.getPid()) {
 						perd.setSurety(reld.surety);
@@ -1004,15 +1003,14 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < famMember.size(); i++) {
-			sb.append("Tab:[" + i + "]: " + famMember.get(i).getTextName()
-					+ "\n");
+			sb.append("Tab:[" + i + "]: " + famMember.get(i).getTextName() + "\n");
 
 		}
 		Rectangle r = getArea();
@@ -1023,8 +1021,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 		if (p == null) {
 			p = new Point();
 		}
-		sb.append("x=" + p.x + ",y=" + p.y + ",w=" + r.width + ",h=" + r.height
-				+ "\n");
+		sb.append("x=" + p.x + ",y=" + p.y + ",w=" + r.width + ",h=" + r.height + "\n");
 
 		return sb.toString();
 
@@ -1032,7 +1029,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * fi.kaila.suku.swing.util.ISukuGraphicalItem#getPersonAtPoint(java.awt
 	 * .Point)
@@ -1041,7 +1038,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 	public PersonShortData getPersonAtPoint(Point point) {
 
 		for (int i = 0; i < personAreas.size(); i++) {
-			PersonRectangle pr = personAreas.get(i);
+			final PersonRectangle pr = personAreas.get(i);
 			if (pr.rectangle.contains(point)) {
 				return pr.person;
 			}
@@ -1063,7 +1060,7 @@ public class TableShortData implements Serializable, ISukuGraphicalItem {
 
 	/**
 	 * Gets the location.
-	 * 
+	 *
 	 * @return location
 	 */
 	public Point getLocation() {

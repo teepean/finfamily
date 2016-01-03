@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.Color;
@@ -30,11 +60,10 @@ import fi.kaila.suku.util.pojo.UnitLanguage;
 
 /**
  * Language dialog to add secondary languages to person notices.
- * 
+ *
  * @author Kalle
  */
-public class LanguageDialog extends JDialog implements ActionListener,
-		ComponentListener {
+public class LanguageDialog extends JDialog implements ActionListener, ComponentListener {
 
 	private static final long serialVersionUID = 1L;
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
@@ -86,7 +115,7 @@ public class LanguageDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Instantiates a new language dialog.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 */
@@ -94,12 +123,12 @@ public class LanguageDialog extends JDialog implements ActionListener,
 		super(owner, Resurses.getString("DATA_LANG_PAGE"), true);
 		setLayout(null);
 
-		JLabel lbll = new JLabel(Resurses.getString("DATA_LANG_PAGE"));
+		final JLabel lbll = new JLabel(Resurses.getString("DATA_LANG_PAGE"));
 		add(lbll);
 		lbll.setBounds(10, 5, 75, 20);
-		ButtonGroup languageGroup = new ButtonGroup();
+		final ButtonGroup languageGroup = new ButtonGroup();
 
-		int lcnt = Suku.getRepoLanguageCount();
+		final int lcnt = Suku.getRepoLanguageCount();
 		langxx = new JRadioButton[lcnt];
 		languages = new UnitLanguage[lcnt];
 		for (int i = 0; i < lcnt; i++) {
@@ -138,8 +167,7 @@ public class LanguageDialog extends JDialog implements ActionListener,
 		noteText = new JTextArea();
 		noteText.setLineWrap(true);
 		noteText.setWrapStyleWord(true);
-		scrollArea = new JScrollPane(noteText,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollArea = new JScrollPane(noteText, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scrollArea);
 
@@ -182,16 +210,15 @@ public class LanguageDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the languages.
-	 * 
+	 *
 	 * @return list of UnitLanguage notices
 	 */
 	public UnitLanguage[] getLanguages() {
-		Vector<UnitLanguage> ulv = new Vector<UnitLanguage>();
-		for (UnitLanguage language : languages) {
-			UnitLanguage u = language;
-			if ((u.getNoticeType() == null) && (u.getMediaTitle() == null)
-					&& (u.getDescription() == null) && (u.getPlace() == null)
-					&& (u.getNoteText() == null)) {
+		final Vector<UnitLanguage> ulv = new Vector<UnitLanguage>();
+		for (final UnitLanguage language : languages) {
+			final UnitLanguage u = language;
+			if ((u.getNoticeType() == null) && (u.getMediaTitle() == null) && (u.getDescription() == null)
+					&& (u.getPlace() == null) && (u.getNoteText() == null)) {
 				u.setToBeDeleted(true);
 			}
 			if ((u.getPid() > 0) && !u.isToBeDeleted()) {
@@ -204,7 +231,7 @@ public class LanguageDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Sets the languages.
-	 * 
+	 *
 	 * @param tag
 	 *            the tag
 	 * @param languages
@@ -213,16 +240,15 @@ public class LanguageDialog extends JDialog implements ActionListener,
 	public void setLanguages(String tag, UnitLanguage[] languages) {
 		this.tag = tag;
 		if (languages != null) {
-			for (UnitLanguage language : languages) {
-				int idx = Suku.getRepoLanguageIndex(language.getLangCode());
+			for (final UnitLanguage language : languages) {
+				final int idx = Suku.getRepoLanguageIndex(language.getLangCode());
 				if (idx >= 0) {
 					this.languages[idx] = language;
 					if ((language.getPid() > 0) || language.isToBeUpdated()) {
 						langxx[idx].setForeground(Color.RED);
 					}
 				} else {
-					logger.warning("language code not known ["
-							+ language.getLangCode() + "]");
+					logger.warning("language code not known [" + language.getLangCode() + "]");
 				}
 			}
 
@@ -241,28 +267,27 @@ public class LanguageDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.JDialog#createRootPane()
 	 */
 	@Override
 	protected JRootPane createRootPane() {
-		KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
-		JRootPane rootPane = new JRootPane();
+		final KeyStroke stroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+		final JRootPane rootPane = new JRootPane();
 
-		rootPane.registerKeyboardAction(this, "OK", stroke,
-				JComponent.WHEN_IN_FOCUSED_WINDOW);
+		rootPane.registerKeyboardAction(this, "OK", stroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
 		return rootPane;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		if (cmd == null) {
 			return;
 		}
@@ -278,7 +303,7 @@ public class LanguageDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Copy data from dialog to the pojo.
-	 * 
+	 *
 	 * @param cmd
 	 *            = langcode
 	 */
@@ -356,7 +381,7 @@ public class LanguageDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
 	 * ComponentEvent)
 	 */
@@ -367,10 +392,9 @@ public class LanguageDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentMoved(ComponentEvent e) {
@@ -379,7 +403,7 @@ public class LanguageDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
 	 * ComponentEvent)
 	 */
@@ -389,16 +413,15 @@ public class LanguageDialog extends JDialog implements ActionListener,
 		for (int i = 0; i < langxx.length; i++) {
 			int j = 0;
 			for (j = 0; j < languages.length; j++) {
-				if (Suku.getRepoLanguage(i, true).equals(
-						languages[j].getLangCode())) {
+				if (Suku.getRepoLanguage(i, true).equals(languages[j].getLangCode())) {
 					break;
 				}
 			}
 		}
 
-		Dimension currSize = getSize();
-		int leftWidth = currSize.width - 260;
-		int rightColumn = 85 + leftWidth;
+		final Dimension currSize = getSize();
+		final int leftWidth = currSize.width - 260;
+		final int rightColumn = 85 + leftWidth;
 
 		int ry = ytype;
 		ok.setBounds(rightColumn, ry, 80, 20);
@@ -460,10 +483,9 @@ public class LanguageDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentShown(ComponentEvent e) {

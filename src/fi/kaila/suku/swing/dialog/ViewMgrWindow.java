@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.Dimension;
@@ -30,20 +60,20 @@ import fi.kaila.suku.util.pojo.PersonShortData;
 import fi.kaila.suku.util.pojo.SukuData;
 
 /**
- * 
+ *
  * <h1>View Manager Dialog</h1>
- * 
+ *
  * <p>
  * Persons in the database can be grouped in groups and in views. A person can
  * have only one group and he/she can belong to several views. View Manager
  * manages views.
  * </p>
- * 
+ *
  * <p>
  * The View manager consists of a non-modal Dialog that is requested from the
  * Tools menu.
  * </p>
- * 
+ *
  * <p>
  * Views are held in two database tables, the Views table that contains a list
  * of the named views and their corresponding numeric ViewId's and table
@@ -51,22 +81,22 @@ import fi.kaila.suku.util.pojo.SukuData;
  * considered to be a member of a view if he/she exists (at least once) in the
  * viewunits table. The person can exist in more than one view.
  * </p>
- * 
+ *
  * <h2>Create a View</h2>
- * 
+ *
  * <p>
  * Write the name of the view to be created in the text field and press create.
  * If a view with the name already exists an error is thrown.
  * </p>
- * 
+ *
  * <h2>Remove View</h2>
- * 
+ *
  * <p>
  * Removes the selected view from the database.
  * </p>
- * 
+ *
  * <h2>Add to View</h2>
- * 
+ *
  * <p>
  * This group of commands adds the persons selected in database view to the
  * view. If only one person is selected in database view then it is possible to
@@ -74,19 +104,18 @@ import fi.kaila.suku.util.pojo.SukuData;
  * spouses of the descendant. It will also be possible to add all ancestors of
  * the single selected person to the group.
  * </p>
- * 
+ *
  * <p>
  * The selected person or # of selected persons in the database view is
  * refreshed once a second.
  * </p>
- * 
+ *
  * @author Kalle
- * 
+ *
  */
 public class ViewMgrWindow extends JDialog implements ActionListener {
 
-	private static Logger logger = Logger.getLogger(ViewMgrWindow.class
-			.getName());
+	private static Logger logger = Logger.getLogger(ViewMgrWindow.class.getName());
 
 	private static final long serialVersionUID = 1L;
 
@@ -118,7 +147,7 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 
 	/**
 	 * Instantiates a new view mgr window.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 * @throws SukuException
@@ -176,12 +205,11 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 
 		JRadioButton formd;
 
-		JPanel addViewGroup = new JPanel();
+		final JPanel addViewGroup = new JPanel();
 		add(addViewGroup);
 		addViewGroup.setBounds(10, yy, 280, 300);
 
-		addViewGroup.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
+		addViewGroup.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
 				Resurses.getString("DIALOG_VIEW_ADD_CAPTION")));
 		addViewGroup.setLayout(null);
 		addes = new ButtonGroup();
@@ -193,22 +221,19 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 		addes.add(formd);
 		formd.setBounds(10, 22, 240, 20);
 
-		addDescendant = new JRadioButton(
-				Resurses.getString("DIALOG_VIEW_ADD_DESC"));
+		addDescendant = new JRadioButton(Resurses.getString("DIALOG_VIEW_ADD_DESC"));
 		addDescendant.setActionCommand("DESC");
 		addViewGroup.add(addDescendant);
 		addes.add(addDescendant);
 		addDescendant.setBounds(10, 44, 260, 20);
 
-		addDescAndSpouses = new JRadioButton(
-				Resurses.getString("DIALOG_VIEW_ADD_DESC_SPOUSES"));
+		addDescAndSpouses = new JRadioButton(Resurses.getString("DIALOG_VIEW_ADD_DESC_SPOUSES"));
 		addDescAndSpouses.setActionCommand("DESC_SPOUSES");
 		addViewGroup.add(addDescAndSpouses);
 		addes.add(addDescAndSpouses);
 		addDescAndSpouses.setBounds(10, 66, 260, 20);
 
-		addAncestors = new JRadioButton(
-				Resurses.getString("DIALOG_VIEW_ADD_ANC"));
+		addAncestors = new JRadioButton(Resurses.getString("DIALOG_VIEW_ADD_ANC"));
 		addAncestors.setActionCommand("ANC");
 		addViewGroup.add(addAncestors);
 		addes.add(addAncestors);
@@ -222,8 +247,7 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 		addViewGroup.add(lbl);
 		lbl.setBounds(75, 226, 180, 20);
 
-		emptyView = new JCheckBox(
-				Resurses.getString("DIALOG_VIEW_ADD_EMPTY_VIEW"));
+		emptyView = new JCheckBox(Resurses.getString("DIALOG_VIEW_ADD_EMPTY_VIEW"));
 		addViewGroup.add(emptyView);
 		emptyView.setBounds(10, 250, 260, 20);
 
@@ -236,18 +260,17 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 		addViewGroup.add(addedCount);
 		addedCount.setBounds(140, 270, 110, 20);
 
-		JPanel removeViewGroup = new JPanel();
+		final JPanel removeViewGroup = new JPanel();
 		add(removeViewGroup);
 		removeViewGroup.setBounds(300, yy, 280, 300);
-		removeViewGroup.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
-				Resurses.getString("DIALOG_VIEW_REMOVE_CAPTION")));
+		removeViewGroup
+				.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
+						Resurses.getString("DIALOG_VIEW_REMOVE_CAPTION")));
 		removeViewGroup.setLayout(null);
 		removes = new ButtonGroup();
 
 		int rivi = 22;
-		formd = new JRadioButton(
-				Resurses.getString("DIALOG_VIEW_REMOVE_SELECTED"));
+		formd = new JRadioButton(Resurses.getString("DIALOG_VIEW_REMOVE_SELECTED"));
 		formd.setActionCommand("SELECTED");
 		formd.setSelected(true);
 		removeViewGroup.add(formd);
@@ -268,10 +291,10 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 		remove.setBounds(10, 270, 120, 24);
 		remove.addActionListener(this);
 
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
 		setLocation((d.width / 2) - 305, (d.height / 2) - 250);
-		Dimension sz = new Dimension(610, 500);
+		final Dimension sz = new Dimension(610, 500);
 		setSize(sz);
 
 		close = new JButton(Resurses.getString("CLOSE"));
@@ -305,21 +328,21 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 
 	/**
 	 * Inits the viewlist.
-	 * 
+	 *
 	 * @throws SukuException
 	 *             the suku exception
 	 */
 	public void initViewlist() throws SukuException {
 		viewlist.removeAllItems();
 		viewlist.addItem("");
-		SukuData vlist = Suku.kontroller.getSukuData("cmd=viewlist");
+		final SukuData vlist = Suku.kontroller.getSukuData("cmd=viewlist");
 
 		viewnames = new String[vlist.generalArray.length + 1];
 		viewids = new int[vlist.generalArray.length + 1];
 		viewids[0] = -1;
 		viewnames[0] = "";
 		for (int i = 0; i < vlist.generalArray.length; i++) {
-			String[] tmps = vlist.generalArray[i].split(";");
+			final String[] tmps = vlist.generalArray[i].split(";");
 
 			viewids[i + 1] = Integer.parseInt(tmps[0]);
 			viewnames[i + 1] = tmps[1];
@@ -330,55 +353,42 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 
 	private void updateSelectStatus() {
 		try {
-			PersonShortData pp = parent.getSelectedPerson();
+			final PersonShortData pp = parent.getSelectedPerson();
 			addDescendant.setEnabled(pp != null);
 			addDescAndSpouses.setEnabled(pp != null);
 			addAncestors.setEnabled(pp != null);
 			if (pp == null) {
-				int pids[] = parent.getSelectedPids();
+				final int pids[] = parent.getSelectedPids();
 				if (pids == null) {
 					return;
 				}
-				selectedName.setText(Resurses
-						.getString("DIALOG_VIEW_SELECTED_COUNT")
-						+ " "
-						+ pids.length);
+				selectedName.setText(Resurses.getString("DIALOG_VIEW_SELECTED_COUNT") + " " + pids.length);
 			} else {
-				SukuData resp = Suku.kontroller.getSukuData("cmd=view",
-						"action=get", "pid=" + pp.getPid());
+				final SukuData resp = Suku.kontroller.getSukuData("cmd=view", "action=get", "pid=" + pp.getPid());
 
-				StringBuilder sb = new StringBuilder();
+				final StringBuilder sb = new StringBuilder();
 				if (resp.generalArray != null) {
-					for (String element : resp.generalArray) {
+					for (final String element : resp.generalArray) {
 						if (sb.length() > 0) {
 							sb.append(";");
 						}
 						sb.append(element);
 					}
 				}
-				selectedName.setText(Resurses
-						.getString("DIALOG_VIEW_SELECTED_NAME")
-						+ " "
-						+ pp.getAlfaName());
-				selectedViews.setText(Resurses
-						.getString("DIALOG_VIEW_SELECTED_VIEWS")
-						+ " "
-						+ sb.toString());
+				selectedName.setText(Resurses.getString("DIALOG_VIEW_SELECTED_NAME") + " " + pp.getAlfaName());
+				selectedViews.setText(Resurses.getString("DIALOG_VIEW_SELECTED_VIEWS") + " " + sb.toString());
 
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.log(Level.WARNING, "updateSelectStatus()", e);
-			JOptionPane.showMessageDialog(
-					parent,
-					Resurses.getString("DIALOG_VIEW_ERROR") + " "
-							+ e.getMessage());
+			JOptionPane.showMessageDialog(parent, Resurses.getString("DIALOG_VIEW_ERROR") + " " + e.getMessage());
 			e.printStackTrace();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -393,108 +403,93 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 			}
 		} else if (e.getSource() == removeView) {
 			try {
-				int idx = viewlist.getSelectedIndex();
+				final int idx = viewlist.getSelectedIndex();
 				if (idx > 0) {
-					int seleview = viewids[idx];
-					SukuData resp = Suku.kontroller.getSukuData("cmd=view",
-							"action=removeview", "viewid=" + seleview);
+					final int seleview = viewids[idx];
+					final SukuData resp = Suku.kontroller.getSukuData("cmd=view", "action=removeview",
+							"viewid=" + seleview);
 					if (resp.resu != null) {
 						JOptionPane.showMessageDialog(parent,
-								Resurses.getString("DIALOG_VIEW_ERROR") + " "
-										+ resp.resu);
+								Resurses.getString("DIALOG_VIEW_ERROR") + " " + resp.resu);
 						return;
 					}
 					initViewlist();
 					viewlist.updateUI();
 				}
-			} catch (SukuException e1) {
+			} catch (final SukuException e1) {
 				logger.log(Level.WARNING, "updateSelectStatus()", e1);
-				JOptionPane.showMessageDialog(
-						parent,
-						Resurses.getString("DIALOG_VIEW_ERROR") + " "
-								+ e1.getMessage());
+				JOptionPane.showMessageDialog(parent, Resurses.getString("DIALOG_VIEW_ERROR") + " " + e1.getMessage());
 				return;
 			}
 		} else if (e.getSource() == addView) {
 			try {
 
-				String viewname = newViewName.getText();
+				final String viewname = newViewName.getText();
 				if (viewname.isEmpty()) {
 					return;
 				}
-				for (String viewname2 : viewnames) {
+				for (final String viewname2 : viewnames) {
 					if (viewname.equals(viewname2)) {
 						JOptionPane.showMessageDialog(parent,
-								Resurses.getString("DIALOG_VIEW_EXISTS") + " ["
-										+ viewname + "]");
+								Resurses.getString("DIALOG_VIEW_EXISTS") + " [" + viewname + "]");
 						return;
 					}
 				}
 
-				SukuData resp = Suku.kontroller.getSukuData("cmd=view",
-						"action=addview", "viewname=" + viewname);
+				final SukuData resp = Suku.kontroller.getSukuData("cmd=view", "action=addview", "viewname=" + viewname);
 				if (resp.resu != null) {
-					JOptionPane.showMessageDialog(parent,
-							Resurses.getString("DIALOG_VIEW_ERROR") + " "
-									+ resp.resu);
+					JOptionPane.showMessageDialog(parent, Resurses.getString("DIALOG_VIEW_ERROR") + " " + resp.resu);
 					return;
 				}
 				newViewName.setText("");
 				initViewlist();
 				viewlist.updateUI();
 
-			} catch (SukuException e1) {
+			} catch (final SukuException e1) {
 				logger.log(Level.WARNING, "updateSelectStatus()", e1);
-				JOptionPane.showMessageDialog(
-						parent,
-						Resurses.getString("DIALOG_VIEW_ERROR") + " "
-								+ e1.getMessage());
+				JOptionPane.showMessageDialog(parent, Resurses.getString("DIALOG_VIEW_ERROR") + " " + e1.getMessage());
 				return;
 			}
 		} else if (e.getSource() == remove) {
-			int idx = viewlist.getSelectedIndex();
+			final int idx = viewlist.getSelectedIndex();
 
 			if (idx <= 0) {
-				JOptionPane.showMessageDialog(parent,
-						Resurses.getString("DIALOG_VIEW_NOTSELECTED"));
+				JOptionPane.showMessageDialog(parent, Resurses.getString("DIALOG_VIEW_NOTSELECTED"));
 				return;
 			}
-			int seleview = viewids[idx];
+			final int seleview = viewids[idx];
 			try {
-				SukuData request = new SukuData();
-				ButtonModel model = removes.getSelection();
+				final SukuData request = new SukuData();
+				final ButtonModel model = removes.getSelection();
 				if (model != null) {
-					String remocmd = model.getActionCommand();
+					final String remocmd = model.getActionCommand();
 					if (remocmd == null) {
 						return;
 					}
 					SukuData response = null;
 					if (remocmd.equals("ALL")) {
 
-						response = Suku.kontroller.getSukuData("cmd=view",
-								"action=remove", "key=all", "viewid="
-										+ seleview);
+						response = Suku.kontroller.getSukuData("cmd=view", "action=remove", "key=all",
+								"viewid=" + seleview);
 
 					} else if (remocmd.equals("SELECTED")) {
 
 						request.pidArray = parent.getSelectedPids();
-						if ((request.pidArray != null)
-								&& (request.pidArray.length > 0)) {
-							response = Suku.kontroller.getSukuData(request,
-									"cmd=view", "action=remove",
-									"key=pidarray", "viewid=" + seleview);
+						if ((request.pidArray != null) && (request.pidArray.length > 0)) {
+							response = Suku.kontroller.getSukuData(request, "cmd=view", "action=remove", "key=pidarray",
+									"viewid=" + seleview);
 						}
 					} else {
 						System.out.println("NOT HERE");
 					}
 					if (response == null) {
-						String messu = "View remove Response missing";
+						final String messu = "View remove Response missing";
 						logger.warning(messu);
 						JOptionPane.showMessageDialog(parent, messu);
 					}
 
 				}
-			} catch (SukuException e1) {
+			} catch (final SukuException e1) {
 				logger.log(Level.WARNING, "Remove group failed", e1);
 				e1.printStackTrace();
 			}
@@ -502,70 +497,62 @@ public class ViewMgrWindow extends JDialog implements ActionListener {
 		} else if (e.getSource() == add) {
 			addedCount.setText("");
 			try {
-				SukuData request = new SukuData();
-				ButtonModel model = addes.getSelection();
+				final SukuData request = new SukuData();
+				final ButtonModel model = addes.getSelection();
 				if (model != null) {
-					String addcmd = model.getActionCommand();
+					final String addcmd = model.getActionCommand();
 					if (addcmd == null) {
 						return;
 					}
 
 					SukuData response = null;
 					if (addcmd.equals("SELECTED")) {
-						boolean emptyIt = emptyView.isSelected();
-						int idx = viewlist.getSelectedIndex();
+						final boolean emptyIt = emptyView.isSelected();
+						final int idx = viewlist.getSelectedIndex();
 						if (idx > 0) {
-							int seleview = viewids[idx];
+							final int seleview = viewids[idx];
 							request.pidArray = parent.getSelectedPids();
 
-							response = Suku.kontroller.getSukuData(request,
-									"cmd=view", "action=add", "key=pidarray",
+							response = Suku.kontroller.getSukuData(request, "cmd=view", "action=add", "key=pidarray",
 									"viewid=" + seleview, "empty=" + emptyIt);
 							emptyView.setSelected(false);
 							addedCount.setText("" + response.resuCount);
 						} else {
-							JOptionPane.showMessageDialog(parent, Resurses
-									.getString("DIALOG_VIEW_NOTSELECTED"));
+							JOptionPane.showMessageDialog(parent, Resurses.getString("DIALOG_VIEW_NOTSELECTED"));
 							return;
 						}
-					} else if (addcmd.startsWith("DESC")
-							|| addcmd.equals("ANC")) {
-						boolean emptyIt = emptyView.isSelected();
-						int idx = viewlist.getSelectedIndex();
+					} else if (addcmd.startsWith("DESC") || addcmd.equals("ANC")) {
+						final boolean emptyIt = emptyView.isSelected();
+						final int idx = viewlist.getSelectedIndex();
 						if (idx > 0) {
-							int seleview = viewids[idx];
-							int[] ii = parent.getSelectedPids();
+							final int seleview = viewids[idx];
+							final int[] ii = parent.getSelectedPids();
 							if (ii.length == 1) {
 								String gene = generations.getText();
 								try {
 									Integer.parseInt(gene);
-								} catch (NumberFormatException ne) {
+								} catch (final NumberFormatException ne) {
 									gene = "";
 								}
-								response = Suku.kontroller.getSukuData(
-										"cmd=view", "action=add", "pid="
-												+ ii[0], "key=" + addcmd,
-										"viewid=" + seleview, "empty="
-												+ emptyIt, "gen=" + gene);
+								response = Suku.kontroller.getSukuData("cmd=view", "action=add", "pid=" + ii[0],
+										"key=" + addcmd, "viewid=" + seleview, "empty=" + emptyIt, "gen=" + gene);
 
 								emptyView.setSelected(false);
 								addedCount.setText("" + response.resuCount);
 							}
 						} else {
-							JOptionPane.showMessageDialog(parent, Resurses
-									.getString("DIALOG_VIEW_NOTSELECTED"));
+							JOptionPane.showMessageDialog(parent, Resurses.getString("DIALOG_VIEW_NOTSELECTED"));
 							return;
 						}
 
 					}
 					if (response == null) {
-						String messu = Resurses
-								.getString("DIALOG_VIEW_ADD_ERROR");
+						final String messu = Resurses.getString("DIALOG_VIEW_ADD_ERROR");
 						logger.warning(messu);
 						JOptionPane.showMessageDialog(parent, messu);
 					}
 				}
-			} catch (Exception e1) {
+			} catch (final Exception e1) {
 				logger.log(Level.WARNING, "Remove view failed", e1);
 				e1.printStackTrace();
 			}

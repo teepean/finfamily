@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.util;
 
 import java.awt.event.ActionEvent;
@@ -14,7 +44,7 @@ import fi.kaila.suku.util.Utils;
 
 /**
  * DateField is specific to genealogy app as dates need not be exact.
- * 
+ *
  * @author Kalle
  */
 public class SukuDateField extends JPanel implements ActionListener {
@@ -39,7 +69,7 @@ public class SukuDateField extends JPanel implements ActionListener {
 	public SukuDateField() {
 
 		setLayout(null);
-		String dateprex[] = Resurses.getString("DATE_PREFS").split(";");
+		final String dateprex[] = Resurses.getString("DATE_PREFS").split(";");
 		datePref = new JComboBox(dateprex);
 		add(datePref);
 		datePref.addActionListener(this);
@@ -59,12 +89,12 @@ public class SukuDateField extends JPanel implements ActionListener {
 
 	/**
 	 * Gets the date pref tag.
-	 * 
+	 *
 	 * @return the prefix tag for date (See GEDCOM)
 	 */
 	public String getDatePrefTag() {
 
-		int idx = datePref.getSelectedIndex();
+		final int idx = datePref.getSelectedIndex();
 		switch (idx) {
 		case 1:
 			return "ABT";
@@ -87,7 +117,7 @@ public class SukuDateField extends JPanel implements ActionListener {
 
 	/**
 	 * Gets the from date.
-	 * 
+	 *
 	 * @return date in text format
 	 * @throws SukuDateException
 	 *             the suku date exception
@@ -98,11 +128,11 @@ public class SukuDateField extends JPanel implements ActionListener {
 
 	/**
 	 * Gets the date pref text.
-	 * 
+	 *
 	 * @return the date pref text
 	 */
 	public String getDatePrefText() {
-		int idx = datePref.getSelectedIndex();
+		final int idx = datePref.getSelectedIndex();
 		if (idx <= 0) {
 			return null;
 		}
@@ -111,7 +141,7 @@ public class SukuDateField extends JPanel implements ActionListener {
 
 	/**
 	 * Checks if is plain.
-	 * 
+	 *
 	 * @return true if no prefix exists for date
 	 */
 	public boolean isPlain() {
@@ -123,7 +153,7 @@ public class SukuDateField extends JPanel implements ActionListener {
 
 	/**
 	 * Gets the text from date.
-	 * 
+	 *
 	 * @return text from dfatefield
 	 */
 	public String getTextFromDate() {
@@ -132,7 +162,7 @@ public class SukuDateField extends JPanel implements ActionListener {
 
 	/**
 	 * sets datefield (text).
-	 * 
+	 *
 	 * @param text
 	 *            the new text from date
 	 */
@@ -142,7 +172,7 @@ public class SukuDateField extends JPanel implements ActionListener {
 
 	/**
 	 * Gets the to date.
-	 * 
+	 *
 	 * @return text format of date
 	 * @throws SukuDateException
 	 *             the suku date exception
@@ -153,7 +183,7 @@ public class SukuDateField extends JPanel implements ActionListener {
 
 	/**
 	 * sets full date.
-	 * 
+	 *
 	 * @param pre
 	 *            the pre
 	 * @param from
@@ -215,7 +245,7 @@ public class SukuDateField extends JPanel implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -223,7 +253,7 @@ public class SukuDateField extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		if ((e != null) && (e.getSource() == datePref)) {
 
-			int idx = datePref.getSelectedIndex();
+			final int idx = datePref.getSelectedIndex();
 			if (idx == 4) {
 				datePost.setText(Resurses.getString("DATE_TO"));
 				dateTo.setVisible(true);

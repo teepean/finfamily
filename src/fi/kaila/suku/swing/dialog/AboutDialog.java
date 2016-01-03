@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.Dimension;
@@ -19,15 +49,15 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * The Class AboutDialog.
- * 
+ *
  * @author FIKAAKAIL
- * 
+ *
  *         About box for Suku
  */
 public class AboutDialog extends JDialog implements ActionListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private static final String OK = "OK";
@@ -35,7 +65,7 @@ public class AboutDialog extends JDialog implements ActionListener {
 
 	/**
 	 * Instantiates a new about dialog.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 */
@@ -44,14 +74,14 @@ public class AboutDialog extends JDialog implements ActionListener {
 		logger = Logger.getLogger(this.getClass().getName());
 		setLayout(null);
 
-		JTextArea aboutArea = new JTextArea();
+		final JTextArea aboutArea = new JTextArea();
 		aboutArea.setEditable(false);
 		aboutArea.setLineWrap(true);
 
 		add(aboutArea);
 		aboutArea.setBounds(20, 20, 560, 200);
 
-		StringBuilder about = new StringBuilder();
+		final StringBuilder about = new StringBuilder();
 
 		about.append(Resurses.getString(Resurses.ABOUT_SUKU_VERSION));
 		about.append(": ");
@@ -87,7 +117,7 @@ public class AboutDialog extends JDialog implements ActionListener {
 			Utils.println(this, "fetching dbstats");
 			stats = Suku.kontroller.getSukuData("cmd=dbstats");
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			Utils.println(this, "dbstats ex = " + e.toString());
 			stats = new SukuData();
 			if (e.getMessage() != null) {
@@ -103,13 +133,13 @@ public class AboutDialog extends JDialog implements ActionListener {
 		logger.info(about.toString());
 		aboutArea.setText(about.toString());
 
-		JButton ok = new JButton(OK);
+		final JButton ok = new JButton(OK);
 		getContentPane().add(ok);
 		ok.setBounds(480, 235, 100, 24);
 		ok.addActionListener(this);
 		ok.setDefaultCapable(true);
 
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		setBounds((d.width / 2) - 200, (d.height / 2) - 200, 600, 300);
 		setResizable(false);
 
@@ -118,7 +148,7 @@ public class AboutDialog extends JDialog implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */

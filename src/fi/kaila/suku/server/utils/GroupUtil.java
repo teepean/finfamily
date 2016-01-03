@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.server.utils;
 
 import java.sql.Connection;
@@ -14,9 +44,9 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * <h1>Group Server Utility</h1>
- * 
+ *
  * Group removes and additions to / from db are done here.
- * 
+ *
  * @author Kalle
  */
 public class GroupUtil {
@@ -27,7 +57,7 @@ public class GroupUtil {
 
 	/**
 	 * Constructor for this server class.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 */
@@ -38,20 +68,19 @@ public class GroupUtil {
 
 	/**
 	 * Remove groupid from all persons in database.
-	 * 
+	 *
 	 * @return in SukuData as resu the # of removed groupid's
 	 * @throws SukuException
 	 *             the suku exception
 	 */
 	public SukuData removeAllGroups() throws SukuException {
-		SukuData resp = new SukuData();
-		ArrayList<Integer> pidv = new ArrayList<Integer>();
+		final SukuData resp = new SukuData();
+		final ArrayList<Integer> pidv = new ArrayList<Integer>();
 		try {
-			Statement stm = con.createStatement();
-			ResultSet rs = stm
-					.executeQuery("select pid from unit where groupid is not null");
+			final Statement stm = con.createStatement();
+			final ResultSet rs = stm.executeQuery("select pid from unit where groupid is not null");
 			while (rs.next()) {
-				int pid = rs.getInt(1);
+				final int pid = rs.getInt(1);
 				pidv.add(pid);
 			}
 			rs.next();
@@ -60,16 +89,14 @@ public class GroupUtil {
 				resp.pidArray[i] = pidv.get(i);
 			}
 
-			int lukuri = stm
-					.executeUpdate("update unit set groupid = null where groupid is not null");
+			final int lukuri = stm.executeUpdate("update unit set groupid = null where groupid is not null");
 			if (lukuri != resp.pidArray.length) {
-				resp.resu = "GROUPS REMOVED[" + resp.pidArray.length
-						+ "]; RESULT[" + lukuri + "]";
+				resp.resu = "GROUPS REMOVED[" + resp.pidArray.length + "]; RESULT[" + lukuri + "]";
 			}
 			stm.close();
 			return resp;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "SQL error in all remove", e);
 			e.printStackTrace();
 			throw new SukuException("REMOVE GROUP", e);
@@ -79,7 +106,7 @@ public class GroupUtil {
 
 	/**
 	 * Removes group from persons in array.
-	 * 
+	 *
 	 * @param pids
 	 *            the pids
 	 * @return response as a SukuData object
@@ -87,17 +114,18 @@ public class GroupUtil {
 	 *             the suku exception
 	 */
 	public SukuData removeSelectedGroups(int[] pids) throws SukuException {
-		SukuData resp = new SukuData();
+		final SukuData resp = new SukuData();
 
-		ArrayList<Integer> pidv = new ArrayList<Integer>();
+		final ArrayList<Integer> pidv = new ArrayList<Integer>();
 		try {
-			PreparedStatement stm = con
+			final PreparedStatement stm = con
 					.prepareStatement("update unit set groupid = null where pid = ? and groupid is not null");
 			// int lukuri =
-			// stm.executeUpdate("update unit set groupid = null where groupid is not null");
-			for (int pid : pids) {
+			// stm.executeUpdate("update unit set groupid = null where groupid
+			// is not null");
+			for (final int pid : pids) {
 				stm.setInt(1, pid);
-				int lukuri = stm.executeUpdate();
+				final int lukuri = stm.executeUpdate();
 				if (lukuri == 1) {
 					pidv.add(pid);
 				}
@@ -110,7 +138,7 @@ public class GroupUtil {
 			stm.close();
 			return resp;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "SQL error in selected remove", e);
 			e.printStackTrace();
 			throw new SukuException("REMOVE GROUP", e);
@@ -120,7 +148,7 @@ public class GroupUtil {
 
 	/**
 	 * remove group from persons in view.
-	 * 
+	 *
 	 * @param viewid
 	 *            the viewid
 	 * @return response as SukuData object
@@ -128,19 +156,17 @@ public class GroupUtil {
 	 *             the suku exception
 	 */
 	public SukuData removeViewGroups(int viewid) throws SukuException {
-		SukuData resp = new SukuData();
+		final SukuData resp = new SukuData();
 
-		ArrayList<Integer> pidv = new ArrayList<Integer>();
+		final ArrayList<Integer> pidv = new ArrayList<Integer>();
 		try {
-			PreparedStatement stm = con
-					.prepareStatement("select pid from unit "
-							+ "where pid in (select pid from viewunits where vid = ?) "
-							+ "and groupid is not null ");
+			PreparedStatement stm = con.prepareStatement("select pid from unit "
+					+ "where pid in (select pid from viewunits where vid = ?) " + "and groupid is not null ");
 			stm.setInt(1, viewid);
-			ResultSet rs = stm.executeQuery();
+			final ResultSet rs = stm.executeQuery();
 
 			while (rs.next()) {
-				int pid = rs.getInt(1);
+				final int pid = rs.getInt(1);
 				pidv.add(pid);
 			}
 			rs.next();
@@ -150,19 +176,17 @@ public class GroupUtil {
 			}
 			stm.close();
 			stm = con.prepareStatement("update unit set groupid = null "
-					+ "where pid in (select pid from viewunits where vid = ?) "
-					+ "and groupid is not null ");
+					+ "where pid in (select pid from viewunits where vid = ?) " + "and groupid is not null ");
 			stm.setInt(1, viewid);
-			int lukuri = stm.executeUpdate();
+			final int lukuri = stm.executeUpdate();
 			if (lukuri != resp.pidArray.length) {
-				resp.resu = "GROUPS REMOVED[" + resp.pidArray.length
-						+ "]; RESULT[" + lukuri + "]";
+				resp.resu = "GROUPS REMOVED[" + resp.pidArray.length + "]; RESULT[" + lukuri + "]";
 			}
 
 			stm.close();
 			return resp;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "SQL error in selected remove", e);
 			e.printStackTrace();
 			throw new SukuException("REMOVE GROUP", e);
@@ -172,7 +196,7 @@ public class GroupUtil {
 
 	/**
 	 * Removes the group.
-	 * 
+	 *
 	 * @param group
 	 *            the group
 	 * @return response as SukuData object
@@ -180,17 +204,16 @@ public class GroupUtil {
 	 *             the suku exception
 	 */
 	public SukuData removeGroup(String group) throws SukuException {
-		SukuData resp = new SukuData();
+		final SukuData resp = new SukuData();
 
-		ArrayList<Integer> pidv = new ArrayList<Integer>();
+		final ArrayList<Integer> pidv = new ArrayList<Integer>();
 		try {
-			PreparedStatement stm = con
-					.prepareStatement("select pid from unit where groupid = ? ");
+			PreparedStatement stm = con.prepareStatement("select pid from unit where groupid = ? ");
 			stm.setString(1, group);
-			ResultSet rs = stm.executeQuery();
+			final ResultSet rs = stm.executeQuery();
 
 			while (rs.next()) {
-				int pid = rs.getInt(1);
+				final int pid = rs.getInt(1);
 				pidv.add(pid);
 			}
 			rs.next();
@@ -199,19 +222,17 @@ public class GroupUtil {
 				resp.pidArray[i] = pidv.get(i);
 			}
 			stm.close();
-			stm = con
-					.prepareStatement("update unit set groupid = null where groupid = ? ");
+			stm = con.prepareStatement("update unit set groupid = null where groupid = ? ");
 			stm.setString(1, group);
-			int lukuri = stm.executeUpdate();
+			final int lukuri = stm.executeUpdate();
 			if (lukuri != resp.pidArray.length) {
-				resp.resu = "GROUPS REMOVED[" + resp.pidArray.length
-						+ "]; RESULT[" + lukuri + "]";
+				resp.resu = "GROUPS REMOVED[" + resp.pidArray.length + "]; RESULT[" + lukuri + "]";
 			}
 			stm.close();
 
 			return resp;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "SQL error in selected remove", e);
 			e.printStackTrace();
 			throw new SukuException("REMOVE GROUP", e);
@@ -220,7 +241,7 @@ public class GroupUtil {
 
 	/**
 	 * Add group to listed persons if group is null.
-	 * 
+	 *
 	 * @param pidArray
 	 *            the pid array
 	 * @param group
@@ -229,20 +250,20 @@ public class GroupUtil {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public SukuData addSelectedGroups(int[] pidArray, String group)
-			throws SukuException {
-		SukuData resp = new SukuData();
+	public SukuData addSelectedGroups(int[] pidArray, String group) throws SukuException {
+		final SukuData resp = new SukuData();
 
-		ArrayList<Integer> pidv = new ArrayList<Integer>();
+		final ArrayList<Integer> pidv = new ArrayList<Integer>();
 		try {
-			PreparedStatement stm = con
+			final PreparedStatement stm = con
 					.prepareStatement("update unit set groupid = ? where pid = ? and groupid is null");
 			// int lukuri =
-			// stm.executeUpdate("update unit set groupid = null where groupid is not null");
-			for (int element : pidArray) {
+			// stm.executeUpdate("update unit set groupid = null where groupid
+			// is not null");
+			for (final int element : pidArray) {
 				stm.setString(1, group);
 				stm.setInt(2, element);
-				int lukuri = stm.executeUpdate();
+				final int lukuri = stm.executeUpdate();
 				if (lukuri == 1) {
 					pidv.add(element);
 				}
@@ -255,7 +276,7 @@ public class GroupUtil {
 			stm.close();
 			return resp;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "SQL error in selected add group", e);
 			e.printStackTrace();
 			throw new SukuException("ADD GROUP", e);
@@ -264,7 +285,7 @@ public class GroupUtil {
 
 	/**
 	 * Add group to persons in view if group is null.
-	 * 
+	 *
 	 * @param vid
 	 *            the vid
 	 * @param group
@@ -274,19 +295,17 @@ public class GroupUtil {
 	 *             the suku exception
 	 */
 	public SukuData addViewGroups(int vid, String group) throws SukuException {
-		SukuData resp = new SukuData();
+		final SukuData resp = new SukuData();
 
-		ArrayList<Integer> pidv = new ArrayList<Integer>();
+		final ArrayList<Integer> pidv = new ArrayList<Integer>();
 		try {
-			PreparedStatement stm = con
-					.prepareStatement("select pid from unit "
-							+ "where pid in (select pid from viewunits where vid = ?) "
-							+ "and groupid is null ");
+			PreparedStatement stm = con.prepareStatement("select pid from unit "
+					+ "where pid in (select pid from viewunits where vid = ?) " + "and groupid is null ");
 			stm.setInt(1, vid);
-			ResultSet rs = stm.executeQuery();
+			final ResultSet rs = stm.executeQuery();
 
 			while (rs.next()) {
-				int pid = rs.getInt(1);
+				final int pid = rs.getInt(1);
 				pidv.add(pid);
 			}
 			rs.next();
@@ -296,20 +315,18 @@ public class GroupUtil {
 			}
 			stm.close();
 			stm = con.prepareStatement("update unit set groupid = ? "
-					+ "where pid in (select pid from viewunits where vid = ?) "
-					+ "and groupid is null ");
+					+ "where pid in (select pid from viewunits where vid = ?) " + "and groupid is null ");
 			stm.setString(1, group);
 			stm.setInt(2, vid);
-			int lukuri = stm.executeUpdate();
+			final int lukuri = stm.executeUpdate();
 			if (lukuri != resp.pidArray.length) {
-				resp.resu = "GROUPS ADDED[" + resp.pidArray.length
-						+ "]; RESULT[" + lukuri + "]";
+				resp.resu = "GROUPS ADDED[" + resp.pidArray.length + "]; RESULT[" + lukuri + "]";
 			}
 			stm.close();
 
 			return resp;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "SQL error in view add group", e);
 			e.printStackTrace();
 			throw new SukuException("ADD GROUP", e);
@@ -318,7 +335,7 @@ public class GroupUtil {
 
 	/**
 	 * add group to persons and his/her descendants.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @param group
@@ -331,11 +348,11 @@ public class GroupUtil {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public SukuData addDescendantsToGroup(int pid, String group, String gent,
-			boolean includeSpouses) throws SukuException {
-		SukuData resp = new SukuData();
+	public SukuData addDescendantsToGroup(int pid, String group, String gent, boolean includeSpouses)
+			throws SukuException {
+		final SukuData resp = new SukuData();
 		resp.resuCount = 0;
-		ArrayList<Integer> pidv = new ArrayList<Integer>();
+		final ArrayList<Integer> pidv = new ArrayList<Integer>();
 		int gen = 0;
 		if ((gent != null) && !gent.isEmpty()) {
 			gen = Integer.parseInt(gent);
@@ -361,10 +378,9 @@ public class GroupUtil {
 			rs.close();
 			int currGen = 0;
 			do {
-				int firstChild = pidv.size();
+				final int firstChild = pidv.size();
 				for (int i = from; i < to; i++) {
-					sql = "select bid "
-							+ "from child as c inner join unit as u on bid=pid "
+					sql = "select bid " + "from child as c inner join unit as u on bid=pid "
 							+ "where aid=? and groupid is null ";
 					stm = con.prepareStatement(sql);
 					stm.setInt(1, pidv.get(i));
@@ -376,11 +392,10 @@ public class GroupUtil {
 					rs.close();
 
 				}
-				int lastChild = pidv.size();
+				final int lastChild = pidv.size();
 				if (includeSpouses) {
 					for (int i = from; i < to; i++) {
-						sql = "select bid "
-								+ "from spouse as c inner join unit as u on bid=pid "
+						sql = "select bid " + "from spouse as c inner join unit as u on bid=pid "
 								+ "where aid=? and groupid is null ";
 						stm = con.prepareStatement(sql);
 						stm.setInt(1, pidv.get(i));
@@ -404,7 +419,7 @@ public class GroupUtil {
 				sql = "update unit set groupid = ? where pid = ?";
 				stm = con.prepareStatement(sql);
 				stm.setString(1, group);
-				int pidc = pidv.get(i);
+				final int pidc = pidv.get(i);
 				stm.setInt(2, pidc);
 				stm.executeUpdate();
 				resp.pidArray[i] = pidc;
@@ -414,7 +429,7 @@ public class GroupUtil {
 
 			return resp;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "SQL error in view with descendants ", e);
 			e.printStackTrace();
 			throw new SukuException("ADD GROUP", e);
@@ -423,7 +438,7 @@ public class GroupUtil {
 
 	/**
 	 * Add group to person and his ancestors.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @param group
@@ -434,11 +449,10 @@ public class GroupUtil {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public SukuData addAncestorsToGroup(int pid, String group, String gent)
-			throws SukuException {
-		SukuData resp = new SukuData();
+	public SukuData addAncestorsToGroup(int pid, String group, String gent) throws SukuException {
+		final SukuData resp = new SukuData();
 		resp.resuCount = 0;
-		ArrayList<Integer> pidv = new ArrayList<Integer>();
+		final ArrayList<Integer> pidv = new ArrayList<Integer>();
 		int gen = 0;
 		if ((gent != null) && !gent.isEmpty()) {
 			gen = Integer.parseInt(gent);
@@ -464,10 +478,9 @@ public class GroupUtil {
 			rs.close();
 			int currGen = 0;
 			do {
-				int firstChild = pidv.size();
+				final int firstChild = pidv.size();
 				for (int i = from; i < to; i++) {
-					sql = "select bid "
-							+ "from parent as c inner join unit as u on bid=pid "
+					sql = "select bid " + "from parent as c inner join unit as u on bid=pid "
 							+ "where aid=? and groupid is null ";
 					stm = con.prepareStatement(sql);
 					stm.setInt(1, pidv.get(i));
@@ -479,7 +492,7 @@ public class GroupUtil {
 					rs.close();
 
 				}
-				int lastChild = pidv.size();
+				final int lastChild = pidv.size();
 
 				from = firstChild;
 				to = lastChild;
@@ -493,7 +506,7 @@ public class GroupUtil {
 				sql = "update unit set groupid = ? where pid = ?";
 				stm = con.prepareStatement(sql);
 				stm.setString(1, group);
-				int pidc = pidv.get(i);
+				final int pidc = pidv.get(i);
 				stm.setInt(2, pidc);
 				stm.executeUpdate();
 				resp.pidArray[i] = pidc;
@@ -503,7 +516,7 @@ public class GroupUtil {
 
 			return resp;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "SQL error in view with descendants ", e);
 			e.printStackTrace();
 			throw new SukuException("ADD GROUP", e);

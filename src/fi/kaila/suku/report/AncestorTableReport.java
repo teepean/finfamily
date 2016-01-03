@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.report;
 
 import java.io.BufferedOutputStream;
@@ -10,17 +40,6 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
-import jxl.Workbook;
-import jxl.format.Border;
-import jxl.format.BorderLineStyle;
-import jxl.format.VerticalAlignment;
-import jxl.write.Label;
-import jxl.write.WritableCellFormat;
-import jxl.write.WritableFont;
-import jxl.write.WritableSheet;
-import jxl.write.WritableWorkbook;
-import jxl.write.WriteException;
-import jxl.write.biff.RowsExceededException;
 import fi.kaila.suku.report.dialog.ReportWorkerDialog;
 import fi.kaila.suku.swing.Suku;
 import fi.kaila.suku.util.Resurses;
@@ -32,6 +51,17 @@ import fi.kaila.suku.util.pojo.PersonShortData;
 import fi.kaila.suku.util.pojo.ReportTableMember;
 import fi.kaila.suku.util.pojo.ReportUnit;
 import fi.kaila.suku.util.pojo.SukuData;
+import jxl.Workbook;
+import jxl.format.Border;
+import jxl.format.BorderLineStyle;
+import jxl.format.VerticalAlignment;
+import jxl.write.Label;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
+import jxl.write.WritableSheet;
+import jxl.write.WritableWorkbook;
+import jxl.write.WriteException;
+import jxl.write.biff.RowsExceededException;
 
 /**
  * <h1>GenGraph Report</h1>.
@@ -42,7 +72,7 @@ public class AncestorTableReport extends CommonReport {
 
 	/**
 	 * Constructor for AncestorTableReport.
-	 * 
+	 *
 	 * @param caller
 	 *            the caller
 	 * @param typesTable
@@ -50,14 +80,13 @@ public class AncestorTableReport extends CommonReport {
 	 * @param repoWriter
 	 *            the repo writer
 	 */
-	public AncestorTableReport(ReportWorkerDialog caller,
-			SukuTypesTable typesTable, ReportInterface repoWriter) {
+	public AncestorTableReport(ReportWorkerDialog caller, SukuTypesTable typesTable, ReportInterface repoWriter) {
 		super(caller, typesTable, repoWriter);
 	}
 
 	/**
 	 * execute the report.
-	 * 
+	 *
 	 * @throws SukuException
 	 *             the suku exception
 	 */
@@ -65,58 +94,47 @@ public class AncestorTableReport extends CommonReport {
 	public void executeReport() throws SukuException {
 		SukuData vlist = null;
 
-		int generations = caller.getAncestorPane().getGenerations();
-		logger.info("Ancestor tables for " + caller.getPid() + ",generations="
-				+ generations);
+		final int generations = caller.getAncestorPane().getGenerations();
+		logger.info("Ancestor tables for " + caller.getPid() + ",generations=" + generations);
 
 		if (!Suku.kontroller.createLocalFile("xls")) {
 			return;
 		}
 		try {
-			vlist = caller.getKontroller().getSukuData(
-					"cmd=" + Resurses.CMD_CREATE_TABLES,
-					"type=" + Resurses.CMD_ANC_TYPE,
-					"generations=" + generations, "order=STRADONIZ",
-					"family=false", "pid=" + caller.getPid());
-		} catch (SukuException e) {
-			logger.log(Level.INFO, Resurses.getString(Resurses.CREATE_REPORT),
-					e);
-			JOptionPane.showMessageDialog(
-					caller,
-					Resurses.getString(Resurses.CREATE_REPORT) + ":"
-							+ e.getMessage());
+			vlist = caller.getKontroller().getSukuData("cmd=" + Resurses.CMD_CREATE_TABLES,
+					"type=" + Resurses.CMD_ANC_TYPE, "generations=" + generations, "order=STRADONIZ", "family=false",
+					"pid=" + caller.getPid());
+		} catch (final SukuException e) {
+			logger.log(Level.INFO, Resurses.getString(Resurses.CREATE_REPORT), e);
+			JOptionPane.showMessageDialog(caller, Resurses.getString(Resurses.CREATE_REPORT) + ":" + e.getMessage());
 		}
 		if (vlist.resu != null) {
-			JOptionPane.showMessageDialog(caller,
-					Resurses.getString(Resurses.CREATE_REPORT) + " ["
-							+ vlist.resu + "]");
+			JOptionPane.showMessageDialog(caller, Resurses.getString(Resurses.CREATE_REPORT) + " [" + vlist.resu + "]");
 			return;
 		}
 		tables = vlist.tables;
 
 		logger.info("AncestorTableReport");
-		HashMap<Long, ReportUnit> tabMap = new HashMap<Long, ReportUnit>();
+		final HashMap<Long, ReportUnit> tabMap = new HashMap<Long, ReportUnit>();
 
 		for (int j = 0; j < tables.size(); j++) {
-			ReportUnit ru = tables.get(j);
+			final ReportUnit ru = tables.get(j);
 			tabMap.put(ru.getTableNo(), ru);
 		}
-		ArrayList<ReportUnit> tabNext = new ArrayList<ReportUnit>();
+		final ArrayList<ReportUnit> tabNext = new ArrayList<ReportUnit>();
 
-		ArrayList<IndexPerson> ipers = new ArrayList<IndexPerson>();
+		final ArrayList<IndexPerson> ipers = new ArrayList<IndexPerson>();
 		String proband = "ANC_SUBJECT";
 		try {
 
-			WritableFont arial10bold = new WritableFont(WritableFont.ARIAL, 10,
-					WritableFont.BOLD, false);
-			WritableCellFormat bold10 = new WritableCellFormat(arial10bold);
-			BufferedOutputStream bstr = new BufferedOutputStream(
-					Suku.kontroller.getOutputStream());
-			WritableWorkbook workbook = Workbook.createWorkbook(bstr);
+			final WritableFont arial10bold = new WritableFont(WritableFont.ARIAL, 10, WritableFont.BOLD, false);
+			final WritableCellFormat bold10 = new WritableCellFormat(arial10bold);
+			final BufferedOutputStream bstr = new BufferedOutputStream(Suku.kontroller.getOutputStream());
+			final WritableWorkbook workbook = Workbook.createWorkbook(bstr);
 
-			ReportUnit[] page = new ReportUnit[32];
+			final ReportUnit[] page = new ReportUnit[32];
 
-			WritableCellFormat wrall = new WritableCellFormat();
+			final WritableCellFormat wrall = new WritableCellFormat();
 			wrall.setBorder(Border.ALL, BorderLineStyle.MEDIUM);
 			wrall.setVerticalAlignment(VerticalAlignment.TOP);
 			wrall.setWrap(true);
@@ -138,7 +156,7 @@ public class AncestorTableReport extends CommonReport {
 				for (int j = 0; j < 32; j++) {
 					page[j] = null;
 				}
-				int mySize = tabNext.size();
+				final int mySize = tabNext.size();
 				ReportUnit rpu = tabMap.get(currTab);
 
 				page[1] = rpu;
@@ -152,9 +170,7 @@ public class AncestorTableReport extends CommonReport {
 							if (rpux != null) {
 								page[i * 2] = rpux;
 
-								if ((i > 7)
-										&& ((rpux.getFatherPid() + rpux
-												.getMotherPid()) > 0)) {
+								if ((i > 7) && ((rpux.getFatherPid() + rpux.getMotherPid()) > 0)) {
 									tabNext.add(rpux);
 								}
 							} else {
@@ -167,9 +183,7 @@ public class AncestorTableReport extends CommonReport {
 							rpux = tabMap.get((currTab * 2) + 1);
 							if (rpux != null) {
 								page[(i * 2) + 1] = rpux;
-								if ((i > 7)
-										&& ((rpux.getFatherPid() + rpux
-												.getMotherPid()) > 0)) {
+								if ((i > 7) && ((rpux.getFatherPid() + rpux.getMotherPid()) > 0)) {
 									tabNext.add(rpux);
 								}
 							} else {
@@ -186,11 +200,10 @@ public class AncestorTableReport extends CommonReport {
 				long tabno;
 
 				xpage++;
-				int sheetCount = workbook.getNumberOfSheets();
-				WritableSheet sheet = workbook.createSheet("P " + xpage,
-						sheetCount + 1);
+				final int sheetCount = workbook.getNumberOfSheets();
+				final WritableSheet sheet = workbook.createSheet("P " + xpage, sheetCount + 1);
 
-				WritableSheet wsh = sheet;
+				final WritableSheet wsh = sheet;
 
 				wsh.setColumnView(0, 2);
 				wsh.setColumnView(1, 4);
@@ -209,7 +222,7 @@ public class AncestorTableReport extends CommonReport {
 				int addTable = 0;
 				for (int i = 1; i < 32; i++) {
 
-					StringBuilder sb = new StringBuilder();
+					final StringBuilder sb = new StringBuilder();
 					uu = page[i];
 
 					tabno = i;
@@ -230,41 +243,34 @@ public class AncestorTableReport extends CommonReport {
 							nemo = typesTable.getTextValue("ANC_SEEALSO");
 
 							pid = uu.getPid();
-							ReportUnit rru = vlist.reportUnits.get(pid);
+							final ReportUnit rru = vlist.reportUnits.get(pid);
 							if (rru != null) {
-								nemo += " (" + rru.getPageNo() + ","
-										+ rru.getTableNo() + ")";
+								nemo += " (" + rru.getPageNo() + "," + rru.getTableNo() + ")";
 							}
 
 						} else {
-							ReportTableMember rtu = uu.getMember(0);
+							final ReportTableMember rtu = uu.getMember(0);
 							pid = rtu.getPid();
 						}
 						try {
-							pappadata = caller.getKontroller().getSukuData(
-									"cmd=person", "pid=" + pid,
+							pappadata = caller.getKontroller().getSukuData("cmd=person", "pid=" + pid,
 									"lang=" + Resurses.getLanguage());
-						} catch (SukuException e1) {
-							logger.log(Level.WARNING, "background reporting",
-									e1);
-							JOptionPane.showMessageDialog(caller,
-									e1.getMessage());
+						} catch (final SukuException e1) {
+							logger.log(Level.WARNING, "background reporting", e1);
+							JOptionPane.showMessageDialog(caller, e1.getMessage());
 							return;
 						}
 
-						PersonShortData pp = new PersonShortData(
-								pappadata.persLong);
+						final PersonShortData pp = new PersonShortData(pappadata.persLong);
 						tableNumber = uu.getTableNo();
 						curgen = uu.getGen();
-						bdate = pp.getBirtDate() == null ? null : Utils
-								.textDate(pp.getBirtDate(), false);
+						bdate = pp.getBirtDate() == null ? null : Utils.textDate(pp.getBirtDate(), false);
 						if ((bdate != null) && (pp.getBirtPlace() != null)) {
 							bdate += " " + pp.getBirtPlace();
 						} else if (pp.getBirtPlace() != null) {
 							bdate = pp.getBirtPlace();
 						}
-						ddate = pp.getDeatDate() == null ? null : Utils
-								.textDate(pp.getDeatDate(), false);
+						ddate = pp.getDeatDate() == null ? null : Utils.textDate(pp.getDeatDate(), false);
 						if ((ddate != null) && (pp.getDeatPlace() != null)) {
 							ddate += " " + pp.getDeatPlace();
 						} else if (pp.getDeatPlace() != null) {
@@ -273,7 +279,7 @@ public class AncestorTableReport extends CommonReport {
 						pname = pp.getAlfaName(true);
 						occu = pp.getOccupation();
 						uu.setPageNo(xpage);
-						IndexPerson ixp = new IndexPerson(xpage, pp);
+						final IndexPerson ixp = new IndexPerson(xpage, pp);
 						ipers.add(ixp);
 
 						caller.setRunnerValue("" + xpage);
@@ -296,7 +302,7 @@ public class AncestorTableReport extends CommonReport {
 					String who = null;
 
 					int ax;
-					int bh = 5;
+					final int bh = 5;
 					switch ((int) tabno) {
 					case 1:
 						generation = curgen;
@@ -419,13 +425,10 @@ public class AncestorTableReport extends CommonReport {
 					wsh.mergeCells(col, row, lcol, lrow);
 					wsh.getWritableCell(col, row).setCellFormat(wrall);
 					if (tabno == 1) {
-						ReportUnit rru = vlist.reportUnits.get(pid);
-						if ((rru != null) && (rru.getPageNo() > 0)
-								&& (xpage > 1)) {
+						final ReportUnit rru = vlist.reportUnits.get(pid);
+						if ((rru != null) && (rru.getPageNo() > 0) && (xpage > 1)) {
 
-							label = new Label(0, 2,
-									typesTable.getTextValue("ANC_FROM") + " "
-											+ rru.getPageNo());
+							label = new Label(0, 2, typesTable.getTextValue("ANC_FROM") + " " + rru.getPageNo());
 							sheet.addCell(label);
 						}
 					}
@@ -448,10 +451,10 @@ public class AncestorTableReport extends CommonReport {
 			// for (int i = 0; i < tabNext.size(); i++) {
 			// System.out.println("TN:" + tabNext.get(i).getTableNo());
 			// }
-			int sheetCount = workbook.getNumberOfSheets();
-			WritableSheet sheet = workbook.createSheet("Index", sheetCount + 1);
+			final int sheetCount = workbook.getNumberOfSheets();
+			final WritableSheet sheet = workbook.createSheet("Index", sheetCount + 1);
 
-			IndexPerson[] ipx = ipers.toArray(new IndexPerson[0]);
+			final IndexPerson[] ipx = ipers.toArray(new IndexPerson[0]);
 			Arrays.sort(ipx);
 			col = 0;
 
@@ -473,11 +476,10 @@ public class AncestorTableReport extends CommonReport {
 			IndexPerson ipprevious = new IndexPerson(0, new PersonShortData());
 			int rowx = 1;
 			for (int i = 1; i < ipx.length; i++) {
-				IndexPerson ipp = ipx[i];
+				final IndexPerson ipp = ipx[i];
 
 				if (ipprevious.pu.getPid() > 0) {
-					if ((i == (ipx.length - 1))
-							|| (ipp.pu.getPid() != ipprevious.pu.getPid())) {
+					if ((i == (ipx.length - 1)) || (ipp.pu.getPid() != ipprevious.pu.getPid())) {
 						if (i == (ipx.length - 1)) {
 							ipprevious = ipp;
 						}
@@ -488,8 +490,7 @@ public class AncestorTableReport extends CommonReport {
 						sheet.addCell(lab);
 						tabpage = new StringBuilder();
 
-						jxl.write.Number nume = new jxl.write.Number(col++,
-								rowx, ipprevious.pu.getPid());
+						final jxl.write.Number nume = new jxl.write.Number(col++, rowx, ipprevious.pu.getPid());
 						sheet.addCell(nume);
 
 						StringBuilder sb = new StringBuilder();
@@ -508,14 +509,11 @@ public class AncestorTableReport extends CommonReport {
 						}
 						lab = new Label(col++, rowx, Utils.nv(sb.toString()));
 						sheet.addCell(lab);
-						lab = new Label(col++, rowx, Utils.nv(ipprevious.pu
-								.getPatronym()));
+						lab = new Label(col++, rowx, Utils.nv(ipprevious.pu.getPatronym()));
 						sheet.addCell(lab);
-						lab = new Label(col++, rowx, Utils.textDate(
-								ipprevious.pu.getBirtDate(), true));
+						lab = new Label(col++, rowx, Utils.textDate(ipprevious.pu.getBirtDate(), true));
 						sheet.addCell(lab);
-						lab = new Label(col++, rowx, Utils.textDate(
-								ipprevious.pu.getDeatDate(), true));
+						lab = new Label(col++, rowx, Utils.textDate(ipprevious.pu.getDeatDate(), true));
 						sheet.addCell(lab);
 						rowx++;
 					}
@@ -534,14 +532,14 @@ public class AncestorTableReport extends CommonReport {
 			workbook.close();
 			bstr.close();
 
-			String report = Suku.kontroller.getFilePath();
+			final String report = Suku.kontroller.getFilePath();
 			Utils.openExternalFile(report);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.log(Level.WARNING, "IOEx", e);
 
-		} catch (RowsExceededException e) {
+		} catch (final RowsExceededException e) {
 			logger.log(Level.WARNING, "RowsExx", e);
-		} catch (WriteException e) {
+		} catch (final WriteException e) {
 			logger.log(Level.WARNING, "WriteExx", e);
 		}
 
@@ -549,7 +547,7 @@ public class AncestorTableReport extends CommonReport {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.report.CommonReport#setVisible(boolean)
 	 */
 	@Override
@@ -571,7 +569,7 @@ public class AncestorTableReport extends CommonReport {
 
 		/**
 		 * Instantiates a new index person.
-		 * 
+		 *
 		 * @param page
 		 *            the page
 		 * @param pp
@@ -586,23 +584,20 @@ public class AncestorTableReport extends CommonReport {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
 		@Override
 		public int compareTo(IndexPerson o) {
-			int resu = Utils.nv(pu.getSurname()).compareToIgnoreCase(
-					Utils.nv(o.pu.getSurname()));
+			int resu = Utils.nv(pu.getSurname()).compareToIgnoreCase(Utils.nv(o.pu.getSurname()));
 			if (resu != 0) {
 				return resu;
 			}
-			resu = Utils.nv(pu.getGivenname()).compareToIgnoreCase(
-					Utils.nv(o.pu.getGivenname()));
+			resu = Utils.nv(pu.getGivenname()).compareToIgnoreCase(Utils.nv(o.pu.getGivenname()));
 			if (resu != 0) {
 				return resu;
 			}
-			return Utils.nv(pu.getPatronym()).compareToIgnoreCase(
-					Utils.nv(o.pu.getPatronym()));
+			return Utils.nv(pu.getPatronym()).compareToIgnoreCase(Utils.nv(o.pu.getPatronym()));
 
 		}
 

@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.pojo;
 
 import java.io.Serializable;
@@ -8,13 +38,13 @@ import fi.kaila.suku.util.Resurses;
 
 /**
  * report table structure element.
- * 
+ *
  * @author Kalle
  */
 public class ReportTableMember implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +52,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Sets the table.
-	 * 
+	 *
 	 * @param table
 	 *            the new table
 	 */
@@ -32,7 +62,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the table.
-	 * 
+	 *
 	 * @return tableno
 	 */
 	public long getTable() {
@@ -55,7 +85,7 @@ public class ReportTableMember implements Serializable {
 	private String sex = null;
 	/**
 	 * Tag of member null = Subject SPOU (WIFE/HISB) for spouses CHIL = child
-	 * 
+	 *
 	 * FATH/MOTH for parents
 	 */
 	private String tag = null;
@@ -83,7 +113,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Adds the as child.
-	 * 
+	 *
 	 * @param asChild
 	 *            the as child
 	 */
@@ -98,7 +128,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Add subperson i.e. non relative ancestor
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @param sex
@@ -107,7 +137,7 @@ public class ReportTableMember implements Serializable {
 	 *            (2 = father, 3 = mother etc)
 	 */
 	public void addSub(int pid, String sex, long strado) {
-		SubPersonMember sub = new SubPersonMember(pid, sex, strado);
+		final SubPersonMember sub = new SubPersonMember(pid, sex, strado);
 		subs.add(sub);
 	}
 
@@ -115,18 +145,18 @@ public class ReportTableMember implements Serializable {
 	 * sorts sub persons.
 	 */
 	public void sortSubs() {
-		SubPersonMember[] subarray = subs.toArray(new SubPersonMember[0]);
+		final SubPersonMember[] subarray = subs.toArray(new SubPersonMember[0]);
 
 		Arrays.sort(subarray);
 		subs = new Vector<SubPersonMember>();
-		for (SubPersonMember element : subarray) {
+		for (final SubPersonMember element : subarray) {
 			subs.add(element);
 		}
 	}
 
 	/**
 	 * Gets the sub count.
-	 * 
+	 *
 	 * @return # of ancestors available
 	 */
 	public int getSubCount() {
@@ -135,7 +165,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * get ancestor pid.
-	 * 
+	 *
 	 * @param idx
 	 *            index of ancestor
 	 * @return pid
@@ -146,7 +176,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * get sex of ancestor.
-	 * 
+	 *
 	 * @param idx
 	 *            index of ancestor
 	 * @return sex
@@ -157,7 +187,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Get stradoniz ancestor number of ancestor.
-	 * 
+	 *
 	 * @param idx
 	 *            index of ancestor
 	 * @return the stradoni number
@@ -168,15 +198,15 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the sub dad mom.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return dad or mom indicator for subperson
 	 */
 	public String getSubDadMom(int idx) {
 		long strado = subs.get(idx).getStrado();
-		String far = Resurses.getReportString("REPORT_F");
-		String mor = Resurses.getReportString("REPORT_M");
+		final String far = Resurses.getReportString("REPORT_F");
+		final String mor = Resurses.getReportString("REPORT_M");
 
 		StringBuilder sb = new StringBuilder();
 
@@ -191,7 +221,7 @@ public class ReportTableMember implements Serializable {
 				sb.append(far);
 			}
 		}
-		String wrong = sb.toString();
+		final String wrong = sb.toString();
 		sb = new StringBuilder();
 		for (int i = wrong.length() - 1; i >= 0; i--) {
 			sb.append(wrong.charAt(i));
@@ -202,7 +232,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the also as child.
-	 * 
+	 *
 	 * @return vector of tables where also as child
 	 */
 	public Vector<Long> getAlsoAsChild() {
@@ -211,11 +241,11 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the child tables.
-	 * 
+	 *
 	 * @return string with tableno, where as child
 	 */
 	public String getChildTables() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < alsoAsChild.size(); i++) {
 			if (sb.length() > 0) {
 				sb.append(",");
@@ -227,7 +257,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Sets the row no.
-	 * 
+	 *
 	 * @param rowNo
 	 *            the rowNo to set
 	 */
@@ -237,7 +267,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the row no.
-	 * 
+	 *
 	 * @return the rowNo
 	 */
 	public int getRowNo() {
@@ -258,7 +288,7 @@ public class ReportTableMember implements Serializable {
 	// }
 	/**
 	 * Sets the pid.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid to set
 	 */
@@ -268,7 +298,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the pid.
-	 * 
+	 *
 	 * @return the pid
 	 */
 	public int getPid() {
@@ -277,7 +307,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Sets the sex.
-	 * 
+	 *
 	 * @param sex
 	 *            the sex to set
 	 */
@@ -287,7 +317,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the sex.
-	 * 
+	 *
 	 * @return the sex
 	 */
 	public String getSex() {
@@ -296,7 +326,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Sets the tag.
-	 * 
+	 *
 	 * @param tag
 	 *            the tag to set
 	 */
@@ -306,7 +336,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the tag.
-	 * 
+	 *
 	 * @return the tag
 	 */
 	public String getTag() {
@@ -315,7 +345,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * set relative tag.
-	 * 
+	 *
 	 * @param value
 	 *            the new rel tag
 	 */
@@ -325,7 +355,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the rel tag.
-	 * 
+	 *
 	 * @return the relative tag
 	 */
 	public String getRelTag() {
@@ -334,7 +364,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Sets the ref table no.
-	 * 
+	 *
 	 * @param refTableNo
 	 *            the refTableNo to set
 	 */
@@ -344,7 +374,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the ref table no.
-	 * 
+	 *
 	 * @return the refTableNo
 	 */
 	public long getRefTableNo() {
@@ -353,7 +383,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Sets the my table.
-	 * 
+	 *
 	 * @param refTable
 	 *            the refTid to set
 	 */
@@ -363,7 +393,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the my table.
-	 * 
+	 *
 	 * @return the refTid
 	 */
 	public long getMyTable() {
@@ -372,7 +402,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Sets the pid order.
-	 * 
+	 *
 	 * @param pidOrder
 	 *            the pidOrder to set
 	 */
@@ -382,7 +412,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the pid order.
-	 * 
+	 *
 	 * @return the pidOrder
 	 */
 	public int getPidOrder() {
@@ -391,12 +421,12 @@ public class ReportTableMember implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("pid[" + pid + "/" + myTable + "/" + otherParentPid + "]");
 
 		for (int i = 0; i < subs.size(); i++) {
@@ -410,7 +440,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Sets the spouses.
-	 * 
+	 *
 	 * @param spouses
 	 *            the subMembers to set
 	 */
@@ -420,7 +450,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the spouses.
-	 * 
+	 *
 	 * @return the subMembers
 	 */
 	public ReportTableMember[] getSpouses() {
@@ -429,7 +459,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Sets the other parent pid.
-	 * 
+	 *
 	 * @param otherParentPid
 	 *            the new other parent pid
 	 */
@@ -439,7 +469,7 @@ public class ReportTableMember implements Serializable {
 
 	/**
 	 * Gets the other parent pid.
-	 * 
+	 *
 	 * @return the other parent pid
 	 */
 	public int getOtherParentPid() {
@@ -454,7 +484,7 @@ public class ReportTableMember implements Serializable {
 
 	class SubPersonMember implements Comparable<SubPersonMember>, Serializable {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 		private int pid = 0;
@@ -463,7 +493,7 @@ public class ReportTableMember implements Serializable {
 
 		/**
 		 * Instantiates a new sub person member.
-		 * 
+		 *
 		 * @param pid
 		 *            the pid
 		 * @param sex
@@ -479,7 +509,7 @@ public class ReportTableMember implements Serializable {
 
 		/**
 		 * Gets the pid.
-		 * 
+		 *
 		 * @return the pid
 		 */
 		int getPid() {
@@ -488,7 +518,7 @@ public class ReportTableMember implements Serializable {
 
 		/**
 		 * Gets the sex.
-		 * 
+		 *
 		 * @return the sex
 		 */
 		String getSex() {
@@ -497,7 +527,7 @@ public class ReportTableMember implements Serializable {
 
 		/**
 		 * Gets the strado.
-		 * 
+		 *
 		 * @return the strado
 		 */
 		long getStrado() {
@@ -506,7 +536,7 @@ public class ReportTableMember implements Serializable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
@@ -516,13 +546,13 @@ public class ReportTableMember implements Serializable {
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see java.lang.Comparable#compareTo(java.lang.Object)
 		 */
 		@Override
 		public int compareTo(SubPersonMember oth) {
 
-			long othernum = oth.stradoNum;
+			final long othernum = oth.stradoNum;
 			if (stradoNum < othernum) {
 				return -1;
 			}

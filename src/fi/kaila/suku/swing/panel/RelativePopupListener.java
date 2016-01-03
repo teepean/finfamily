@@ -1,6 +1,33 @@
 /**
- * 
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
  */
+
 package fi.kaila.suku.swing.panel;
 
 import java.awt.Point;
@@ -25,22 +52,21 @@ import fi.kaila.suku.util.pojo.SukuData;
  * The listener interface for receiving relativePopup events. The class that is
  * interested in processing a relativePopup event implements this interface, and
  * the object created with that class is registered with a component using the
- * component's <code>addRelativePopupListener<code> method. When
- * the relativePopup event occurs, that object's appropriate
- * method is invoked.
- * 
+ * component's <code>addRelativePopupListener<code> method. When the
+ * relativePopup event occurs, that object's appropriate method is invoked.
+ *
  * @see RelativePopupEvent
  */
 class RelativePopupListener extends MouseAdapter implements ActionListener {
 
 	/**
-		 * 
+		 *
 		 */
 	private final RelativesPane relativesPane;
 
 	/**
 	 * Instantiates a new relative popup listener.
-	 * 
+	 *
 	 * @param relativesPane
 	 *            the relatives pane
 	 */
@@ -49,8 +75,7 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 	}
 
 	/** The logger. */
-	static Logger logger = Logger.getLogger(RelativePopupListener.class
-			.getName());
+	static Logger logger = Logger.getLogger(RelativePopupListener.class.getName());
 
 	private JTable showTable = null;
 
@@ -59,14 +84,14 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent a) {
 
-		String cmd = a.getActionCommand();
+		final String cmd = a.getActionCommand();
 		if (cmd == null) {
 			return;
 		}
@@ -78,62 +103,46 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 				doTabPerson(true);
 			}
 			if (cmd.equals(Resurses.TAB_PERSON_TEXT)) {
-				relativesPane.personView.setTextForPerson(relativesPane.pop
-						.getMousePerson());
+				relativesPane.personView.setTextForPerson(relativesPane.pop.getMousePerson());
 			}
 			if (cmd.equals(Resurses.TAB_FAMILY)) {
-				PersonShortData pp = relativesPane.pop.getMousePerson();
-				relativesPane.personView.setSubjectForFamily(pp == null ? 0
-						: pp.getPid());
+				final PersonShortData pp = relativesPane.pop.getMousePerson();
+				relativesPane.personView.setSubjectForFamily(pp == null ? 0 : pp.getPid());
 			}
 			if (cmd.equals(Resurses.CREATE_REPORT)) {
-				relativesPane.personView.getSuku().createReport(
-						relativesPane.pop.getMousePerson());
+				relativesPane.personView.getSuku().createReport(relativesPane.pop.getMousePerson());
 
 			}
 			if (cmd.equals(Resurses.TOOLBAR_REMPERSON_ACTION)) {
 
-				PersonShortData p = relativesPane.pop.getMousePerson();
-				int resu = JOptionPane
-						.showConfirmDialog(
-								this.relativesPane.personView,
-								Resurses.getString("CONFIRM_DELETE") + " "
-										+ p.getAlfaName(),
-								Resurses.getString(Resurses.SUKU),
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.QUESTION_MESSAGE);
+				final PersonShortData p = relativesPane.pop.getMousePerson();
+				final int resu = JOptionPane.showConfirmDialog(this.relativesPane.personView,
+						Resurses.getString("CONFIRM_DELETE") + " " + p.getAlfaName(), Resurses.getString(Resurses.SUKU),
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (resu == JOptionPane.YES_OPTION) {
 
 					try {
-						SukuData result = Suku.kontroller.getSukuData(
-								"cmd=delete", "pid=" + p.getPid());
+						final SukuData result = Suku.kontroller.getSukuData("cmd=delete", "pid=" + p.getPid());
 						if (result.resu != null) {
-							JOptionPane.showMessageDialog(
-									this.relativesPane.personView, result.resu,
-									Resurses.getString(Resurses.SUKU),
-									JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(this.relativesPane.personView, result.resu,
+									Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
 							logger.log(Level.WARNING, result.resu);
 							return;
 						}
 
-						int midx = this.relativesPane.personView
-								.getMainPaneIndex();
+						final int midx = this.relativesPane.personView.getMainPaneIndex();
 						if (midx > 0) {
-							int mpid = this.relativesPane.personView.getPane(
-									midx).getPid();
+							final int mpid = this.relativesPane.personView.getPane(midx).getPid();
 
-							this.relativesPane.personView
-									.closeMainPane(mpid != p.getPid());
+							this.relativesPane.personView.closeMainPane(mpid != p.getPid());
 
-							int key = p.getPid();
+							final int key = p.getPid();
 
-							PersonShortData ret = this.relativesPane.personView
-									.getSuku().getPerson(key);
+							final PersonShortData ret = this.relativesPane.personView.getSuku().getPerson(key);
 							if (ret != null) {
 								// this says the person is in db view
 								System.out.println(ret);
-								this.relativesPane.personView.getSuku()
-										.deletePerson(key);
+								this.relativesPane.personView.getSuku().deletePerson(key);
 							}
 						}
 						// this.tableMap.put(key, p);
@@ -172,11 +181,9 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 						// table.updateUI();
 						// scrollPane.updateUI();
 
-					} catch (SukuException e1) {
-						JOptionPane.showMessageDialog(
-								this.relativesPane.personView, e1.getMessage(),
-								Resurses.getString(Resurses.SUKU),
-								JOptionPane.ERROR_MESSAGE);
+					} catch (final SukuException e1) {
+						JOptionPane.showMessageDialog(this.relativesPane.personView, e1.getMessage(),
+								Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
 						logger.log(Level.WARNING, e1.getMessage(), e1);
 						e1.printStackTrace();
 					}
@@ -194,12 +201,10 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 				doPare(cmd);
 
 			}
-		} catch (SukuException e) {
-			logger.log(Level.WARNING, "Opening person "
-					+ relativesPane.pop.getMousePerson().getAlfaName(), e);
-			JOptionPane.showMessageDialog(this.relativesPane.personView,
-					e.getMessage(), Resurses.getString(Resurses.SUKU),
-					JOptionPane.ERROR_MESSAGE);
+		} catch (final SukuException e) {
+			logger.log(Level.WARNING, "Opening person " + relativesPane.pop.getMousePerson().getAlfaName(), e);
+			JOptionPane.showMessageDialog(this.relativesPane.personView, e.getMessage(),
+					Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -208,14 +213,13 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 			int pareNo = -1;
 			try {
 				pareNo = Integer.parseInt(cmd.substring(5));
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				return;
 			}
 
-			PersonShortData mother = this.relativesPane.spouses.list
-					.get(pareNo).getShortPerson();
+			final PersonShortData mother = this.relativesPane.spouses.list.get(pareNo).getShortPerson();
 
-			PersonShortData child = showRela.getShortPerson();
+			final PersonShortData child = showRela.getShortPerson();
 			child.setParentPid(mother.getPid());
 
 			//
@@ -226,8 +230,7 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 			if (!this.relativesPane.longPers.getSex().equals("M")) {
 				tag = "FATH";
 			}
-			Relation rpare = new Relation(0, child.getPid(), mother.getPid(),
-					tag, 100, null, null, null, null);
+			final Relation rpare = new Relation(0, child.getPid(), mother.getPid(), tag, 100, null, null, null, null);
 
 			this.relativesPane.checkLocalRelation(child, rpare, mother);
 
@@ -239,10 +242,9 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 	private void doTabPerson(boolean showRelatives) throws SukuException {
 		if (this.relativesPane.pop.getMousePerson() != null) {
 			this.relativesPane.personView.closePersonPane(true);
-			this.relativesPane.personView.displayPersonPane(relativesPane.pop
-					.getMousePerson().getPid(), null);
+			this.relativesPane.personView.displayPersonPane(relativesPane.pop.getMousePerson().getPid(), null);
 			if (showRelatives) {
-				int midx = this.relativesPane.personView.getMainPaneIndex();
+				final int midx = this.relativesPane.personView.getMainPaneIndex();
 				if (midx >= 2) {
 					this.relativesPane.personView.setSelectedIndex(midx + 1);
 				}
@@ -252,7 +254,7 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -265,7 +267,7 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -289,15 +291,13 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 		try {
 			showNewPerson = (PersonShortData) Suku.sukuObject;
 
-		} catch (ClassCastException cce) {
+		} catch (final ClassCastException cce) {
 			showNewPerson = null;
 		}
 
 		if (showNewPerson != null) {
-			if (this.relativesPane.personView.getSuku().getPerson(
-					showNewPerson.getPid()) != null) {
-				showNewPerson = this.relativesPane.personView.getSuku()
-						.getPerson(showNewPerson.getPid());
+			if (this.relativesPane.personView.getSuku().getPerson(showNewPerson.getPid()) != null) {
+				showNewPerson = this.relativesPane.personView.getSuku().getPerson(showNewPerson.getPid());
 			}
 		}
 
@@ -305,28 +305,24 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 			showTable = this.relativesPane.chilTab;
 
 			asRelative = Resurses.getString("MENU_PASTE_ASCHILD");
-			Point clickPoint = e.getPoint();
+			final Point clickPoint = e.getPoint();
 			pasteAtRow = showTable.rowAtPoint(clickPoint);
 
 			if (pasteAtRow >= 0) {
 				showRela = this.relativesPane.children.list.get(pasteAtRow);
 			}
 			if (showRela != null) {
-				this.relativesPane.pop
-						.setMousePerson(showRela.getShortPerson());
-				int ppid = showRela.getShortPerson().getParentPid();
+				this.relativesPane.pop.setMousePerson(showRela.getShortPerson());
+				final int ppid = showRela.getShortPerson().getParentPid();
 				if (ppid == 0) {
-					this.relativesPane.pop.setChildName(showRela
-							.getShortPerson());
+					this.relativesPane.pop.setChildName(showRela.getShortPerson());
 					for (int i = 0; i < this.relativesPane.spouses.list.size(); i++) {
 						this.relativesPane.pop.setParentName(i,
-								this.relativesPane.spouses.list.get(i)
-										.getShortPerson());
+								this.relativesPane.spouses.list.get(i).getShortPerson());
 					}
 				}
 				for (int i = 0; i < this.relativesPane.pop.getParentCount(); i++) {
-					this.relativesPane.pop.showParent(i, (ppid == 0)
-							&& (i < this.relativesPane.spouses.list.size()));
+					this.relativesPane.pop.showParent(i, (ppid == 0) && (i < this.relativesPane.spouses.list.size()));
 				}
 			}
 
@@ -334,14 +330,13 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 			pasteAtRow = -1;
 			showTable = this.relativesPane.pareTab;
 
-			Point clickPoint = e.getPoint();
-			int rowAtPoint = showTable.rowAtPoint(clickPoint);
+			final Point clickPoint = e.getPoint();
+			final int rowAtPoint = showTable.rowAtPoint(clickPoint);
 			if (rowAtPoint >= 0) {
 
 				pasteAtRow = showTable.rowAtPoint(e.getPoint());
 				showRela = this.relativesPane.parents.list.get(rowAtPoint);
-				this.relativesPane.pop
-						.setMousePerson(showRela.getShortPerson());
+				this.relativesPane.pop.setMousePerson(showRela.getShortPerson());
 			} else {
 				showRela = null;
 			}
@@ -361,13 +356,12 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 					asRelative = Resurses.getString("MENU_PASTE_ASWIFE");
 				}
 			}
-			Point clickPoint = e.getPoint();
+			final Point clickPoint = e.getPoint();
 			pasteAtRow = showTable.rowAtPoint(clickPoint);
 			if (pasteAtRow >= 0) {
 
 				showRela = this.relativesPane.spouses.list.get(pasteAtRow);
-				this.relativesPane.pop
-						.setMousePerson(showRela.getShortPerson());
+				this.relativesPane.pop.setMousePerson(showRela.getShortPerson());
 			} else {
 				showRela = null;
 			}
@@ -379,8 +373,7 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 
 			showNewPerson = null; //
 			asRelative = Resurses.getString("MENU_PASTE_ASSUBJ");
-			this.relativesPane.pop.setMousePerson(new PersonShortData(
-					relativesPane.longPers));
+			this.relativesPane.pop.setMousePerson(new PersonShortData(relativesPane.longPers));
 			this.relativesPane.pop.setPasteAtRow(0);
 			this.relativesPane.pop.setPerson(showNewPerson, asRelative);
 			this.relativesPane.pop.showParent(0, false);

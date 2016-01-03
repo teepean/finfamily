@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util;
 
 import java.util.HashMap;
@@ -10,9 +40,9 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * The Class SukuTypesModel.
- * 
+ *
  * @author Kalle
- * 
+ *
  *         Model for Types table use.
  */
 public class SukuTypesModel extends AbstractTableModel {
@@ -37,17 +67,17 @@ public class SukuTypesModel extends AbstractTableModel {
 	 */
 	public void initTypes() {
 		try {
-			SukuData reposet = Suku.kontroller.getSukuData("cmd=get",
-					"type=types", "lang=" + Resurses.getLanguage());
+			final SukuData reposet = Suku.kontroller.getSukuData("cmd=get", "type=types",
+					"lang=" + Resurses.getLanguage());
 
 			typesValues = new String[reposet.vvTypes.size()];
 			for (int i = 0; i < reposet.vvTypes.size(); i++) {
-				String rrr[] = reposet.vvTypes.get(i);
-				String tag = rrr[0];
+				final String rrr[] = reposet.vvTypes.get(i);
+				final String tag = rrr[0];
 				typeTexts.put(tag, i);
 
 				typesValues[i] = rrr[1];
-				String rule = rrr[4];
+				final String rule = rrr[4];
 				if (rule != null) {
 					typeRule.put(tag, rule);
 				}
@@ -58,7 +88,7 @@ public class SukuTypesModel extends AbstractTableModel {
 			typesTags = new String[reposet.vvTypes.size()];
 
 			for (int i = 0; i < typesTags.length; i++) {
-				String tag = reposet.vvTypes.get(i)[0];
+				final String tag = reposet.vvTypes.get(i)[0];
 				typesTags[i] = tag;
 				typesData[i][0] = reposet.vvTypes.get(i)[1];
 				typesData[i][1] = Boolean.FALSE;
@@ -79,9 +109,8 @@ public class SukuTypesModel extends AbstractTableModel {
 				}
 			}
 
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 
 			e.printStackTrace();
@@ -97,7 +126,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.TableModel#getColumnCount()
 	 */
 	@Override
@@ -107,7 +136,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.TableModel#getRowCount()
 	 */
 	@Override
@@ -117,7 +146,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.AbstractTableModel#getColumnName(int)
 	 */
 	@Override
@@ -127,7 +156,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.TableModel#getValueAt(int, int)
 	 */
 	@Override
@@ -142,7 +171,7 @@ public class SukuTypesModel extends AbstractTableModel {
 	 */
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.AbstractTableModel#getColumnClass(int)
 	 */
 	@Override
@@ -155,7 +184,7 @@ public class SukuTypesModel extends AbstractTableModel {
 	 */
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.AbstractTableModel#isCellEditable(int, int)
 	 */
 	@Override
@@ -173,7 +202,7 @@ public class SukuTypesModel extends AbstractTableModel {
 	 */
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.table.AbstractTableModel#setValueAt(java.lang.Object,
 	 * int, int)
 	 */
@@ -187,7 +216,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/**
 	 * Gets the types tags.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return tag at idx
@@ -198,7 +227,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/**
 	 * Gets the types tags count.
-	 * 
+	 *
 	 * @return # of tags
 	 */
 	public int getTypesTagsCount() {
@@ -207,7 +236,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/**
 	 * Gets the type text.
-	 * 
+	 *
 	 * @param tag
 	 *            the tag
 	 * @return the typeTexts
@@ -219,7 +248,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/**
 	 * Gets the types data.
-	 * 
+	 *
 	 * @param row
 	 *            the row
 	 * @param col
@@ -235,7 +264,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/**
 	 * Gets the types name.
-	 * 
+	 *
 	 * @param row
 	 *            the row
 	 * @return name of tag
@@ -249,7 +278,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/**
 	 * Gets the types values.
-	 * 
+	 *
 	 * @return the typesValues
 	 */
 	public String[] getTypesValues() {
@@ -258,7 +287,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/**
 	 * Gets the types tag.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return the tag
@@ -269,7 +298,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/**
 	 * Gets the types value.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return the text portion
@@ -280,7 +309,7 @@ public class SukuTypesModel extends AbstractTableModel {
 
 	/**
 	 * Gets the type rule.
-	 * 
+	 *
 	 * @param type
 	 *            the type
 	 * @return the typeRule

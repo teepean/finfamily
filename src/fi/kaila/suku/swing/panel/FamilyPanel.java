@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.panel;
 
 import java.awt.BasicStroke;
@@ -33,13 +63,12 @@ import fi.kaila.suku.util.pojo.TableShortData;
 /**
  * FamilyPanel shows a simple graph of the subjects family, parents and
  * grandparents.
- * 
+ *
  * @author Kalle
  */
-public class FamilyPanel extends JPanel implements MouseListener,
-		MouseMotionListener {
+public class FamilyPanel extends JPanel implements MouseListener, MouseMotionListener {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -52,7 +81,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/**
 	 * Instantiates a new family panel.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 */
@@ -68,20 +97,18 @@ public class FamilyPanel extends JPanel implements MouseListener,
 	public void copyToClipAsImage() {
 		// Create a BufferedImage
 
-		Dimension dd = getPreferredSize();
+		final Dimension dd = getPreferredSize();
 
-		BufferedImage image = new BufferedImage(dd.width, dd.height,
-				BufferedImage.TYPE_INT_RGB);
-		Graphics g = image.getGraphics();
-		Graphics2D graphics = (Graphics2D) g;
+		final BufferedImage image = new BufferedImage(dd.width, dd.height, BufferedImage.TYPE_INT_RGB);
+		final Graphics g = image.getGraphics();
+		final Graphics2D graphics = (Graphics2D) g;
 		this.paint(graphics);
-		ImageSelection imgSel = new ImageSelection(image);
-		Toolkit.getDefaultToolkit().getSystemClipboard()
-				.setContents(imgSel, null);
+		final ImageSelection imgSel = new ImageSelection(image);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel, null);
 
 		try {
 			ImageIO.write(image, "jpg", new File("component.jpg"));
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -93,7 +120,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 	 */
 	@Override
@@ -102,26 +129,26 @@ public class FamilyPanel extends JPanel implements MouseListener,
 		// }
 		// public void paint(Graphics g) {
 
-		Rectangle d = this.getBounds();
+		final Rectangle d = this.getBounds();
 		g.setColor(Color.white);
 		g.fillRect(0, 0, d.width, d.height);
 
 		g.setColor(Color.black);
 
 		// for (int i = 0; i < tabs.size(); i++) {
-		Graphics2D gg = (Graphics2D) g;
+		final Graphics2D gg = (Graphics2D) g;
 		gg.setStroke(new BasicStroke(3));
 		for (int i = 0; i < pareRels.size(); i++) {
 
-			FamilyParentRelationIndex rel = pareRels.get(i);
+			final FamilyParentRelationIndex rel = pareRels.get(i);
 
-			TableShortData child = tabs.get(rel.getChildIdx());
-			TableShortData parent = tabs.get(rel.getParentIdx());
+			final TableShortData child = tabs.get(rel.getChildIdx());
+			final TableShortData parent = tabs.get(rel.getParentIdx());
 
-			Point cp = child.getLocation();
-			Point pp = parent.getLocation();
-			Dimension dd = child.getSize(g);
-			Dimension dp = parent.getSize(g);
+			final Point cp = child.getLocation();
+			final Point pp = parent.getLocation();
+			final Dimension dd = child.getSize(g);
+			final Dimension dp = parent.getSize(g);
 
 			if (parent.getSubject().getSex().equals("M")) {
 				gg.setColor(Color.blue);
@@ -137,25 +164,21 @@ public class FamilyPanel extends JPanel implements MouseListener,
 				gg.setStroke(new BasicStroke(2));
 			}
 
-			drawSuretyLine(gg, new Point(pp.x + (dp.width / 2), cp.y - 6
-					- (i * 4)), new Point(pp.x + (dp.width / 2), pp.y
-					+ dp.height), rel.getSurety());
+			drawSuretyLine(gg, new Point(pp.x + (dp.width / 2), cp.y - 6 - (i * 4)),
+					new Point(pp.x + (dp.width / 2), pp.y + dp.height), rel.getSurety());
 
-			drawSuretyLine(gg, new Point(pp.x + (dp.width / 2), cp.y - 6
-					- (i * 4)), new Point(cp.x + (dd.width / 2), cp.y - 6
-					- (i * 4)), rel.getSurety());
+			drawSuretyLine(gg, new Point(pp.x + (dp.width / 2), cp.y - 6 - (i * 4)),
+					new Point(cp.x + (dd.width / 2), cp.y - 6 - (i * 4)), rel.getSurety());
 
 			drawSuretyLine(gg, new Point(cp.x + (dd.width / 2), cp.y),
-					new Point(cp.x + (dd.width / 2), cp.y - 6 - (i * 4)),
-					rel.getSurety());
+					new Point(cp.x + (dd.width / 2), cp.y - 6 - (i * 4)), rel.getSurety());
 
 		}
 		gg.setColor(Color.black);
 		gg.setStroke(new BasicStroke(2));
 		for (int i = tabs.size() - 1; i >= 0; i--) {
-			TableShortData t = tabs.get(i);
-			if ((t == null) || (t.getSubject() == null)
-					|| (t.getSubject().getSex() == null)) {
+			final TableShortData t = tabs.get(i);
+			if ((t == null) || (t.getSubject() == null) || (t.getSubject().getSex() == null)) {
 				return;
 			}
 			Color color = null;
@@ -176,11 +199,11 @@ public class FamilyPanel extends JPanel implements MouseListener,
 			g.drawString("" + x, x, 10);
 
 		}
-		Dimension prefd = new Dimension();
+		final Dimension prefd = new Dimension();
 		for (int i = 0; i < tabs.size(); i++) {
-			TableShortData t = tabs.get(i);
-			int x = t.getLocation().x + t.getSize(g).width;
-			int y = t.getLocation().y + t.getSize(g).height;
+			final TableShortData t = tabs.get(i);
+			final int x = t.getLocation().x + t.getSize(g).width;
+			final int y = t.getLocation().y + t.getSize(g).height;
 			if (prefd.width < x) {
 				prefd.width = x;
 			}
@@ -199,13 +222,13 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	private void drawSuretyLine(Graphics2D gg, Point aa, Point bb, int surety) {
 		double piecelen = 20;
-		double ax = aa.x;
-		double ay = aa.y;
-		double bx = bb.x;
-		double by = bb.y;
+		final double ax = aa.x;
+		final double ay = aa.y;
+		final double bx = bb.x;
+		final double by = bb.y;
 		int piece = surety;
-		double hypoLen = Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2));
-		Point2D points[] = new Point2D[(int) (hypoLen / (piecelen)) + 1];
+		final double hypoLen = Math.sqrt(Math.pow(ax - bx, 2) + Math.pow(ay - by, 2));
+		final Point2D points[] = new Point2D[(int) (hypoLen / (piecelen)) + 1];
 
 		if (surety > 80) {
 			gg.drawLine((int) ax, (int) ay, (int) bx, (int) by);
@@ -223,45 +246,37 @@ public class FamilyPanel extends JPanel implements MouseListener,
 				piece = (surety == 40 ? 50 : 100);
 			}
 			piecelen = (int) hypoLen / (points.length - 1);
-			double lineLen = (piece * piecelen) / 100;
+			final double lineLen = (piece * piecelen) / 100;
 			points[0].setLocation(ax, ay);
 
 			points[points.length - 1].setLocation(bx, by);
 
-			double aux = (bx - ax) / (points.length - 1);
-			double auy = (by - ay) / (points.length - 1);
+			final double aux = (bx - ax) / (points.length - 1);
+			final double auy = (by - ay) / (points.length - 1);
 			for (int i = 1; i < (points.length - 1); i++) {
-				points[i].setLocation(points[i - 1].getX() + aux,
-						points[i - 1].getY() + auy);
+				points[i].setLocation(points[i - 1].getX() + aux, points[i - 1].getY() + auy);
 			}
-			// logger.info("surety=" + surety + "  (" + a.x + "," + a.y + ");("
+			// logger.info("surety=" + surety + " (" + a.x + "," + a.y + ");("
 			// + b.x + "," + b.y + ")");
 			for (int i = 0; i < (points.length - 1); i++) {
 
-				double auxx = (points[i + 1].getX() - points[i].getX())
-						* (lineLen / piecelen);
+				final double auxx = (points[i + 1].getX() - points[i].getX()) * (lineLen / piecelen);
 
-				double auyy = (points[i + 1].getY() - points[i].getY())
-						* (lineLen / piecelen);
+				final double auyy = (points[i + 1].getY() - points[i].getY()) * (lineLen / piecelen);
 
 				if (surety > 50) {
 
 					// gg.drawLine(points[i].x, points[i].y, e.x, e.y);
-					gg.drawLine((int) points[i].getX(), (int) points[i].getY(),
-							(int) (points[i].getX() + auxx),
+					gg.drawLine((int) points[i].getX(), (int) points[i].getY(), (int) (points[i].getX() + auxx),
 							(int) (points[i].getY() + auyy));
 				} else {
 					if (surety > 10) {
-						gg.drawString("?", (float) points[i].getX(),
-								(float) points[i].getY());
+						gg.drawString("?", (float) points[i].getX(), (float) points[i].getY());
 						if (surety > 30) {
-							gg.drawString("?",
-									(float) (points[i].getX() + auxx),
-									(float) (points[i].getY() + auyy));
+							gg.drawString("?", (float) (points[i].getX() + auxx), (float) (points[i].getY() + auyy));
 						}
 					} else {
-						gg.drawString("☻", (float) points[i].getX(),
-								(float) points[i].getY());
+						gg.drawString("☻", (float) points[i].getX(), (float) points[i].getY());
 					}
 				}
 				// logger.info("part[" + i + "]= (" + points[i].x + ","
@@ -284,7 +299,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/**
 	 * add a table to the graph.
-	 * 
+	 *
 	 * @param data
 	 *            the data
 	 */
@@ -297,13 +312,13 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/**
 	 * Check if person exists in family tree.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @return true if person exists
 	 */
 	public boolean containsPerson(int pid) {
-		for (TableShortData t : tabs) {
+		for (final TableShortData t : tabs) {
 			if (t.existsPerson(pid)) {
 				return true;
 			}
@@ -313,7 +328,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/**
 	 * Gets the owner pid.
-	 * 
+	 *
 	 * @return owner pid of family tree
 	 */
 	public int getOwnerPid() {
@@ -323,13 +338,13 @@ public class FamilyPanel extends JPanel implements MouseListener,
 		if (tabs.size() == 0) {
 			return 0;
 		}
-		TableShortData t = tabs.get(0);
+		final TableShortData t = tabs.get(0);
 		return t.getSubject().getPid();
 	}
 
 	/**
 	 * Gets the tab size.
-	 * 
+	 *
 	 * @return table size = number of tables in list
 	 */
 	public int getTabSize() {
@@ -338,7 +353,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/**
 	 * Add parent relation.
-	 * 
+	 *
 	 * @param relIdx
 	 *            the rel idx
 	 */
@@ -350,7 +365,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -358,20 +373,19 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 		if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
 
-			Point pp = e.getPoint();
+			final Point pp = e.getPoint();
 			for (int i = 0; i < tabs.size(); i++) {
-				TableShortData subjectTable = tabs.get(i);
+				final TableShortData subjectTable = tabs.get(i);
 
-				Rectangle dd = subjectTable.getArea();
+				final Rectangle dd = subjectTable.getArea();
 				if (dd != null) {
 					if (dd.contains(pp)) {
-						Point point = new Point(pp.x - dd.x, pp.y - dd.y);
-						PersonShortData person = subjectTable
-								.getPersonAtPoint(point);
+						final Point point = new Point(pp.x - dd.x, pp.y - dd.y);
+						final PersonShortData person = subjectTable.getPersonAtPoint(point);
 						if (person != null) {
 							try {
 								parent.setSubjectForFamily(person.getPid());
-							} catch (SukuException e1) {
+							} catch (final SukuException e1) {
 								logger.log(Level.WARNING, "failed", e1);
 
 							}
@@ -385,7 +399,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -396,7 +410,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
 	 */
 	@Override
@@ -416,21 +430,20 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
 	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 		presTab = null;
 		if (e.getButton() == 1) {
-			Point presPoint = e.getPoint();
+			final Point presPoint = e.getPoint();
 			for (int i = 0; i < tabs.size(); i++) {
-				TableShortData t = tabs.get(i);
-				Rectangle rec = t.getArea();
+				final TableShortData t = tabs.get(i);
+				final Rectangle rec = t.getArea();
 				if (rec.contains(presPoint)) {
 					presTab = t;
-					presFrom = new Point(presPoint.x - t.getArea().x,
-							presPoint.y - t.getArea().y);
+					presFrom = new Point(presPoint.x - t.getArea().x, presPoint.y - t.getArea().y);
 					// System.out.println("PRS: " + t.toString());
 					break;
 				}
@@ -440,7 +453,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
 	 */
@@ -448,7 +461,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 	public void mouseReleased(MouseEvent e) {
 		if ((e.getButton() == 1) && (presTab != null)) {
 			// System.out.println("DROP IT HERE: " + e.toString());
-			Point p = e.getPoint();
+			final Point p = e.getPoint();
 			p.x -= presFrom.x;
 			p.y -= presFrom.y;
 			presTab.setLocation(p);
@@ -458,21 +471,20 @@ public class FamilyPanel extends JPanel implements MouseListener,
 		}
 		if ((e.getButton() == MouseEvent.BUTTON3) && (e.getClickCount() == 1)) {
 
-			Point pp = e.getPoint();
+			final Point pp = e.getPoint();
 			for (int i = 0; i < tabs.size(); i++) {
-				TableShortData subjectTable = tabs.get(i);
+				final TableShortData subjectTable = tabs.get(i);
 
-				Rectangle dd = subjectTable.getArea();
+				final Rectangle dd = subjectTable.getArea();
 
 				if (dd.contains(pp)) {
 					// System.out.println("Osui: ");// +
 					// subjectTable.getSubject().getTextName());
-					Point point = new Point(pp.x - dd.x, pp.y - dd.y);
+					final Point point = new Point(pp.x - dd.x, pp.y - dd.y);
 
-					PersonShortData person = subjectTable
-							.getPersonAtPoint(point);
+					final PersonShortData person = subjectTable.getPersonAtPoint(point);
 					if (person != null) {
-						SukuPopupMenu pop = SukuPopupMenu.getInstance();
+						final SukuPopupMenu pop = SukuPopupMenu.getInstance();
 						pop.setPerson(person);
 						pop.show(e, pp.x, pp.y, MenuSource.familyView);
 						//
@@ -497,7 +509,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseMotionListener#mouseDragged(java.awt.event.MouseEvent
 	 * )
@@ -505,7 +517,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		if (presTab != null) {
-			Point p = e.getPoint();
+			final Point p = e.getPoint();
 			p.x -= presFrom.x;
 			p.y -= presFrom.y;
 			presTab.setLocation(p);
@@ -516,7 +528,7 @@ public class FamilyPanel extends JPanel implements MouseListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.MouseMotionListener#mouseMoved(java.awt.event.MouseEvent)
 	 */

@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing;
 
 import java.awt.Color;
@@ -25,11 +55,10 @@ import fi.kaila.suku.util.pojo.PlaceLocationData;
 
 /**
  * Shows world map from OpenStreet maps service with locations of relatives.
- * 
+ *
  * @author halonmi
  */
-public class WorldMap extends JFrame implements ActionListener,
-		SukuMapInterface {
+public class WorldMap extends JFrame implements ActionListener, SukuMapInterface {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,7 +75,7 @@ public class WorldMap extends JFrame implements ActionListener,
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 */
@@ -62,76 +91,42 @@ public class WorldMap extends JFrame implements ActionListener,
 		map.setDefaultProvider(JXMapKit.DefaultProviders.OpenStreetMaps);
 		map.setZoom(12);
 
-		JLabel lblC = new JLabel(Resurses.getString(Resurses.PLACECURRENT));
+		final JLabel lblC = new JLabel(Resurses.getString(Resurses.PLACECURRENT));
 
 		currentPlaces = new JComboBox();
 		currentPlaces.setActionCommand(Resurses.SHOWGRID);
 		currentPlaces.addActionListener(this);
 
-		JLabel lblM = new JLabel(Resurses.getString(Resurses.PLACEMISSING));
+		final JLabel lblM = new JLabel(Resurses.getString(Resurses.PLACEMISSING));
 
 		this.missingPlacesList = new JTextArea();
 		this.missingPlacesList.setEditable(false);
-		JScrollPane js = new JScrollPane(this.missingPlacesList);
+		final JScrollPane js = new JScrollPane(this.missingPlacesList);
 
-		GroupLayout layout = new GroupLayout(getContentPane());
+		final GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		layout.setHorizontalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.LEADING).addComponent(
-								map, 0, GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE))
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.LEADING)
-								.addComponent(lblC, GroupLayout.PREFERRED_SIZE,
-										GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(currentPlaces, 250, 250,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblM, GroupLayout.PREFERRED_SIZE,
-										GroupLayout.DEFAULT_SIZE,
-										GroupLayout.PREFERRED_SIZE)
-								.addComponent(js, 250, 250,
-										GroupLayout.PREFERRED_SIZE)));
+		layout.setHorizontalGroup(layout.createSequentialGroup()
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(map, 0,
+						GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addComponent(lblC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+								GroupLayout.PREFERRED_SIZE)
+						.addComponent(currentPlaces, 250, 250, GroupLayout.PREFERRED_SIZE).addComponent(lblM,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(js, 250, 250, GroupLayout.PREFERRED_SIZE)));
 
-		layout.setVerticalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addComponent(map, 0, GroupLayout.DEFAULT_SIZE,
-										Short.MAX_VALUE)
-								.addGroup(
-										layout.createSequentialGroup()
-												.addGroup(
-														layout.createParallelGroup(
-																GroupLayout.Alignment.BASELINE)
-																.addComponent(
-																		lblC))
-												.addGroup(
-														layout.createParallelGroup(
-																GroupLayout.Alignment.LEADING)
-																.addComponent(
-																		currentPlaces,
-																		GroupLayout.PREFERRED_SIZE,
-																		GroupLayout.DEFAULT_SIZE,
-																		GroupLayout.PREFERRED_SIZE))
-												.addGroup(
-														layout.createParallelGroup(
-																GroupLayout.Alignment.LEADING)
-																.addComponent(
-																		lblM))
-												.addGroup(
-														layout.createParallelGroup(
-																GroupLayout.Alignment.LEADING)
-																.addComponent(
-																		js)))));
+		layout.setVerticalGroup(layout.createSequentialGroup().addGroup(layout
+				.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addComponent(map, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+				.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblC))
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(currentPlaces,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(lblM))
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(js)))));
 
 		setSize(new Dimension(650, 680));
 
@@ -155,7 +150,7 @@ public class WorldMap extends JFrame implements ActionListener,
 
 	/**
 	 * display map with listed places.
-	 * 
+	 *
 	 * @param places
 	 *            the places
 	 */
@@ -163,17 +158,15 @@ public class WorldMap extends JFrame implements ActionListener,
 	@Override
 	public void displayMap(PlaceLocationData[] places) {
 		this.places = places;
-		int x = this.places.length;
+		final int x = this.places.length;
 		quicksort(this.places, 0, x - 1);
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 
 		for (int xx = 0; xx < x; xx++) {
 			if (this.places[xx].getLatitude() == 0) {
-				sb.append(this.places[xx].getName() + "("
-						+ this.places[xx].getCount() + ")\n");
+				sb.append(this.places[xx].getName() + "(" + this.places[xx].getCount() + ")\n");
 			} else {
-				this.currentPlaces.addItem(makeObj(this.places[xx].getName()
-						+ "(" + this.places[xx].getCount() + ")"));
+				this.currentPlaces.addItem(makeObj(this.places[xx].getName() + "(" + this.places[xx].getCount() + ")"));
 			}
 		}
 		missingPlacesList.setText(sb.toString());
@@ -190,7 +183,7 @@ public class WorldMap extends JFrame implements ActionListener,
 
 	/**
 	 * Quicksort.
-	 * 
+	 *
 	 * @param array
 	 *            the array
 	 * @param left
@@ -206,14 +199,10 @@ public class WorldMap extends JFrame implements ActionListener,
 		if (((right - left) + 1) > 1) {
 			int pivot = (left + right) / 2;
 			while ((leftIdx <= pivot) && (rightIdx >= pivot)) {
-				while ((array[leftIdx].getName().compareTo(
-						array[pivot].getName()) < 0)
-						&& (leftIdx <= pivot)) {
+				while ((array[leftIdx].getName().compareTo(array[pivot].getName()) < 0) && (leftIdx <= pivot)) {
 					leftIdx = leftIdx + 1;
 				}
-				while ((array[rightIdx].getName().compareTo(
-						array[pivot].getName()) > 0)
-						&& (rightIdx >= pivot)) {
+				while ((array[rightIdx].getName().compareTo(array[pivot].getName()) > 0) && (rightIdx >= pivot)) {
 					rightIdx = rightIdx - 1;
 				}
 				temp = array[leftIdx];
@@ -234,7 +223,7 @@ public class WorldMap extends JFrame implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -242,31 +231,30 @@ public class WorldMap extends JFrame implements ActionListener,
 	public void actionPerformed(ActionEvent e) {
 
 		int xy = 0;
-		int x = this.currentPlaces.getSelectedIndex();
+		final int x = this.currentPlaces.getSelectedIndex();
 
-		Set<FFWaypoint> waypoints = new HashSet<FFWaypoint>();
+		final Set<FFWaypoint> waypoints = new HashSet<FFWaypoint>();
 
-		for (PlaceLocationData place : places) {
+		for (final PlaceLocationData place : places) {
 			if (place.getLatitude() > 0) {
 				if (xy == x) {
-					map.setCenterPosition(new GeoPosition(place.getLatitude(),
-							place.getLongitude()));
-					waypoints.add(new FFWaypoint(place.getLatitude(), place
-							.getLongitude(), place.getCount(),place.getName() + " " + place.getCount(),Color.RED));
+					map.setCenterPosition(new GeoPosition(place.getLatitude(), place.getLongitude()));
+					waypoints.add(new FFWaypoint(place.getLatitude(), place.getLongitude(), place.getCount(),
+							place.getName() + " " + place.getCount(), Color.RED));
 				} else {
-					waypoints.add(new FFWaypoint(place.getLatitude(), place
-							.getLongitude(), place.getCount(),place.getName() + " " + place.getCount(),Color.BLUE));					
+					waypoints.add(new FFWaypoint(place.getLatitude(), place.getLongitude(), place.getCount(),
+							place.getName() + " " + place.getCount(), Color.BLUE));
 				}
 				xy++;
 			}
 		}
 
 		// Create a WaypointPainter to draw the points
-		WaypointPainter<FFWaypoint> painter = new WaypointPainter<FFWaypoint>();
-        painter.setWaypoints(waypoints);
+		final WaypointPainter<FFWaypoint> painter = new WaypointPainter<FFWaypoint>();
+		painter.setWaypoints(waypoints);
 
 		// Use own waypoint renderer
-        painter.setRenderer(new FFWaypointRenderer());
+		painter.setRenderer(new FFWaypointRenderer());
 
 		map.getMainMap().setOverlayPainter(painter);
 	}

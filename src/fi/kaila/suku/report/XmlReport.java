@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.report;
 
 import java.awt.Dimension;
@@ -40,15 +70,15 @@ import fi.kaila.suku.util.SukuException;
 import fi.kaila.suku.util.Utils;
 
 /**
- * 
+ *
  * <h1>XmlReport class</h1>
- * 
+ *
  * <p>
  * Many of the reports are first cerated as an XML tree and are after that
  * usually transformed int it's requested form using an XSLT stylesheet in
  * resources/xml
  * </p>
- * 
+ *
  * <p>
  * It seems that this process cannot fully be performed from a WebStart
  * application and thus these are only available for the application with the
@@ -56,10 +86,10 @@ import fi.kaila.suku.util.Utils;
  * support writing multiple files on disk with one request. Some repports
  * require this such as image files, multiple data files etc.
  * </p>
- * 
- * 
+ *
+ *
  * @author Kalle
- * 
+ *
  */
 public class XmlReport implements ReportInterface {
 
@@ -84,7 +114,7 @@ public class XmlReport implements ReportInterface {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 * @param translatorIdx
@@ -94,8 +124,7 @@ public class XmlReport implements ReportInterface {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public XmlReport(ReportWorkerDialog parent, int translatorIdx, String title)
-			throws SukuException {
+	public XmlReport(ReportWorkerDialog parent, int translatorIdx, String title) throws SukuException {
 		this.parent = parent;
 		this.title = title;
 		this.translatorIdx = translatorIdx;
@@ -103,8 +132,7 @@ public class XmlReport implements ReportInterface {
 		maxPersonImageSize = parent.getPersonImageMaxSize();
 		debugState = parent.getDebugState();
 		imageScaleIndex = parent.getSukuParent().getImageScalerIndex();
-		imageMagickPath = Suku.kontroller.getPref(parent.getSukuParent(),
-				"IMAGEMAGICK", "");
+		imageMagickPath = Suku.kontroller.getPref(parent.getSukuParent(), "IMAGEMAGICK", "");
 		switch (translatorIdx) {
 		case 1:
 			// translator = "resources/xml/docx.xsl";
@@ -122,62 +150,50 @@ public class XmlReport implements ReportInterface {
 			report = createFile("txt");
 			break;
 		default:
-			throw new SukuException(
-					Resurses.getString("WARN_REPORT_NOT_SELECTED"));
+			throw new SukuException(Resurses.getString("WARN_REPORT_NOT_SELECTED"));
 
 		}
 		if (report != null) {
 
-			File f = new File(report);
+			final File f = new File(report);
 			boolean fileExists = false;
 			if (f.isFile()) {
 				fileExists = true;
-				int resu = JOptionPane
-						.showConfirmDialog(parent,
-								Resurses.getString("CONFIRM_REPLACE_REPORT"),
-								Resurses.getString(Resurses.SUKU),
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.QUESTION_MESSAGE);
+				final int resu = JOptionPane.showConfirmDialog(parent, Resurses.getString("CONFIRM_REPLACE_REPORT"),
+						Resurses.getString(Resurses.SUKU), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (resu != JOptionPane.YES_OPTION) {
 
-					throw new SukuException(
-							Resurses.getString("WARN_REPORT_NOT_SELECTED"));
+					throw new SukuException(Resurses.getString("WARN_REPORT_NOT_SELECTED"));
 				}
 				f.delete();
 
 			}
 			if (translatorIdx > 1) { // word 2003 format does not use folder
-				int lastIdx = report.replace('\\', '/').lastIndexOf('.');
+				final int lastIdx = report.replace('\\', '/').lastIndexOf('.');
 				if (lastIdx > 0) {
 					folder = report.substring(0, lastIdx) + "_files";
-					int folderIdx = folder.replace('\\', '/').lastIndexOf('/');
-					String folderx = folder.substring(folderIdx + 1);
-					folder = folder.substring(0, folderIdx + 1)
-							+ Utils.toUsAscii(folderx);
+					final int folderIdx = folder.replace('\\', '/').lastIndexOf('/');
+					final String folderx = folder.substring(folderIdx + 1);
+					folder = folder.substring(0, folderIdx + 1) + Utils.toUsAscii(folderx);
 
-					File d = new File(folder);
+					final File d = new File(folder);
 					if (d.exists()) {
 						if (!fileExists && d.isDirectory()) {
-							int resu = JOptionPane
-									.showConfirmDialog(
-											parent,
-											Resurses.getString("CONFIRM_REPLACE_REPORTDIR"),
-											Resurses.getString(Resurses.SUKU),
-											JOptionPane.YES_NO_OPTION,
-											JOptionPane.QUESTION_MESSAGE);
+							final int resu = JOptionPane.showConfirmDialog(parent,
+									Resurses.getString("CONFIRM_REPLACE_REPORTDIR"), Resurses.getString(Resurses.SUKU),
+									JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 							if (resu != JOptionPane.YES_OPTION) {
 
-								throw new SukuException(
-										Resurses.getString("WARN_REPORT_NOT_SELECTED"));
+								throw new SukuException(Resurses.getString("WARN_REPORT_NOT_SELECTED"));
 							}
 							fileExists = true;
 						}
 						if (fileExists && d.isDirectory()) {
 
-							String[] files = d.list();
+							final String[] files = d.list();
 
-							for (String file : files) {
-								File df = new File(folder + "/" + file);
+							for (final String file : files) {
+								final File df = new File(folder + "/" + file);
 								df.delete();
 							}
 
@@ -195,14 +211,14 @@ public class XmlReport implements ReportInterface {
 	}
 
 	private String createFile(String filter) {
-		Preferences sr = Preferences.userRoot();
+		final Preferences sr = Preferences.userRoot();
 
-		String[] filters = filter.split(";");
+		final String[] filters = filter.split(";");
 
-		String koe = sr.get("report", ".");
+		final String koe = sr.get("report", ".");
 		// logger.fine("report to: " + koe);
 
-		JFileChooser chooser = new JFileChooser();
+		final JFileChooser chooser = new JFileChooser();
 
 		chooser.setFileFilter(new fi.kaila.suku.util.SettingFilter(filter));
 		chooser.setDialogTitle("Create " + filter + " file");
@@ -212,7 +228,7 @@ public class XmlReport implements ReportInterface {
 			return null;
 		}
 
-		File f = chooser.getSelectedFile();
+		final File f = chooser.getSelectedFile();
 		if (f == null) {
 			return null;
 		}
@@ -229,8 +245,8 @@ public class XmlReport implements ReportInterface {
 
 		logger.info("requested report : " + filename);
 
-		String tmp = f.getAbsolutePath().replace("\\", "/");
-		int i = tmp.lastIndexOf("/");
+		final String tmp = f.getAbsolutePath().replace("\\", "/");
+		final int i = tmp.lastIndexOf("/");
 
 		sr.put("report", tmp.substring(0, i));
 
@@ -240,7 +256,7 @@ public class XmlReport implements ReportInterface {
 	/**
 	 * Add the text to the body element. For images copy the images to output
 	 * folder
-	 * 
+	 *
 	 * @param bt
 	 *            the bt
 	 */
@@ -256,12 +272,12 @@ public class XmlReport implements ReportInterface {
 		int imgHeight = 0;
 		String img = null;
 		Dimension maxSize = maxImageSize;
-		Dimension displaySize = new Dimension();
+		final Dimension displaySize = new Dimension();
 		int outHeight = 0;
 		int outWidth = 0;
 		boolean isPersonImage = false;
 		if (bt instanceof ImageText) {
-			ImageText it = (ImageText) bt;
+			final ImageText it = (ImageText) bt;
 			isPersonImage = it.isPersonImage();
 			if (isPersonImage) {
 				maxSize = maxPersonImageSize;
@@ -286,10 +302,10 @@ public class XmlReport implements ReportInterface {
 			} else if (maxSize.width > 0) {
 				if (imgWidth > (maxSize.width * widthMultiplier)) {
 
-					float mw = maxSize.width;
+					final float mw = maxSize.width;
 					float multip = mw / imgWidth;
-					float mh = maxSize.height;
-					float multih = mh / imgHeight;
+					final float mh = maxSize.height;
+					final float multih = mh / imgHeight;
 					if ((multih > 0) && (multih < multip)) {
 						multip = multih;
 					}
@@ -304,11 +320,11 @@ public class XmlReport implements ReportInterface {
 					outWidth = displaySize.width;
 				} else {
 
-					float mw = maxSize.width;
+					final float mw = maxSize.width;
 					float multip = mw / imgWidth;
 
-					float mh = maxSize.height;
-					float multih = mh / imgHeight;
+					final float mh = maxSize.height;
+					final float multih = mh / imgHeight;
 					if ((multih > 0) && (multih < multip)) {
 						multip = multih;
 					}
@@ -324,8 +340,8 @@ public class XmlReport implements ReportInterface {
 				}
 			} else {
 				if (imgHeight > maxSize.height) {
-					float mh = maxSize.height * widthMultiplier;
-					float multip = mh / imgHeight;
+					final float mh = maxSize.height * widthMultiplier;
+					final float multip = mh / imgHeight;
 					w = imgWidth * multip;
 					h = imgHeight * multip;
 					displaySize.width = (int) w;
@@ -335,8 +351,8 @@ public class XmlReport implements ReportInterface {
 					outHeight = displaySize.height;
 					outWidth = displaySize.width;
 				} else {
-					float mh = maxSize.height;
-					float multip = mh / imgHeight;
+					final float mh = maxSize.height;
+					final float multip = mh / imgHeight;
 					w = imgWidth * multip;
 					h = imgHeight * multip;
 					displaySize.width = (int) w;
@@ -354,7 +370,7 @@ public class XmlReport implements ReportInterface {
 
 			// imageCounter++;
 			imgName = /* "" + imageCounter + "_" + */it.getImageName();
-			File ff = new File(folder + "/" + imgName);
+			final File ff = new File(folder + "/" + imgName);
 			if (it.getData() != null) {
 				FileOutputStream fos;
 				try {
@@ -370,9 +386,9 @@ public class XmlReport implements ReportInterface {
 						fos.close();
 					}
 
-				} catch (FileNotFoundException e) {
+				} catch (final FileNotFoundException e) {
 					logger.log(Level.WARNING, "Image", e);
-				} catch (IOException e) {
+				} catch (final IOException e) {
 					logger.log(Level.WARNING, "Image", e);
 				}
 			}
@@ -382,7 +398,7 @@ public class XmlReport implements ReportInterface {
 
 		String style = bt.getClass().getName();
 
-		int lastDot = style.lastIndexOf(".");
+		final int lastDot = style.lastIndexOf(".");
 		style = style.substring(lastDot + 1);
 		ele.setAttribute("style", style);
 		if ("NameIndexText".equals(style)) {
@@ -422,8 +438,8 @@ public class XmlReport implements ReportInterface {
 		String link = null;
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < bt.getCount(); i++) {
-			String value = bt.getText(i);
-			String anchor = bt.getAnchor(i);
+			final String value = bt.getText(i);
+			final String anchor = bt.getAnchor(i);
 			if (anchor != null) {
 				anc = doc.createElement("anchor");
 				anc.setTextContent(anchor);
@@ -509,14 +525,14 @@ public class XmlReport implements ReportInterface {
 	 * <li>Start application to open the report if supported</li>
 	 * </ul>
 	 * .
-	 * 
+	 *
 	 * @throws SukuException
 	 *             the suku exception
 	 */
 	@Override
 	public void closeReport() throws SukuException {
-		PrintStream origErr = System.err;
-		ByteArrayOutputStream barray = new ByteArrayOutputStream();
+		final PrintStream origErr = System.err;
+		final ByteArrayOutputStream barray = new ByteArrayOutputStream();
 		try {
 			if (reportClosed) {
 				return;
@@ -527,27 +543,26 @@ public class XmlReport implements ReportInterface {
 			// note that delete does not delete it if it's not empty
 			//
 			if (folder != null) {
-				File dd = new File(folder);
+				final File dd = new File(folder);
 				dd.delete();
 			}
 
 			if (translator != null) {
 				logger.info("report will store at " + report);
 
-				InputStream in = this.getClass()
-						.getResourceAsStream(translator);
+				final InputStream in = this.getClass().getResourceAsStream(translator);
 
 				// File f = new File(translator);
 				// logger.info("transformed with " + f.getAbsolutePath());
 				// redirect stderr to get transformation error data to the
 				// logger
-				PrintStream stderr = new PrintStream(barray);
+				final PrintStream stderr = new PrintStream(barray);
 				if (!Suku.kontroller.isRemote()) {
 					System.setErr(stderr);
 				}
-				DOMSource docw = new DOMSource(doc);
-				ByteArrayOutputStream bout = new ByteArrayOutputStream();
-				TransformerFactory tfactory = TransformerFactory.newInstance();
+				final DOMSource docw = new DOMSource(doc);
+				final ByteArrayOutputStream bout = new ByteArrayOutputStream();
+				final TransformerFactory tfactory = TransformerFactory.newInstance();
 				// Create a transformer for the stylesheet.
 				// Source src = new StreamSource(translator);
 				Source src;
@@ -557,23 +572,23 @@ public class XmlReport implements ReportInterface {
 					src = new StreamSource(translator);
 				}
 
-				Transformer transformer = tfactory.newTransformer(src);
+				final Transformer transformer = tfactory.newTransformer(src);
 
 				transformer.transform(docw, new StreamResult(bout));
 				if (report != null) {
-					FileOutputStream fos = new FileOutputStream(report);
+					final FileOutputStream fos = new FileOutputStream(report);
 					fos.write(bout.toByteArray());
 					fos.close();
 					logger.fine(report + " will be opened");
 					parent.addRepoForDisplay(report);
 				} else {
-					byte[] buffi = bout.toByteArray();
+					final byte[] buffi = bout.toByteArray();
 
-					ByteArrayInputStream bin = new ByteArrayInputStream(buffi);
+					final ByteArrayInputStream bin = new ByteArrayInputStream(buffi);
 
 					Suku.kontroller.saveFile("xml", bin);
 					logger.fine(report + " will be opened");
-					String outPath = Suku.kontroller.getFilePath();
+					final String outPath = Suku.kontroller.getFilePath();
 					if (outPath != null) {
 						parent.addRepoForDisplay(outPath);
 					}
@@ -583,16 +598,16 @@ public class XmlReport implements ReportInterface {
 			}
 			if (debugState && !Suku.kontroller.isRemote()) {
 
-				DOMSource docw = new DOMSource(doc);
-				ByteArrayOutputStream bout = new ByteArrayOutputStream();
-				TransformerFactory tfactory = TransformerFactory.newInstance();
+				final DOMSource docw = new DOMSource(doc);
+				final ByteArrayOutputStream bout = new ByteArrayOutputStream();
+				final TransformerFactory tfactory = TransformerFactory.newInstance();
 
-				Transformer transformer = tfactory.newTransformer();//
+				final Transformer transformer = tfactory.newTransformer();//
 				transformer.transform(docw, new StreamResult(bout));
 
-				byte[] buffi = bout.toByteArray();
+				final byte[] buffi = bout.toByteArray();
 
-				ByteArrayInputStream bin = new ByteArrayInputStream(buffi);
+				final ByteArrayInputStream bin = new ByteArrayInputStream(buffi);
 				Suku.kontroller.saveFile("debug.xml", bin);
 
 				// FileOutputStream fos = new FileOutputStream(report
@@ -601,10 +616,10 @@ public class XmlReport implements ReportInterface {
 				// fos.close();
 			}
 
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			logger.log(Level.WARNING, barray.toString());
 			logger.log(Level.WARNING, e.getMessage(), e);
-			String messu = e.getMessage();
+			final String messu = e.getMessage();
 			if (!Suku.kontroller.isRemote()) {
 				System.setErr(origErr);
 			}
@@ -629,7 +644,7 @@ public class XmlReport implements ReportInterface {
 	 * <li>create body element for processing</li>
 	 * </ul>
 	 * .
-	 * 
+	 *
 	 * @throws SukuException
 	 *             the suku exception
 	 */
@@ -642,9 +657,8 @@ public class XmlReport implements ReportInterface {
 		Element ele;
 		reportClosed = false;
 		try {
-			DocumentBuilderFactory dbfactory = DocumentBuilderFactory
-					.newInstance();
-			DocumentBuilder builder = dbfactory.newDocumentBuilder();
+			final DocumentBuilderFactory dbfactory = DocumentBuilderFactory.newInstance();
+			final DocumentBuilder builder = dbfactory.newDocumentBuilder();
 
 			doc = builder.newDocument();
 			mini = doc.createElement("finfamily");
@@ -654,7 +668,7 @@ public class XmlReport implements ReportInterface {
 			mini.appendChild(header);
 
 			if (folder != null) {
-				int fidx = folder.replace('\\', '/').lastIndexOf('/');
+				final int fidx = folder.replace('\\', '/').lastIndexOf('/');
 				if (fidx > 0) {
 					header.setAttribute("folder", folder.substring(fidx + 1));
 				}
@@ -673,9 +687,9 @@ public class XmlReport implements ReportInterface {
 			body = doc.createElement("body");
 
 			mini.appendChild(body);
-		} catch (ParserConfigurationException e) {
+		} catch (final ParserConfigurationException e) {
 			logger.log(Level.WARNING, e.getMessage(), e);
-			String messu = e.getMessage();
+			final String messu = e.getMessage();
 			throw new SukuException(messu);
 		}
 	}
@@ -685,7 +699,7 @@ public class XmlReport implements ReportInterface {
 
 	/**
 	 * Copied from XmlReports::CopyBase64File
-	 * 
+	 *
 	 * @param it
 	 *            the Style with the image
 	 * @param outHeight
@@ -705,8 +719,7 @@ public class XmlReport implements ReportInterface {
 		}
 
 		if ((imageScaleIndex == 0)
-				|| (((it.getImage().getHeight()) <= outHeight) && (it
-						.getImage().getWidth() <= outWidth))) {
+				|| (((it.getImage().getHeight()) <= outHeight) && (it.getImage().getWidth() <= outWidth))) {
 			outWidth = 0;
 		}
 
@@ -714,17 +727,16 @@ public class XmlReport implements ReportInterface {
 			BufferedImage img = null;
 
 			try {
-				img = Utils.scaleImage(imageMagickPath, it.getImage(),
-						outWidth, outHeight);
+				img = Utils.scaleImage(imageMagickPath, it.getImage(), outWidth, outHeight);
 
-			} catch (Exception e) {
+			} catch (final Exception e) {
 				return e.toString();
 			}
 
 			// O P E N
 			// converting to bytes : copy-paste from
 			// http://mindprod.com/jgloss/imageio.html#TOBYTES
-			ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
+			final ByteArrayOutputStream baos = new ByteArrayOutputStream(1000);
 			byte[] resultImageAsRawBytes = null;
 			// W R I T E
 			try {
@@ -734,19 +746,19 @@ public class XmlReport implements ReportInterface {
 				img.flush();
 				resultImageAsRawBytes = baos.toByteArray();
 
-			} catch (IOException e) {
+			} catch (final IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 
 			// Raster raster = img.getRaster();
 			// DataBufferByte dbuf = (DataBufferByte) raster.getDataBuffer();
-			Formatter ff = new Formatter();
+			final Formatter ff = new Formatter();
 
-			StringBuilder sbb = new StringBuilder();
+			final StringBuilder sbb = new StringBuilder();
 
-			byte[] ibuf = new byte[3];
-			byte[] obuf = new byte[4];
+			final byte[] ibuf = new byte[3];
+			final byte[] obuf = new byte[4];
 
 			int inputparts;
 			int colPos = 0;
@@ -808,12 +820,12 @@ public class XmlReport implements ReportInterface {
 			return sbb.toString();
 		} else {
 
-			Formatter ff = new Formatter();
+			final Formatter ff = new Formatter();
 
-			StringBuilder sbb = new StringBuilder();
+			final StringBuilder sbb = new StringBuilder();
 
-			byte[] ibuf = new byte[3];
-			byte[] obuf = new byte[4];
+			final byte[] ibuf = new byte[3];
+			final byte[] obuf = new byte[4];
 
 			int inputparts;
 			int colPos = 0;
@@ -879,14 +891,14 @@ public class XmlReport implements ReportInterface {
 
 	/**
 	 * Gets the folder name.
-	 * 
+	 *
 	 * @return the folder name
 	 */
 	public String getFolderName() {
 		if (folder == null) {
 			return null;
 		}
-		int ix = folder.replace('\\', '/').lastIndexOf('/');
+		final int ix = folder.replace('\\', '/').lastIndexOf('/');
 		if (ix > 0) {
 			return folder.substring(ix + 1);
 		}
@@ -896,7 +908,7 @@ public class XmlReport implements ReportInterface {
 
 	/**
 	 * Gets the report path.
-	 * 
+	 *
 	 * @return the report path
 	 */
 	public String getReportPath() {
@@ -905,7 +917,7 @@ public class XmlReport implements ReportInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -915,23 +927,23 @@ public class XmlReport implements ReportInterface {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.report.ReportInterface#closeReport(long)
 	 */
 	@Override
 	public void closeReport(long tabNo) throws SukuException {
-		PrintStream origErr = System.err;
-		ByteArrayOutputStream barray = new ByteArrayOutputStream();
-		int dotPos = report.lastIndexOf(".");
-		int slashPos = report.replace("\\", "/").lastIndexOf("/");
+		final PrintStream origErr = System.err;
+		final ByteArrayOutputStream barray = new ByteArrayOutputStream();
+		final int dotPos = report.lastIndexOf(".");
+		final int slashPos = report.replace("\\", "/").lastIndexOf("/");
 		if ((folder == null) || (slashPos <= 0) || (dotPos < slashPos)) {
 			return;
 		}
 		String myreport;
 
 		if (dotPos > 0) {
-			myreport = folder + "/" + report.substring(slashPos + 1, dotPos)
-					+ tabNo + "." + report.substring(dotPos + 1);
+			myreport = folder + "/" + report.substring(slashPos + 1, dotPos) + tabNo + "."
+					+ report.substring(dotPos + 1);
 			// myreport = report.substring(0, dotPos) + tabNo + "."
 			// + report.substring(dotPos + 1);
 		} else {
@@ -953,35 +965,34 @@ public class XmlReport implements ReportInterface {
 			// }
 			if (debugState) {
 				logger.info("raw xml-file stored at " + myreport + ".debug.xml");
-				DOMSource docw = new DOMSource(doc);
-				ByteArrayOutputStream bout = new ByteArrayOutputStream();
-				TransformerFactory tfactory = TransformerFactory.newInstance();
+				final DOMSource docw = new DOMSource(doc);
+				final ByteArrayOutputStream bout = new ByteArrayOutputStream();
+				final TransformerFactory tfactory = TransformerFactory.newInstance();
 
-				Transformer transformer = tfactory.newTransformer();//
+				final Transformer transformer = tfactory.newTransformer();//
 				transformer.transform(docw, new StreamResult(bout));
-				FileOutputStream fos = new FileOutputStream(report
-						+ ".debug.xml");
+				final FileOutputStream fos = new FileOutputStream(report + ".debug.xml");
 				fos.write(bout.toByteArray());
 				fos.close();
 			}
 
 			logger.info("report will store at " + myreport);
-			File f = new File(translator);
+			final File f = new File(translator);
 			logger.info("transformed with " + f.getAbsolutePath());
 			// redirect stderr to get transformation error data to the
 			// logger
-			PrintStream stderr = new PrintStream(barray);
+			final PrintStream stderr = new PrintStream(barray);
 
 			System.setErr(stderr);
-			DOMSource docw = new DOMSource(doc);
-			ByteArrayOutputStream bout = new ByteArrayOutputStream();
-			TransformerFactory tfactory = TransformerFactory.newInstance();
+			final DOMSource docw = new DOMSource(doc);
+			final ByteArrayOutputStream bout = new ByteArrayOutputStream();
+			final TransformerFactory tfactory = TransformerFactory.newInstance();
 			// Create a transformer for the stylesheet.
-			Source src = new StreamSource(translator);
-			Transformer transformer = tfactory.newTransformer(src);
+			final Source src = new StreamSource(translator);
+			final Transformer transformer = tfactory.newTransformer(src);
 
 			transformer.transform(docw, new StreamResult(bout));
-			FileOutputStream fos = new FileOutputStream(myreport);
+			final FileOutputStream fos = new FileOutputStream(myreport);
 			fos.write(bout.toByteArray());
 			fos.close();
 			logger.fine(myreport + " will be opened");
@@ -989,10 +1000,10 @@ public class XmlReport implements ReportInterface {
 			// Utils.openExternalFile(report);
 			// }
 
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			logger.log(Level.WARNING, barray.toString());
 			logger.log(Level.WARNING, e.getMessage(), e);
-			String messu = e.getMessage();
+			final String messu = e.getMessage();
 			System.setErr(origErr);
 			throw new SukuException(messu);
 		}

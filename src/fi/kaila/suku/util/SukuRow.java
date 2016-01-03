@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util;
 
 import java.util.logging.Logger;
@@ -9,12 +39,12 @@ import fi.kaila.suku.util.pojo.PersonShortData;
 //import java.awt.image.BufferedImage;
 
 /**
- * 
+ *
  * One row of database list. Database window consists of rows containing SukuRow
  * objects
- * 
+ *
  * @author FIKAAKAIL
- * 
+ *
  */
 public class SukuRow {
 
@@ -31,7 +61,7 @@ public class SukuRow {
 
 	/**
 	 * Constuctor of a Sukurow.
-	 * 
+	 *
 	 * @param suku
 	 *            the suku
 	 * @param model
@@ -47,7 +77,7 @@ public class SukuRow {
 
 	/**
 	 * Instantiates a new suku row.
-	 * 
+	 *
 	 * @param suku
 	 *            the suku
 	 */
@@ -57,7 +87,7 @@ public class SukuRow {
 
 	/**
 	 * Set value into column.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @param value
@@ -89,15 +119,15 @@ public class SukuRow {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append(getName());
 		sb.append(" (");
-		PersonShortData person = suku.getPerson(pid);
+		final PersonShortData person = suku.getPerson(pid);
 		if (person.getBirtDate() != null) {
 			sb.append(person.getBirtDate());
 		}
@@ -111,7 +141,7 @@ public class SukuRow {
 
 	/**
 	 * Get item from column.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return content on column
@@ -125,12 +155,12 @@ public class SukuRow {
 		SearchCriteria crit;
 		try {
 			crit = SearchCriteria.getCriteria(null);
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			// This should never come here
 			e.printStackTrace();
 			return null;
 		}
-		PersonShortData person = suku.getPerson(pid);
+		final PersonShortData person = suku.getPerson(pid);
 		// fullIdx = this.model.getFullIndex(idx);
 		// fullIdx = idx;
 		// System.out.println("get(" + idx+") : fullIdx = " + fullIdx);
@@ -151,14 +181,14 @@ public class SukuRow {
 
 			// case SukuModel.TNAME_COL:
 			sb = new StringBuilder();
-			String alfaName = person.getAlfaName(false);
+			final String alfaName = person.getAlfaName(false);
 			if (alfaName != null) {
 				sb.append(alfaName);
 				sb.append(" ");
 			}
 
 			if (crit.isPropertySet(Resurses.COLUMN_T_ALL_NAMES)) {
-				String moreNames = person.getMorenames();
+				final String moreNames = person.getMorenames();
 				if (moreNames != null) {
 					sb.append(";");
 					sb.append(moreNames);
@@ -267,7 +297,7 @@ public class SukuRow {
 
 	/**
 	 * Gets the person.
-	 * 
+	 *
 	 * @return person in row
 	 */
 	public PersonShortData getPerson() {
@@ -276,7 +306,7 @@ public class SukuRow {
 
 	/**
 	 * Gets the name.
-	 * 
+	 *
 	 * @return person name
 	 */
 	public String getName() {
@@ -285,7 +315,7 @@ public class SukuRow {
 
 	/**
 	 * Gets the todo.
-	 * 
+	 *
 	 * @return the todo text
 	 */
 	public String getUnkn() {
@@ -294,7 +324,7 @@ public class SukuRow {
 
 	/**
 	 * Gets the refn.
-	 * 
+	 *
 	 * @return person pid
 	 */
 	public String getRefn() {
@@ -303,7 +333,7 @@ public class SukuRow {
 
 	/**
 	 * Gets the group.
-	 * 
+	 *
 	 * @return group of personm
 	 */
 	public String getGroup() {
@@ -312,7 +342,7 @@ public class SukuRow {
 
 	/**
 	 * Gets the pid.
-	 * 
+	 *
 	 * @return persons pid
 	 */
 	public int getPid() {

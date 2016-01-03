@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.panel;
 
 import java.awt.Dimension;
@@ -42,11 +72,10 @@ import fi.kaila.suku.util.pojo.UnitNotice;
 
 /**
  * pane for the single notice.
- * 
+ *
  * @author Kalle
  */
-public class NoticePane extends JPanel implements ActionListener,
-		ComponentListener, ListSelectionListener {
+public class NoticePane extends JPanel implements ActionListener, ComponentListener, ListSelectionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -323,7 +352,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/**
 	 * Instantiates a new notice pane.
-	 * 
+	 *
 	 * @param peronView
 	 *            the peron view
 	 * @param pid
@@ -426,8 +455,7 @@ public class NoticePane extends JPanel implements ActionListener,
 			modifiedBy.setText(notice.getModifiedBy());
 		}
 
-		String[] privacies = Resurses.getString("DATA_PRIVACY_LEVEL")
-				.split(";");
+		final String[] privacies = Resurses.getString("DATA_PRIVACY_LEVEL").split(";");
 		privacy = new JComboBox(privacies);
 		// privacy = new JCheckBox(Resurses.getString("DATA_PRIVACY"));
 
@@ -479,8 +507,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		address = new JTextArea();
 		address.setLineWrap(true);
-		scrollAddress = new JScrollPane(address,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollAddress = new JScrollPane(address, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		add(scrollAddress);
 
@@ -500,8 +527,7 @@ public class NoticePane extends JPanel implements ActionListener,
 		noteText = new SukuTextArea();
 		noteText.setLineWrap(true);
 		noteText.setWrapStyleWord(true);
-		scrollNote = new JScrollPane(noteText,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollNote = new JScrollPane(noteText, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 		add(scrollNote);
@@ -541,16 +567,14 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		source = new SukuTextArea();
 		source.setLineWrap(true);
-		scrollSource = new JScrollPane(source,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollSource = new JScrollPane(source, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 		add(scrollSource);
 
 		privateText = new JTextArea();
 		privateText.setLineWrap(true);
-		scrollPrivate = new JScrollPane(privateText,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+		scrollPrivate = new JScrollPane(privateText, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 		add(scrollPrivate);
@@ -693,8 +717,7 @@ public class NoticePane extends JPanel implements ActionListener,
 		description.setText(tmp);
 
 		// setDate();
-		date.setDate(notice.getDatePrefix(), notice.getFromDate(),
-				notice.getToDate());
+		date.setDate(notice.getDatePrefix(), notice.getFromDate(), notice.getToDate());
 		tmp = notice.getPlace();
 		if (tmp == null) {
 			tmp = "";
@@ -776,7 +799,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		try {
 			getImage();
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.log(Level.WARNING, "update pane", e);
 		}
 
@@ -821,15 +844,15 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		String[] arra = notice.getRefNames();
 		if (arra != null) {
-			for (String element : arra) {
-				String[] vahasuku = element.split("/");
+			for (final String element : arra) {
+				final String[] vahasuku = element.split("/");
 				String[] etusuku = element.split(",");
 				if (vahasuku.length > 1) {
 					etusuku = new String[2];
 					etusuku[0] = vahasuku[1];
 					etusuku[1] = vahasuku[0];
 				}
-				StringBuilder sb = new StringBuilder();
+				final StringBuilder sb = new StringBuilder();
 				if (etusuku.length > 1) {
 					sb.append(etusuku[0]);
 					sb.append(",");
@@ -843,7 +866,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		arra = notice.getRefPlaces();
 		if (arra != null) {
-			for (String element : arra) {
+			for (final String element : arra) {
 				placesVector.add(element);
 			}
 		}
@@ -853,7 +876,7 @@ public class NoticePane extends JPanel implements ActionListener,
 	/**
 	 * This checks if the fields that are not visible on the MainPerson are
 	 * empty.
-	 * 
+	 *
 	 * @return true if all non visible fields are empty
 	 */
 	boolean isPlain() {
@@ -880,11 +903,11 @@ public class NoticePane extends JPanel implements ActionListener,
 		// if (dateTo.getText().length() > 0) return false;
 		if (notice.getTag().equals("OCCU") || notice.getTag().equals("NOTE")) {
 			try {
-				String tmp = date.getFromDate();
+				final String tmp = date.getFromDate();
 				if (nv(tmp).length() > 0) {
 					return false;
 				}
-			} catch (SukuDateException e) {
+			} catch (final SukuDateException e) {
 				return false;
 			}
 		}
@@ -944,24 +967,22 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	private void getImage() throws Exception {
 
-		BufferedImage img = notice.getMediaImage();
+		final BufferedImage img = notice.getMediaImage();
 		if (img != null) {
-			double imh = img.getHeight();
-			double imw = img.getWidth();
+			final double imh = img.getHeight();
+			final double imw = img.getWidth();
 			imageSize = new Dimension((int) imw, (int) imh);
-			double neww = getRColWidth() * 2;
-			double newh = (imh / imw) * neww;
+			final double neww = getRColWidth() * 2;
+			final double newh = (imh / imw) * neww;
 			if (image.isVisible()) {
-				Image imgs = img.getScaledInstance((int) neww, (int) newh,
-						Image.SCALE_DEFAULT);
+				final Image imgs = img.getScaledInstance((int) neww, (int) newh, Image.SCALE_DEFAULT);
 
 				image.img = imgs;
-				int ih = img.getHeight();
-				int iw = img.getWidth();
-				int sz = notice.getMediaData().length;
+				final int ih = img.getHeight();
+				final int iw = img.getWidth();
+				final int sz = notice.getMediaData().length;
 
-				imageDetail.setText("" + iw + "*" + ih + " (" + (sz / 1024)
-						+ " kb)");
+				imageDetail.setText("" + iw + "*" + ih + " (" + (sz / 1024) + " kb)");
 
 			}
 		} else {
@@ -972,7 +993,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/**
 	 * Sets the to be deleted.
-	 * 
+	 *
 	 * @param value
 	 *            the value
 	 * @param onlyEmptyNotice
@@ -1011,20 +1032,16 @@ public class NoticePane extends JPanel implements ActionListener,
 	enum TagType {
 
 		/** The STANDARD. */
-		STANDARD,
-		/** The NAME. */
-		NAME,
-		/** The NOTE. */
-		NOTE,
-		/** The RESI. */
-		RESI,
-		/** The PHOT. */
+		STANDARD, /** The NAME. */
+		NAME, /** The NOTE. */
+		NOTE, /** The RESI. */
+		RESI, /** The PHOT. */
 		PHOT
 	}
 
 	/**
 	 * Gets the unit notice error.
-	 * 
+	 *
 	 * @return the unit notice error
 	 */
 	String getUnitNoticeError() {
@@ -1040,7 +1057,7 @@ public class NoticePane extends JPanel implements ActionListener,
 			theDate = date.getFromDate();
 			date.getToDate();
 			return null;
-		} catch (SukuDateException e) {
+		} catch (final SukuDateException e) {
 			logger.fine("Date check failed" + "[" + theDate + "]");
 
 			return e.getMessage();
@@ -1051,7 +1068,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/**
 	 * Verify unit notice.
-	 * 
+	 *
 	 * @throws SukuDateException
 	 *             the suku date exception
 	 */
@@ -1063,15 +1080,15 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/**
 	 * Copy to unit notice.
-	 * 
+	 *
 	 * @throws SukuDateException
 	 *             the suku date exception
 	 */
 	void copyToUnitNotice() throws SukuDateException {
-		int sureIdx = surety.getSurety();
+		final int sureIdx = surety.getSurety();
 
-		String fromDate = date.getFromDate();
-		String toDate = date.getToDate();
+		final String fromDate = date.getFromDate();
+		final String toDate = date.getToDate();
 
 		notice.setSurety(sureIdx);
 		String privacyCode = null;
@@ -1093,7 +1110,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		notice.setDescription(description.getText());
 
-		String datePre = date.getDatePrefTag();
+		final String datePre = date.getDatePrefTag();
 		// if (datePre != null || notice.getDatePrefix() != null) {
 
 		notice.setDatePrefix(datePre);
@@ -1124,22 +1141,22 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		if (cmd == null) {
 			return;
 		}
 		// System.out.println("Notice closataan " + cmd);
 		if (cmd.equals("NOTE_LANG")) {
 
-			LanguageDialog lan = new LanguageDialog(personView.getSuku());
+			final LanguageDialog lan = new LanguageDialog(personView.getSuku());
 
-			Rectangle r = personView.getSuku().getDbWindow();
+			final Rectangle r = personView.getSuku().getDbWindow();
 
 			lan.setBounds(r);
 
@@ -1152,18 +1169,16 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		} else if (cmd.equals("IMAGE_OPEN")) {
 
-			BufferedInputStream bstr = new BufferedInputStream(
-					Suku.kontroller.openLocalFile("jpg;png;gif"));
-			long filesize = Suku.kontroller.getFileLength();
-			byte buffer[] = new byte[(int) filesize];
+			final BufferedInputStream bstr = new BufferedInputStream(Suku.kontroller.openLocalFile("jpg;png;gif"));
+			final long filesize = Suku.kontroller.getFileLength();
+			final byte buffer[] = new byte[(int) filesize];
 
 			try {
-				int luettu = bstr.read(buffer);
+				final int luettu = bstr.read(buffer);
 				if (luettu == filesize) {
 					notice.setMediaData(buffer);
 				} else {
-					logger.warning("Filesize expected " + filesize + " read "
-							+ luettu);
+					logger.warning("Filesize expected " + filesize + " read " + luettu);
 				}
 				bstr.close();
 				notice.setMediaFilename(Suku.kontroller.getFileName());
@@ -1174,9 +1189,8 @@ public class NoticePane extends JPanel implements ActionListener,
 				mediaFilename.setText(notice.getMediaFilename());
 
 				updateUI();
-			} catch (Exception e1) {
-				JOptionPane.showMessageDialog(this, e1.getMessage(),
-						Resurses.getString(Resurses.SUKU),
+			} catch (final Exception e1) {
+				JOptionPane.showMessageDialog(this, e1.getMessage(), Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 
 				e1.printStackTrace();
@@ -1226,16 +1240,14 @@ public class NoticePane extends JPanel implements ActionListener,
 		if (cmd.equals("DATA_ADDNAME")) {
 
 			String gv = listaName.getText();
-			int idt = gv.indexOf(",");
+			final int idt = gv.indexOf(",");
 			if (idt < 0) {
-				int ids = gv.lastIndexOf(" ");
+				final int ids = gv.lastIndexOf(" ");
 				if (ids > 1) {
-					gv = gv.substring(ids + 1).trim() + ","
-							+ gv.substring(0, ids).trim();
+					gv = gv.substring(ids + 1).trim() + "," + gv.substring(0, ids).trim();
 				}
 			} else {
-				gv = gv.substring(0, idt).trim() + ","
-						+ gv.substring(idt + 1).trim();
+				gv = gv.substring(0, idt).trim() + "," + gv.substring(idt + 1).trim();
 			}
 
 			if (gv.isEmpty()) {
@@ -1260,7 +1272,7 @@ public class NoticePane extends JPanel implements ActionListener,
 		}
 		if (cmd.equals("DATA_ADDPLACE")) {
 
-			String pl = listaPlace.getText();
+			final String pl = listaPlace.getText();
 
 			if (pl.isEmpty()) {
 				if (listaSelectedPlace >= 0) {
@@ -1285,20 +1297,19 @@ public class NoticePane extends JPanel implements ActionListener,
 		}
 		if (cmd.equals(Resurses.UPDATE)) {
 
-			int midx = personView.getMainPaneIndex();
+			final int midx = personView.getMainPaneIndex();
 			if (midx < 0) {
 				return;
 			}
-			SukuTabPane pan = personView.getPane(midx);
-			PersonMainPane main = (PersonMainPane) pan.pnl;
-			int personPid = main.getPersonPid();
+			final SukuTabPane pan = personView.getPane(midx);
+			final PersonMainPane main = (PersonMainPane) pan.pnl;
+			final int personPid = main.getPersonPid();
 			logger.fine("MainPersonPid = [" + personPid + "]");
 			try {
 				verifyUnitNotice();
 				main.updatePerson(false);
-			} catch (SukuDateException se) {
-				JOptionPane.showMessageDialog(this, se.getMessage(),
-						Resurses.getString(Resurses.SUKU),
+			} catch (final SukuDateException se) {
+				JOptionPane.showMessageDialog(this, se.getMessage(), Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -1310,9 +1321,8 @@ public class NoticePane extends JPanel implements ActionListener,
 				// personView.displayPersonPane(personPid);
 				// personView.closeMainPane(true);
 
-			} catch (SukuException e1) {
-				JOptionPane.showMessageDialog(this, e1.toString(),
-						Resurses.getString(Resurses.SUKU),
+			} catch (final SukuException e1) {
+				JOptionPane.showMessageDialog(this, e1.toString(), Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 				logger.log(Level.WARNING, "Closing notice", e1);
 
@@ -1320,7 +1330,7 @@ public class NoticePane extends JPanel implements ActionListener,
 			}
 		} else if (cmd.equals(Resurses.CLOSE)) {
 
-			int midx = personView.getMainPaneIndex();
+			final int midx = personView.getMainPaneIndex();
 			if (midx < 0) {
 				return;
 				// SukuTabPane pan = personView.getPane(midx);
@@ -1330,9 +1340,8 @@ public class NoticePane extends JPanel implements ActionListener,
 
 			try {
 				verifyUnitNotice();
-			} catch (SukuDateException se) {
-				JOptionPane.showMessageDialog(this, se.getMessage(),
-						Resurses.getString(Resurses.SUKU),
+			} catch (final SukuDateException se) {
+				JOptionPane.showMessageDialog(this, se.getMessage(), Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -1341,9 +1350,8 @@ public class NoticePane extends JPanel implements ActionListener,
 				personView.closePersonPane(true);
 				personView.closeMainPane(false);
 
-			} catch (SukuException e1) {
-				JOptionPane.showMessageDialog(this, e1.toString(),
-						Resurses.getString(Resurses.SUKU),
+			} catch (final SukuException e1) {
+				JOptionPane.showMessageDialog(this, e1.toString(), Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 				logger.log(Level.WARNING, "Closing notice", e1);
 
@@ -1370,7 +1378,7 @@ public class NoticePane extends JPanel implements ActionListener,
 	 */
 	class MyImage extends JPanel {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -1379,7 +1387,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.JComponent#paintComponent(java.awt.Graphics)
 		 */
 		@Override
@@ -1394,7 +1402,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/**
 	 * Nv.
-	 * 
+	 *
 	 * @param text
 	 *            the text
 	 * @return the string
@@ -1409,7 +1417,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.
 	 * ComponentEvent)
 	 */
@@ -1420,10 +1428,9 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentMoved(ComponentEvent arg0) {
@@ -1438,7 +1445,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.
 	 * ComponentEvent)
 	 */
@@ -1449,7 +1456,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	private int getRColWidth() {
 
-		Dimension currSize = getSize();
+		final Dimension currSize = getSize();
 
 		if (currSize.width > 525) {
 			return currSize.width / 8;
@@ -1461,7 +1468,7 @@ public class NoticePane extends JPanel implements ActionListener,
 	 * resize the pane and check what is to be shown.
 	 */
 	public void resizeNoticePane() {
-		Dimension currSize = getSize();
+		final Dimension currSize = getSize();
 		int rwidth = 70;
 		if (currSize.width > 525) {
 			rwidth = currSize.width / 8;
@@ -1475,13 +1482,13 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		try {
 			getImage();
-		} catch (Exception e1) {
+		} catch (final Exception e1) {
 			logger.warning("getImage failed");
 			e1.printStackTrace();
 		}
 		rcol = lwidth + lcol + 5;
-		int listY1 = 10;
-		int listY2 = 34;
+		final int listY1 = 10;
+		final int listY2 = 34;
 		TagType showType;
 
 		if (notice.getTag().equals("NOTE")) {
@@ -1502,15 +1509,13 @@ public class NoticePane extends JPanel implements ActionListener,
 		}
 
 		boolean mustAddress = personView.getSuku().isShowAddress();
-		if ((notice.getAddress() != null) || (notice.getPostalCode() != null)
-				|| (notice.getPostOffice() != null)
+		if ((notice.getAddress() != null) || (notice.getPostalCode() != null) || (notice.getPostOffice() != null)
 				|| (notice.getCountry() != null) || (notice.getEmail() != null)) {
 			mustAddress = true;
 		}
 
 		boolean mustFarm = personView.getSuku().isShowFarm();
-		if ((notice.getVillage() != null) || (notice.getFarm() != null)
-				|| (notice.getCroft() != null)) {
+		if ((notice.getVillage() != null) || (notice.getFarm() != null) || (notice.getCroft() != null)) {
 			mustFarm = true;
 		}
 
@@ -1521,12 +1526,11 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		boolean mustImage = personView.getSuku().isShowImage();
 		try {
-			if ((notice.getMediaFilename() != null)
-					|| (notice.getMediaImage() != null)
+			if ((notice.getMediaFilename() != null) || (notice.getMediaImage() != null)
 					|| (notice.getMediaTitle() != null)) {
 				mustImage = true;
 			}
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.log(Level.WARNING, "resize", e);
 		}
 		int rrNameList = 0;
@@ -1583,7 +1587,7 @@ public class NoticePane extends JPanel implements ActionListener,
 			mustAddress = false;
 			mustNote = true;
 		}
-		boolean farmShow = mustFarm;
+		final boolean farmShow = mustFarm;
 		boolean addressShow = mustAddress;
 
 		switch (showType) {
@@ -1662,8 +1666,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 		}
 
-		if (((showType == TagType.RESI) || mustAddress)
-				&& ((showType != TagType.NAME) && (showType != TagType.NOTE))) {
+		if (((showType == TagType.RESI) || mustAddress) && ((showType != TagType.NAME) && (showType != TagType.NOTE))) {
 			addressShow = true;
 
 			addressLbl.setBounds(10, lrivi, 70, 20);
@@ -1686,8 +1689,7 @@ public class NoticePane extends JPanel implements ActionListener,
 			stateLbl.setBounds(10, lrivi, 70, 20);
 			countryLbl.setBounds(lcol + (lwidth / 3) + 10, lrivi, 70, 20);
 			state.setBounds(lcol, lrivi, lwidth / 3, 20);
-			country.setBounds(lcol + (lwidth / 3) + 80, lrivi,
-					((lwidth * 2) / 3) - 80, 20);
+			country.setBounds(lcol + (lwidth / 3) + 80, lrivi, ((lwidth * 2) / 3) - 80, 20);
 			lrivi += 24;
 		}
 
@@ -1719,8 +1721,7 @@ public class NoticePane extends JPanel implements ActionListener,
 		addLabel.setVisible(showType == TagType.NOTE);
 
 		boolean mediaShow = false;
-		if (((showType == TagType.PHOT) || mustImage)
-				&& ((showType != TagType.NAME) && (showType != TagType.NOTE))) {
+		if (((showType == TagType.PHOT) || mustImage) && ((showType != TagType.NAME) && (showType != TagType.NOTE))) {
 
 			// if (!(notice.getTag().equals("NOTE") &&
 			// notice.getTag().equals("NAME")) &&
@@ -1839,13 +1840,13 @@ public class NoticePane extends JPanel implements ActionListener,
 			postLbl.setVisible(false);
 		}
 		lrivi += 5;
-		int sheight = 60;
+		final int sheight = 60;
 		sourceLbl.setBounds(10, lrivi, 70, 20);
 		// if (notice.getTag().equals("HISKI")) {
 		// sheight = 180;
 		// }
 		scrollSource.setBounds(lcol, lrivi, lwidth, sheight);
-		boolean privateShow = mustPrivate;
+		final boolean privateShow = mustPrivate;
 		if (mustPrivate) {
 			lrivi += + +sheight;
 			privateLbl.setBounds(10, lrivi, 70, 42);
@@ -1862,10 +1863,9 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent
-	 * )
+	 *
+	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.
+	 * ComponentEvent )
 	 */
 	@Override
 	public void componentShown(ComponentEvent arg0) {
@@ -1874,7 +1874,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event
 	 * .ListSelectionEvent)
@@ -1883,11 +1883,11 @@ public class NoticePane extends JPanel implements ActionListener,
 	public void valueChanged(ListSelectionEvent lse) {
 		if (lse.getSource() == nameList) {
 			listaSelectedName = nameList.getSelectedIndex();
-			String text = (String) nameList.getSelectedValue();
+			final String text = (String) nameList.getSelectedValue();
 			listaName.setText(text);
 		} else if (lse.getSource() == placeList) {
 			listaSelectedPlace = placeList.getSelectedIndex();
-			String text = (String) placeList.getSelectedValue();
+			final String text = (String) placeList.getSelectedValue();
 			listaPlace.setText(text);
 		}
 
@@ -1895,7 +1895,7 @@ public class NoticePane extends JPanel implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.Component#toString()
 	 */
 	@Override

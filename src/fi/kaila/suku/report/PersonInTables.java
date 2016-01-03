@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.report;
 
 import java.text.Collator;
@@ -14,13 +44,13 @@ import fi.kaila.suku.util.pojo.PersonShortData;
 
 /**
  * <h1>Collector for person references in report</h1>
- * 
+ *
  * <p>
  * This is used both in server side and client side but are not transmitted
  * between the two layers
  * </p>
  * .
- * 
+ *
  * @author Kalle
  */
 public class PersonInTables implements Comparable<PersonInTables> {
@@ -59,7 +89,7 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param pid
 	 *            i.e. person id whom this concerns
 	 */
@@ -67,7 +97,7 @@ public class PersonInTables implements Comparable<PersonInTables> {
 		this.pid = pid;
 		if (fiCollator == null) {
 			collateLangu = Resurses.getLanguage();
-			Locale ll = new Locale(collateLangu);
+			final Locale ll = new Locale(collateLangu);
 			fiCollator = Collator.getInstance(ll);
 
 		}
@@ -77,16 +107,17 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 	/**
 	 * The report dialog contains a table with the names of the notices
-	 * 
+	 *
 	 * <ul>
 	 * <li>column 1 contains the name of the notice</li>
 	 * <li>column 2 contains settings for main person</li>
-	 * <li>column 3 contains settings for person who is a main person elsewere</li>
+	 * <li>column 3 contains settings for person who is a main person elsewere
+	 * </li>
 	 * <li>column 4 contains settings for non relatives</li>
 	 * <li>column 5 contains value to be used instead of name in report</li>
 	 * </ul>
 	 * .
-	 * 
+	 *
 	 * @param table
 	 *            the table
 	 * @param alsoSpouse
@@ -97,8 +128,7 @@ public class PersonInTables implements Comparable<PersonInTables> {
 	 *            the also other
 	 * @return 2 or 3
 	 */
-	public int getTypesColumn(long table, boolean alsoSpouse,
-			boolean alsoChild, boolean alsoOther) {
+	public int getTypesColumn(long table, boolean alsoSpouse, boolean alsoChild, boolean alsoOther) {
 		long firstTable = table;
 
 		if (alsoChild) {
@@ -141,9 +171,9 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 	/**
 	 * Get a list of tables where person also exists
-	 * 
+	 *
 	 * Checks if tableNo has other references.
-	 * 
+	 *
 	 * @param table
 	 *            the table
 	 * @param alsoSpouse
@@ -156,15 +186,14 @@ public class PersonInTables implements Comparable<PersonInTables> {
 	 *            the table offset
 	 * @return a comma separated list of tables
 	 */
-	public String getReferences(long table, boolean alsoSpouse,
-			boolean alsoChild, boolean alsoOther, int tableOffset) {
-		StringBuilder sx = new StringBuilder();
+	public String getReferences(long table, boolean alsoSpouse, boolean alsoChild, boolean alsoOther, int tableOffset) {
+		final StringBuilder sx = new StringBuilder();
 
-		HashMap<Long, Long> icheck = new HashMap<Long, Long>();
+		final HashMap<Long, Long> icheck = new HashMap<Long, Long>();
 		if (alsoChild) {
 			for (int i = 0; i < asChildren.size(); i++) {
-				long ll = asChildren.get(i);
-				Long lll = icheck.put(ll, ll);
+				final long ll = asChildren.get(i);
+				final Long lll = icheck.put(ll, ll);
 				if (lll == null) {
 					if (asChildren.get(i) != table) {
 						if (sx.length() > 0) {
@@ -178,8 +207,8 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 		if (alsoSpouse) {
 			for (int i = 0; i < asParents.size(); i++) {
-				long ll = asParents.get(i);
-				Long lll = icheck.put(ll, ll);
+				final long ll = asParents.get(i);
+				final Long lll = icheck.put(ll, ll);
 				if (lll == null) {
 
 					if (asParents.get(i) != table) {
@@ -193,11 +222,11 @@ public class PersonInTables implements Comparable<PersonInTables> {
 		}
 		if (alsoOther) {
 			for (int i = 0; i < references.size(); i++) {
-				long ll = references.get(i);
-				Long lll = icheck.put(ll, ll);
+				final long ll = references.get(i);
+				final Long lll = icheck.put(ll, ll);
 				if (lll == null) {
 					if (references.get(i) != table) {
-						long lxl = references.get(i);
+						final long lxl = references.get(i);
 						int j = 0;
 						for (j = 0; j < asParents.size(); j++) {
 							if (asParents.get(j) != null) {
@@ -219,12 +248,12 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 	/**
 	 * Gets the owner array.
-	 * 
+	 *
 	 * @return comma separated list of owners
 	 */
 	public Long[] getOwnerArray() {
-		ArrayList<Long> kk = new ArrayList<Long>();
-		Iterator<Long> ki = asOwners.keySet().iterator();
+		final ArrayList<Long> kk = new ArrayList<Long>();
+		final Iterator<Long> ki = asOwners.keySet().iterator();
 
 		while (ki.hasNext()) {
 			kk.add(ki.next());
@@ -235,16 +264,16 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 	/**
 	 * Gets the owner string.
-	 * 
+	 *
 	 * @param tableOffset
 	 *            the table offset
 	 * @return comma separated list of owners
 	 */
 	public String getOwnerString(long tableOffset) {
 		boolean addComma = false;
-		StringBuilder sb = new StringBuilder();
-		Long[] xx = getOwnerArray();
-		for (Long x : xx) {
+		final StringBuilder sb = new StringBuilder();
+		final Long[] xx = getOwnerArray();
+		for (final Long x : xx) {
 			if (addComma) {
 				sb.append(",");
 			}
@@ -256,7 +285,7 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 	/**
 	 * Add owner to index item.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 */
@@ -266,12 +295,12 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("[" + pid + "]:");
 		sb.append("chils:(");
 		for (int i = 0; i < asChildren.size(); i++) {
@@ -305,7 +334,7 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
@@ -314,20 +343,17 @@ public class PersonInTables implements Comparable<PersonInTables> {
 			return 0;
 		}
 
-		int cl = compareFF(Utils.nv(shortPerson.getSurname()),
-				Utils.nv(o.shortPerson.getSurname()));
+		int cl = compareFF(Utils.nv(shortPerson.getSurname()), Utils.nv(o.shortPerson.getSurname()));
 		if (cl != 0) {
 			return cl;
 		}
 
-		cl = compareFF(Utils.nv(shortPerson.getGivenname()),
-				Utils.nv(o.shortPerson.getGivenname()));
+		cl = compareFF(Utils.nv(shortPerson.getGivenname()), Utils.nv(o.shortPerson.getGivenname()));
 
 		if (cl != 0) {
 			return cl;
 		}
-		cl = (Utils.nv(shortPerson.getBirtDate()).compareTo(Utils
-				.nv(o.shortPerson.getBirtDate())));
+		cl = (Utils.nv(shortPerson.getBirtDate()).compareTo(Utils.nv(o.shortPerson.getBirtDate())));
 
 		if (cl != 0) {
 			return cl;
@@ -365,9 +391,9 @@ public class PersonInTables implements Comparable<PersonInTables> {
 		if (origin == null) {
 			return null;
 		}
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < origin.length(); i++) {
-			char c = origin.charAt(i);
+			final char c = origin.charAt(i);
 
 			if ("àáâãāăăă".indexOf(c) >= 0) {
 				sb.append('a');
@@ -397,7 +423,7 @@ public class PersonInTables implements Comparable<PersonInTables> {
 
 	/**
 	 * Sets the my table.
-	 * 
+	 *
 	 * @param myTable
 	 *            the myTable to set
 	 */
@@ -405,14 +431,13 @@ public class PersonInTables implements Comparable<PersonInTables> {
 		if (this.myTable == 0) {
 			this.myTable = myTable;
 		} else {
-			System.out.println("Tries to set table for " + this.pid + " to "
-					+ myTable);
+			System.out.println("Tries to set table for " + this.pid + " to " + myTable);
 		}
 	}
 
 	/**
 	 * Gets the my table.
-	 * 
+	 *
 	 * @return the myTable
 	 */
 	public long getMyTable() {

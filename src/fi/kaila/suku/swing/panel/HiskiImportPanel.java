@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.panel;
 
 import java.awt.Dimension;
@@ -47,15 +77,14 @@ import fi.kaila.suku.util.pojo.UnitNotice;
 
 /**
  * Panel to do traffic to Hiski.
- * 
+ *
  * @author Kaarle Kaila
  */
 public class HiskiImportPanel extends JPanel implements ActionListener {
 
-	private static Logger logger = Logger.getLogger(HiskiImportPanel.class
-			.getName());
+	private static Logger logger = Logger.getLogger(HiskiImportPanel.class.getName());
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -131,7 +160,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 	/**
 	 * Instantiates a new hiski import panel.
-	 * 
+	 *
 	 * @param suku
 	 *            the suku
 	 */
@@ -155,14 +184,15 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 	int buttony = 60;
 
 	private void initMe() {
-		int ydiff = 24;
-		int ylabdiff = 20;
+		final int ydiff = 24;
+		final int ylabdiff = 20;
 		rh = (ydiff * 3) + 10;
 
 		setLayout(null);
 
 		// JTextField lblTest = new JTextField(
-		// "Hiskinum: k: 23806 v: 8279487 8279489   h: 167312 167313 167314 167315 p: 178151 s: 176075 ");
+		// "Hiskinum: k: 23806 v: 8279487 8279489 h: 167312 167313 167314 167315
+		// p: 178151 s: 176075 ");
 		// add(lblTest);
 		// lblTest.setEditable(false);
 		// lblTest.setBounds(40, 0, 400, 20);
@@ -312,7 +342,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 		try {
 			this.bld = this.factory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
+		} catch (final ParserConfigurationException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 			e.printStackTrace();
 		}
@@ -446,7 +476,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 			pReasonFarm[i].setBounds(360, y + 66 + (i * rh), 310, 20);
 
 		}
-		Dimension panelSize = new Dimension(740, y + 45 + (i * rh));
+		final Dimension panelSize = new Dimension(740, y + 45 + (i * rh));
 		this.setPreferredSize(panelSize);
 		updateUI();
 	}
@@ -465,7 +495,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 	/**
 	 * set a hiskipanel person.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @param pers
@@ -484,14 +514,14 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		if (cmd == null) {
 			return;
 		}
@@ -523,7 +553,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 				// now lets just begin with conversting dr to dotter and s to
 				// son at end of patronym
 
-				String type = pType[i].getText();
+				final String type = pType[i].getText();
 
 				if (type.equals("isa")) {
 					dadIdx = i;
@@ -564,18 +594,15 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 						}
 						if (!pareName.isEmpty()) {
 							if (pareName.endsWith("s")) {
-								pPatronym[childIdx]
-										.setText(pareName + patroEnd);
+								pPatronym[childIdx].setText(pareName + patroEnd);
 							} else {
-								pPatronym[childIdx].setText(pareName + "s"
-										+ patroEnd);
+								pPatronym[childIdx].setText(pareName + "s" + patroEnd);
 							}
 						}
 					}
 					if (dadIdx >= 0) {
 						if (!pSurname[dadIdx].getText().isEmpty()) {
-							pSurname[childIdx].setText(pSurname[dadIdx]
-									.getText());
+							pSurname[childIdx].setText(pSurname[dadIdx].getText());
 						}
 					}
 				}
@@ -592,19 +619,19 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 	private void uploadMuuttaneetToDb() {
 
-		SukuData kast = new SukuData();
-		String hiskiSource = "Hiski muuttaneet [" + eventId + "]";
+		final SukuData kast = new SukuData();
+		final String hiskiSource = "Hiski muuttaneet [" + eventId + "]";
 		kast.persons = new PersonLongData[personCount];
 		Vector<UnitNotice> notices = null;
-		Vector<String> refs = new Vector<String>();
-		StringBuilder noteBuf = new StringBuilder();
+		final Vector<String> refs = new Vector<String>();
+		final StringBuilder noteBuf = new StringBuilder();
 
-		String kdate = eventFirstDate.getText();
+		final String kdate = eventFirstDate.getText();
 
-		String hdate = eventLastDate.getText();
+		final String hdate = eventLastDate.getText();
 
 		for (int i = 0; i < personCount; i++) {
-			String aux = pType[i].getText();
+			final String aux = pType[i].getText();
 			notices = new Vector<UnitNotice>();
 			String occu;
 			String etu;
@@ -615,7 +642,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 			String farm = null;
 			UnitNotice notice;
 			String sex = null;
-			StringBuilder hbh = new StringBuilder();
+			final StringBuilder hbh = new StringBuilder();
 			switch (pSex[i].getSelectedIndex()) {
 			case 1:
 				sex = "M";
@@ -628,14 +655,13 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 				break;
 			default:
 				if (hiskiPid[i] > 0) {
-					PersonShortData curpers = this.suku.getPerson(hiskiPid[i]);
+					final PersonShortData curpers = this.suku.getPerson(hiskiPid[i]);
 					if (curpers != null) {
 						sex = curpers.getSex();
 						break;
 					}
 				}
-				JOptionPane.showMessageDialog(this,
-						Resurses.getString("ERROR_MISSINGSEX"));
+				JOptionPane.showMessageDialog(this, Resurses.getString("ERROR_MISSINGSEX"));
 				return;
 			}
 
@@ -778,8 +804,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 				notices.add(notice);
 
 				if (notices.size() > 0) {
-					kast.persons[i].setNotices(notices
-							.toArray(new UnitNotice[0]));
+					kast.persons[i].setNotices(notices.toArray(new UnitNotice[0]));
 				}
 			} else {
 				addOtherPersonToText(refs, noteBuf, i);
@@ -789,12 +814,12 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 		try {
 
-			SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
+			final SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
 
-			for (PersonShortData per : response.pers) {
+			for (final PersonShortData per : response.pers) {
 				suku.updatePerson(per);
 			}
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			JOptionPane.showMessageDialog(this, "Hiski :" + e.getMessage());
 			e.printStackTrace();
 		}
@@ -802,23 +827,23 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 	}
 
 	private void uploadHaudatutToDb() {
-		SukuData kast = new SukuData();
-		String hiskiSource = "Hiski haudatut [" + eventId + "]";
+		final SukuData kast = new SukuData();
+		final String hiskiSource = "Hiski haudatut [" + eventId + "]";
 		kast.persons = new PersonLongData[1];
 		Vector<UnitNotice> notices = null;
 
-		String kdate = eventFirstDate.getText();
+		final String kdate = eventFirstDate.getText();
 
-		String hdate = eventLastDate.getText();
+		final String hdate = eventLastDate.getText();
 		// String reason = eventReason.getText();
 		String aux;
 		notices = new Vector<UnitNotice>();
-		Vector<String> refs = new Vector<String>();
-		StringBuilder noteBuf = new StringBuilder();
+		final Vector<String> refs = new Vector<String>();
+		final StringBuilder noteBuf = new StringBuilder();
 		// StringBuilder privBuf = new StringBuilder();
 		int vainajaIdx = 0;
 		for (int i = 0; i < personCount; i++) {
-			String type = pType[i].getText();
+			final String type = pType[i].getText();
 			String occu;
 			String etu;
 			String patro;
@@ -828,7 +853,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 			String farm = null;
 			UnitNotice notice;
 			String sex = null;
-			StringBuilder hbh = new StringBuilder();
+			final StringBuilder hbh = new StringBuilder();
 			if ("vainaja".equals(type)) {
 				vainajaIdx = i;
 				switch (pSex[i].getSelectedIndex()) {
@@ -843,15 +868,13 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 					break;
 				default:
 					if (hiskiPid[i] > 0) {
-						PersonShortData curpers = this.suku
-								.getPerson(hiskiPid[i]);
+						final PersonShortData curpers = this.suku.getPerson(hiskiPid[i]);
 						if (curpers != null) {
 							sex = curpers.getSex();
 							break;
 						}
 					}
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString("ERROR_MISSINGSEX"));
+					JOptionPane.showMessageDialog(this, Resurses.getString("ERROR_MISSINGSEX"));
 					return;
 				}
 
@@ -996,7 +1019,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 				try {
 					bdate = eventExtraDate.getFromDate();
-				} catch (SukuDateException e) {
+				} catch (final SukuDateException e) {
 					bdate = null;
 				}
 
@@ -1007,7 +1030,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 						}
 						hbh.append(Resurses.getString("CRITERIA.BIRT"));
 						hbh.append(": ");
-						String bprefix = eventExtraDate.getDatePrefText();
+						final String bprefix = eventExtraDate.getDatePrefText();
 						if (bprefix != null) {
 
 							hbh.append(bprefix);
@@ -1094,31 +1117,29 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 			}
 
-			kast.persons[vainajaIdx].setNotices(notices
-					.toArray(new UnitNotice[0]));
+			kast.persons[vainajaIdx].setNotices(notices.toArray(new UnitNotice[0]));
 		}
 
 		try {
-			SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
+			final SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
 
-			for (PersonShortData per : response.pers) {
+			for (final PersonShortData per : response.pers) {
 				suku.updatePerson(per);
 			}
 
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			JOptionPane.showMessageDialog(this, "Hiski :" + e.getMessage());
 			e.printStackTrace();
 		}
 
 	}
 
-	private void addOtherPersonToText(Vector<String> refs,
-			StringBuilder noteBuf, int personIdx) {
+	private void addOtherPersonToText(Vector<String> refs, StringBuilder noteBuf, int personIdx) {
 		String occu;
 		String etu;
 		String patro;
 		String suku;
-		String type = pType[personIdx].getText();
+		final String type = pType[personIdx].getText();
 		occu = pOccu[personIdx].getText();
 		etu = pGivenname[personIdx].getText();
 		patro = pPatronym[personIdx].getText();
@@ -1129,7 +1150,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 			noteBuf.append(type);
 			noteBuf.append(": ");
-			StringBuilder refName = new StringBuilder();
+			final StringBuilder refName = new StringBuilder();
 			boolean addSpace = false;
 			if (!Utils.nv(occu).isEmpty()) {
 				noteBuf.append(occu);
@@ -1181,8 +1202,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 	}
 
 	private void uploadVihitytToDb() {
-		SukuData kast = new SukuData();
-		String hiskiSource = "Hiski vihityt [" + eventId + "]";
+		final SukuData kast = new SukuData();
+		final String hiskiSource = "Hiski vihityt [" + eventId + "]";
 		kast.persons = new PersonLongData[personCount];
 		int miesId = 0;
 		int vaimoId = 0;
@@ -1190,13 +1211,13 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		int naisIdx = -1;
 		String marrDate = null;
 
-		Vector<String> refs = new Vector<String>();
+		final Vector<String> refs = new Vector<String>();
 
-		ArrayList<UnitNotice> noticesMan = new ArrayList<UnitNotice>();
-		ArrayList<UnitNotice> noticesWoman = new ArrayList<UnitNotice>();
+		final ArrayList<UnitNotice> noticesMan = new ArrayList<UnitNotice>();
+		final ArrayList<UnitNotice> noticesWoman = new ArrayList<UnitNotice>();
 		ArrayList<UnitNotice> notices;
 		for (int i = 0; i < personCount; i++) {
-			String aux = pType[i].getText();
+			final String aux = pType[i].getText();
 			String occu;
 			String etu;
 			String patro;
@@ -1205,8 +1226,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 			String farm;
 			UnitNotice notice;
 			String sex = null;
-			StringBuilder noteBuf = new StringBuilder();
-			StringBuilder hbp = new StringBuilder();
+			final StringBuilder noteBuf = new StringBuilder();
+			final StringBuilder hbp = new StringBuilder();
 			switch (pSex[i].getSelectedIndex()) {
 			case 1:
 				sex = "M";
@@ -1218,8 +1239,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 				sex = "U";
 				break;
 			default:
-				JOptionPane.showMessageDialog(this,
-						Resurses.getString("ERROR_MISSINGSEX"));
+				JOptionPane.showMessageDialog(this, Resurses.getString("ERROR_MISSINGSEX"));
 				return;
 			}
 
@@ -1301,8 +1321,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 					}
 					hbp.append(eventFirstType.getText());
 					hbp.append(": ");
-					hbp.append(Utils.textDate(
-							toDbDate(eventFirstDate.getText()), false));
+					hbp.append(Utils.textDate(toDbDate(eventFirstDate.getText()), false));
 
 				}
 
@@ -1366,23 +1385,20 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		}
 
 		if (noticesMan.size() > 0) {
-			kast.persons[miesIdx].setNotices(noticesMan
-					.toArray(new UnitNotice[0]));
+			kast.persons[miesIdx].setNotices(noticesMan.toArray(new UnitNotice[0]));
 			miesId = kast.persons[miesIdx].getPid();
 		}
 		if (noticesWoman.size() > 0) {
-			kast.persons[naisIdx].setNotices(noticesWoman
-					.toArray(new UnitNotice[0]));
+			kast.persons[naisIdx].setNotices(noticesWoman.toArray(new UnitNotice[0]));
 			vaimoId = kast.persons[naisIdx].getPid();
 		}
 
-		ArrayList<Relation> relations = new ArrayList<Relation>();
+		final ArrayList<Relation> relations = new ArrayList<Relation>();
 		Relation rel;
 
-		RelationNotice[] rNotices = new RelationNotice[1];
+		final RelationNotice[] rNotices = new RelationNotice[1];
 		if ((miesId != 0) && (vaimoId != 0)) {
-			rel = new Relation(0, miesId, vaimoId, "WIFE", hiskiSurety, null,
-					null, null, null);
+			rel = new Relation(0, miesId, vaimoId, "WIFE", hiskiSurety, null, null, null, null);
 			relations.add(rel);
 
 			rNotices[0] = new RelationNotice("MARR");
@@ -1395,13 +1411,13 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		kast.relations = relations.toArray(new Relation[0]);
 
 		try {
-			SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
+			final SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
 
-			for (PersonShortData per : response.pers) {
+			for (final PersonShortData per : response.pers) {
 				suku.updatePerson(per);
 			}
 
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			JOptionPane.showMessageDialog(this, "Hiski :" + e.getMessage());
 			e.printStackTrace();
 		}
@@ -1409,28 +1425,28 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 	}
 
 	private void uploadKastetutToDb() {
-		SukuData kast = new SukuData();
-		String hiskiSource = "Hiski kastetut [" + eventId + "]";
+		final SukuData kast = new SukuData();
+		final String hiskiSource = "Hiski kastetut [" + eventId + "]";
 		kast.persons = new PersonLongData[personCount];
 		int isaId = 0;
 		int aitiId = 0;
 		int lapsiId = 0;
-		Vector<String> refs = new Vector<String>();
-		StringBuilder noteBuf = new StringBuilder();
+		final Vector<String> refs = new Vector<String>();
+		final StringBuilder noteBuf = new StringBuilder();
 		// StringBuilder privBuf = new StringBuilder();
 		Vector<UnitNotice> notices = null;
 		int childIdx = -1;
-		ArrayList<UnitNotice> noticesChild = new ArrayList<UnitNotice>();
+		final ArrayList<UnitNotice> noticesChild = new ArrayList<UnitNotice>();
 
 		for (int i = 0; i < personCount; i++) {
-			String aux = pType[i].getText();
+			final String aux = pType[i].getText();
 			notices = new Vector<UnitNotice>();
 			String occu;
 			String etu;
 			String patro;
 			String suku;
 			String age;
-			StringBuilder hbp = new StringBuilder();
+			final StringBuilder hbp = new StringBuilder();
 
 			UnitNotice notice;
 			String sex = null;
@@ -1449,8 +1465,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 					sex = hiskiPers[i].getSex();
 					break;
 				}
-				JOptionPane.showMessageDialog(this,
-						Resurses.getString("ERROR_MISSINGSEX"));
+				JOptionPane.showMessageDialog(this, Resurses.getString("ERROR_MISSINGSEX"));
 				return;
 			}
 
@@ -1519,15 +1534,15 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 						datex = eventFirstDate.getText();
 					}
 					if (!datex.isEmpty()) {
-						String parts[] = pAgeVillage[i].getText().split(";");
+						final String parts[] = pAgeVillage[i].getText().split(";");
 						if (parts.length > 0) {
 							String vv = null;
 							String kk = null;
 							String vk = null;
 							String pv = null;
 
-							for (String part : parts) {
-								String tmp[] = part.split("=");
+							for (final String part : parts) {
+								final String tmp[] = part.split("=");
 								if (tmp.length == 2) {
 									if (tmp[0].equals("vv")) {
 										vv = tmp[1];
@@ -1543,19 +1558,17 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 									}
 								}
 							}
-							String auxdate = toBirthDate(datex, vv, kk, vk, pv);
+							final String auxdate = toBirthDate(datex, vv, kk, vk, pv);
 							if ((auxdate != null) && !auxdate.isEmpty()) {
 								if (kast.persons[i].getPid() > 0) {
 									if (hbp.length() > 0) {
 										hbp.append(".\n");
 									}
-									hbp.append(Resurses
-											.getReportString("HISKI_BIRT"));
+									hbp.append(Resurses.getReportString("HISKI_BIRT"));
 									hbp.append(":");
 									if (!auxdate.isEmpty()) {
 										hbp.append(" ");
-										hbp.append(Utils.textDate(auxdate,
-												false));
+										hbp.append(Utils.textDate(auxdate, false));
 									}
 								} else {
 									notice = new UnitNotice("BIRT");
@@ -1576,8 +1589,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 					notices.add(notice);
 				}
 				if (notices.size() > 0) {
-					kast.persons[i].setNotices(notices
-							.toArray(new UnitNotice[0]));
+					kast.persons[i].setNotices(notices.toArray(new UnitNotice[0]));
 				} else {
 					kast.persons[i].setPid(0);
 				}
@@ -1594,8 +1606,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 					}
 
 				}
-				kast.persons[childIdx] = new PersonLongData(lapsiId, "INDI",
-						sex);
+				kast.persons[childIdx] = new PersonLongData(lapsiId, "INDI", sex);
 				kast.persons[childIdx].setSource(hiskiSource);
 				etu = pGivenname[childIdx].getText();
 				patro = pPatronym[childIdx].getText();
@@ -1605,8 +1616,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 						if (noteBuf.length() > 0) {
 							noteBuf.append(".\n");
 						}
-						noteBuf.append(hiskiSource + "\n"
-								+ Resurses.getString("HISKI_NAME"));
+						noteBuf.append(hiskiSource + "\n" + Resurses.getString("HISKI_NAME"));
 						noteBuf.append(":");
 						if (!etu.isEmpty()) {
 							noteBuf.append(" ");
@@ -1652,8 +1662,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 						}
 					} else {
 
-						notice = new UnitNotice(
-								"synt".equals(pvm1Name) ? "BIRT" : "CHR");
+						notice = new UnitNotice("synt".equals(pvm1Name) ? "BIRT" : "CHR");
 						notice.setFromDate(dat);
 						notice.setPlace(srk.getText());
 						notice.setVillage(eventVillage.getText());
@@ -1683,8 +1692,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 							noteBuf.append(eventFarm.getText());
 						}
 					} else {
-						notice = new UnitNotice(
-								"synt".equals(pvm2Name) ? "BIRT" : "CHR");
+						notice = new UnitNotice("synt".equals(pvm2Name) ? "BIRT" : "CHR");
 						notice.setFromDate(dat);
 						notice.setPlace(srk.getText());
 						notice.setVillage(eventVillage.getText());
@@ -1734,7 +1742,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 			noteBuf.append(".\n");
 		}
 		if (noteBuf.length() > 0) {
-			UnitNotice note = new UnitNotice("HISKI");
+			final UnitNotice note = new UnitNotice("HISKI");
 			// note.setSource(hiskiSource);
 			note.setNoteText(noteBuf.toString());
 			if (refs.size() > 0) {
@@ -1742,8 +1750,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 			}
 			noticesChild.add(note);
 		}
-		kast.persons[childIdx].setNotices(noticesChild
-				.toArray(new UnitNotice[0]));
+		kast.persons[childIdx].setNotices(noticesChild.toArray(new UnitNotice[0]));
 
 		if (kast.persons[0].getNotices() == null) {
 			isaId = 0;
@@ -1754,21 +1761,18 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		if (kast.persons[2].getNotices() == null) {
 			lapsiId = 0;
 		}
-		ArrayList<Relation> relations = new ArrayList<Relation>();
+		final ArrayList<Relation> relations = new ArrayList<Relation>();
 		Relation rel;
 		if ((isaId != 0) && (lapsiId != 0) && ((isaId < 0) || (lapsiId < 0))) {
-			rel = new Relation(0, lapsiId, isaId, "FATH", hiskiSurety, null,
-					null, null, null);
+			rel = new Relation(0, lapsiId, isaId, "FATH", hiskiSurety, null, null, null, null);
 			relations.add(rel);
 		}
 		if ((aitiId != 0) && (lapsiId != 0) && ((aitiId < 0) || (lapsiId < 0))) {
-			rel = new Relation(0, lapsiId, aitiId, "MOTH", hiskiSurety, null,
-					null, null, null);
+			rel = new Relation(0, lapsiId, aitiId, "MOTH", hiskiSurety, null, null, null, null);
 			relations.add(rel);
 		}
 		if ((isaId != 0) && (aitiId != 0)) {
-			rel = new Relation(0, isaId, aitiId, "WIFE", hiskiSurety, null,
-					null, null, null);
+			rel = new Relation(0, isaId, aitiId, "WIFE", hiskiSurety, null, null, null, null);
 			relations.add(rel);
 		}
 
@@ -1776,15 +1780,15 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 		try {
 
-			SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
+			final SukuData response = Suku.kontroller.getSukuData(kast, "cmd=upload");
 
-			for (PersonShortData per : response.pers) {
+			for (final PersonShortData per : response.pers) {
 				if (per.getSex() != null) {
 					suku.updatePerson(per);
 				}
 			}
 
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			JOptionPane.showMessageDialog(this, "Hiski :" + e.getMessage());
 			e.printStackTrace();
 		}
@@ -1850,7 +1854,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		pAgeVillage = new JTextField[0];
 		pReasonFarm = new JTextField[0];
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("http://hiski.genealogia.fi/");
 
 		String requri; // http://hiski.genealogia.fi/hiski?fi+t23806+xml
@@ -1859,7 +1863,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		// String paras[] = new String[params.length];
 		// "suku?userno="+this.userno+"&person=" + pid
 
-		SukuPopupMenu pop = SukuPopupMenu.getInstance();
+		final SukuPopupMenu pop = SukuPopupMenu.getInstance();
 
 		for (int i = 0; i < 3; i++) {
 			pop.enableHiskiPerson(i, false, null);
@@ -1867,17 +1871,15 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 		sb.append("hiski?fi+t");
 
-		String hiskiNumStr = this.hiskiNumber.getText().trim();
+		final String hiskiNumStr = this.hiskiNumber.getText().trim();
 
 		int hiskiNum = 0;
 		Document doc = null;
 		try {
 			hiskiNum = Integer.parseInt(hiskiNumStr);
-		} catch (NumberFormatException ne) {
-			JOptionPane.showMessageDialog(this, "'" + hiskiNumStr + "'"
-					+ Resurses.getString("NOT_NUMBER"),
-					Resurses.getString("HISKI_NUMBER"),
-					JOptionPane.WARNING_MESSAGE);
+		} catch (final NumberFormatException ne) {
+			JOptionPane.showMessageDialog(this, "'" + hiskiNumStr + "'" + Resurses.getString("NOT_NUMBER"),
+					Resurses.getString("HISKI_NUMBER"), JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		sb.append(hiskiNum);
@@ -1888,46 +1890,46 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		try {
 
 			// logger.fine("URILOG: " + requri);
-			URL url = new URL(requri);
-			HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+			final URL url = new URL(requri);
+			final HttpURLConnection uc = (HttpURLConnection) url.openConnection();
 			// String encoding = uc.getContentEncoding();
 
 			resu = uc.getResponseCode();
 			// System.out.println("Resu = " + resu);
 			if (resu == 200) {
 
-				InputStream in = uc.getInputStream();
-				BufferedInputStream bis = new BufferedInputStream(in);
+				final InputStream in = uc.getInputStream();
+				final BufferedInputStream bis = new BufferedInputStream(in);
 				// SukuData fam = null;
 				try {
 
 					doc = this.bld.parse(bis);
 
 					bis.close();
-				} catch (Exception e) {
+				} catch (final Exception e) {
 					e.printStackTrace();
 					throw new SukuException(e);
 				}
 			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			JOptionPane.showMessageDialog(this, e.toString());
 			logger.log(Level.WARNING, "hiski", e);
 			return;
 		}
 
-		Element docEle = doc.getDocumentElement();
+		final Element docEle = doc.getDocumentElement();
 		Element ele;
-		NodeList nl = docEle.getElementsByTagName("tapahtuma");
+		final NodeList nl = docEle.getElementsByTagName("tapahtuma");
 		if (nl.getLength() != 1) {
 			logger.warning("tapahtuma count = " + nl.getLength());
 		}
 		if (nl.getLength() > 0) {
-			Element tap = (Element) nl.item(0);
+			final Element tap = (Element) nl.item(0);
 			try {
 				bookName = tap.getAttribute("kirja");
 				book.setText(Resurses.getString(bookName));
-			} catch (MissingResourceException mre) {
+			} catch (final MissingResourceException mre) {
 				book.setText(bookName);
 			}
 
@@ -1954,7 +1956,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 				eventReason.setEnabled(true);
 			}
 
-			NodeList henkNodes = docEle.getElementsByTagName("henkilo");
+			final NodeList henkNodes = docEle.getElementsByTagName("henkilo");
 			personCount = henkNodes.getLength();
 			initHiskiPersons(personCount);
 
@@ -1968,7 +1970,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 				ele = (Element) henkNodes.item(pidx);
 
 				pNumero[pidx].setText("" + pidx);
-				String theType = ele.getAttribute("tyyppi");
+				final String theType = ele.getAttribute("tyyppi");
 				pType[pidx].setText(theType);
 				boolean showMenu = true;
 				if ("isa".equals(theType)) {
@@ -1992,15 +1994,15 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 					pSex[pidx].setVisible(false);
 					showMenu = false;
 				}
-				NodeList nlh = ele.getChildNodes();
+				final NodeList nlh = ele.getChildNodes();
 				Element elp;
 
-				StringBuilder muut = new StringBuilder();
+				final StringBuilder muut = new StringBuilder();
 				for (int j = 0; j < nlh.getLength(); j++) {
 					if (nlh.item(j).getNodeType() == Node.ELEMENT_NODE) {
 						elp = (Element) nlh.item(j);
 
-						String elpNam = elp.getNodeName();
+						final String elpNam = elp.getNodeName();
 
 						if (elpNam == null) {
 							// TODO:
@@ -2023,7 +2025,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 							rSurname[pidx].setText(elp.getTextContent());
 							pSurname[pidx].setText(elp.getTextContent());
 						} else if (elpNam.equals("ika")) {
-							StringBuilder age = new StringBuilder();
+							final StringBuilder age = new StringBuilder();
 
 							vv = elp.getAttribute("vv");
 							if (!vv.isEmpty()) {
@@ -2059,23 +2061,23 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 				}
 			}
 
-			NodeList taplist = tap.getChildNodes();
+			final NodeList taplist = tap.getChildNodes();
 			int pvmno = 0;
 
-			StringBuilder remark = new StringBuilder();
+			final StringBuilder remark = new StringBuilder();
 			for (int i = 0; i < taplist.getLength(); i++) {
 				if (taplist.item(i).getNodeType() == Node.ELEMENT_NODE) {
 					ele = (Element) taplist.item(i);
-					String eleName = ele.getNodeName();
+					final String eleName = ele.getNodeName();
 
 					if (eleName == null) {
 						// shouldn't come here anyway
 					} else if (eleName.equals("srk")) {
 						srkNo.setText(ele.getAttribute("nro"));
 
-						String ll = Resurses.getLanguage();
+						final String ll = Resurses.getLanguage();
 						String tmp = ele.getTextContent();
-						int llidx = tmp.indexOf("-");
+						final int llidx = tmp.indexOf("-");
 						if (llidx > 0) {
 							if (ll.equals("sv") && (llidx < (tmp.length() + 1))) {
 								tmp = tmp.substring(llidx + 1).trim();
@@ -2092,9 +2094,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 						if (pvmno == 1) {
 							try {
 								pvm1Name = ele.getAttribute("tyyppi");
-								eventFirstType.setText(Resurses
-										.getString(pvm1Name));
-							} catch (MissingResourceException mre) {
+								eventFirstType.setText(Resurses.getString(pvm1Name));
+							} catch (final MissingResourceException mre) {
 								eventFirstType.setText(pvm1Name);
 							}
 							datex = ele.getTextContent();
@@ -2102,9 +2103,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 						} else {
 							try {
 								pvm2Name = ele.getAttribute("tyyppi");
-								eventLastType.setText(Resurses
-										.getString(pvm2Name));
-							} catch (MissingResourceException mre) {
+								eventLastType.setText(Resurses.getString(pvm2Name));
+							} catch (final MissingResourceException mre) {
 								eventLastType.setText(pvm2Name);
 							}
 							datex = ele.getTextContent();
@@ -2112,9 +2112,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 
 						}
 
-						if ("haudatut".equals(bookName)
-								&& ((vv + kk + vk + pv).length() > 0)) {
-							String aux = toBirthDate(datex, vv, kk, vk, pv);
+						if ("haudatut".equals(bookName) && ((vv + kk + vk + pv).length() > 0)) {
+							final String aux = toBirthDate(datex, vv, kk, vk, pv);
 							if ((aux != null) && !aux.isEmpty()) {
 								eventExtraType.setVisible(true);
 								eventExtraDate.setVisible(true);
@@ -2155,9 +2154,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		}
 	}
 
-	private String toBirthDate(String eventDate, String ageYy, String ageMm,
-			String ageWk, String ageDy) {
-		String auxDate = toDbDate(eventDate);
+	private String toBirthDate(String eventDate, String ageYy, String ageMm, String ageWk, String ageDy) {
+		final String auxDate = toDbDate(eventDate);
 
 		// first subtract year
 
@@ -2170,13 +2168,13 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		}
 		try {
 			year = Integer.parseInt(auxDate.substring(0, 4));
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			return "";
 		}
 
 		try {
 			yy = Integer.parseInt(ageYy);
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			yy = 0;
 		}
 		year -= yy;
@@ -2185,24 +2183,24 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 			try {
 				month = Integer.parseInt(auxDate.substring(4, 6));
 
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				month = 0;
 				day = 0;
 			}
 			try {
 				mm = Integer.parseInt(ageMm);
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				mm = 0;
 			}
 			try {
 				wk = Integer.parseInt(ageWk);
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				wk = 0;
 
 			}
 			try {
 				dy = Integer.parseInt(ageDy);
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				dy = 0;
 			}
 			if ((yy == 0) && (mm == 0) && (wk == 0) && (dy == 0)) {
@@ -2214,7 +2212,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 				if (auxDate.length() > 7) {
 					try {
 						day = Integer.parseInt(auxDate.substring(6, 8));
-					} catch (NumberFormatException ne) {
+					} catch (final NumberFormatException ne) {
 						day = 0;
 					}
 				}
@@ -2269,7 +2267,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 			}
 		}
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 
 		String aux = "0000" + year;
 		String tmp = aux.substring(aux.length() - 4);
@@ -2291,14 +2289,13 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		if ((hiskiDate == null) || hiskiDate.isEmpty()) {
 			return null;
 		}
-		String[] parts = hiskiDate.split("\\.");
-		StringBuilder sb = new StringBuilder();
+		final String[] parts = hiskiDate.split("\\.");
+		final StringBuilder sb = new StringBuilder();
 
 		for (int i = parts.length - 1; i >= 0; i--) {
 			if (sb.length() == 0) { // year
 				sb.append(parts[i]);
-				if ((parts.length == 3)
-						&& (parts[0].equals("") || parts[0].equals("0"))
+				if ((parts.length == 3) && (parts[0].equals("") || parts[0].equals("0"))
 						&& (parts[1].equals("") || parts[1].equals("0"))) {
 					break;
 				}
@@ -2306,8 +2303,8 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 				if (((i == 0) && parts[i].equals("")) || parts[i].equals("0")) {
 					// if date missing dont add it
 				} else {
-					String aux = "00" + parts[i];
-					String tmp = aux.substring(parts[i].length());
+					final String aux = "00" + parts[i];
+					final String tmp = aux.substring(parts[i].length());
 					sb.append(tmp);
 				}
 			}

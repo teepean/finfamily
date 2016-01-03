@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.server.utils;
 
 import java.sql.Connection;
@@ -14,9 +44,9 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * <h1>Group Server Utility</h1>
- * 
+ *
  * Group removes and additions to / from db are done here.
- * 
+ *
  * @author Kalle
  */
 public class ViewUtil {
@@ -27,7 +57,7 @@ public class ViewUtil {
 
 	/**
 	 * constructor initializes with database connection.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 */
@@ -38,13 +68,13 @@ public class ViewUtil {
 
 	/**
 	 * remove the view.
-	 * 
+	 *
 	 * @param viewId
 	 *            the view id
 	 * @return SukuData with resu != null if error
 	 */
 	public SukuData removeView(int viewId) {
-		SukuData resu = new SukuData();
+		final SukuData resu = new SukuData();
 		try {
 			String sql = "delete from viewunits where vid = ?";
 
@@ -60,7 +90,7 @@ public class ViewUtil {
 			pst.executeUpdate();
 			pst.close();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			resu.resu = e.getMessage();
 			logger.log(Level.WARNING, "remove view failed", e);
 			e.printStackTrace();
@@ -71,17 +101,17 @@ public class ViewUtil {
 
 	/**
 	 * Add new named view.
-	 * 
+	 *
 	 * @param viewname
 	 *            the viewname
 	 * @return SukuData with resu != null if error
 	 */
 	public SukuData addView(String viewname) {
-		SukuData resu = new SukuData();
+		final SukuData resu = new SukuData();
 		try {
-			Statement stm = con.createStatement();
+			final Statement stm = con.createStatement();
 			int vid = 0;
-			ResultSet rs = stm.executeQuery("select nextval('viewseq')");
+			final ResultSet rs = stm.executeQuery("select nextval('viewseq')");
 
 			if (rs.next()) {
 				vid = rs.getInt(1);
@@ -91,16 +121,16 @@ public class ViewUtil {
 			rs.close();
 			stm.close();
 
-			String sql = "insert into views (vid,name) values (?,?)";
+			final String sql = "insert into views (vid,name) values (?,?)";
 
-			PreparedStatement pst = con.prepareStatement(sql);
+			final PreparedStatement pst = con.prepareStatement(sql);
 			pst.setInt(1, vid);
 			resu.resultPid = vid;
 			pst.setString(2, viewname);
 			pst.executeUpdate();
 			pst.close();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			resu.resu = e.getMessage();
 			logger.log(Level.WARNING, "add view failed", e);
 			e.printStackTrace();
@@ -111,22 +141,21 @@ public class ViewUtil {
 
 	/**
 	 * get list of views a person is member of.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @return SukuData with resu != null if error
 	 */
 	public SukuData getViews(int pid) {
-		SukuData resu = new SukuData();
+		final SukuData resu = new SukuData();
 		try {
-			String sql = "select name from views where vid in "
-					+ "(select vid from viewunits where pid = ?)";
-			PreparedStatement stm = con.prepareStatement(sql);
+			final String sql = "select name from views where vid in " + "(select vid from viewunits where pid = ?)";
+			final PreparedStatement stm = con.prepareStatement(sql);
 
 			stm.setInt(1, pid);
-			ResultSet rs = stm.executeQuery();
+			final ResultSet rs = stm.executeQuery();
 
-			ArrayList<String> vv = new ArrayList<String>();
+			final ArrayList<String> vv = new ArrayList<String>();
 
 			while (rs.next()) {
 				vv.add(rs.getString("name"));
@@ -135,7 +164,7 @@ public class ViewUtil {
 			stm.close();
 			resu.generalArray = vv.toArray(new String[0]);
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			resu.resu = e.getMessage();
 			logger.log(Level.WARNING, "add view failed", e);
 			e.printStackTrace();
@@ -146,7 +175,7 @@ public class ViewUtil {
 
 	/**
 	 * add list of persons to view.
-	 * 
+	 *
 	 * @param vid
 	 *            the vid
 	 * @param pidArray
@@ -156,7 +185,7 @@ public class ViewUtil {
 	 * @return SukuData with resu != null if error
 	 */
 	public SukuData addViewUnits(int vid, int[] pidArray, boolean emptyView) {
-		SukuData resu = new SukuData();
+		final SukuData resu = new SukuData();
 		resu.resuCount = 0;
 		try {
 			String sql;
@@ -173,7 +202,7 @@ public class ViewUtil {
 			sql = "insert into viewunits (vid,pid) values (?,?)";
 			stm = con.prepareStatement(sql);
 
-			for (int element : pidArray) {
+			for (final int element : pidArray) {
 				stm.setInt(1, vid);
 				stm.setInt(2, element);
 				stm.executeUpdate();
@@ -181,7 +210,7 @@ public class ViewUtil {
 			}
 			stm.close();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			resu.resu = e.getMessage();
 			logger.log(Level.WARNING, "add view failed", e);
 			e.printStackTrace();
@@ -192,7 +221,7 @@ public class ViewUtil {
 
 	/**
 	 * Add person and his/her descendants to view.
-	 * 
+	 *
 	 * @param viewId
 	 *            the view id
 	 * @param pid
@@ -207,10 +236,10 @@ public class ViewUtil {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public SukuData addViewDesc(int viewId, int pid, String gent,
-			boolean withSpouses, boolean emptyView) throws SukuException {
-		SukuData resp = new SukuData();
-		ArrayList<Integer> pidv = new ArrayList<Integer>();
+	public SukuData addViewDesc(int viewId, int pid, String gent, boolean withSpouses, boolean emptyView)
+			throws SukuException {
+		final SukuData resp = new SukuData();
+		final ArrayList<Integer> pidv = new ArrayList<Integer>();
 		resp.resuCount = 0;
 		int gen = 0;
 		if ((gent != null) && !gent.isEmpty()) {
@@ -246,11 +275,9 @@ public class ViewUtil {
 			stm.close();
 			int currgen = 0;
 			do {
-				int firstChild = pidv.size();
+				final int firstChild = pidv.size();
 				for (int i = from; i < to; i++) {
-					sql = "select bid "
-							+ "from child as c inner join unit as u on bid=pid "
-							+ "where aid=?  ";
+					sql = "select bid " + "from child as c inner join unit as u on bid=pid " + "where aid=?  ";
 					stm = con.prepareStatement(sql);
 					stm.setInt(1, pidv.get(i));
 					rs = stm.executeQuery();
@@ -262,12 +289,10 @@ public class ViewUtil {
 					stm.close();
 
 				}
-				int lastChild = pidv.size();
+				final int lastChild = pidv.size();
 				if (withSpouses) {
 					for (int i = from; i < to; i++) {
-						sql = "select bid "
-								+ "from spouse as c inner join unit as u on bid=pid "
-								+ "where aid=?  ";
+						sql = "select bid " + "from spouse as c inner join unit as u on bid=pid " + "where aid=?  ";
 						stm = con.prepareStatement(sql);
 						stm.setInt(1, pidv.get(i));
 						rs = stm.executeQuery();
@@ -290,7 +315,7 @@ public class ViewUtil {
 			for (int i = 0; i < pidv.size(); i++) {
 				stm.setInt(1, viewId);
 
-				int pidc = pidv.get(i);
+				final int pidc = pidv.get(i);
 				stm.setInt(2, pidc);
 				stm.executeUpdate();
 				resp.pidArray[i] = pidc;
@@ -300,7 +325,7 @@ public class ViewUtil {
 
 			return resp;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "SQL error in view with descendants ", e);
 			e.printStackTrace();
 			throw new SukuException("ADD GROUP", e);
@@ -309,13 +334,13 @@ public class ViewUtil {
 
 	/**
 	 * empty the view.
-	 * 
+	 *
 	 * @param vid
 	 *            the vid
 	 * @return SukuData with resu != null if error
 	 */
 	public SukuData emptyView(int vid) {
-		SukuData resu = new SukuData();
+		final SukuData resu = new SukuData();
 		try {
 			String sql;
 			PreparedStatement stm;
@@ -326,7 +351,7 @@ public class ViewUtil {
 			stm.executeUpdate();
 			stm.close();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			resu.resu = e.getMessage();
 			logger.log(Level.WARNING, "delete from view failed", e);
 			e.printStackTrace();
@@ -337,7 +362,7 @@ public class ViewUtil {
 
 	/**
 	 * remove listed persons from view.
-	 * 
+	 *
 	 * @param vid
 	 *            the vid
 	 * @param pidArray
@@ -345,7 +370,7 @@ public class ViewUtil {
 	 * @return SukuData with resu != null if error
 	 */
 	public SukuData removeViewUnits(int vid, int[] pidArray) {
-		SukuData resu = new SukuData();
+		final SukuData resu = new SukuData();
 		try {
 			String sql;
 			PreparedStatement stm;
@@ -353,7 +378,7 @@ public class ViewUtil {
 			sql = "delete from viewunits where vid=? and pid = ?";
 			stm = con.prepareStatement(sql);
 
-			for (int element : pidArray) {
+			for (final int element : pidArray) {
 				stm.setInt(1, vid);
 				stm.setInt(2, element);
 				stm.executeUpdate();
@@ -361,7 +386,7 @@ public class ViewUtil {
 			}
 			stm.close();
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			resu.resu = e.getMessage();
 			logger.log(Level.WARNING, "delete from view failed", e);
 			e.printStackTrace();
@@ -372,7 +397,7 @@ public class ViewUtil {
 
 	/**
 	 * add person with ancestors to view.
-	 * 
+	 *
 	 * @param viewId
 	 *            the view id
 	 * @param pid
@@ -385,10 +410,9 @@ public class ViewUtil {
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public SukuData addViewAnc(int viewId, int pid, String gent,
-			boolean emptyView) throws SukuException {
-		SukuData resp = new SukuData();
-		ArrayList<Integer> pidv = new ArrayList<Integer>();
+	public SukuData addViewAnc(int viewId, int pid, String gent, boolean emptyView) throws SukuException {
+		final SukuData resp = new SukuData();
+		final ArrayList<Integer> pidv = new ArrayList<Integer>();
 		resp.resuCount = 0;
 		int gen = 0;
 		if ((gent != null) && !gent.isEmpty()) {
@@ -425,11 +449,9 @@ public class ViewUtil {
 
 			int currgen = 0;
 			do {
-				int firstPare = pidv.size();
+				final int firstPare = pidv.size();
 				for (int i = from; i < to; i++) {
-					sql = "select bid "
-							+ "from parent as c inner join unit as u on bid=pid "
-							+ "where aid=?  ";
+					sql = "select bid " + "from parent as c inner join unit as u on bid=pid " + "where aid=?  ";
 					stm = con.prepareStatement(sql);
 					stm.setInt(1, pidv.get(i));
 					rs = stm.executeQuery();
@@ -441,7 +463,7 @@ public class ViewUtil {
 					stm.close();
 
 				}
-				int lastPare = pidv.size();
+				final int lastPare = pidv.size();
 
 				from = firstPare;
 				to = lastPare;
@@ -454,7 +476,7 @@ public class ViewUtil {
 			for (int i = 0; i < pidv.size(); i++) {
 				stm.setInt(1, viewId);
 
-				int pidc = pidv.get(i);
+				final int pidc = pidv.get(i);
 				stm.setInt(2, pidc);
 				stm.executeUpdate();
 				resp.pidArray[i] = pidc;
@@ -464,7 +486,7 @@ public class ViewUtil {
 
 			return resp;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.WARNING, "SQL error in view with descendants ", e);
 			e.printStackTrace();
 			throw new SukuException("ADD GROUP", e);

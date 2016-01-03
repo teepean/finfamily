@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.data;
 
 import java.io.File;
@@ -20,7 +50,7 @@ import fi.kaila.suku.util.SukuException;
 
 /**
  * Class used to read excel 2003 xml data.
- * 
+ *
  * @author Kalle
  * @deprecated
  */
@@ -31,8 +61,7 @@ public class ImportExcelData {
 	/** The is H2 database. */
 	private boolean isH2 = false;
 
-	private static Logger logger = Logger.getLogger(ImportExcelData.class
-			.getName());
+	private static Logger logger = Logger.getLogger(ImportExcelData.class.getName());
 	private Document doc;
 
 	/**
@@ -51,26 +80,26 @@ public class ImportExcelData {
 		this.con = con;
 		this.isH2 = isH2;
 
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setValidating(false);
 		try {
-			DocumentBuilder bld = factory.newDocumentBuilder();
+			final DocumentBuilder bld = factory.newDocumentBuilder();
 
-			File excel = new File(path);
+			final File excel = new File(path);
 
 			doc = bld.parse(excel);
 
-		} catch (ParserConfigurationException e) {
+		} catch (final ParserConfigurationException e) {
 
 			e.printStackTrace();
 			throw new SukuException(e);
 		}
 
-		catch (SAXException e) {
+		catch (final SAXException e) {
 
 			e.printStackTrace();
 			throw new SukuException(e);
-		} catch (IOException e) {
+		} catch (final IOException e) {
 
 			e.printStackTrace();
 			throw new SukuException(e);
@@ -79,7 +108,7 @@ public class ImportExcelData {
 
 	/**
 	 * import coordinates from excel xml.
-	 * 
+	 *
 	 * @throws SukuException
 	 *             the suku exception
 	 */
@@ -88,9 +117,9 @@ public class ImportExcelData {
 		int idx;
 		int colIdx;
 		int rowIdx;
-		Element docEle = doc.getDocumentElement();
+		final Element docEle = doc.getDocumentElement();
 
-		NodeList docl = docEle.getElementsByTagName("Worksheet");
+		final NodeList docl = docEle.getElementsByTagName("Worksheet");
 		Element sheet;
 		String sheetName;
 		String aux;
@@ -111,10 +140,10 @@ public class ImportExcelData {
 		} else {
 			INSERT_PLACELOC = "insert into PlaceLocations (PlaceName,Location) values (?,point(?,?))";
 		}
-		String INSERT_PLACEOTHER = "insert into PlaceOtherNames (OtherName,PlaceName) values (?,?)";
+		final String INSERT_PLACEOTHER = "insert into PlaceOtherNames (OtherName,PlaceName) values (?,?)";
 
-		String DELETE_PLACELOC = "delete from PlaceLocations";
-		String DELETE_PLACEOTHER = "delete from PlaceOtherNames";
+		final String DELETE_PLACELOC = "delete from PlaceLocations";
+		final String DELETE_PLACEOTHER = "delete from PlaceOtherNames";
 
 		PreparedStatement pst = null;
 
@@ -129,7 +158,7 @@ public class ImportExcelData {
 			pst = con.prepareStatement(INSERT_PLACELOC);
 			pstOther = con.prepareStatement(INSERT_PLACEOTHER);
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 
 			e.printStackTrace();
 			throw new SukuException(e);
@@ -172,8 +201,7 @@ public class ImportExcelData {
 					}
 				}
 				if ((nameIdx < 0) || (latiIdx < 0) || (longIdx < 0)) {
-					throw new SukuException(
-							"Incorrect columns in coordinates page");
+					throw new SukuException("Incorrect columns in coordinates page");
 				}
 
 				for (rowIdx = 1; rowIdx < rows.getLength(); rowIdx++) {
@@ -201,7 +229,7 @@ public class ImportExcelData {
 						}
 						try {
 							placeLatitude = Double.parseDouble(aux);
-						} catch (NumberFormatException ne) {
+						} catch (final NumberFormatException ne) {
 							placeLatitude = 0;
 						}
 						cell = (Element) cells.item(longIdx);
@@ -214,7 +242,7 @@ public class ImportExcelData {
 						}
 						try {
 							placeLongitude = Double.parseDouble(aux);
-						} catch (NumberFormatException ne) {
+						} catch (final NumberFormatException ne) {
 							placeLongitude = 0;
 						}
 
@@ -225,10 +253,9 @@ public class ImportExcelData {
 							pst.executeUpdate();
 							laskuri++;
 
-						} catch (SQLException e) {
-							logger.info("failed to insert " + placeName
-									+ " at [" + placeLongitude + ";"
-									+ placeLatitude + "] " + e.getMessage());
+						} catch (final SQLException e) {
+							logger.info("failed to insert " + placeName + " at [" + placeLongitude + ";" + placeLatitude
+									+ "] " + e.getMessage());
 							e.printStackTrace();
 							// throw new SukuException(e);
 						}
@@ -240,8 +267,7 @@ public class ImportExcelData {
 
 				}
 
-				logger.fine("inserted to  PlaceLocations " + laskuri
-						+ " locations");
+				logger.fine("inserted to  PlaceLocations " + laskuri + " locations");
 
 			} else if ("MuutNimet".equalsIgnoreCase(sheetName)) {
 
@@ -273,8 +299,7 @@ public class ImportExcelData {
 					}
 				}
 				if ((otherIdx < 0) || (placeIdx < 0)) {
-					throw new SukuException(
-							"Incorrect columns in muutname page");
+					throw new SukuException("Incorrect columns in muutname page");
 				}
 
 				for (rowIdx = 1; rowIdx < rows.getLength(); rowIdx++) {
@@ -307,10 +332,9 @@ public class ImportExcelData {
 
 								pstOther.executeUpdate();
 								laskuri++;
-							} catch (SQLException e) {
-								logger.info("failed to insert " + otherName
-										+ " for [" + placeName + "] "
-										+ e.getMessage());
+							} catch (final SQLException e) {
+								logger.info(
+										"failed to insert " + otherName + " for [" + placeName + "] " + e.getMessage());
 								e.printStackTrace();
 								// throw new SukuException(e);
 							}

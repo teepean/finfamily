@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.event.ActionEvent;
@@ -34,7 +64,7 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * Shows genealogical statistics.
- * 
+ *
  * @author halonmi
  */
 public class GenStat extends JDialog implements ActionListener {
@@ -47,7 +77,7 @@ public class GenStat extends JDialog implements ActionListener {
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @param persons
@@ -61,7 +91,7 @@ public class GenStat extends JDialog implements ActionListener {
 
 	private void initMe() {
 
-		JLabel lblC = new JLabel(Resurses.getString("STAT_SELECT_STATISTICS"));
+		final JLabel lblC = new JLabel(Resurses.getString("STAT_SELECT_STATISTICS"));
 
 		statCombo = new JComboBox();
 
@@ -83,63 +113,39 @@ public class GenStat extends JDialog implements ActionListener {
 		chartPanel = new ChartPanel(null);
 		statNoOfChildren();
 
-		GroupLayout layout = new GroupLayout(getContentPane());
+		final GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 
-		layout.setHorizontalGroup(layout.createSequentialGroup().addGroup(
-				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-						.addComponent(lblC, GroupLayout.PREFERRED_SIZE,
-								GroupLayout.DEFAULT_SIZE,
+		layout.setHorizontalGroup(layout.createSequentialGroup()
+				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+						.addComponent(lblC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 								GroupLayout.PREFERRED_SIZE)
-						.addComponent(statCombo, 250, 250,
-								GroupLayout.PREFERRED_SIZE)
-						.addComponent(chartPanel, 0, GroupLayout.DEFAULT_SIZE,
-								Short.MAX_VALUE)));
+				.addComponent(statCombo, 250, 250, GroupLayout.PREFERRED_SIZE)
+				.addComponent(chartPanel, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
-		layout.setVerticalGroup(layout
-				.createSequentialGroup()
-				.addGroup(
-						layout.createParallelGroup(
-								GroupLayout.Alignment.BASELINE)
-								.addGroup(
-										layout.createSequentialGroup()
-												.addGroup(
-														layout.createParallelGroup(
-																GroupLayout.Alignment.BASELINE)
-																.addComponent(
-																		lblC))
-												.addGroup(
-														layout.createParallelGroup(
-																GroupLayout.Alignment.LEADING)
-																.addComponent(
-																		statCombo,
-																		GroupLayout.PREFERRED_SIZE,
-																		GroupLayout.DEFAULT_SIZE,
-																		GroupLayout.PREFERRED_SIZE))
-												.addGroup(
-														layout.createParallelGroup(
-																GroupLayout.Alignment.BASELINE)
-																.addComponent(
-																		chartPanel,
-																		0,
-																		GroupLayout.DEFAULT_SIZE,
-																		Short.MAX_VALUE)))));
+		layout.setVerticalGroup(layout.createSequentialGroup().addGroup(layout
+				.createParallelGroup(GroupLayout.Alignment.BASELINE)
+				.addGroup(layout.createSequentialGroup()
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lblC))
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(statCombo,
+								GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(chartPanel, 0,
+								GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))));
 
 		this.pack();
 
 	}
 
 	private void statNoOfChildren() {
-		int x, x1 = 0, x2 = 0, x3 = 0, x4 = 0, x5 = 0, x6 = 0, x7 = 0, x8 = 0, x9 = 0, x10 = 0, x11 = 0, x12 = 0, x13 = 0, x14 = 0, x15 = 0, xx = 0;
+		int x, x1 = 0, x2 = 0, x3 = 0, x4 = 0, x5 = 0, x6 = 0, x7 = 0, x8 = 0, x9 = 0, x10 = 0, x11 = 0, x12 = 0,
+				x13 = 0, x14 = 0, x15 = 0, xx = 0;
 
 		// add the chart to a panel...
 		final DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
-		final JFreeChart noOfChildrenChart = ChartFactory.createBarChart(
-				Resurses.getString("STAT_NO_OF_CHILDREN"),
-				Resurses.getString("STAT_CHILDREN"),
-				Resurses.getString("STAT_PIECES"), dataset1,
+		final JFreeChart noOfChildrenChart = ChartFactory.createBarChart(Resurses.getString("STAT_NO_OF_CHILDREN"),
+				Resurses.getString("STAT_CHILDREN"), Resurses.getString("STAT_PIECES"), dataset1,
 				PlotOrientation.VERTICAL, true, true, false);
 
 		chartPanel.setChart(noOfChildrenChart);
@@ -152,7 +158,7 @@ public class GenStat extends JDialog implements ActionListener {
 		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
-		for (PersonShortData person : this.persons) {
+		for (final PersonShortData person : this.persons) {
 			x = person.getChildCount();
 			if (x < 16) {
 				switch (x) {
@@ -234,18 +240,16 @@ public class GenStat extends JDialog implements ActionListener {
 		// add the chart to a panel...
 		final DefaultPieDataset dataset = new DefaultPieDataset();
 		final JFreeChart childrenVsNoChildrenChart = ChartFactory
-				.createPieChart(
-						Resurses.getString("STAT_CHILDREN_VS_NO_CHILDREN"),
-						dataset, false, true, false);
+				.createPieChart(Resurses.getString("STAT_CHILDREN_VS_NO_CHILDREN"), dataset, false, true, false);
 
 		chartPanel.setChart(childrenVsNoChildrenChart);
 
 		final PiePlot plot = (PiePlot) childrenVsNoChildrenChart.getPlot();
-		plot.setLabelGenerator(new StandardPieSectionLabelGenerator(
-				"{0}: {2} ({1} " + Resurses.getString("STAT_PIECES") + " )"));
+		plot.setLabelGenerator(
+				new StandardPieSectionLabelGenerator("{0}: {2} ({1} " + Resurses.getString("STAT_PIECES") + " )"));
 		plot.setNoDataMessage(Resurses.getString("STAT_NO_DATA"));
 
-		for (PersonShortData person : this.persons) {
+		for (final PersonShortData person : this.persons) {
 			x = person.getChildCount();
 			if (x == 0) {
 				x0++;
@@ -264,17 +268,17 @@ public class GenStat extends JDialog implements ActionListener {
 
 		// add the chart to a panel...
 		final DefaultPieDataset dataset2 = new DefaultPieDataset();
-		final JFreeChart sexChart = ChartFactory.createPieChart(
-				Resurses.getString("STAT_SEX"), dataset2, false, true, false);
+		final JFreeChart sexChart = ChartFactory.createPieChart(Resurses.getString("STAT_SEX"), dataset2, false, true,
+				false);
 
 		chartPanel.setChart(sexChart);
 
 		final PiePlot plot = (PiePlot) sexChart.getPlot();
-		plot.setLabelGenerator(new StandardPieSectionLabelGenerator(
-				"{0}: {2} ({1} " + Resurses.getString("STAT_PIECES") + " )"));
+		plot.setLabelGenerator(
+				new StandardPieSectionLabelGenerator("{0}: {2} ({1} " + Resurses.getString("STAT_PIECES") + " )"));
 		plot.setNoDataMessage(Resurses.getString("STAT_NO_DATA"));
 
-		for (PersonShortData person : this.persons) {
+		for (final PersonShortData person : this.persons) {
 			x = person.getSex();
 			if (x.equals("M")) {
 				x0++;
@@ -296,18 +300,17 @@ public class GenStat extends JDialog implements ActionListener {
 
 		// add the chart to a panel...
 		final DefaultPieDataset dataset = new DefaultPieDataset();
-		final JFreeChart marriedVsSingleChart = ChartFactory.createPieChart(
-				Resurses.getString("STAT_MARRIED_VS_SINGLE"), dataset, false,
-				true, false);
+		final JFreeChart marriedVsSingleChart = ChartFactory
+				.createPieChart(Resurses.getString("STAT_MARRIED_VS_SINGLE"), dataset, false, true, false);
 
 		chartPanel.setChart(marriedVsSingleChart);
 
 		final PiePlot plot = (PiePlot) marriedVsSingleChart.getPlot();
-		plot.setLabelGenerator(new StandardPieSectionLabelGenerator(
-				"{0}: {2} ({1} " + Resurses.getString("STAT_PIECES") + " )"));
+		plot.setLabelGenerator(
+				new StandardPieSectionLabelGenerator("{0}: {2} ({1} " + Resurses.getString("STAT_PIECES") + " )"));
 		plot.setNoDataMessage(Resurses.getString("STAT_NO_DATA"));
 
-		for (PersonShortData person : this.persons) {
+		for (final PersonShortData person : this.persons) {
 			x = person.getMarrCount();
 			if (x == 0) {
 				x0++;
@@ -321,7 +324,8 @@ public class GenStat extends JDialog implements ActionListener {
 	}
 
 	private void statBirthAndDeathMoths(boolean birth) {
-		int x, x0 = 0, x1 = 0, x2 = 0, x3 = 0, x4 = 0, x5 = 0, x6 = 0, x7 = 0, x8 = 0, x9 = 0, x10 = 0, x11 = 0, x12 = 0;
+		int x, x0 = 0, x1 = 0, x2 = 0, x3 = 0, x4 = 0, x5 = 0, x6 = 0, x7 = 0, x8 = 0, x9 = 0, x10 = 0, x11 = 0,
+				x12 = 0;
 		// add the chart to a panel...
 		final DefaultCategoryDataset dataset1 = new DefaultCategoryDataset();
 
@@ -331,9 +335,8 @@ public class GenStat extends JDialog implements ActionListener {
 		} else {
 			caption = Resurses.getString("STAT_DEATH_MONTHS");
 		}
-		final JFreeChart birthAndDeathMothsChart = ChartFactory.createBarChart(
-				caption, Resurses.getString("STAT_MONTHS"),
-				Resurses.getString("STAT_PIECES"), dataset1,
+		final JFreeChart birthAndDeathMothsChart = ChartFactory.createBarChart(caption,
+				Resurses.getString("STAT_MONTHS"), Resurses.getString("STAT_PIECES"), dataset1,
 				PlotOrientation.VERTICAL, true, true, false);
 
 		chartPanel.setChart(birthAndDeathMothsChart);
@@ -346,7 +349,7 @@ public class GenStat extends JDialog implements ActionListener {
 		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
-		for (PersonShortData person : this.persons) {
+		for (final PersonShortData person : this.persons) {
 			if (birth) {
 				x = Utils.textDateMonth(person.getBirtDate());
 			} else {
@@ -422,10 +425,9 @@ public class GenStat extends JDialog implements ActionListener {
 		} else {
 			caption = Resurses.getString("STAT_DEATH_PLACES");
 		}
-		final JFreeChart birthAndDeathPlacesChart = ChartFactory
-				.createBarChart(caption, Resurses.getString("STAT_PLACES"),
-						Resurses.getString("STAT_PIECES"), dataset1,
-						PlotOrientation.VERTICAL, true, true, false);
+		final JFreeChart birthAndDeathPlacesChart = ChartFactory.createBarChart(caption,
+				Resurses.getString("STAT_PLACES"), Resurses.getString("STAT_PIECES"), dataset1,
+				PlotOrientation.VERTICAL, true, true, false);
 
 		chartPanel.setChart(birthAndDeathPlacesChart);
 
@@ -437,29 +439,28 @@ public class GenStat extends JDialog implements ActionListener {
 		final NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
 		rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
-		HashMap<String, String> ccodes = new HashMap<String, String>();
+		final HashMap<String, String> ccodes = new HashMap<String, String>();
 		try {
-			SukuData countdata = Suku.kontroller.getSukuData("cmd=get",
-					"type=ccodes");
+			final SukuData countdata = Suku.kontroller.getSukuData("cmd=get", "type=ccodes");
 
-			for (String nxt : countdata.generalArray) {
+			for (final String nxt : countdata.generalArray) {
 				if (nxt != null) {
-					String parts[] = nxt.split(";");
+					final String parts[] = nxt.split(";");
 					if (parts.length == 2) {
 						ccodes.put(parts[0], parts[1]);
 					}
 				}
 			}
-		} catch (SukuException e1) {
+		} catch (final SukuException e1) {
 			// Do nothing
 		}
 
-		HashMap<String, PlaceLocationData> paikat = new HashMap<String, PlaceLocationData>();
+		final HashMap<String, PlaceLocationData> paikat = new HashMap<String, PlaceLocationData>();
 		int idx;
 		String paikka;
 		String maa;
 		String ccode;
-		String defaultCountry = Resurses.getDefaultCountry();
+		final String defaultCountry = Resurses.getDefaultCountry();
 		PlaceLocationData place;
 
 		for (idx = 0; idx < persons.length; idx++) {
@@ -498,17 +499,17 @@ public class GenStat extends JDialog implements ActionListener {
 			}
 		}
 
-		SukuData request = new SukuData();
+		final SukuData request = new SukuData();
 		request.places = new PlaceLocationData[paikat.size()];
 
-		Iterator<String> it = paikat.keySet().iterator();
+		final Iterator<String> it = paikat.keySet().iterator();
 		idx = 0;
 		while (it.hasNext()) {
 			request.places[idx] = paikat.get(it.next());
 			idx++;
 		}
 
-		int x = request.places.length;
+		final int x = request.places.length;
 		quicksort(request.places, 0, x - 1);
 
 		int y = 10;
@@ -519,8 +520,7 @@ public class GenStat extends JDialog implements ActionListener {
 		}
 
 		for (int xx = y; xx < x; xx++) {
-			dataset1.addValue(request.places[xx].getCount(),
-					request.places[xx].getName(), "");
+			dataset1.addValue(request.places[xx].getCount(), request.places[xx].getName(), "");
 		}
 	}
 
@@ -535,10 +535,8 @@ public class GenStat extends JDialog implements ActionListener {
 		} else {
 			caption = Resurses.getString("STAT_LAST_NAMES");
 		}
-		final JFreeChart firstAndLastNamesChart = ChartFactory.createBarChart(
-				caption, Resurses.getString("STAT_NAMES"),
-				Resurses.getString("STAT_PIECES"), dataset1,
-				PlotOrientation.VERTICAL, true, true, false);
+		final JFreeChart firstAndLastNamesChart = ChartFactory.createBarChart(caption, Resurses.getString("STAT_NAMES"),
+				Resurses.getString("STAT_PIECES"), dataset1, PlotOrientation.VERTICAL, true, true, false);
 
 		chartPanel.setChart(firstAndLastNamesChart);
 
@@ -553,7 +551,7 @@ public class GenStat extends JDialog implements ActionListener {
 		int idx;
 		String sname;
 		NameData name = null;
-		HashMap<String, NameData> snames = new HashMap<String, NameData>();
+		final HashMap<String, NameData> snames = new HashMap<String, NameData>();
 		NameData[] names = null;
 
 		for (idx = 0; idx < persons.length; idx++) {
@@ -576,14 +574,14 @@ public class GenStat extends JDialog implements ActionListener {
 
 		names = new NameData[snames.size()];
 
-		Iterator<String> it = snames.keySet().iterator();
+		final Iterator<String> it = snames.keySet().iterator();
 		idx = 0;
 		while (it.hasNext()) {
 			names[idx] = snames.get(it.next());
 			idx++;
 		}
 
-		int x = names.length;
+		final int x = names.length;
 		quicksortnames(names, 0, x - 1);
 
 		int y = 10;
@@ -605,10 +603,8 @@ public class GenStat extends JDialog implements ActionListener {
 
 		String caption;
 		caption = Resurses.getString("STAT_DEATH_CAUSES");
-		final JFreeChart deathCauses = ChartFactory.createBarChart(caption,
-				Resurses.getString("STAT_CAUSES"),
-				Resurses.getString("STAT_PIECES"), dataset1,
-				PlotOrientation.VERTICAL, true, true, false);
+		final JFreeChart deathCauses = ChartFactory.createBarChart(caption, Resurses.getString("STAT_CAUSES"),
+				Resurses.getString("STAT_PIECES"), dataset1, PlotOrientation.VERTICAL, true, true, false);
 
 		chartPanel.setChart(deathCauses);
 
@@ -623,7 +619,7 @@ public class GenStat extends JDialog implements ActionListener {
 		int idx;
 		String scause;
 		CausesData cause = null;
-		HashMap<String, CausesData> scauses = new HashMap<String, CausesData>();
+		final HashMap<String, CausesData> scauses = new HashMap<String, CausesData>();
 		CausesData[] causes = null;
 
 		for (idx = 0; idx < persons.length; idx++) {
@@ -642,14 +638,14 @@ public class GenStat extends JDialog implements ActionListener {
 
 		causes = new CausesData[scauses.size()];
 
-		Iterator<String> it = scauses.keySet().iterator();
+		final Iterator<String> it = scauses.keySet().iterator();
 		idx = 0;
 		while (it.hasNext()) {
 			causes[idx] = scauses.get(it.next());
 			idx++;
 		}
 
-		int x = causes.length;
+		final int x = causes.length;
 		quicksortcauses(causes, 0, x - 1);
 
 		int y = 10;
@@ -666,7 +662,7 @@ public class GenStat extends JDialog implements ActionListener {
 
 	/**
 	 * Quicksort.
-	 * 
+	 *
 	 * @param array
 	 *            the array
 	 * @param left
@@ -682,12 +678,10 @@ public class GenStat extends JDialog implements ActionListener {
 		if (((right - left) + 1) > 1) {
 			int pivot = (left + right) / 2;
 			while ((leftIdx <= pivot) && (rightIdx >= pivot)) {
-				while ((array[leftIdx].getCount() < array[pivot].getCount())
-						&& (leftIdx <= pivot)) {
+				while ((array[leftIdx].getCount() < array[pivot].getCount()) && (leftIdx <= pivot)) {
 					leftIdx = leftIdx + 1;
 				}
-				while ((array[rightIdx].getCount() > array[pivot].getCount())
-						&& (rightIdx >= pivot)) {
+				while ((array[rightIdx].getCount() > array[pivot].getCount()) && (rightIdx >= pivot)) {
 					rightIdx = rightIdx - 1;
 				}
 				temp = array[leftIdx];
@@ -708,7 +702,7 @@ public class GenStat extends JDialog implements ActionListener {
 
 	/**
 	 * Quicksort.
-	 * 
+	 *
 	 * @param array
 	 *            the array
 	 * @param left
@@ -724,12 +718,10 @@ public class GenStat extends JDialog implements ActionListener {
 		if (((right - left) + 1) > 1) {
 			int pivot = (left + right) / 2;
 			while ((leftIdx <= pivot) && (rightIdx >= pivot)) {
-				while ((array[leftIdx].getCount() < array[pivot].getCount())
-						&& (leftIdx <= pivot)) {
+				while ((array[leftIdx].getCount() < array[pivot].getCount()) && (leftIdx <= pivot)) {
 					leftIdx = leftIdx + 1;
 				}
-				while ((array[rightIdx].getCount() > array[pivot].getCount())
-						&& (rightIdx >= pivot)) {
+				while ((array[rightIdx].getCount() > array[pivot].getCount()) && (rightIdx >= pivot)) {
 					rightIdx = rightIdx - 1;
 				}
 				temp = array[leftIdx];
@@ -750,7 +742,7 @@ public class GenStat extends JDialog implements ActionListener {
 
 	/**
 	 * Quicksort.
-	 * 
+	 *
 	 * @param array
 	 *            the array
 	 * @param left
@@ -766,12 +758,10 @@ public class GenStat extends JDialog implements ActionListener {
 		if (((right - left) + 1) > 1) {
 			int pivot = (left + right) / 2;
 			while ((leftIdx <= pivot) && (rightIdx >= pivot)) {
-				while ((array[leftIdx].getCount() < array[pivot].getCount())
-						&& (leftIdx <= pivot)) {
+				while ((array[leftIdx].getCount() < array[pivot].getCount()) && (leftIdx <= pivot)) {
 					leftIdx = leftIdx + 1;
 				}
-				while ((array[rightIdx].getCount() > array[pivot].getCount())
-						&& (rightIdx >= pivot)) {
+				while ((array[rightIdx].getCount() > array[pivot].getCount()) && (rightIdx >= pivot)) {
 					rightIdx = rightIdx - 1;
 				}
 				temp = array[leftIdx];
@@ -792,13 +782,13 @@ public class GenStat extends JDialog implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		int x = this.statCombo.getSelectedIndex();
+		final int x = this.statCombo.getSelectedIndex();
 		switch (x) {
 		case 0:
 			statNoOfChildren();

@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util;
 
 import java.io.FileInputStream;
@@ -15,7 +45,7 @@ import jxl.WorkbookSettings;
 
 /**
  * A FinFamily specific resource bundle class using Excel file for input.
- * 
+ *
  * @author Kalle
  */
 public class ExcelBundle {
@@ -23,12 +53,11 @@ public class ExcelBundle {
 	/** The bundle. */
 	HashMap<String, String> bundle = null;
 
-	private static Logger logger = Logger
-			.getLogger(ExcelBundle.class.getName());
+	private static Logger logger = Logger.getLogger(ExcelBundle.class.getName());
 
 	/**
 	 * Gets the bundle map.
-	 * 
+	 *
 	 * @return the map
 	 */
 	public HashMap<String, String> getBundleMap() {
@@ -37,7 +66,7 @@ public class ExcelBundle {
 
 	/**
 	 * Gets the string.
-	 * 
+	 *
 	 * @param name
 	 *            the name
 	 * @return value of resource
@@ -46,7 +75,7 @@ public class ExcelBundle {
 		if (bundle == null) {
 			return name;
 		}
-		String value = bundle.get(name);
+		final String value = bundle.get(name);
 		if (value == null) {
 			return name;
 		}
@@ -58,7 +87,7 @@ public class ExcelBundle {
 
 	/**
 	 * Gets the lang codes.
-	 * 
+	 *
 	 * @return the lang codes
 	 */
 	public static String[] getLangCodes() {
@@ -67,7 +96,7 @@ public class ExcelBundle {
 
 	/**
 	 * Gets the lang names.
-	 * 
+	 *
 	 * @return the lang names
 	 */
 	public static String[] getLangNames() {
@@ -76,14 +105,14 @@ public class ExcelBundle {
 
 	/**
 	 * Gets the lang list.
-	 * 
+	 *
 	 * @return the lang list
 	 */
 	public static String[] getLangList() {
 		if (langNames == null) {
 			return null;
 		}
-		Vector<String> vv = new Vector<String>();
+		final Vector<String> vv = new Vector<String>();
 		// String tmp[] = new String[langNames.length];
 		for (int i = 0; i < langNames.length; i++) {
 			if (!langCodes[i].isEmpty() && !langNames[i].isEmpty()) {
@@ -95,7 +124,7 @@ public class ExcelBundle {
 
 	/**
 	 * Import bundle.
-	 * 
+	 *
 	 * @param path
 	 *            the path
 	 * @param page
@@ -104,7 +133,7 @@ public class ExcelBundle {
 	 *            the locale
 	 */
 	public void importBundle(String path, String page, Locale locale) {
-		WorkbookSettings ws = new WorkbookSettings();
+		final WorkbookSettings ws = new WorkbookSettings();
 		ws.setCharacterSet(0);
 		ws.setEncoding("ISO-8859-1");
 		// ws.setEncoding("UTF-8");
@@ -121,15 +150,14 @@ public class ExcelBundle {
 
 			if (path == null) {
 				// System.out.println("excelkbundle1: " + path);
-				in = this.getClass()
-						.getResourceAsStream("/excel/FinFamily.xls");
+				in = this.getClass().getResourceAsStream("/excel/FinFamily.xls");
 			} else {
 				in = new FileInputStream(path);
 			}
 			// System.out.println("excelkbundle2: " + path);
-			Workbook workbook = Workbook.getWorkbook(in, ws);
+			final Workbook workbook = Workbook.getWorkbook(in, ws);
 
-			Sheet sheet = workbook.getSheet(page);
+			final Sheet sheet = workbook.getSheet(page);
 			int colCount;
 			int rowCount;
 			String[] header;
@@ -142,7 +170,7 @@ public class ExcelBundle {
 				rowCount = sheet.getRows();
 				header = new String[colCount];
 				for (col = 0; col < colCount; col++) {
-					Cell x0 = sheet.getCell(col, 0);
+					final Cell x0 = sheet.getCell(col, 0);
 					header[col] = null;
 					if (x0 != null) {
 						header[col] = x0.getContents();
@@ -158,9 +186,9 @@ public class ExcelBundle {
 
 				for (rivi = 0; rivi < rowCount; rivi++) {
 
-					Cell ac1 = sheet.getCell(0, rivi);
+					final Cell ac1 = sheet.getCell(0, rivi);
 
-					String a1 = ac1.getContents();
+					final String a1 = ac1.getContents();
 
 					if ((a1 != null) && !a1.isEmpty()) {
 						Cell xc1 = sheet.getCell(defCol, rivi);
@@ -174,18 +202,18 @@ public class ExcelBundle {
 
 						if (a1.equals("LANCODE")) {
 							for (int i = 1; i < colCount; i++) {
-								Cell acx = sheet.getCell(i, rivi);
+								final Cell acx = sheet.getCell(i, rivi);
 
-								String ax = acx.getContents();
+								final String ax = acx.getContents();
 								langCodes[i - 1] = ax;
 
 							}
 						}
 						if (a1.equals("LANGUAGE")) {
 							for (int i = 1; i < colCount; i++) {
-								Cell acx = sheet.getCell(i, rivi);
+								final Cell acx = sheet.getCell(i, rivi);
 
-								String ax = acx.getContents();
+								final String ax = acx.getContents();
 								langNames[i - 1] = ax;
 							}
 						}
@@ -195,7 +223,7 @@ public class ExcelBundle {
 
 			workbook.close();
 			in.close();
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 
 			logger.log(Level.WARNING, "Excel bundle", e);
 

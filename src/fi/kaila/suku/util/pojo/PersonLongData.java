@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.util.pojo;
 
 import java.io.Serializable;
@@ -7,13 +37,13 @@ import java.sql.Timestamp;
 
 /**
  * PersonLongData contains complete copy of person data from database.
- * 
+ *
  * @author Kalle
  */
 public class PersonLongData implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -40,7 +70,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the pid.
-	 * 
+	 *
 	 * @return pid
 	 */
 	public int getPid() {
@@ -49,7 +79,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the tag.
-	 * 
+	 *
 	 * @return tag
 	 */
 	public String getTag() {
@@ -72,7 +102,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Checks if is order modified.
-	 * 
+	 *
 	 * @return if order has been modified
 	 */
 	public boolean isOrderModified() {
@@ -81,7 +111,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Checks if is main modified.
-	 * 
+	 *
 	 * @return true if main has been modified
 	 */
 	public boolean isMainModified() {
@@ -90,7 +120,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the privacy.
-	 * 
+	 *
 	 * @return privacy
 	 */
 	public String getPrivacy() {
@@ -99,7 +129,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the group id.
-	 * 
+	 *
 	 * @return groupid
 	 */
 	public String getGroupId() {
@@ -108,7 +138,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the sex.
-	 * 
+	 *
 	 * @return sex
 	 */
 	public String getSex() {
@@ -117,7 +147,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Sets the sex.
-	 * 
+	 *
 	 * @param text
 	 *            = sex
 	 */
@@ -131,7 +161,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the source.
-	 * 
+	 *
 	 * @return the source
 	 */
 	public String getSource() {
@@ -140,7 +170,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the private text.
-	 * 
+	 *
 	 * @return private text
 	 */
 	public String getPrivateText() {
@@ -149,7 +179,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the refn.
-	 * 
+	 *
 	 * @return refn
 	 */
 	public String getRefn() {
@@ -158,7 +188,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the created.
-	 * 
+	 *
 	 * @return time creted
 	 */
 	public Timestamp getCreated() {
@@ -167,7 +197,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the modified.
-	 * 
+	 *
 	 * @return tiem modified
 	 */
 	public Timestamp getModified() {
@@ -176,7 +206,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the modified by.
-	 * 
+	 *
 	 * @return userid of modifier
 	 */
 	public String getModifiedBy() {
@@ -185,7 +215,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the created by.
-	 * 
+	 *
 	 * @return userid of creator
 	 */
 	public String getCreatedBy() {
@@ -194,7 +224,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Sets the pid.
-	 * 
+	 *
 	 * @param pid
 	 *            the new pid
 	 */
@@ -204,7 +234,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * sets array of notices.
-	 * 
+	 *
 	 * @param notices
 	 *            the new notices
 	 */
@@ -214,7 +244,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Gets the notices.
-	 * 
+	 *
 	 * @return array of notices
 	 */
 	public UnitNotice[] getNotices() {
@@ -223,7 +253,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Sets the source.
-	 * 
+	 *
 	 * @param text
 	 *            the new source
 	 */
@@ -237,7 +267,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * extract unit data from select * from unit.
-	 * 
+	 *
 	 * @param rs
 	 *            the rs
 	 * @throws SQLException
@@ -262,7 +292,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Instantiates a new person long data.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @param tag
@@ -294,7 +324,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Sets the privacy.
-	 * 
+	 *
 	 * @param text
 	 *            "P" of null
 	 */
@@ -309,7 +339,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Sets the group id.
-	 * 
+	 *
 	 * @param text
 	 *            the new group id
 	 */
@@ -323,7 +353,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Sets the user refn.
-	 * 
+	 *
 	 * @param text
 	 *            the new user refn
 	 */
@@ -337,7 +367,7 @@ public class PersonLongData implements Serializable {
 
 	/**
 	 * Sets the private text.
-	 * 
+	 *
 	 * @param text
 	 *            the new private text
 	 */
@@ -365,12 +395,12 @@ public class PersonLongData implements Serializable {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append(pid);
 		sb.append(",");
 		sb.append(sex);

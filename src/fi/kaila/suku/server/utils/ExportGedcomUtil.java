@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.server.utils;
 
 import java.io.ByteArrayOutputStream;
@@ -66,7 +96,7 @@ public class ExportGedcomUtil {
 
 	/**
 	 * Constructor with connection.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 */
@@ -77,7 +107,7 @@ public class ExportGedcomUtil {
 
 	/**
 	 * Export gedcom.
-	 * 
+	 *
 	 * @param db
 	 *            the db
 	 * @param path
@@ -94,8 +124,8 @@ public class ExportGedcomUtil {
 	 *            the include images
 	 * @return the suku data
 	 */
-	public SukuData exportGedcom(String db, String path, String langCode,
-			int viewId, int surety, int charsetId, boolean includeImages) {
+	public SukuData exportGedcom(String db, String path, String langCode, int viewId, int surety, int charsetId,
+			boolean includeImages) {
 
 		this.viewId = viewId;
 		this.surety = surety;
@@ -122,7 +152,7 @@ public class ExportGedcomUtil {
 		images = new Vector<MinimumImage>();
 		families = new LinkedHashMap<String, MinimumFamily>();
 		famById = new HashMap<Integer, MinimumFamily>();
-		SukuData result = new SukuData();
+		final SukuData result = new SukuData();
 		if ((path == null) || (path.lastIndexOf(".") < 1)) {
 			result.resu = "output filename missing";
 			return result;
@@ -133,22 +163,22 @@ public class ExportGedcomUtil {
 			collectFamilies();
 			childRids = new HashMap<Integer, Integer>();
 
-			String sql = "select r.pid,n.tag,r.tag,r.surety from relationnotice as n inner join relation  as r on n.rid=r.rid where r.tag in ('FATH','MOTH')";
+			final String sql = "select r.pid,n.tag,r.tag,r.surety from relationnotice as n inner join relation  as r on n.rid=r.rid where r.tag in ('FATH','MOTH')";
 
-			Statement stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(sql);
+			final Statement stm = con.createStatement();
+			final ResultSet rs = stm.executeQuery(sql);
 			while (rs.next()) {
-				int rid = rs.getInt(1);
+				final int rid = rs.getInt(1);
 				childRids.put(rid, rid);
 			}
 			rs.close();
 			stm.close();
 
 			zipPath = path.substring(0, path.lastIndexOf("."));
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-			ZipOutputStream zip = new ZipOutputStream(bos);
-			String fileName = zipPath + "/" + dbName + ".ged";
+			final ZipOutputStream zip = new ZipOutputStream(bos);
+			final String fileName = zipPath + "/" + dbName + ".ged";
 
 			ZipEntry entry = new ZipEntry(fileName);
 
@@ -156,25 +186,23 @@ public class ExportGedcomUtil {
 			writeBom(zip);
 			// insert first the gedcom file here
 			writeHead(zip);
-			int allCount = units.size();
+			final int allCount = units.size();
 			int curreCount = 0;
-			Set<Map.Entry<Integer, MinimumIndividual>> unitss = units
-					.entrySet();
-			Iterator<Map.Entry<Integer, MinimumIndividual>> eex = unitss
-					.iterator();
+			final Set<Map.Entry<Integer, MinimumIndividual>> unitss = units.entrySet();
+			final Iterator<Map.Entry<Integer, MinimumIndividual>> eex = unitss.iterator();
 			while (eex.hasNext()) {
-				Map.Entry<Integer, MinimumIndividual> unitx = eex.next();
-				MinimumIndividual pit = unitx.getValue();
+				final Map.Entry<Integer, MinimumIndividual> unitx = eex.next();
+				final MinimumIndividual pit = unitx.getValue();
 				curreCount++;
 
-				PersonUtil u = new PersonUtil(con);
-				SukuData fam = u.getFullPerson(pit.pid, langCode);
-				PersonShortData shortie = new PersonShortData(fam.persLong);
+				final PersonUtil u = new PersonUtil(con);
+				final SukuData fam = u.getFullPerson(pit.pid, langCode);
+				final PersonShortData shortie = new PersonShortData(fam.persLong);
 				writeIndi(zip, fam.persLong);
 
-				double prose = (curreCount * 100) / allCount;
-				int intprose = (int) prose;
-				StringBuilder sbb = new StringBuilder();
+				final double prose = (curreCount * 100) / allCount;
+				final int intprose = (int) prose;
+				final StringBuilder sbb = new StringBuilder();
 				sbb.append(intprose);
 				sbb.append(";");
 				sbb.append(shortie.getAlfaName());
@@ -183,12 +211,12 @@ public class ExportGedcomUtil {
 			}
 
 			// private LinkedHashMap<ParentPair, MinimumFamily> families = null;
-			Set<Map.Entry<String, MinimumFamily>> fss = families.entrySet();
+			final Set<Map.Entry<String, MinimumFamily>> fss = families.entrySet();
 
-			Iterator<Map.Entry<String, MinimumFamily>> ffx = fss.iterator();
+			final Iterator<Map.Entry<String, MinimumFamily>> ffx = fss.iterator();
 			while (ffx.hasNext()) {
-				Map.Entry<String, MinimumFamily> fx = ffx.next();
-				MinimumFamily fix = fx.getValue();
+				final Map.Entry<String, MinimumFamily> fx = ffx.next();
+				final MinimumFamily fix = fx.getValue();
 
 				writeFam(zip, fix, langCode);
 
@@ -208,14 +236,14 @@ public class ExportGedcomUtil {
 
 			result.buffer = bos.toByteArray();
 
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			result.resu = e.getMessage();
 			logger.log(Level.WARNING, "", e);
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			result.resu = e.getMessage();
 			logger.log(Level.WARNING, "", e);
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			result.resu = e.getMessage();
 			logger.log(Level.WARNING, "", e);
 		}
@@ -224,8 +252,8 @@ public class ExportGedcomUtil {
 	}
 
 	private void writeBom(ZipOutputStream zip) {
-		byte[] bom8 = { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
-		byte[] bom16 = { (byte) 0xFE, (byte) 0xFF };
+		final byte[] bom8 = { (byte) 0xEF, (byte) 0xBB, (byte) 0xBF };
+		final byte[] bom16 = { (byte) 0xFE, (byte) 0xFF };
 		try {
 			switch (thisSet) {
 			case Set_Utf8:
@@ -236,17 +264,16 @@ public class ExportGedcomUtil {
 				return;
 			}
 			// TODO: Set_Ansel, Set_Ascii, Set_None ?
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.warning("Wrining bom: " + e.getMessage());
 			e.printStackTrace();
 		}
 
 	}
 
-	private void writeIndi(ZipOutputStream zip, PersonLongData persLong)
-			throws IOException, SQLException {
-		MinimumIndividual indi = units.get(persLong.getPid());
-		StringBuilder sb = new StringBuilder();
+	private void writeIndi(ZipOutputStream zip, PersonLongData persLong) throws IOException, SQLException {
+		final MinimumIndividual indi = units.get(persLong.getPid());
+		final StringBuilder sb = new StringBuilder();
 		sb.append("0 @I" + indi.gid + "@ INDI\r\n");
 		sb.append("1 SEX " + indi.sex);
 		sb.append("\r\n");
@@ -254,11 +281,10 @@ public class ExportGedcomUtil {
 			sb.append("1 REFN " + persLong.getRefn());
 			sb.append("\r\n");
 		}
-		UnitNotice[] notices = persLong.getNotices();
-		for (UnitNotice notice : notices) {
-			if (notice.getTag().equals("NAME")
-					&& (surety >= notice.getSurety())) {
-				StringBuilder nm = new StringBuilder();
+		final UnitNotice[] notices = persLong.getNotices();
+		for (final UnitNotice notice : notices) {
+			if (notice.getTag().equals("NAME") && (surety >= notice.getSurety())) {
+				final StringBuilder nm = new StringBuilder();
 				if (notice.getGivenname() != null) {
 					nm.append(notice.getGivenname());
 				}
@@ -286,15 +312,13 @@ public class ExportGedcomUtil {
 				if (notice.getSource() != null) {
 					sb.append(getNoteStructure(2, "SOUR", notice.getSource()));
 					if (notice.getPrivateText() != null) {
-						sb.append(getNoteStructure(3, "NOTE",
-								notice.getPrivateText()));
+						sb.append(getNoteStructure(3, "NOTE", notice.getPrivateText()));
 
 					}
 				} else {
 					if (notice.getPrivateText() != null) {
 						sb.append("2 SOUR \r\n");
-						sb.append(getNoteStructure(3, "NOTE",
-								notice.getPrivateText()));
+						sb.append(getNoteStructure(3, "NOTE", notice.getPrivateText()));
 
 					}
 				}
@@ -303,8 +327,7 @@ public class ExportGedcomUtil {
 					sb.append("\r\n");
 				}
 				if (notice.getDescription() != null) {
-					sb.append(getNoteStructure(2, "NOTE",
-							notice.getDescription()));
+					sb.append(getNoteStructure(2, "NOTE", notice.getDescription()));
 
 				}
 			}
@@ -312,33 +335,28 @@ public class ExportGedcomUtil {
 
 		for (int i = 0; i < notices.length; i++) {
 
-			if (!notices[i].getTag().equals("NAME")
-					&& (surety >= notices[i].getSurety())) {
-				UnitNotice notice = notices[i];
-				StringBuilder nm = new StringBuilder();
+			if (!notices[i].getTag().equals("NAME") && (surety >= notices[i].getSurety())) {
+				final UnitNotice notice = notices[i];
+				final StringBuilder nm = new StringBuilder();
 				String gedTag = notice.getTag();
 				if (Resurses.gedcomTags.indexOf(gedTag) < 0) {
 					gedTag = "_" + gedTag;
 				}
 				if (notice.getTag().equals("NOTE")) {
 					if (notice.getNoteText() != null) {
-						nm.append(getNoteStructure(1, "NOTE",
-								notice.getNoteText()));
+						nm.append(getNoteStructure(1, "NOTE", notice.getNoteText()));
 					}
 					if (notice.getSource() != null) {
-						nm.append(getNoteStructure(2, "SOUR",
-								notice.getSource()));
+						nm.append(getNoteStructure(2, "SOUR", notice.getSource()));
 
 						if (notice.getPrivateText() != null) {
-							nm.append(getNoteStructure(3, "NOTE",
-									notice.getPrivateText()));
+							nm.append(getNoteStructure(3, "NOTE", notice.getPrivateText()));
 
 						}
 					} else {
 						if (notice.getPrivateText() != null) {
 							nm.append("2 SOUR \r\n");
-							nm.append(getNoteStructure(3, "NOTE",
-									notice.getPrivateText()));
+							nm.append(getNoteStructure(3, "NOTE", notice.getPrivateText()));
 						}
 					}
 				} else {
@@ -366,13 +384,10 @@ public class ExportGedcomUtil {
 					}
 					if (notice.getFromDate() != null) {
 						nm.append("2 DATE ");
-						nm.append(toFullDate(notice.getDatePrefix(),
-								notice.getFromDate(), notice.getToDate()));
+						nm.append(toFullDate(notice.getDatePrefix(), notice.getFromDate(), notice.getToDate()));
 						nm.append("\r\n");
 					}
-					if ((notice.getCroft() != null)
-							|| (notice.getFarm() != null)
-							|| (notice.getVillage() != null)
+					if ((notice.getCroft() != null) || (notice.getFarm() != null) || (notice.getVillage() != null)
 							|| (notice.getPlace() != null)) {
 						nm.append("2 PLAC ");
 						if (notice.getCroft() != null) {
@@ -393,46 +408,36 @@ public class ExportGedcomUtil {
 						nm.append("\r\n");
 					}
 					if (notice.getNoteText() != null) {
-						nm.append(getNoteStructure(2, "NOTE",
-								notice.getNoteText()));
+						nm.append(getNoteStructure(2, "NOTE", notice.getNoteText()));
 					}
 
-					if ((notice.getAddress() != null)
-							|| (notice.getPostOffice() != null)) {
+					if ((notice.getAddress() != null) || (notice.getPostOffice() != null)) {
 						if (notice.getAddress() != null) {
 							if (notice.getState() == null) {
 
-								nm.append(getNoteStructure(2, "ADDR",
-										notice.getAddress(), 1));
+								nm.append(getNoteStructure(2, "ADDR", notice.getAddress(), 1));
 								if (notice.getPostOffice() != null) {
-									if ((notice.getPostalCode() != null)
-											&& (notice.getPostOffice() != null)) {
-										nm.append("3 CITY "
-												+ notice.getPostOffice());
+									if ((notice.getPostalCode() != null) && (notice.getPostOffice() != null)) {
+										nm.append("3 CITY " + notice.getPostOffice());
 										nm.append("\r\n");
-										nm.append("3 POST "
-												+ notice.getPostalCode());
+										nm.append("3 POST " + notice.getPostalCode());
 										nm.append("\r\n");
 									} else {
-										nm.append("3 CITY "
-												+ notice.getPostOffice());
+										nm.append("3 CITY " + notice.getPostOffice());
 										nm.append("\r\n");
 									}
 
 								}
 							} else {
-								nm.append(getNoteStructure(2, "ADDR",
-										notice.getAddress(), 1));
+								nm.append(getNoteStructure(2, "ADDR", notice.getAddress(), 1));
 								if (notice.getPostOffice() != null) {
-									nm.append("3 CITY "
-											+ notice.getPostOffice());
+									nm.append("3 CITY " + notice.getPostOffice());
 									nm.append("\r\n");
 								}
 								if (notice.getPostalCode() != null) {
 									nm.append("3 STAE " + notice.getState());
 									nm.append("\r\n");
-									nm.append("3 POST "
-											+ notice.getPostalCode());
+									nm.append("3 POST " + notice.getPostalCode());
 									nm.append("\r\n");
 								} else {
 									nm.append("3 STAE " + notice.getState());
@@ -446,8 +451,7 @@ public class ExportGedcomUtil {
 							nm.append("3 CTRY " + notice.getCountry());
 							nm.append("\r\n");
 						}
-					} else if ((notice.getCountry() != null)
-							|| (notice.getState() != null)) {
+					} else if ((notice.getCountry() != null) || (notice.getState() != null)) {
 						if (notice.getState() != null) {
 							nm.append("2 STAE " + notice.getState());
 							nm.append("\r\n");
@@ -465,38 +469,31 @@ public class ExportGedcomUtil {
 						nm.append("\r\n");
 					}
 					if (notice.getSource() != null) {
-						nm.append(getNoteStructure(2, "SOUR",
-								notice.getSource()));
+						nm.append(getNoteStructure(2, "SOUR", notice.getSource()));
 						if (notice.getPrivateText() != null) {
-							nm.append(getNoteStructure(3, "NOTE",
-									notice.getPrivateText()));
+							nm.append(getNoteStructure(3, "NOTE", notice.getPrivateText()));
 						}
 						if (notice.getSurety() < 100) {
-							nm.append("3 QUAY "
-									+ suretyToQuay(notice.getSurety()));
+							nm.append("3 QUAY " + suretyToQuay(notice.getSurety()));
 							nm.append("\r\n");
 						}
 					} else if (notice.getSurety() < 100) {
 						nm.append("2 SOUR\r\n");
 						if (notice.getPrivateText() != null) {
-							nm.append(getNoteStructure(3, "NOTE",
-									notice.getPrivateText()));
+							nm.append(getNoteStructure(3, "NOTE", notice.getPrivateText()));
 						}
 						nm.append("3 QUAY " + suretyToQuay(notice.getSurety()));
 						nm.append("\r\n");
 					}
 					if (includeImages) {
-						if ((notice.getMediaFilename() != null)
-								&& (notice.getMediaData() != null)) {
-							MinimumImage minimg = new MinimumImage(
-									notice.getMediaFilename(),
+						if ((notice.getMediaFilename() != null) && (notice.getMediaData() != null)) {
+							final MinimumImage minimg = new MinimumImage(notice.getMediaFilename(),
 									notice.getMediaData());
 							nm.append("1 OBJE\r\n");
 							nm.append("2 FILE " + minimg.getPath());
 							nm.append("\r\n");
 
-							if (notice.getMediaFilename().toLowerCase()
-									.endsWith(".jpg")) {
+							if (notice.getMediaFilename().toLowerCase().endsWith(".jpg")) {
 								nm.append("3 FORM jpeg\r\n");
 							}
 							if (notice.getMediaTitle() != null) {
@@ -525,7 +522,7 @@ public class ExportGedcomUtil {
 			}
 		}
 
-		Integer ado = childRids.get(persLong.getPid());
+		final Integer ado = childRids.get(persLong.getPid());
 		if (ado != null) {
 			sb.append(addAdoptionEvents(persLong.getPid()));
 		}
@@ -542,7 +539,7 @@ public class ExportGedcomUtil {
 	}
 
 	private String toFullDate(String prefix, String fromdate, String todate) {
-		StringBuilder nm = new StringBuilder();
+		final StringBuilder nm = new StringBuilder();
 		if (prefix != null) {
 			nm.append(prefix + " ");
 		}
@@ -563,48 +560,42 @@ public class ExportGedcomUtil {
 	}
 
 	private String addAdoptionEvents(int pid) throws SQLException {
-		StringBuilder sb = new StringBuilder();
-		ArrayList<AdoptionElement> adops = new ArrayList<AdoptionElement>();
-		String sql = "select p.pid as rpid,n.rid,n.surety,n.tag,n.relationtype,n.description,"
-				+ "n.dateprefix,n.fromdate,n.todate,n.place,n.notetext,n.sourcetext "
-				+ "from relationnotice as n "
+		final StringBuilder sb = new StringBuilder();
+		final ArrayList<AdoptionElement> adops = new ArrayList<AdoptionElement>();
+		final String sql = "select p.pid as rpid,n.rid,n.surety,n.tag,n.relationtype,n.description,"
+				+ "n.dateprefix,n.fromdate,n.todate,n.place,n.notetext,n.sourcetext " + "from relationnotice as n "
 				+ "inner join relation as r on r.rid=n.rid and r.tag in ('MOTH','FATH') "
-				+ "inner join relation as p on r.rid=p.rid and p.tag ='CHIL' "
-				+ "where r.pid=?";
+				+ "inner join relation as p on r.rid=p.rid and p.tag ='CHIL' " + "where r.pid=?";
 
-		PreparedStatement pst = con.prepareStatement(sql);
+		final PreparedStatement pst = con.prepareStatement(sql);
 		pst.setInt(1, pid);
-		ResultSet rs = pst.executeQuery();
-		ArrayList<RelationNotice> relNotices = new ArrayList<RelationNotice>();
+		final ResultSet rs = pst.executeQuery();
+		final ArrayList<RelationNotice> relNotices = new ArrayList<RelationNotice>();
 
 		while (rs.next()) {
-			RelationNotice rnote = new RelationNotice(rs.getInt("rpid"),
-					rs.getInt("rid"), rs.getInt("surety"), rs.getString("tag"),
-					rs.getString("relationtype"), rs.getString("description"),
-					rs.getString("dateprefix"), rs.getString("fromdate"),
-					rs.getString("todate"), rs.getString("place"),
-					rs.getString("notetext"), rs.getString("sourcetext"), null,
-					null, null, null, null);
+			final RelationNotice rnote = new RelationNotice(rs.getInt("rpid"), rs.getInt("rid"), rs.getInt("surety"),
+					rs.getString("tag"), rs.getString("relationtype"), rs.getString("description"),
+					rs.getString("dateprefix"), rs.getString("fromdate"), rs.getString("todate"), rs.getString("place"),
+					rs.getString("notetext"), rs.getString("sourcetext"), null, null, null, null, null);
 			relNotices.add(rnote);
 		}
 		rs.close();
 		pst.close();
-		MinimumIndividual indi = units.get(pid);
+		final MinimumIndividual indi = units.get(pid);
 
-		Integer[] asChild = indi.famc.toArray(new Integer[0]);
+		final Integer[] asChild = indi.famc.toArray(new Integer[0]);
 
 		int dadFam = 0;
 		int momFam = 0;
-		RelationNotice minimot = new RelationNotice("");
+		final RelationNotice minimot = new RelationNotice("");
 		RelationNotice notice = null;
 		for (int i = 0; i < relNotices.size(); i++) {
 			notice = relNotices.get(i);
 			if (notice.getRnid() != 0) {
-				for (Integer element : asChild) {
+				for (final Integer element : asChild) {
 					if (element != 0) {
-						MinimumFamily mfam = famById.get(element);
-						if ((mfam.dad == notice.getRnid())
-								|| (mfam.mom == notice.getRnid())) {
+						final MinimumFamily mfam = famById.get(element);
+						if ((mfam.dad == notice.getRnid()) || (mfam.mom == notice.getRnid())) {
 							if (mfam.dad == notice.getRnid()) {
 								dadFam = mfam.id;
 								relNotices.set(i, minimot);
@@ -621,10 +612,10 @@ public class ExportGedcomUtil {
 				String who = null;
 				String fam = null;
 				String other = null;
-				int childFam = (dadFam != 0) ? dadFam : momFam;
+				final int childFam = (dadFam != 0) ? dadFam : momFam;
 
 				if (notice.getTag().equals("ADOP")) {
-					StringBuilder adb = new StringBuilder();
+					final StringBuilder adb = new StringBuilder();
 
 					if (notice.getType() != null) {
 						adb.append("2 TYPE " + notice.getType());
@@ -633,9 +624,7 @@ public class ExportGedcomUtil {
 					}
 					if (notice.getFromDate() != null) {
 						adb.append("2 DATE "
-								+ toFullDate(notice.getDatePrefix(),
-										notice.getFromDate(),
-										notice.getToDate()));
+								+ toFullDate(notice.getDatePrefix(), notice.getFromDate(), notice.getToDate()));
 						adb.append("\r\n");
 					}
 					if (notice.getPlace() != null) {
@@ -647,17 +636,14 @@ public class ExportGedcomUtil {
 						adb.append("\r\n");
 					}
 					if (notice.getNoteText() != null) {
-						adb.append(getNoteStructure(2, "NOTE",
-								notice.getNoteText()));
+						adb.append(getNoteStructure(2, "NOTE", notice.getNoteText()));
 						adb.append("\r\n");
 					}
 					if (notice.getSource() != null) {
-						adb.append(getNoteStructure(2, "SOUR",
-								notice.getSource()));
+						adb.append(getNoteStructure(2, "SOUR", notice.getSource()));
 						if (notice.getSurety() < 100) {
 
-							adb.append("3 QUAY "
-									+ suretyToQuay(notice.getSurety()));
+							adb.append("3 QUAY " + suretyToQuay(notice.getSurety()));
 							adb.append("\r\n");
 						}
 					} else if (notice.getSurety() < 100) {
@@ -682,7 +668,7 @@ public class ExportGedcomUtil {
 					}
 
 				}
-				AdoptionElement adop = new AdoptionElement(who, fam, other);
+				final AdoptionElement adop = new AdoptionElement(who, fam, other);
 				adops.add(adop);
 				dadFam = 0;
 				momFam = 0;
@@ -691,15 +677,14 @@ public class ExportGedcomUtil {
 		}
 
 		for (int i = 0; i < adops.size(); i++) {
-			AdoptionElement adop = adops.get(i);
+			final AdoptionElement adop = adops.get(i);
 			if (adop.who != null) {
 
 				for (int j = i + 1; j < adops.size(); j++) {
-					AdoptionElement adop2 = adops.get(j);
+					final AdoptionElement adop2 = adops.get(j);
 					if (adop2.who != null) {
-						if (adop2.fam.equals(adop.fam)
-								&& (Utils.nv(adop2.other).equals(
-										Utils.nv(adop.other)) || ((adop.other == null) || (adop2.other == null)))) {
+						if (adop2.fam.equals(adop.fam) && (Utils.nv(adop2.other).equals(Utils.nv(adop.other))
+								|| ((adop.other == null) || (adop2.other == null)))) {
 							adop.who = "BOTH";
 							if (adop.other == null) {
 								adop.other = adop2.other;
@@ -740,17 +725,16 @@ public class ExportGedcomUtil {
 	}
 
 	private Object gedDate(String dbDate) {
-		String[] months = { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL",
-				"AUG", "SEP", "OCT", "NOV", "DEC" };
+		final String[] months = { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
 		String mon = "";
 		if (dbDate.length() >= 6) {
 
 			try {
-				int m = Integer.parseInt(dbDate.substring(4, 6));
+				final int m = Integer.parseInt(dbDate.substring(4, 6));
 				if ((m > 0) && (m <= 12)) {
 					mon = months[m - 1] + " ";
 				}
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				// NumberFormatException ignored
 			}
 		}
@@ -765,11 +749,10 @@ public class ExportGedcomUtil {
 		return getNoteStructure(level, tag, text, 2);
 	}
 
-	private String getNoteStructure(int level, String tag, String text,
-			int emptyMax) {
-		ArrayList<String> ss = new ArrayList<String>();
+	private String getNoteStructure(int level, String tag, String text, int emptyMax) {
+		final ArrayList<String> ss = new ArrayList<String>();
 
-		int linelen = 73;
+		final int linelen = 73;
 
 		if (text == null) {
 			return null;
@@ -778,7 +761,7 @@ public class ExportGedcomUtil {
 		char prevc = 0;
 		int emptyCount = 0;
 		for (int i = 0; i < text.length(); i++) {
-			char c = text.charAt(i);
+			final char c = text.charAt(i);
 			switch (c) {
 			case '\r':
 				break;
@@ -853,10 +836,9 @@ public class ExportGedcomUtil {
 
 	}
 
-	private void writeFam(ZipOutputStream zip, MinimumFamily fam,
-			String langCode) throws IOException, SQLException {
+	private void writeFam(ZipOutputStream zip, MinimumFamily fam, String langCode) throws IOException, SQLException {
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("0 @F" + fam.id + "@ FAM\r\n");
 		if (fam.dad > 0) {
 			sb.append("1 HUSB @I" + fam.getDada() + "@\r\n");
@@ -871,14 +853,12 @@ public class ExportGedcomUtil {
 		PreparedStatement pst;
 		String sql;
 		if (langCode != null) {
-			sql = "select surety,tag,"
-					+ "coalesce(l.description,r.description) as description,"
+			sql = "select surety,tag," + "coalesce(l.description,r.description) as description,"
 					+ "coalesce(l.relationtype,r.relationtype) as relationtype,"
 					+ "dateprefix,fromdate,todate,coalesce(l.place,r.place) as place,"
 					+ "coalesce(l.notetext,r.notetext) as notetext,sourcetext,privatetext "
 					+ "from relationnotice as r left join relationlanguage as l "
-					+ "on r.rnid = l.rnid and l.langcode = ? where r.rid=? "
-					+ "order by noticerow ";
+					+ "on r.rnid = l.rnid and l.langcode = ? where r.rid=? " + "order by noticerow ";
 
 			pst = con.prepareStatement(sql);
 			pst.setString(1, langCode);
@@ -887,25 +867,24 @@ public class ExportGedcomUtil {
 		} else {
 			sql = "select surety,tag,description,relationtype,"
 					+ "dateprefix,fromdate,todate,place,notetext,sourcetext,privatetext "
-					+ "from relationnotice where rid=? "
-					+ "order by noticerow ";
+					+ "from relationnotice where rid=? " + "order by noticerow ";
 			pst = con.prepareStatement(sql);
 			pst.setInt(1, fam.rid);
 		}
 
-		ResultSet rs = pst.executeQuery();
+		final ResultSet rs = pst.executeQuery();
 		while (rs.next()) {
-			int surety = rs.getInt(1);
-			String tag = rs.getString(2);
-			String desc = rs.getString(3);
-			String type = rs.getString(4);
-			String pre = rs.getString(5);
-			String fromdate = rs.getString(6);
-			String todate = rs.getString(7);
-			String place = rs.getString(8);
-			String notetext = rs.getString(9);
-			String sourcetext = rs.getString(10);
-			String privatetext = rs.getString(11);
+			final int surety = rs.getInt(1);
+			final String tag = rs.getString(2);
+			final String desc = rs.getString(3);
+			final String type = rs.getString(4);
+			final String pre = rs.getString(5);
+			final String fromdate = rs.getString(6);
+			final String todate = rs.getString(7);
+			final String place = rs.getString(8);
+			final String notetext = rs.getString(9);
+			final String sourcetext = rs.getString(10);
+			final String privatetext = rs.getString(11);
 
 			sb.append("1 " + tag);
 			sb.append("\r\n");
@@ -960,7 +939,7 @@ public class ExportGedcomUtil {
 
 	private void writeHead(ZipOutputStream zip) throws IOException {
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("0 HEAD\r\n");
 		sb.append("1 SOUR FinFamily\r\n");
 		sb.append("2 VERS " + AntVersion.antVersion + "\r\n");
@@ -991,23 +970,23 @@ public class ExportGedcomUtil {
 
 		sb.append("0 @U1@ SUBM\r\n");
 
-		String sql = "select * from sukuvariables";
+		final String sql = "select * from sukuvariables";
 		Statement stm;
 		try {
 			stm = con.createStatement();
-			ResultSet rs = stm.executeQuery(sql);
+			final ResultSet rs = stm.executeQuery(sql);
 			if (rs.next()) {
 				sb.append("1 NAME " + rs.getString("owner_name"));
 				sb.append("\r\n");
 
-				StringBuilder sbad = new StringBuilder();
+				final StringBuilder sbad = new StringBuilder();
 				String tmp = rs.getString("owner_address");
 				if (tmp != null) {
 					sbad.append(tmp);
 					sbad.append("\r\n");
 				}
 				tmp = rs.getString("owner_postalcode");
-				String aux = rs.getString("owner_postoffice");
+				final String aux = rs.getString("owner_postoffice");
 				if (tmp != null) {
 					if (aux != null) {
 						sbad.append(tmp + " " + aux);
@@ -1056,7 +1035,7 @@ public class ExportGedcomUtil {
 			}
 			rs.close();
 			stm.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			sb.append("1 NAME " + e.getMessage());
 			sb.append("\r\n");
 		}
@@ -1064,7 +1043,8 @@ public class ExportGedcomUtil {
 		// zip.write(gedBytes("0 HEAD\r\n"));
 		//
 		// zip
-		// .write(gedBytes("1 NOTE FinFamily Gedcom Export is under construction\r\n"));
+		// .write(gedBytes("1 NOTE FinFamily Gedcom Export is under
+		// construction\r\n"));
 		zip.write(gedBytes(sb.toString()));
 	}
 
@@ -1082,13 +1062,13 @@ public class ExportGedcomUtil {
 			pst.setInt(1, viewId);
 		}
 
-		ResultSet rs = pst.executeQuery();
+		final ResultSet rs = pst.executeQuery();
 		int gid = 0;
 		while (rs.next()) {
 
 			gid++;
-			int pid = rs.getInt(1);
-			String sex = rs.getString(2);
+			final int pid = rs.getInt(1);
+			final String sex = rs.getString(2);
 			units.put(pid, new MinimumIndividual(pid, sex, gid));
 
 		}
@@ -1105,28 +1085,25 @@ public class ExportGedcomUtil {
 		sql.append("select a.pid,a.tag,a.relationrow,b.pid,b.tag,b.relationrow,a.rid "
 				+ "from relation as a inner join relation as b on a.rid=b.rid ");
 		if (viewId > 0) {
-			sql.append("and a.pid in (select pid from viewunits where vid="
-					+ viewId + ") "
-					+ "and b.pid in (select pid from viewunits where vid="
-					+ viewId + ") ");
+			sql.append("and a.pid in (select pid from viewunits where vid=" + viewId + ") "
+					+ "and b.pid in (select pid from viewunits where vid=" + viewId + ") ");
 		}
 		if (surety != 100) {
 			sql.append("and a.surety >= " + surety + " ");
 		}
-		sql.append("and a.tag='WIFE' and b.tag='HUSB' "
-				+ "order by a.pid,a.relationrow");
+		sql.append("and a.tag='WIFE' and b.tag='HUSB' " + "order by a.pid,a.relationrow");
 
 		pst = con.prepareStatement(sql.toString());
 
 		ResultSet rs = pst.executeQuery();
 
 		while (rs.next()) {
-			int dada = rs.getInt(1);
-			int mama = rs.getInt(4);
-			int rid = rs.getInt(7);
-			ParentPair pp = new ParentPair(dada, mama);
+			final int dada = rs.getInt(1);
+			final int mama = rs.getInt(4);
+			final int rid = rs.getInt(7);
+			final ParentPair pp = new ParentPair(dada, mama);
 
-			MinimumFamily mf = new MinimumFamily(dada, mama, rid);
+			final MinimumFamily mf = new MinimumFamily(dada, mama, rid);
 			families.put(pp.toString(), mf);
 			famById.put(mf.id, mf);
 			MinimumIndividual mi = units.get(dada);
@@ -1143,10 +1120,8 @@ public class ExportGedcomUtil {
 		sql.append("relation as a inner join relation as b on a.rid=b.rid ");
 		sql.append("and a.tag='CHIL' and b.tag != 'CHIL' ");
 		if (viewId > 0) {
-			sql.append("and a.pid in (select pid from viewunits where vid="
-					+ viewId + ") "
-					+ "and b.pid in (select pid from viewunits where vid="
-					+ viewId + ") ");
+			sql.append("and a.pid in (select pid from viewunits where vid=" + viewId + ") "
+					+ "and b.pid in (select pid from viewunits where vid=" + viewId + ") ");
 		}
 		if (surety != 100) {
 			sql.append("and a.surety >= " + surety + " ");
@@ -1160,8 +1135,8 @@ public class ExportGedcomUtil {
 		int rid = 0;
 		rs = pst.executeQuery();
 		while (rs.next()) {
-			int pare = rs.getInt(1);
-			int chil = rs.getInt(2);
+			final int pare = rs.getInt(1);
+			final int chil = rs.getInt(2);
 
 			rid = rs.getInt(4);
 			if (chil != previd) {
@@ -1172,7 +1147,7 @@ public class ExportGedcomUtil {
 				p = new Vector<MinimumIndividual>();
 
 			}
-			MinimumIndividual pi = units.get(pare);
+			final MinimumIndividual pi = units.get(pare);
 			p.add(pi);
 			previd = chil;
 
@@ -1185,13 +1160,12 @@ public class ExportGedcomUtil {
 
 	}
 
-	private void addChildToFamilies(Vector<MinimumIndividual> p, int childId,
-			int chilrid) {
+	private void addChildToFamilies(Vector<MinimumIndividual> p, int childId, int chilrid) {
 
 		MinimumFamily fm;
-		MinimumIndividual mini = new MinimumIndividual(0, "U", 0);
+		final MinimumIndividual mini = new MinimumIndividual(0, "U", 0);
 
-		MinimumIndividual child = units.get(childId);
+		final MinimumIndividual child = units.get(childId);
 		if (child == null) {
 			return;
 		}
@@ -1203,10 +1177,10 @@ public class ExportGedcomUtil {
 		for (int i = 0; i < (p.size() - 1); i++) {
 			for (int j = i + 1; j < p.size(); j++) {
 				MinimumIndividual pi = p.get(i);
-				MinimumIndividual pj = p.get(j);
+				final MinimumIndividual pj = p.get(j);
 
-				int dada = pi.pid;
-				int mama = pj.pid;
+				final int dada = pi.pid;
+				final int mama = pj.pid;
 				if ((mama > 0) && (dada > 0)) {
 					ParentPair pp = new ParentPair(dada, mama);
 					fm = families.get(pp.toString());
@@ -1274,7 +1248,7 @@ public class ExportGedcomUtil {
 				return toAnsel(text);
 			}
 
-		} catch (UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			logger.warning("Writing " + thisSet.name() + ": " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -1284,23 +1258,19 @@ public class ExportGedcomUtil {
 
 	private byte[] toAnsel(String text) {
 
-		char toAnsel[] = {
+		final char toAnsel[] = {
 
-		225, 'A', 226, 'A', 227, 'A', 228, 'A', 232, 'A', 234, 'A', 165, 0,
-				240, 'C', 225, 'E', 226, 'E', 227, 'E', 232, 'E', 225, 'I',
-				226, 'I', 227, 'I', 232, 'I', 163, 0, 228, 'N', 225, 'O', 226,
-				'O', 227, 'O', 228, 'O', 232, 'O', 0, 0, 162, 0, 225, 'U', 226,
-				'U', 227, 'U', 232, 'U', 226, 'Y', 164, 0, 207, 0,
+				225, 'A', 226, 'A', 227, 'A', 228, 'A', 232, 'A', 234, 'A', 165, 0, 240, 'C', 225, 'E', 226, 'E', 227,
+				'E', 232, 'E', 225, 'I', 226, 'I', 227, 'I', 232, 'I', 163, 0, 228, 'N', 225, 'O', 226, 'O', 227, 'O',
+				228, 'O', 232, 'O', 0, 0, 162, 0, 225, 'U', 226, 'U', 227, 'U', 232, 'U', 226, 'Y', 164, 0, 207, 0,
 
-				225, 'a', 226, 'a', 227, 'a', 228, 'a', 232, 'a', 234, 'a',
-				182, 0, 240, 'c', 225, 'e', 226, 'e', 227, 'e', 232, 'e', 225,
-				'i', 226, 'i', 227, 'i', 232, 'i', 186, 0, 228, 'n', 225, 'o',
-				226, 'o', 227, 'o', 228, 'o', 232, 'o', 0, 0, 178, 0, 225, 'u',
-				226, 'u', 227, 'u', 232, 'u', 226, 'y', 180, 0, 232, 'y' };
+				225, 'a', 226, 'a', 227, 'a', 228, 'a', 232, 'a', 234, 'a', 182, 0, 240, 'c', 225, 'e', 226, 'e', 227,
+				'e', 232, 'e', 225, 'i', 226, 'i', 227, 'i', 232, 'i', 186, 0, 228, 'n', 225, 'o', 226, 'o', 227, 'o',
+				228, 'o', 232, 'o', 0, 0, 178, 0, 225, 'u', 226, 'u', 227, 'u', 232, 'u', 226, 'y', 180, 0, 232, 'y' };
 
-		StringBuilder st = new StringBuilder();
+		final StringBuilder st = new StringBuilder();
 
-		int iInLen = text.length();
+		final int iInLen = text.length();
 		int iNow = 0;
 
 		int iIndex;
@@ -1358,7 +1328,7 @@ public class ExportGedcomUtil {
 
 		try {
 			return st.toString().getBytes("ISO-8859-1");
-		} catch (UnsupportedEncodingException e) {
+		} catch (final UnsupportedEncodingException e) {
 			logger.warning("Writing ansel: " + e.getMessage());
 			e.printStackTrace();
 		}
@@ -1438,7 +1408,7 @@ public class ExportGedcomUtil {
 			if (dad == 0) {
 				return 0;
 			}
-			MinimumIndividual mm = units.get(dad);
+			final MinimumIndividual mm = units.get(dad);
 			if (mm == null) {
 				logger.warning("person for " + dad + "does not exist");
 			}
@@ -1450,7 +1420,7 @@ public class ExportGedcomUtil {
 			if (mom == 0) {
 				return 0;
 			}
-			MinimumIndividual mm = units.get(mom);
+			final MinimumIndividual mm = units.get(mom);
 			if (mm == null) {
 				logger.warning("person for " + mom + "does not exist");
 			}
@@ -1464,8 +1434,8 @@ public class ExportGedcomUtil {
 		}
 
 		int getChild(int idx) {
-			int cid = chils.get(idx);
-			MinimumIndividual mm = units.get(cid);
+			final int cid = chils.get(idx);
+			final MinimumIndividual mm = units.get(cid);
 			if (mm == null) {
 				logger.warning("child for " + cid + "does not exist");
 			}
@@ -1490,7 +1460,7 @@ public class ExportGedcomUtil {
 
 		/**
 		 * Instantiates a new minimum image.
-		 * 
+		 *
 		 * @param name
 		 *            the name
 		 * @param data
@@ -1505,11 +1475,11 @@ public class ExportGedcomUtil {
 
 		/**
 		 * Gets the path.
-		 * 
+		 *
 		 * @return the path
 		 */
 		String getPath() {
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			sb.append(dbName + "_files/" + counter + "_" + imgName);
 			return sb.toString();
 		}
@@ -1532,7 +1502,7 @@ public class ExportGedcomUtil {
 
 		/**
 		 * Instantiates a new adoption element.
-		 * 
+		 *
 		 * @param who
 		 *            the who
 		 * @param fam
@@ -1551,8 +1521,7 @@ public class ExportGedcomUtil {
 	private void setRunnerValue(String juttu) throws SukuException {
 		if (runner != null) {
 			if (this.runner.setRunnerValue(juttu)) {
-				throw new SukuException(
-						Resurses.getString("EXECUTION_CANCELLED"));
+				throw new SukuException(Resurses.getString("EXECUTION_CANCELLED"));
 			}
 		}
 	}

@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.server.utils;
 
 import java.io.ByteArrayOutputStream;
@@ -30,9 +60,9 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * Creator of backup of Family database
- * 
+ *
  * Backup is an xml file with joining images all packed in a zip-file.
- * 
+ *
  * @author Kaarle Kaila
  */
 public class ExportBackupUtil {
@@ -48,7 +78,7 @@ public class ExportBackupUtil {
 
 	/**
 	 * Constructor requires an open connection.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 */
@@ -59,10 +89,10 @@ public class ExportBackupUtil {
 
 	/**
 	 * Method to execute building of backup
-	 * 
+	 *
 	 * SukuData buffer will contain the backup if success SukuData resu will
 	 * contain error info if failed.
-	 * 
+	 *
 	 * @param path
 	 *            the path
 	 * @param dbName
@@ -70,30 +100,28 @@ public class ExportBackupUtil {
 	 * @return results
 	 */
 	public SukuData exportBackup(String path, String dbName) {
-		SukuData dat = new SukuData();
-		String root = "genealog";
+		final SukuData dat = new SukuData();
+		final String root = "genealog";
 		this.dbName = dbName;
 		if ((path == null) || (path.lastIndexOf(".") < 1)) {
 			dat.resu = "output filename missing";
 			return dat;
 		}
 		images = new Vector<MinimumImage>();
-		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory
-				.newInstance();
+		final DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 
 		try {
-			DocumentBuilder documentBuilder = documentBuilderFactory
-					.newDocumentBuilder();
-			Document document = documentBuilder.newDocument();
-			Element rootElement = document.createElement(root);
+			final DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			final Document document = documentBuilder.newDocument();
+			final Element rootElement = document.createElement(root);
 			document.appendChild(rootElement);
 			rootElement.setAttribute("finfamily", AntVersion.antVersion);
 
 			zipPath = path.substring(0, path.lastIndexOf("."));
-			ByteArrayOutputStream bbos = new ByteArrayOutputStream();
+			final ByteArrayOutputStream bbos = new ByteArrayOutputStream();
 
-			ZipOutputStream zip = new ZipOutputStream(bbos);
-			String fileName = zipPath + "/" + this.dbName + ".xml";
+			final ZipOutputStream zip = new ZipOutputStream(bbos);
+			final String fileName = zipPath + "/" + this.dbName + ".xml";
 
 			createOwnerElement(document, rootElement, dbName + "_files");
 
@@ -107,14 +135,13 @@ public class ExportBackupUtil {
 
 			createViewsElement(document, rootElement);
 
-			TransformerFactory transformerFactory = TransformerFactory
-					.newInstance();
-			Transformer transformer = transformerFactory.newTransformer();
-			DOMSource source = new DOMSource(document);
+			final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			final Transformer transformer = transformerFactory.newTransformer();
+			final DOMSource source = new DOMSource(document);
 
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+			final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-			StreamResult result = new StreamResult(bos);
+			final StreamResult result = new StreamResult(bos);
 			transformer.transform(source, result);
 
 			ZipEntry entry = new ZipEntry(fileName);
@@ -123,11 +150,11 @@ public class ExportBackupUtil {
 			zip.write(bos.toByteArray());
 
 			zip.closeEntry();
-			double dbSize = images.size();
+			final double dbSize = images.size();
 			for (int i = 0; i < images.size(); i++) {
 
-				double prossa = i / dbSize;
-				int prose = (int) (prossa * 100);
+				final double prossa = i / dbSize;
+				final int prose = (int) (prossa * 100);
 				setRunnerValue("" + prose + ";" + images.get(i).getPath());
 
 				entry = new ZipEntry(zipPath + "/" + images.get(i).getPath());
@@ -139,16 +166,16 @@ public class ExportBackupUtil {
 			zip.close();
 			dat.buffer = bbos.toByteArray();
 			// dat.resu = "Under construction";
-		} catch (ParserConfigurationException e) {
+		} catch (final ParserConfigurationException e) {
 			dat.resu = e.getMessage();
 			e.printStackTrace();
-		} catch (TransformerException e) {
+		} catch (final TransformerException e) {
 			dat.resu = e.getMessage();
 			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			dat.resu = e.getMessage();
 			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			dat.resu = e.getMessage();
 			e.printStackTrace();
 		}
@@ -157,30 +184,29 @@ public class ExportBackupUtil {
 
 	}
 
-	private void createViewsElement(Document document, Element rootElement)
-			throws SQLException {
-		String sql = "select * from views";
-		String sqlu = "select * from viewunits where vid=?";
-		Element viewsEle = document.createElement("views");
+	private void createViewsElement(Document document, Element rootElement) throws SQLException {
+		final String sql = "select * from views";
+		final String sqlu = "select * from viewunits where vid=?";
+		final Element viewsEle = document.createElement("views");
 		rootElement.appendChild(viewsEle);
 
-		Statement stm = con.createStatement();
+		final Statement stm = con.createStatement();
 
-		PreparedStatement pst = con.prepareStatement(sqlu);
+		final PreparedStatement pst = con.prepareStatement(sqlu);
 		ResultSet rs;
 		ResultSet rsu;
 		rs = stm.executeQuery(sql);
 
 		while (rs.next()) {
-			int vid = rs.getInt("vid");
-			String name = rs.getString("name");
-			String created = rs.getString("createdate");
-			Element viewEle = document.createElement("view");
+			final int vid = rs.getInt("vid");
+			final String name = rs.getString("name");
+			final String created = rs.getString("createdate");
+			final Element viewEle = document.createElement("view");
 			viewsEle.appendChild(viewEle);
 			viewEle.setAttribute("viewid", "V" + vid);
 			viewEle.setAttribute("created", created);
 			viewEle.setAttribute("createdate", created.substring(0, 10));
-			Element e = document.createElement("description");
+			final Element e = document.createElement("description");
 			e.setTextContent(name);
 			viewEle.appendChild(e);
 
@@ -194,10 +220,10 @@ public class ExportBackupUtil {
 					viewEle.appendChild(vu);
 				}
 
-				int pid = rsu.getInt("pid");
-				int value = rsu.getInt("value");
+				final int pid = rsu.getInt("pid");
+				final int value = rsu.getInt("value");
 
-				Element ref = document.createElement("ref");
+				final Element ref = document.createElement("ref");
 				ref.setAttribute("unitid", "U" + pid);
 				vu.appendChild(ref);
 				if (value != 0) {
@@ -214,23 +240,22 @@ public class ExportBackupUtil {
 		pst.close();
 	}
 
-	private void createTypesElement(Document document, Element rootElement)
-			throws SQLException {
-		String sql = "select * from types order by tag,langcode";
-		Element typesEle = document.createElement("types");
+	private void createTypesElement(Document document, Element rootElement) throws SQLException {
+		final String sql = "select * from types order by tag,langcode";
+		final Element typesEle = document.createElement("types");
 		rootElement.appendChild(typesEle);
 
-		Statement stm = con.createStatement();
+		final Statement stm = con.createStatement();
 		ResultSet rs;
 		rs = stm.executeQuery(sql);
 		String prevTag = "";
 		Element typeEle = null;
 		while (rs.next()) {
-			String tag = rs.getString("tag");
-			String rule = rs.getString("rule");
-			String langcode = rs.getString("langcode");
-			String name = rs.getString("name");
-			String reportname = rs.getString("reportname");
+			final String tag = rs.getString("tag");
+			final String rule = rs.getString("rule");
+			final String langcode = rs.getString("langcode");
+			final String name = rs.getString("name");
+			final String reportname = rs.getString("reportname");
 			if (!prevTag.equals(tag)) {
 				typeEle = document.createElement("type");
 				typeEle.setAttribute("tag", tag);
@@ -240,7 +265,7 @@ public class ExportBackupUtil {
 				}
 				prevTag = tag;
 			}
-			Element ele = document.createElement("name");
+			final Element ele = document.createElement("name");
 			typeEle.appendChild(ele);
 			ele.setAttribute("langcode", langcode);
 			ele.setAttribute("name", name);
@@ -254,11 +279,10 @@ public class ExportBackupUtil {
 
 	}
 
-	private void createConversionsElement(Document document, Element rootElement)
-			throws SQLException {
-		String sql = "select * from conversions";
+	private void createConversionsElement(Document document, Element rootElement) throws SQLException {
+		final String sql = "select * from conversions";
 
-		Statement stm = con.createStatement();
+		final Statement stm = con.createStatement();
 		ResultSet rs;
 		Element conversionsEle = null;
 		rs = stm.executeQuery(sql);
@@ -269,13 +293,13 @@ public class ExportBackupUtil {
 				rootElement.appendChild(conversionsEle);
 			}
 
-			Element conversionEle = document.createElement("conversion");
+			final Element conversionEle = document.createElement("conversion");
 			conversionsEle.appendChild(conversionEle);
 			conversionEle.setAttribute("rule", rs.getString("rule"));
-			Element fromEle = document.createElement("fromtext");
+			final Element fromEle = document.createElement("fromtext");
 			fromEle.setTextContent(rs.getString("fromtext"));
 			conversionEle.appendChild(fromEle);
-			Element toEle = document.createElement("totext");
+			final Element toEle = document.createElement("totext");
 			String ll = rs.getString("langcode");
 			toEle.setAttribute("langcode", ll);
 			if (ll.equals("sv")) {
@@ -291,9 +315,8 @@ public class ExportBackupUtil {
 
 	}
 
-	private void createUnitsElement(Document document, Element rootElement)
-			throws SQLException {
-		Element unitsEle = document.createElement("units");
+	private void createUnitsElement(Document document, Element rootElement) throws SQLException {
+		final Element unitsEle = document.createElement("units");
 		rootElement.appendChild(unitsEle);
 
 		String sql = "select count(*) from unit";
@@ -314,9 +337,9 @@ public class ExportBackupUtil {
 		double unitCounter = 0;
 		while (rs.next()) {
 			unitCounter++;
-			int pid = rs.getInt("pid");
+			final int pid = rs.getInt("pid");
 
-			Element unitEle = document.createElement("unit");
+			final Element unitEle = document.createElement("unit");
 			unitsEle.appendChild(unitEle);
 			unitEle.setAttribute("unitid", "I" + pid);
 			unitEle.setAttribute("tag", rs.getString("tag"));
@@ -328,20 +351,20 @@ public class ExportBackupUtil {
 				unitEle.setAttribute("group", tmp);
 			}
 
-			String created = rs.getString("createdate");
+			final String created = rs.getString("createdate");
 			unitEle.setAttribute("created", created);
 
 			unitEle.setAttribute("createdate", created.substring(0, 10));
-			String createdBy = rs.getString("createdBy");
+			final String createdBy = rs.getString("createdBy");
 			if (createdBy != null) {
 				unitEle.setAttribute("createdBy", createdBy);
 			}
 
-			String modified = rs.getString("modified");
+			final String modified = rs.getString("modified");
 			if (modified != null) {
 				unitEle.setAttribute("modified", modified);
 			}
-			String modifiedBy = rs.getString("modifiedBy");
+			final String modifiedBy = rs.getString("modifiedBy");
 			if (modifiedBy != null) {
 				unitEle.setAttribute("modifiedBy", modifiedBy);
 			}
@@ -366,11 +389,11 @@ public class ExportBackupUtil {
 				unitEle.appendChild(ele);
 			}
 
-			Element nameEle = document.createElement("name");
+			final Element nameEle = document.createElement("name");
 
 			unitEle.appendChild(nameEle);
 
-			Element notices = createNoticesElement(document, pid);
+			final Element notices = createNoticesElement(document, pid);
 
 			if (firstPrefix != null) {
 				ele = document.createElement("prefix");
@@ -396,8 +419,8 @@ public class ExportBackupUtil {
 			unitEle.appendChild(nameEle);
 
 			unitEle.appendChild(notices);
-			double prossa = unitCounter / dbSize;
-			int prose = (int) (prossa * 100);
+			final double prossa = unitCounter / dbSize;
+			final int prose = (int) (prossa * 100);
 			setRunnerValue("" + prose + ";unit");
 			// System.out.println("se on " + unitCounter + " [" + pid + "]");
 			// if (pid == 163) {
@@ -409,9 +432,8 @@ public class ExportBackupUtil {
 
 	}
 
-	private void createRelationsElement(Document document, Element rootElement)
-			throws SQLException {
-		Element relsEle = document.createElement("relations");
+	private void createRelationsElement(Document document, Element rootElement) throws SQLException {
+		final Element relsEle = document.createElement("relations");
 		rootElement.appendChild(relsEle);
 		String sql = "select count(*) from relation";
 		Statement stm = con.createStatement();
@@ -424,10 +446,8 @@ public class ExportBackupUtil {
 		rs.close();
 		stm.close();
 
-		sql = "select a.rid,a.pid,b.pid,a.tag,b.tag,a.surety,"
-				+ "a.relationrow,b.relationrow,a.createdate,"
-				+ "a.modified,a.createdby,a.modifiedby "
-				+ "from relation as a inner join relation as b on a.rid=b.rid "
+		sql = "select a.rid,a.pid,b.pid,a.tag,b.tag,a.surety," + "a.relationrow,b.relationrow,a.createdate,"
+				+ "a.modified,a.createdby,a.modifiedby " + "from relation as a inner join relation as b on a.rid=b.rid "
 				+ "where a.pid <> b.pid  order by a.rid";
 
 		stm = con.createStatement();
@@ -438,23 +458,23 @@ public class ExportBackupUtil {
 		int prevRid = 0;
 		while (rs.next()) {
 			relaCounter++;
-			int rid = rs.getInt(1);
+			final int rid = rs.getInt(1);
 			if (rid == prevRid) {
 				continue;
 			}
 
 			prevRid = rid;
-			int apid = rs.getInt(2);
-			int bpid = rs.getInt(3);
-			String taga = rs.getString(4);
-			String tagb = rs.getString(5);
-			int surety = rs.getInt(6);
-			int arow = rs.getInt(7);
-			int brow = rs.getInt(8);
-			String created = rs.getString(9);
-			String modified = rs.getString(10);
-			String createdBy = rs.getString(11);
-			String modifiedBy = rs.getString(12);
+			final int apid = rs.getInt(2);
+			final int bpid = rs.getInt(3);
+			final String taga = rs.getString(4);
+			final String tagb = rs.getString(5);
+			final int surety = rs.getInt(6);
+			final int arow = rs.getInt(7);
+			final int brow = rs.getInt(8);
+			final String created = rs.getString(9);
+			final String modified = rs.getString(10);
+			final String createdBy = rs.getString(11);
+			final String modifiedBy = rs.getString(12);
 			int xpid = 0;
 			int ypid = 0;
 			String xtag = null;
@@ -504,7 +524,7 @@ public class ExportBackupUtil {
 				xrow = arow;
 				yrow = brow;
 			}
-			Element relEle = document.createElement("relation");
+			final Element relEle = document.createElement("relation");
 			relsEle.appendChild(relEle);
 			relEle.setAttribute("unitida", "I" + xpid);
 			relEle.setAttribute("unitidb", "I" + ypid);
@@ -528,7 +548,7 @@ public class ExportBackupUtil {
 				relEle.setAttribute("modifiedBy", modifiedBy);
 			}
 
-			double prossa = relaCounter / dbSize;
+			final double prossa = relaCounter / dbSize;
 			int prose = (int) (prossa * 100);
 			if (prose > 100) {
 				prose = 100;
@@ -552,7 +572,7 @@ public class ExportBackupUtil {
 			}
 
 			if (beginStart != null) {
-				Element ddEle = document.createElement("begindate");
+				final Element ddEle = document.createElement("begindate");
 				relEle.appendChild(ddEle);
 				if (beginDateType != null) {
 					ddEle.setAttribute("type", beginDateType);
@@ -587,7 +607,7 @@ public class ExportBackupUtil {
 				ele.setTextContent(beginPrivate);
 			}
 			if (endStart != null) {
-				Element ddEle = document.createElement("enddate");
+				final Element ddEle = document.createElement("enddate");
 				relEle.appendChild(ddEle);
 				if (endDateType != null) {
 					ddEle.setAttribute("type", endDateType);
@@ -627,8 +647,7 @@ public class ExportBackupUtil {
 	private String beginSource = null;
 	private String beginPrivate = null;
 
-	private void createRelationNoticesElement(Document document,
-			Element rootElement, int rid) throws SQLException {
+	private void createRelationNoticesElement(Document document, Element rootElement, int rid) throws SQLException {
 
 		beginType = null;
 		beginDesc = null;
@@ -646,32 +665,32 @@ public class ExportBackupUtil {
 		beginSource = null;
 		beginPrivate = null;
 
-		String sql = "select * from relationnotice where rid=? order by noticerow";
+		final String sql = "select * from relationnotice where rid=? order by noticerow";
 
-		PreparedStatement pstm = con.prepareStatement(sql);
+		final PreparedStatement pstm = con.prepareStatement(sql);
 		pstm.setInt(1, rid);
-		ResultSet rs = pstm.executeQuery();
+		final ResultSet rs = pstm.executeQuery();
 		Element ele;
 		while (rs.next()) {
-			int rnid = rs.getInt("rnid");
-			int nrow = rs.getInt("noticerow");
-			String tag = rs.getString("tag");
-			int surety = rs.getInt("surety");
-			String desc = rs.getString("description");
-			String rtype = rs.getString("relationtype");
-			String dprefix = rs.getString("dateprefix");
-			String fromdate = rs.getString("fromdate");
-			String todate = rs.getString("todate");
-			String place = rs.getString("place");
-			String notetext = rs.getString("notetext");
-			String sourcetext = rs.getString("sourcetext");
-			String privatetext = rs.getString("privatetext");
-			String modified = rs.getString("modified");
-			String created = rs.getString("createdate");
-			String modifiedBy = rs.getString("modifiedBy");
-			String createdBy = rs.getString("createdBy");
+			final int rnid = rs.getInt("rnid");
+			final int nrow = rs.getInt("noticerow");
+			final String tag = rs.getString("tag");
+			final int surety = rs.getInt("surety");
+			final String desc = rs.getString("description");
+			final String rtype = rs.getString("relationtype");
+			final String dprefix = rs.getString("dateprefix");
+			final String fromdate = rs.getString("fromdate");
+			final String todate = rs.getString("todate");
+			final String place = rs.getString("place");
+			final String notetext = rs.getString("notetext");
+			final String sourcetext = rs.getString("sourcetext");
+			final String privatetext = rs.getString("privatetext");
+			final String modified = rs.getString("modified");
+			final String created = rs.getString("createdate");
+			final String modifiedBy = rs.getString("modifiedBy");
+			final String createdBy = rs.getString("createdBy");
 
-			Element nEle = document.createElement("relationnotice");
+			final Element nEle = document.createElement("relationnotice");
 			rootElement.appendChild(nEle);
 
 			nEle.setAttribute("tag", tag);
@@ -703,7 +722,7 @@ public class ExportBackupUtil {
 
 			}
 			if (fromdate != null) {
-				Element dEle = document.createElement("date");
+				final Element dEle = document.createElement("date");
 				nEle.appendChild(dEle);
 				if (dprefix != null) {
 					dEle.setAttribute("type", dprefix);
@@ -761,7 +780,7 @@ public class ExportBackupUtil {
 			if (tag.equals("ADOP")) {
 				// add suku 2004 adoption description too
 
-				Element descEle = document.createElement("description");
+				final Element descEle = document.createElement("description");
 				descEle.setTextContent("adoption");
 				rootElement.appendChild(descEle);
 			}
@@ -779,29 +798,28 @@ public class ExportBackupUtil {
 	private String firstSurname = null;
 	private String firstPostfix = null;
 
-	private Element createNoticesElement(Document document, int pid)
-			throws SQLException {
+	private Element createNoticesElement(Document document, int pid) throws SQLException {
 		firstPrefix = null;
 		firstGivenname = null;
 		firstSurname = null;
 		firstPostfix = null;
 		boolean isFirstname = true;
-		Element noticesEle = document.createElement("notices");
+		final Element noticesEle = document.createElement("notices");
 
-		String sql = "select * from unitnotice where pid = ? order by noticerow";
+		final String sql = "select * from unitnotice where pid = ? order by noticerow";
 
-		PreparedStatement pstm = con.prepareStatement(sql);
+		final PreparedStatement pstm = con.prepareStatement(sql);
 		pstm.setInt(1, pid);
-		ResultSet rs = pstm.executeQuery();
+		final ResultSet rs = pstm.executeQuery();
 		String aux;
 		Element ele;
 
 		String tag = null;
 		String nameTag = "INDI";
 		while (rs.next()) {
-			Element noticeEle = document.createElement("notice");
+			final Element noticeEle = document.createElement("notice");
 			noticesEle.appendChild(noticeEle);
-			int pnid = rs.getInt("pnid");
+			final int pnid = rs.getInt("pnid");
 			tag = rs.getString("tag");
 			if (tag.equals("NAME")) {
 				tag = nameTag;
@@ -816,18 +834,18 @@ public class ExportBackupUtil {
 				noticeEle.setAttribute("privacy", tmp);
 			}
 
-			String created = rs.getString("createdate");
+			final String created = rs.getString("createdate");
 			noticeEle.setAttribute("created", created);
 			noticeEle.setAttribute("createdate", created.substring(0, 10));
-			String modified = rs.getString("modified");
+			final String modified = rs.getString("modified");
 			if (modified != null) {
 				noticeEle.setAttribute("modified", modified);
 			}
-			String createdBy = rs.getString("createdBy");
+			final String createdBy = rs.getString("createdBy");
 			if (createdBy != null) {
 				noticeEle.setAttribute("createdBy", createdBy);
 			}
-			String modifiedBy = rs.getString("modifiedBy");
+			final String modifiedBy = rs.getString("modifiedBy");
 			if (modifiedBy != null) {
 				noticeEle.setAttribute("modifiedBy", modifiedBy);
 			}
@@ -847,7 +865,7 @@ public class ExportBackupUtil {
 
 			tmp = rs.getString("fromdate");
 			if (tmp != null) {
-				Element dateEle = document.createElement("date");
+				final Element dateEle = document.createElement("date");
 				noticeEle.appendChild(dateEle);
 				aux = rs.getString("dateprefix");
 				if (aux != null) {
@@ -891,17 +909,17 @@ public class ExportBackupUtil {
 				noticeEle.appendChild(ele);
 			}
 
-			String address = rs.getString("address");
-			String postoff = rs.getString("postoffice");
-			String postcode = rs.getString("postalcode");
-			String state = rs.getString("state");
-			String country = rs.getString("country");
+			final String address = rs.getString("address");
+			final String postoff = rs.getString("postoffice");
+			final String postcode = rs.getString("postalcode");
+			final String state = rs.getString("state");
+			final String country = rs.getString("country");
 
-			String email = rs.getString("email");
-			byte[] mediaData = rs.getBytes("mediadata");
-			if ((address != null) || (postoff != null) || (postcode != null)
-					|| (state != null) || (country != null) || (email != null)) {
-				Element addEle = document.createElement("address");
+			final String email = rs.getString("email");
+			final byte[] mediaData = rs.getBytes("mediadata");
+			if ((address != null) || (postoff != null) || (postcode != null) || (state != null) || (country != null)
+					|| (email != null)) {
+				final Element addEle = document.createElement("address");
 				noticeEle.appendChild(addEle);
 				if (address != null) {
 					ele = document.createElement("street");
@@ -942,14 +960,13 @@ public class ExportBackupUtil {
 				ele.setTextContent(tmp);
 				noticeEle.appendChild(ele);
 			}
-			String mediaFilename = rs.getString("mediafilename");
+			final String mediaFilename = rs.getString("mediafilename");
 
-			String mediaTitle = rs.getString("mediatitle");
+			final String mediaTitle = rs.getString("mediatitle");
 
 			if ((mediaFilename != null) || (mediaTitle != null)) {
-				Element mediaEle = document.createElement("media");
-				String mediaFilename2 = "" + (imageCounter + 1) + "_"
-						+ mediaFilename;
+				final Element mediaEle = document.createElement("media");
+				final String mediaFilename2 = "" + (imageCounter + 1) + "_" + mediaFilename;
 				noticeEle.appendChild(mediaEle);
 				if (mediaFilename != null) {
 					ele = document.createElement("mediafilename");
@@ -963,15 +980,14 @@ public class ExportBackupUtil {
 				}
 				if (mediaData != null) {
 
-					MinimumImage minimg = new MinimumImage(mediaFilename,
-							mediaData);
+					final MinimumImage minimg = new MinimumImage(mediaFilename, mediaData);
 					images.add(minimg);
 				}
 
 			}
 
 			if (tag.equals("INDI") || tag.equals("NAME")) {
-				Element nameEle = document.createElement("name");
+				final Element nameEle = document.createElement("name");
 				noticeEle.appendChild(nameEle);
 				tmp = rs.getString("prefix");
 				if (tmp != null) {
@@ -982,7 +998,7 @@ public class ExportBackupUtil {
 					ele.setTextContent(tmp);
 					nameEle.appendChild(ele);
 				}
-				StringBuilder sbn = new StringBuilder();
+				final StringBuilder sbn = new StringBuilder();
 				tmp = rs.getString("givenname");
 
 				if (tmp != null) {
@@ -1048,9 +1064,9 @@ public class ExportBackupUtil {
 				}
 			}
 			if (refNames != null) {
-				Element namesEle = document.createElement("namelist");
+				final Element namesEle = document.createElement("namelist");
 				noticeEle.appendChild(namesEle);
-				for (String refName : refNames) {
+				for (final String refName : refNames) {
 					ele = document.createElement("name");
 					ele.setTextContent(refName);
 					namesEle.appendChild(ele);
@@ -1066,9 +1082,9 @@ public class ExportBackupUtil {
 
 			}
 			if (refPlaces != null) {
-				Element placesEle = document.createElement("placelist");
+				final Element placesEle = document.createElement("placelist");
 				noticeEle.appendChild(placesEle);
-				for (String refPlace : refPlaces) {
+				for (final String refPlace : refPlaces) {
 					ele = document.createElement("place");
 					ele.setTextContent(refPlace);
 					placesEle.appendChild(ele);
@@ -1093,25 +1109,24 @@ public class ExportBackupUtil {
 		return noticesEle;
 	}
 
-	private void createUnitLanguageElements(Document document,
-			Element rootElement, int pnid) throws SQLException {
-		String sql = "select * from unitlanguage where pnid=?";
-		PreparedStatement pstm = con.prepareStatement(sql);
+	private void createUnitLanguageElements(Document document, Element rootElement, int pnid) throws SQLException {
+		final String sql = "select * from unitlanguage where pnid=?";
+		final PreparedStatement pstm = con.prepareStatement(sql);
 		pstm.setInt(1, pnid);
-		ResultSet rs = pstm.executeQuery();
+		final ResultSet rs = pstm.executeQuery();
 		Element ele;
 		while (rs.next()) {
 			// String tag = rs.getString("tag");
-			String langCode = rs.getString("langcode");
-			String nType = rs.getString("noticetype");
-			String desc = rs.getString("description");
-			String place = rs.getString("place");
-			String notetext = rs.getString("notetext");
-			String mediatitle = rs.getString("mediatitle");
-			String modified = rs.getString("modified");
-			String created = rs.getString("createdate");
+			final String langCode = rs.getString("langcode");
+			final String nType = rs.getString("noticetype");
+			final String desc = rs.getString("description");
+			final String place = rs.getString("place");
+			final String notetext = rs.getString("notetext");
+			final String mediatitle = rs.getString("mediatitle");
+			final String modified = rs.getString("modified");
+			final String created = rs.getString("createdate");
 
-			Element langEle = document.createElement("language");
+			final Element langEle = document.createElement("language");
 			rootElement.appendChild(langEle);
 
 			langEle.setAttribute("langcode", langCode);
@@ -1122,11 +1137,11 @@ public class ExportBackupUtil {
 			}
 			langEle.setAttribute("created", created);
 
-			String createdBy = rs.getString("createdBy");
+			final String createdBy = rs.getString("createdBy");
 			if (createdBy != null) {
 				langEle.setAttribute("createdBy", createdBy);
 			}
-			String modifiedBy = rs.getString("modifiedBy");
+			final String modifiedBy = rs.getString("modifiedBy");
 			if (modifiedBy != null) {
 				langEle.setAttribute("modifiedBy", modifiedBy);
 			}
@@ -1158,26 +1173,25 @@ public class ExportBackupUtil {
 		pstm.close();
 	}
 
-	private void createRelationLanguageElements(Document document,
-			Element rootElement, int rnid) throws SQLException {
-		String sql = "select * from relationlanguage where rnid=?";
-		PreparedStatement pstm = con.prepareStatement(sql);
+	private void createRelationLanguageElements(Document document, Element rootElement, int rnid) throws SQLException {
+		final String sql = "select * from relationlanguage where rnid=?";
+		final PreparedStatement pstm = con.prepareStatement(sql);
 		pstm.setInt(1, rnid);
-		ResultSet rs = pstm.executeQuery();
+		final ResultSet rs = pstm.executeQuery();
 		Element ele;
 		while (rs.next()) {
 
-			String langCode = rs.getString("langcode");
-			String nType = rs.getString("relationtype");
-			String desc = rs.getString("description");
-			String place = rs.getString("place");
-			String notetext = rs.getString("notetext");
-			String modified = rs.getString("modified");
-			String created = rs.getString("createdate");
-			String modifiedBy = rs.getString("modifiedBy");
-			String createdBy = rs.getString("createdBy");
+			final String langCode = rs.getString("langcode");
+			final String nType = rs.getString("relationtype");
+			final String desc = rs.getString("description");
+			final String place = rs.getString("place");
+			final String notetext = rs.getString("notetext");
+			final String modified = rs.getString("modified");
+			final String created = rs.getString("createdate");
+			final String modifiedBy = rs.getString("modifiedBy");
+			final String createdBy = rs.getString("createdBy");
 
-			Element langEle = document.createElement("language");
+			final Element langEle = document.createElement("language");
 			rootElement.appendChild(langEle);
 
 			langEle.setAttribute("langcode", langCode);
@@ -1218,15 +1232,14 @@ public class ExportBackupUtil {
 		pstm.close();
 	}
 
-	private void createOwnerElement(Document document, Element rootElement,
-			String mediapath) throws SQLException {
-		String sql = "select * from sukuvariables";
+	private void createOwnerElement(Document document, Element rootElement, String mediapath) throws SQLException {
+		final String sql = "select * from sukuvariables";
 
-		Statement stm = con.createStatement();
-		ResultSet rs = stm.executeQuery(sql);
+		final Statement stm = con.createStatement();
+		final ResultSet rs = stm.executeQuery(sql);
 		Element ele;
 		while (rs.next()) {
-			Element ownerEle = document.createElement("owner");
+			final Element ownerEle = document.createElement("owner");
 			rootElement.appendChild(ownerEle);
 			String tmp = rs.getString("owner_name");
 			if (tmp != null) {
@@ -1242,7 +1255,7 @@ public class ExportBackupUtil {
 				ownerEle.appendChild(ele);
 			}
 
-			Element addressEle = document.createElement("address");
+			final Element addressEle = document.createElement("address");
 			boolean hasAddress = false;
 
 			tmp = rs.getString("owner_address");
@@ -1325,7 +1338,7 @@ public class ExportBackupUtil {
 
 		/**
 		 * Instantiates a new minimum image.
-		 * 
+		 *
 		 * @param name
 		 *            the name
 		 * @param data
@@ -1340,11 +1353,11 @@ public class ExportBackupUtil {
 
 		/**
 		 * Gets the path.
-		 * 
+		 *
 		 * @return the path
 		 */
 		String getPath() {
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			sb.append(dbName + "_files/" + counter + "_" + imgName);
 			return sb.toString();
 		}

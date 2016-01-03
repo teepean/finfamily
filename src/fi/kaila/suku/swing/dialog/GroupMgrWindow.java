@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.dialog;
 
 import java.awt.Dimension;
@@ -29,36 +59,36 @@ import fi.kaila.suku.util.pojo.PersonShortData;
 import fi.kaila.suku.util.pojo.SukuData;
 
 /**
- * 
+ *
  * <h1>Group Manager Dialog</h1>
- * 
+ *
  * <p>
  * Persons in the database can be grouped in groups and in views. A person can
  * have only one group and he/she can belong to several views. Group Manager
  * manages the groups.
  * </p>
- * 
+ *
  * <p>
  * The Group manager consists of a non-modal Dialog that is requested from the
  * Tools menu.
  * </p>
- * 
+ *
  * <p>
  * GroupId in Unit table can contain any string or be null. Updating of GroupId
  * is made with requests from here. Update possibility for GroupId from
  * PersonView has been removed to avoid updating from two sources
  * simultaneously.
  * </p>
- * 
+ *
  * <h2>Remove Group</h2>
- * 
+ *
  * <p>
  * This group of commands can remove groupId from all persons, from persons
  * selected in database view or from persons found from selected view.
  * </p>
- * 
+ *
  * <h2>Add to Group</h2>
- * 
+ *
  * <p>
  * This group of commands adds the GroupId to persons selected in database view
  * or persons found from selected view. If only one person is selected in
@@ -66,24 +96,23 @@ import fi.kaila.suku.util.pojo.SukuData;
  * to the group with or without the spouses of the descendant. It is also
  * possible to add all ancestors of the single selected person to the group.
  * </p>
- * 
+ *
  * <p>
  * Only persons without a groupid are added to the group. Finding descendants or
  * ancestors to the group stops at a person that already has a group.
  * </p>
- * 
+ *
  * <p>
  * The selected person or # of selected persons in the database view is
  * refreshed once a second.
  * </p>
- * 
+ *
  * @author Kalle
- * 
+ *
  */
 public class GroupMgrWindow extends JDialog implements ActionListener {
 
-	private static Logger logger = Logger.getLogger(GroupMgrWindow.class
-			.getName());
+	private static Logger logger = Logger.getLogger(GroupMgrWindow.class.getName());
 
 	private static final long serialVersionUID = 1L;
 
@@ -112,7 +141,7 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 
 	/**
 	 * Instantiates a new group mgr window.
-	 * 
+	 *
 	 * @param parent
 	 *            the parent
 	 * @throws SukuException
@@ -132,14 +161,14 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 		add(lbl);
 		lbl.setBounds(10, 10, 200, 20);
 
-		SukuData vlist = Suku.kontroller.getSukuData("cmd=viewlist");
+		final SukuData vlist = Suku.kontroller.getSukuData("cmd=viewlist");
 		int yy = 30;
-		String[] viewnames = new String[vlist.generalArray.length + 1];
+		final String[] viewnames = new String[vlist.generalArray.length + 1];
 		viewids = new int[vlist.generalArray.length + 1];
 		viewids[0] = -1;
 		viewnames[0] = "";
 		for (int i = 0; i < vlist.generalArray.length; i++) {
-			String[] tmps = vlist.generalArray[i].split(";");
+			final String[] tmps = vlist.generalArray[i].split(";");
 
 			viewids[i + 1] = Integer.parseInt(tmps[0]);
 			viewnames[i + 1] = tmps[1];
@@ -174,17 +203,15 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 		// lbl.setBounds(10,53,200,20);
 		JRadioButton formd;
 
-		JPanel addGroup = new JPanel();
+		final JPanel addGroup = new JPanel();
 		add(addGroup);
 		addGroup.setBounds(10, yy, 260, 300);
-		addGroup.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
+		addGroup.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
 				Resurses.getString("DIALOG_GROUP_ADD_CAPTION")));
 		addGroup.setLayout(null);
 		addes = new ButtonGroup();
 
-		formd = new JRadioButton(
-				Resurses.getString("DIALOG_GROUP_ADD_SELECTED"));
+		formd = new JRadioButton(Resurses.getString("DIALOG_GROUP_ADD_SELECTED"));
 		formd.setActionCommand("SELECTED");
 		formd.setSelected(true);
 		addGroup.add(formd);
@@ -198,22 +225,19 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 		addes.add(formd);
 		formd.setBounds(10, 44, 240, 20);
 
-		addDescendant = new JRadioButton(
-				Resurses.getString("DIALOG_GROUP_ADD_DESC"));
+		addDescendant = new JRadioButton(Resurses.getString("DIALOG_GROUP_ADD_DESC"));
 		addDescendant.setActionCommand("DESC");
 		addGroup.add(addDescendant);
 		addes.add(addDescendant);
 		addDescendant.setBounds(10, 66, 240, 20);
 
-		addDescAndSpouses = new JRadioButton(
-				Resurses.getString("DIALOG_GROUP_ADD_DESC_SPOUSES"));
+		addDescAndSpouses = new JRadioButton(Resurses.getString("DIALOG_GROUP_ADD_DESC_SPOUSES"));
 		addDescAndSpouses.setActionCommand("DESC_SPOUSES");
 		addGroup.add(addDescAndSpouses);
 		addes.add(addDescAndSpouses);
 		addDescAndSpouses.setBounds(10, 88, 240, 20);
 
-		addAncestors = new JRadioButton(
-				Resurses.getString("DIALOG_GROUP_ADD_ANC"));
+		addAncestors = new JRadioButton(Resurses.getString("DIALOG_GROUP_ADD_ANC"));
 		addAncestors.setActionCommand("ANC");
 		addGroup.add(addAncestors);
 		addes.add(addAncestors);
@@ -236,18 +260,16 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 		addGroup.add(addedCount);
 		addedCount.setBounds(140, 270, 110, 20);
 
-		JPanel removeGroup = new JPanel();
+		final JPanel removeGroup = new JPanel();
 		add(removeGroup);
 		removeGroup.setBounds(300, yy, 260, 300);
-		removeGroup.setBorder(BorderFactory.createTitledBorder(
-				BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
+		removeGroup.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
 				Resurses.getString("DIALOG_GROUP_REMOVE_CAPTION")));
 		removeGroup.setLayout(null);
 		removes = new ButtonGroup();
 
 		int rivi = 22;
-		formd = new JRadioButton(
-				Resurses.getString("DIALOG_GROUP_REMOVE_SELECTED"));
+		formd = new JRadioButton(Resurses.getString("DIALOG_GROUP_REMOVE_SELECTED"));
 		formd.setActionCommand("SELECTED");
 		formd.setSelected(true);
 		removeGroup.add(formd);
@@ -262,8 +284,7 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 		removes.add(formd);
 		formd.setBounds(10, rivi, 240, 20);
 		rivi += 22;
-		formd = new JRadioButton(
-				Resurses.getString("DIALOG_GROUP_REMOVE_GROUP"));
+		formd = new JRadioButton(Resurses.getString("DIALOG_GROUP_REMOVE_GROUP"));
 		formd.setActionCommand("GROUP");
 		formd.setSelected(true);
 		removeGroup.add(formd);
@@ -289,11 +310,11 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 		// add(lbl);
 		// lbl.setBounds(10,400,300,20);
 
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		// setBounds(d.width/2-200,d.height/2-200,600,300);
 
 		setLocation((d.width / 2) - 200, (d.height / 2) - 250);
-		Dimension sz = new Dimension(600, 500);
+		final Dimension sz = new Dimension(600, 500);
 		setSize(sz);
 
 		close = new JButton(Resurses.getString("CLOSE"));
@@ -327,34 +348,25 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 
 	private void updateSelectStatus() {
 		try {
-			PersonShortData pp = parent.getSelectedPerson();
+			final PersonShortData pp = parent.getSelectedPerson();
 			addDescendant.setEnabled(pp != null);
 			addDescAndSpouses.setEnabled(pp != null);
 			addAncestors.setEnabled(pp != null);
 			if (pp == null) {
-				int pids[] = parent.getSelectedPids();
+				final int pids[] = parent.getSelectedPids();
 				if (pids == null) {
 					return;
 				}
-				selectedName.setText(Resurses
-						.getString("DIALOG_GROUP_SELECTED_COUNT")
-						+ " "
-						+ pids.length);
+				selectedName.setText(Resurses.getString("DIALOG_GROUP_SELECTED_COUNT") + " " + pids.length);
 			} else {
-				selectedName.setText(Resurses
-						.getString("DIALOG_GROUP_SELECTED_NAME")
-						+ " "
-						+ pp.getAlfaName());
-				selectedGroup.setText(Resurses
-						.getString("DIALOG_GROUP_SELECTED_GROUP")
-						+ " "
-						+ nv(pp.getGroup()));
+				selectedName.setText(Resurses.getString("DIALOG_GROUP_SELECTED_NAME") + " " + pp.getAlfaName());
+				selectedGroup.setText(Resurses.getString("DIALOG_GROUP_SELECTED_GROUP") + " " + nv(pp.getGroup()));
 
 				if (groupId.getText().isEmpty()) {
 					groupId.setText(nv(pp.getGroup()));
 				}
 			}
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.log(Level.WARNING, "updateSelectStatus()", e);
 			e.printStackTrace();
 		}
@@ -362,7 +374,7 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
@@ -377,58 +389,48 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 			}
 		} else if (e.getSource() == remove) {
 			try {
-				SukuData request = new SukuData();
-				ButtonModel model = removes.getSelection();
+				final SukuData request = new SukuData();
+				final ButtonModel model = removes.getSelection();
 				if (model != null) {
-					String remocmd = model.getActionCommand();
+					final String remocmd = model.getActionCommand();
 					if (remocmd == null) {
 						return;
 					}
 					SukuData response = null;
 					if (remocmd.equals("ALL")) {
-						response = Suku.kontroller.getSukuData(request,
-								"cmd=group", "action=remove", "key=all");
+						response = Suku.kontroller.getSukuData(request, "cmd=group", "action=remove", "key=all");
 					} else if (remocmd.equals("SELECTED")) {
 						request.pidArray = parent.getSelectedPids();
 
-						response = Suku.kontroller.getSukuData(request,
-								"cmd=group", "action=remove", "key=pidarray");
+						response = Suku.kontroller.getSukuData(request, "cmd=group", "action=remove", "key=pidarray");
 					} else if (remocmd.equals("VIEW")) {
-						int isele = viewlist.getSelectedIndex();
+						final int isele = viewlist.getSelectedIndex();
 						if (isele < 1) {
-							JOptionPane
-									.showMessageDialog(
-											parent,
-											Resurses.getString("DIALOG_GROUP_VIEW_NOTSELECTED"));
+							JOptionPane.showMessageDialog(parent, Resurses.getString("DIALOG_GROUP_VIEW_NOTSELECTED"));
 							return;
 						}
-						response = Suku.kontroller.getSukuData(request,
-								"cmd=group", "action=remove", "view="
-										+ viewids[isele]);
+						response = Suku.kontroller.getSukuData(request, "cmd=group", "action=remove",
+								"view=" + viewids[isele]);
 					} else if (remocmd.equals("GROUP")) {
-						String grp = groupId.getText();
+						final String grp = groupId.getText();
 						if (grp.isEmpty()) {
-							JOptionPane.showMessageDialog(parent,
-									Resurses.getString("DIALOG_GROUP_MISSING"));
+							JOptionPane.showMessageDialog(parent, Resurses.getString("DIALOG_GROUP_MISSING"));
 							return;
 						}
-						response = Suku.kontroller.getSukuData(request,
-								"cmd=group", "action=remove", "group=" + grp);
+						response = Suku.kontroller.getSukuData(request, "cmd=group", "action=remove", "group=" + grp);
 					} else {
 						System.out.println("NOT HERE");
 					}
 					if ((response == null) || (response.pidArray == null)) {
-						String messu = "Group remove Response missing";
+						final String messu = "Group remove Response missing";
 						logger.warning(messu);
 						JOptionPane.showMessageDialog(parent, messu);
 					} else {
-						for (int element : response.pidArray) {
+						for (final int element : response.pidArray) {
 							parent.updateDbGroup(element, null);
 						}
 						parent.refreshDbView();
-						String messu = Resurses
-								.getString("DIALOG_GROUP_REMOVED")
-								+ " ["
+						final String messu = Resurses.getString("DIALOG_GROUP_REMOVED") + " ["
 								+ response.pidArray.length + "]";
 						JOptionPane.showMessageDialog(parent, messu);
 						logger.info("REMOVE " + remocmd + " GROUPS: " + messu);
@@ -436,7 +438,7 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 					}
 
 				}
-			} catch (SukuException e1) {
+			} catch (final SukuException e1) {
 				logger.log(Level.WARNING, "Remove group failed", e1);
 				e1.printStackTrace();
 			}
@@ -444,17 +446,16 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 			// request.pidArray
 		} else if (e.getSource() == add) {
 			try {
-				SukuData request = new SukuData();
-				ButtonModel model = addes.getSelection();
+				final SukuData request = new SukuData();
+				final ButtonModel model = addes.getSelection();
 				if (model != null) {
-					String addcmd = model.getActionCommand();
+					final String addcmd = model.getActionCommand();
 					if (addcmd == null) {
 						return;
 					}
-					String grp = groupId.getText();
+					final String grp = groupId.getText();
 					if (grp.isEmpty()) {
-						JOptionPane.showMessageDialog(parent,
-								Resurses.getString("DIALOG_GROUP_MISSING"));
+						JOptionPane.showMessageDialog(parent, Resurses.getString("DIALOG_GROUP_MISSING"));
 						return;
 					}
 
@@ -462,57 +463,49 @@ public class GroupMgrWindow extends JDialog implements ActionListener {
 					if (addcmd.equals("SELECTED")) {
 						request.pidArray = parent.getSelectedPids();
 
-						response = Suku.kontroller.getSukuData(request,
-								"cmd=group", "action=add", "key=pidarray",
+						response = Suku.kontroller.getSukuData(request, "cmd=group", "action=add", "key=pidarray",
 								"group=" + grp);
 						addedCount.setText("" + response.resuCount);
 					} else if (addcmd.equals("VIEW")) {
-						int isele = viewlist.getSelectedIndex();
+						final int isele = viewlist.getSelectedIndex();
 						if (isele < 1) {
-							JOptionPane
-									.showMessageDialog(
-											parent,
-											Resurses.getString("DIALOG_GROUP_VIEW_NOTSELECTED"));
+							JOptionPane.showMessageDialog(parent, Resurses.getString("DIALOG_GROUP_VIEW_NOTSELECTED"));
 							return;
 						}
-						response = Suku.kontroller.getSukuData("cmd=group",
-								"action=add", "view=" + viewids[isele],
+						response = Suku.kontroller.getSukuData("cmd=group", "action=add", "view=" + viewids[isele],
 								"group=" + grp);
 						addedCount.setText("" + response.resuCount);
-					} else if (addcmd.startsWith("DESC")
-							|| addcmd.equals("ANC")) {
-						int[] ii = parent.getSelectedPids();
+					} else if (addcmd.startsWith("DESC") || addcmd.equals("ANC")) {
+						final int[] ii = parent.getSelectedPids();
 						if (ii.length == 1) {
 							String gene = generations.getText();
 							try {
 								Integer.parseInt(gene);
-							} catch (NumberFormatException ne) {
+							} catch (final NumberFormatException ne) {
 								gene = "";
 							}
-							response = Suku.kontroller.getSukuData("cmd=group",
-									"action=add", "pid=" + ii[0], "key="
-											+ addcmd, "group=" + grp, "gen="
-											+ gene);
+							response = Suku.kontroller.getSukuData("cmd=group", "action=add", "pid=" + ii[0],
+									"key=" + addcmd, "group=" + grp, "gen=" + gene);
 							addedCount.setText("" + response.resuCount);
 						}
 					}
 					if ((response == null) || (response.pidArray == null)) {
-						String messu = "Group add Response missing";
+						final String messu = "Group add Response missing";
 						logger.warning(messu);
 						JOptionPane.showMessageDialog(parent, messu);
 					} else {
-						for (int element : response.pidArray) {
+						for (final int element : response.pidArray) {
 							parent.updateDbGroup(element, grp);
 						}
 						parent.refreshDbView();
-						String messu = Resurses.getString("DIALOG_GROUP_ADDED")
-								+ " [" + response.pidArray.length + "]";
+						final String messu = Resurses.getString("DIALOG_GROUP_ADDED") + " [" + response.pidArray.length
+								+ "]";
 						JOptionPane.showMessageDialog(parent, messu);
 						logger.info("REMOVE " + addcmd + " GROUPS: " + messu);
 
 					}
 				}
-			} catch (SukuException e1) {
+			} catch (final SukuException e1) {
 				logger.log(Level.WARNING, "Remove group failed", e1);
 				e1.printStackTrace();
 			}

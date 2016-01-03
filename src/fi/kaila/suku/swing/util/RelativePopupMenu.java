@@ -1,3 +1,33 @@
+/**
+ * Software License Agreement (BSD License)
+ *
+ * Copyright 2010-2016 Kaarle Kaila and Mika Halonen. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification, are
+ * permitted provided that the following conditions are met:
+ *
+ *   1. Redistributions of source code must retain the above copyright notice, this list of
+ *      conditions and the following disclaimer.
+ *
+ *   2. Redistributions in binary form must reproduce the above copyright notice, this list
+ *      of conditions and the following disclaimer in the documentation and/or other materials
+ *      provided with the distribution.
+ *
+ * THIS SOFTWARE IS PROVIDED BY KAARLE KAILA AND MIKA HALONEN ''AS IS'' AND ANY EXPRESS OR IMPLIED
+ * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL KAARLE KAILA OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * The views and conclusions contained in the software and documentation are those of the
+ * authors and should not be interpreted as representing official policies, either expressed
+ * or implied, of Kaarle Kaila and Mika Halonen.
+ */
+
 package fi.kaila.suku.swing.util;
 
 import java.awt.event.ActionListener;
@@ -12,7 +42,7 @@ import fi.kaila.suku.util.pojo.PersonShortData;
 
 /**
  * The popup menu for relatives pane.
- * 
+ *
  * @author Kalle
  */
 public class RelativePopupMenu {
@@ -44,14 +74,14 @@ public class RelativePopupMenu {
 		// pPaste.addActionListener(l);
 		// pPasteBefore.addActionListener(l);
 		// pPasteAfter.addActionListener(l);
-		for (JMenuItem element : pAddParent) {
+		for (final JMenuItem element : pAddParent) {
 			element.addActionListener(l);
 		}
 	}
 
 	/**
 	 * Gets the parent count.
-	 * 
+	 *
 	 * @return no pf parents
 	 */
 	public int getParentCount() {
@@ -63,18 +93,17 @@ public class RelativePopupMenu {
 
 	/**
 	 * Sets the child name.
-	 * 
+	 *
 	 * @param child
 	 *            name to other parent menu cmd
 	 */
 	public void setChildName(PersonShortData child) {
-		pParent.setText(Resurses.getString("MENU_OTHER") + " "
-				+ child.getAlfaName());
+		pParent.setText(Resurses.getString("MENU_OTHER") + " " + child.getAlfaName());
 	}
 
 	/**
 	 * set parent at idx to show/not show.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @param value
@@ -91,7 +120,7 @@ public class RelativePopupMenu {
 
 	/**
 	 * set parent name at idx.
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @param person
@@ -103,7 +132,7 @@ public class RelativePopupMenu {
 
 	/**
 	 * show menu at location.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 * @param x
@@ -131,8 +160,7 @@ public class RelativePopupMenu {
 		pMenu.add(pRelatives);
 		// pPerson.setEnabled(false);
 
-		pShowPerson = new JMenuItem(
-				Resurses.getString(Resurses.TAB_PERSON_TEXT));
+		pShowPerson = new JMenuItem(Resurses.getString(Resurses.TAB_PERSON_TEXT));
 		// pShowPerson.addActionListener(popupListener);
 		pShowPerson.setActionCommand(Resurses.TAB_PERSON_TEXT);
 		pMenu.add(pShowPerson);
@@ -146,8 +174,7 @@ public class RelativePopupMenu {
 		pShowReport.setActionCommand(Resurses.CREATE_REPORT);
 		pMenu.add(pShowReport);
 
-		pDeletePerson = new JMenuItem(
-				Resurses.getString("TOOLBAR.REMPERSON.TOOLTIP"));
+		pDeletePerson = new JMenuItem(Resurses.getString("TOOLBAR.REMPERSON.TOOLTIP"));
 		// pShowFamily.addActionListener(popupListener);
 		pDeletePerson.setActionCommand(Resurses.TOOLBAR_REMPERSON_ACTION);
 		pMenu.add(pDeletePerson);
@@ -185,7 +212,7 @@ public class RelativePopupMenu {
 
 	/**
 	 * set person name to menu commands.
-	 * 
+	 *
 	 * @param person
 	 *            the person
 	 * @param text
@@ -214,7 +241,7 @@ public class RelativePopupMenu {
 
 	/**
 	 * Gets the person.
-	 * 
+	 *
 	 * @return the current person
 	 */
 	public PersonShortData getPerson() {
@@ -223,7 +250,7 @@ public class RelativePopupMenu {
 
 	/**
 	 * This class is a semi-singleton.
-	 * 
+	 *
 	 * @param l
 	 *            the l
 	 * @return the menu
@@ -242,7 +269,7 @@ public class RelativePopupMenu {
 	/**
 	 * used to setup the menu to paste person copy/paste probably not so much
 	 * used after drag-and-drop was introduced.
-	 * 
+	 *
 	 * @param pasteAtRow
 	 *            the new paste at row
 	 */
@@ -279,7 +306,7 @@ public class RelativePopupMenu {
 
 	/**
 	 * Sets the mouse person.
-	 * 
+	 *
 	 * @param mousePerson
 	 *            i.e. the person that paste should show
 	 */
@@ -289,7 +316,7 @@ public class RelativePopupMenu {
 
 	/**
 	 * Gets the mouse person.
-	 * 
+	 *
 	 * @return mouse person i.e. the person that paste should show
 	 */
 	public PersonShortData getMousePerson() {
