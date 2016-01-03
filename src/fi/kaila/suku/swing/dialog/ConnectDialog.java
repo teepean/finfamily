@@ -197,7 +197,7 @@ public class ConnectDialog extends JDialog implements ActionListener {
 			password.setSelectionStart(aux.length());
 			password.setSelectionEnd(aux.length());
 		} else {
-			aux = this.kontroller.getPref(this, "DBTYPES", "postgresql;h2");
+			aux = this.kontroller.getPref(this, "DBTYPES", "PostgreSQL;H2");
 			if (aux != null) {
 				final String[] names = aux.split(";");
 				for (final String name2 : names) {
@@ -255,7 +255,7 @@ public class ConnectDialog extends JDialog implements ActionListener {
 		final String cmd = e.getActionCommand();
 
 		if (cmd.equals("LOGIN_DBTYPE")) {
-			if (dbtypes.getSelectedItem().equals("h2")) {
+			if (dbtypes.getSelectedItem().equals("H2")) {
 				dbtypesLbl.setVisible(true);
 				dbtypes.setVisible(true);
 				h2dbnameLbl.setVisible(true);
@@ -297,7 +297,7 @@ public class ConnectDialog extends JDialog implements ActionListener {
 			this.okPressed = true;
 			rememberDatabase = true;
 			String aux;
-			if (dbtypes.getSelectedItem().equals("h2")) {
+			if (dbtypes.getSelectedItem().equals("H2")) {
 				aux = dbtypes.getSelectedItem().toString();
 				this.kontroller.putPref(this, "DBTYPE", aux);
 
@@ -369,7 +369,7 @@ public class ConnectDialog extends JDialog implements ActionListener {
 	 * @return database type
 	 */
 	public boolean isH2() {
-		if (dbtypes.getSelectedItem().equals("h2")) {
+		if (dbtypes.getSelectedItem().equals("H2")) {
 			return true;
 		} else {
 			return false;
@@ -392,7 +392,7 @@ public class ConnectDialog extends JDialog implements ActionListener {
 	 */
 	public String getDbName() {
 
-		if (dbtypes.getSelectedItem().equals("h2")) {
+		if (dbtypes.getSelectedItem().equals("H2")) {
 			if (this.h2dbname == null) {
 				return null;
 			}
