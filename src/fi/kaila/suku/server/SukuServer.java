@@ -28,7 +28,7 @@ public interface SukuServer {
 	 *             If connection fails this is thrown with reason for failuye
 	 */
 	public void getConnection(String host, String dbname, String userid,
-			String passwd) throws SukuException;
+			String passwd, boolean isH2) throws SukuException;
 
 	/**
 	 * disconnect from dabatase.

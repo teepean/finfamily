@@ -21,17 +21,24 @@ public class LocalDatabaseUtility {
 
 	/**
 	 * Gets the list of databases.
-	 * 
+	 *
 	 * @param con
 	 *            the con
+	 * @param isH2
+	 *            the is h2
 	 * @return list of available databases
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public static String[] getListOfDatabases(Connection con)
+	public static String[] getListOfDatabases(Connection con, boolean isH2)
 			throws SukuException {
 
-		String sql = "select datname from pg_database where datname not in ('postgres','template1','template0') order by datname ";
+		String sql = "";
+		if (isH2) {
+			sql = "select SCHEMA_NAME from INFORMATION_SCHEMA.SCHEMATA where SCHEMA_NAME NOT IN ('INFORMATION_SCHEMA','PUBLIC')";
+		} else {
+			sql = "select datname from pg_database where datname not in ('postgres','template1','template0') order by datname ";
+		}
 		StringBuilder sb = new StringBuilder();
 		try {
 			Statement stm = con.createStatement();
@@ -39,10 +46,12 @@ public class LocalDatabaseUtility {
 			ResultSet rs = stm.executeQuery(sql);
 
 			while (rs.next()) {
-				if (sb.length() > 0) {
-					sb.append(";");
+				if(rs.getString(1) != "INFORMATION_SCHEMA" ) {
+					if (sb.length() > 0) {
+						sb.append(";");
+					}
+					sb.append(rs.getString(1));
 				}
-				sb.append(rs.getString(1));
 			}
 			rs.close();
 
@@ -58,18 +67,25 @@ public class LocalDatabaseUtility {
 
 	/**
 	 * Gets the list of users.
-	 * 
+	 *
 	 * @param con
 	 *            the con
+	 * @param isH2
+	 *            the is h2
 	 * @return list of available users
 	 * @throws SukuException
 	 *             the suku exception
 	 */
 	// cmd.CommandText =
 	// "select rolname from pg_roles where rolname != 'postgres' ";
-	public static String[] getListOfUsers(Connection con) throws SukuException {
+	public static String[] getListOfUsers(Connection con, boolean isH2) throws SukuException {
 
-		String sql = "select rolname from pg_roles where rolname != 'postgres' order by rolname ";
+		String sql = "";
+		if (isH2) {
+			sql  = "select NAME from INFORMATION_SCHEMA.USERS ORDER BY NAME";
+		} else {
+			sql = "select rolname from pg_roles where rolname != 'postgres' order by rolname ";
+		}
 		StringBuilder sb = new StringBuilder();
 		try {
 			Statement stm = con.createStatement();
@@ -96,16 +112,23 @@ public class LocalDatabaseUtility {
 
 	/**
 	 * Gets the list of schemas.
-	 * 
+	 *
 	 * @param con
 	 *            the con
+	 * @param isH2
+	 *            the is h2
 	 * @return the list of schemas
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public static String[] getListOfSchemas(Connection con)
+	public static String[] getListOfSchemas(Connection con, boolean isH2)
 			throws SukuException {
-		String sql = "select * from pg_namespace where nspname not like 'pg%' and nspname <> 'information_schema' ";
+		String sql = "";
+		if (isH2) {
+			sql = "select SCHEMA_NAME from INFORMATION_SCHEMA.SCHEMATA where SCHEMA_NAME NOT IN ('INFORMATION_SCHEMA','PUBLIC')";
+		} else {
+			sql = "select * from pg_namespace where nspname not like 'pg%' and nspname <> 'information_schema' ";
+		}
 		StringBuilder sb = new StringBuilder();
 		try {
 			Statement stm = con.createStatement();
@@ -132,19 +155,25 @@ public class LocalDatabaseUtility {
 
 	/**
 	 * Sets the schema.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 * @param schema
 	 *            the schema
+	 * @param isH2
+	 *            the is h2
 	 * @return the string
 	 */
-	public static String setSchema(Connection con, String schema) {
+	public static String setSchema(Connection con, String schema, boolean isH2) {
 		Statement stm;
 		String resu = null;
 		try {
 			stm = con.createStatement();
-			stm.executeUpdate("set search_path to " + schema);
+			if (isH2) {
+				stm.executeUpdate("set schema_search_path to " + schema);
+			} else {
+				stm.executeUpdate("set search_path to " + schema);
+			}
 			stm.close();
 		} catch (SQLException e) {
 			resu = e.getMessage();

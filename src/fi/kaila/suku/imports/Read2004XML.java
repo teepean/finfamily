@@ -44,18 +44,17 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * <h1>Import Suku 2004 backup file</h1>
- * 
+ *
  * <p>
  * Importing of the backup file is executed using XML SAX methods
  * </p>
  * .
- * 
+ *
  * @author Kaarle Kaila
  */
 public class Read2004XML extends DefaultHandler {
 
-	private static Logger logger = Logger
-			.getLogger(Read2004XML.class.getName());
+	private static Logger logger = Logger.getLogger(Read2004XML.class.getName());
 
 	/** The laskuri units. */
 	int laskuriUnits = 0;
@@ -85,6 +84,8 @@ public class Read2004XML extends DefaultHandler {
 	private StringBuffer currentChars = null;
 	private String finFamilyVersion = null;
 	private Connection con = null;
+	/** The is H2 database. */
+	private boolean isH2 = false;
 	// private String urli = null;
 	private String databaseFolder = null;
 	private boolean databaseHasImages = false;
@@ -116,8 +117,7 @@ public class Read2004XML extends DefaultHandler {
 			+ "set noticetype=?,description=?,dateprefix=?,fromdate=?,todate=?,"
 			+ "place=?,address=?,postalcode=?,postoffice=?,state=?,country=?,email=?,"
 			+ "notetext=?,mediafilename=?,mediatitle=?,givenname=?,patronym=?,prefix=?,"
-			+ "surname=?,postfix=?,SID=?,village=?,farm=?,croft=?,sourcetext=?,privatetext=? "
-			+ "where pnid=?";
+			+ "surname=?,postfix=?,SID=?,village=?,farm=?,croft=?,sourcetext=?,privatetext=? " + "where pnid=?";
 
 	private static final String INSERT_UNIT_LANGUAGE = "insert into UnitLanguage "
 			+ "(PID,PNID,tag,langCode,noticetype,"
@@ -133,20 +133,17 @@ public class Read2004XML extends DefaultHandler {
 			+ "(RID,PID,tag,relationrow,surety,modified,createdate,modifiedby,createdby) values (?,?,?,?,?,?,?,?,?)";
 
 	private static final String INSERT_RELATION_NOTICE = "insert into RelationNotice "
-			+ "(RNID,RID,tag,noticerow,surety,description,relationtype,"
-			+ "dateprefix,fromdate,todate,place,notetext,"
+			+ "(RNID,RID,tag,noticerow,surety,description,relationtype," + "dateprefix,fromdate,todate,place,notetext,"
 			+ "SID,sourcetext,privatetext,modified,createdate,modifiedby,createdby) values (?,?, ?,?,?,?,?, ?,?,?,?,?, ?,?,?,?,?,?,?)";
 
 	private static final String INSERT_RELATION_ADOPTION = "insert into RelationNotice "
 			+ "(RNID,RID,tag,noticerow,createdate) values (?,?,?,?,?)";
 
 	private static final String INSERT_RELATION_LANGUAGE = "insert into RelationLanguage "
-			+ "(RNID,RID,langCode,relationtype,"
-			+ "description,place,notetext,modified,createdate) "
+			+ "(RNID,RID,langCode,relationtype," + "description,place,notetext,modified,createdate) "
 			+ "values (?,?,?,?,?,?,?,?,?)";
 
-	private static final String INSERT_GROUP = "insert into groups (groupid,name,description) "
-			+ "values (?,?,?) ";
+	private static final String INSERT_GROUP = "insert into groups (groupid,name,description) " + "values (?,?,?) ";
 
 	private static final String INSERT_SOURCES = "insert into sources (SID,sourcenote) values (?,?) ";
 
@@ -169,13 +166,12 @@ public class Read2004XML extends DefaultHandler {
 	private static final String UPDATE_MOTH_REL = "update relation set tag = 'MOTH' where tag = 'FATH' and "
 			+ "rid in (select rid from relation inner join unit on relation.pid = unit.pid and sex = 'F' and relation.tag='CHIL')";
 
-	private static final String CREATE_GROUPS = "create table groups "
-			+ "(groupid varchar primary key," + "name varchar,"
-			+ "description varchar" + ") ";
+	private static final String CREATE_GROUPS = "create table groups " + "(groupid varchar primary key,"
+			+ "name varchar," + "description varchar" + ") ";
 	private static final String DROP_GROUPS = "drop table if exists groups ";
 
-	private static final String CREATE_SOURCES = "create table sources "
-			+ "(sid integer primary key," + "sourcenote varchar" + ") ";
+	private static final String CREATE_SOURCES = "create table sources " + "(sid integer primary key,"
+			+ "sourcenote varchar" + ") ";
 	private static final String ADD_UNIT_SID = "alter table unit add column sid integer";
 	private static final String ADD_UNITNOTICE_SID = "alter table unitnotice add column sid integer";
 	private static final String ADD_RELATIONNOTICE_SID = "alter table relationnotice add column sid integer";
@@ -478,31 +474,34 @@ public class Read2004XML extends DefaultHandler {
 	private Import2004Dialog runner = null;
 
 	/**
-	 * * <h1>Constructor to setup for thread</h1>
-	 * 
+	 * *
+	 * <h1>Constructor to setup for thread</h1>
+	 *
 	 * <p>
 	 * The SAX importing is done as a separate thread
 	 * </p>
 	 * .
-	 * 
+	 *
 	 * @param con
 	 *            connection instance to the PostgreSQL database
 	 * @param oldCode
 	 *            the language code used for the main language in Suku 2004
+	 * @param isH2
+	 *            the is h2
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public Read2004XML(Connection con, String oldCode) throws SukuException {
+	public Read2004XML(Connection con, String oldCode, boolean isH2) throws SukuException {
 		this.con = con;
+		this.isH2 = isH2;
 		// this.urli = urli;
 		try {
 			this.runner = Import2004Dialog.getRunner();
 
-			DocumentBuilderFactory domfactory = DocumentBuilderFactory
-					.newInstance();
+			final DocumentBuilderFactory domfactory = DocumentBuilderFactory.newInstance();
 			domfactory.setValidating(false);
 			this.oldCode = oldCode;
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.log(Level.WARNING, "Import of Suku 2004 backup", e);
 			e.printStackTrace();
 			throw new SukuException(e);
@@ -512,7 +511,7 @@ public class Read2004XML extends DefaultHandler {
 
 	/**
 	 * Gets the current status.
-	 * 
+	 *
 	 * @return current state of process
 	 */
 	public synchronized String getCurrentStatus() {
@@ -521,7 +520,7 @@ public class Read2004XML extends DefaultHandler {
 
 	/**
 	 * Method that does the import of file at urli.
-	 * 
+	 *
 	 * @param filepath
 	 *            the filepath
 	 * @return the suku data
@@ -530,22 +529,22 @@ public class Read2004XML extends DefaultHandler {
 	 */
 	public SukuData importFile(String filepath) throws SukuException {
 
-		SukuData resp = new SukuData();
+		final SukuData resp = new SukuData();
 		images = new LinkedHashMap<String, String>();
 		SAXParser parser = null;
 
-		SAXParserFactory dbfactory = SAXParserFactory.newInstance();
+		final SAXParserFactory dbfactory = SAXParserFactory.newInstance();
 
 		logger.fine("Import from file: " + filepath);
 
-		String aux = filepath.replace('\\', '/');
-		int auxi = aux.lastIndexOf('/');
+		final String aux = filepath.replace('\\', '/');
+		final int auxi = aux.lastIndexOf('/');
 		this.databaseFolder = aux.substring(0, auxi);
 
 		try {
 			parser = dbfactory.newSAXParser();
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.log(Level.WARNING, "Import parser failed: ", e);
 			throw new SukuException(e);
 
@@ -553,12 +552,12 @@ public class Read2004XML extends DefaultHandler {
 
 		try {
 
-			FileInputStream ff = new FileInputStream(filepath);
+			final FileInputStream ff = new FileInputStream(filepath);
 
-			long started = System.currentTimeMillis();
+			final long started = System.currentTimeMillis();
 			GZIPInputStream gz = null;
 
-			Statement stm = this.con.createStatement();
+			final Statement stm = this.con.createStatement();
 
 			stm.executeUpdate(DROP_GROUPS);
 			stm.executeUpdate(CREATE_GROUPS);
@@ -576,12 +575,12 @@ public class Read2004XML extends DefaultHandler {
 				ZipEntry zipEntry = null;
 				File xmlFile = null;
 				zipIn = new ZipInputStream(ff);
-				BufferedInputStream bis = new BufferedInputStream(zipIn);
+				final BufferedInputStream bis = new BufferedInputStream(zipIn);
 				while ((zipEntry = zipIn.getNextEntry()) != null) {
-					String entryName = zipEntry.getName();
+					final String entryName = zipEntry.getName();
 					logger.fine("importZipEntry: " + entryName);
 					if (entryName.toLowerCase().endsWith(".xml")) {
-						int li = entryName.replace('\\', '/').lastIndexOf('/');
+						final int li = entryName.replace('\\', '/').lastIndexOf('/');
 						if (li > 0) {
 							baseFolder = entryName.substring(0, li + 1);
 						}
@@ -602,8 +601,7 @@ public class Read2004XML extends DefaultHandler {
 				} else {
 					errorLine.add(Resurses.getString("GETSUKU_BACKUP_MISSING"));
 					if (gedFile != null) {
-						errorLine.add(Resurses.getString("GETSUKU_TRY_GEDCOM")
-								+ " " + gedFile);
+						errorLine.add(Resurses.getString("GETSUKU_TRY_GEDCOM") + " " + gedFile);
 					}
 
 				}
@@ -637,9 +635,14 @@ public class Read2004XML extends DefaultHandler {
 			}
 			rs.close();
 			if (maxpid > 0) {
-				sql = "SELECT setval('unitseq'," + maxpid + ")";
-				rs = stm.executeQuery(sql);
-				rs.close();
+				if (this.isH2) {
+					sql = "ALTER SEQUENCE UnitSeq RESTART WITH " + maxpid;
+					stm.executeUpdate(sql);
+				} else {
+					sql = "SELECT setval('unitseq'," + maxpid + ")";
+					rs = stm.executeQuery(sql);
+					rs.close();
+				}
 			}
 			// initializize also vid sequence
 			sql = "select max(vid) from views";
@@ -650,9 +653,14 @@ public class Read2004XML extends DefaultHandler {
 			}
 			rs.close();
 			if (maxvid > 0) {
-				sql = "SELECT setval('viewseq'," + maxvid + ")";
-				rs = stm.executeQuery(sql);
-				rs.close();
+				if (isH2) {
+					sql = "ALTER SEQUENCE ViewSeq RESTART WITH " + maxvid;
+					stm.executeUpdate(sql);
+				} else {
+					sql = "SELECT setval('viewseq'," + maxvid + ")";
+					rs = stm.executeQuery(sql);
+					rs.close();
+				}
 			}
 			sql = "select u.pid from unit as u inner join relation as r on u.pid = r.pid "
 					+ "where r.rid in (select rid from relation group by rid having count(*) <> 2)";
@@ -660,31 +668,28 @@ public class Read2004XML extends DefaultHandler {
 			boolean foundOrphan = false;
 			while (rs.next()) {
 				foundOrphan = true;
-				errorLine.add(Resurses.getString("SUKU2004_FAILED_PID") + "["
-						+ rs.getInt(1) + "]");
+				errorLine.add(Resurses.getString("SUKU2004_FAILED_PID") + "[" + rs.getInt(1) + "]");
 			}
 			rs.close();
 			if (foundOrphan) {
 				sql = "delete from relation where rid in "
 						+ "(select rid from relation group by rid having count(*) <> 2)";
-				int deletedRels = stm.executeUpdate(sql);
+				final int deletedRels = stm.executeUpdate(sql);
 
-				errorLine.add(Resurses.getString("SUKU2004_DELETED_RID") + " ["
-						+ deletedRels + "]");
+				errorLine.add(Resurses.getString("SUKU2004_DELETED_RID") + " [" + deletedRels + "]");
 			}
 
 			stm.executeUpdate(DROP_UNIT_SID);
 			stm.executeUpdate(DROP_UNITNOTICE_SID);
 			stm.executeUpdate(DROP_RELATIONNOTICE_SID);
-			setRunnerValue(Resurses.getString("VACUUM"));
-			stm.executeUpdate(VACUUM);
-			long ended = System.currentTimeMillis();
-			logger.info("Backup " + filepath + " converted in "
-					+ (ended - started) + " ms");
-			logger.info("Restore suku10 had units[" + laskuriUnits
-					+ "]; relations[" + laskuriRelations + "]; groups["
-					+ laskuriGroups + "]; views[" + laskuriViews
-					+ "]; conversions[" + laskuriConversion + "]");
+			if (!isH2) {
+				setRunnerValue(Resurses.getString("VACUUM"));
+				stm.executeUpdate(VACUUM);
+			}
+			final long ended = System.currentTimeMillis();
+			logger.info("Backup " + filepath + " converted in " + (ended - started) + " ms");
+			logger.info("Restore suku10 had units[" + laskuriUnits + "]; relations[" + laskuriRelations + "]; groups["
+					+ laskuriGroups + "]; views[" + laskuriViews + "]; conversions[" + laskuriConversion + "]");
 			stm.close();
 
 			if (gz != null) {
@@ -692,7 +697,7 @@ public class Read2004XML extends DefaultHandler {
 			}
 			resp.generalArray = errorLine.toArray(new String[0]);
 			return resp;
-		} catch (Throwable e) {
+		} catch (final Throwable e) {
 			logger.log(Level.WARNING, "import", e);
 			errorLine.add(e.getMessage());
 			resp.generalArray = errorLine.toArray(new String[0]);
@@ -704,13 +709,12 @@ public class Read2004XML extends DefaultHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String,
 	 * java.lang.String, java.lang.String, org.xml.sax.Attributes)
 	 */
 	@Override
-	public void startElement(String uri, String localName, String qName,
-			Attributes attributes) throws SAXException {
+	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 
 		this.currentEle += "|" + qName;
 
@@ -727,9 +731,8 @@ public class Read2004XML extends DefaultHandler {
 			this.unitId = attributes.getValue("unitid");
 			try {
 				unitPid = Integer.parseInt(this.unitId.substring(1));
-			} catch (NumberFormatException ne) {
-				throw new SAXException("UnitId " + this.unitId
-						+ " is not numeric");
+			} catch (final NumberFormatException ne) {
+				throw new SAXException("UnitId " + this.unitId + " is not numeric");
 			}
 			this.unitTag = attributes.getValue("tag");
 			this.unitPrivacy = attributes.getValue("privacy");
@@ -772,8 +775,7 @@ public class Read2004XML extends DefaultHandler {
 			initUnitNotice();
 		} else if (this.currentEle.equals(noticeSourceTG)) {
 			this.noticeSourceId = attributes.getValue("sourceid");
-			logger.fine("UnitNotice: " + this.unitId + "/"
-					+ this.noticeSourceId);
+			logger.fine("UnitNotice: " + this.unitId + "/" + this.noticeSourceId);
 		} else if (this.currentEle.equals(noticeDateTG)) {
 			this.noticeDatePrefix = attributes.getValue("type");
 		} else if (this.currentEle.equals(noticeLanguageTG)) {
@@ -806,8 +808,7 @@ public class Read2004XML extends DefaultHandler {
 			ResultSet rs;
 			PreparedStatement pstm = null;
 			try {
-				pstm = this.con
-						.prepareStatement("select nextval('relationseq')");
+				pstm = this.con.prepareStatement("select nextval('relationseq')");
 
 				rs = pstm.executeQuery();
 				if (rs.next()) {
@@ -816,7 +817,7 @@ public class Read2004XML extends DefaultHandler {
 					throw new SAXException("Sequence relationseq error");
 				}
 				rs.close();
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 
 				e.printStackTrace();
 				throw new SAXException("Sequence relationseq sql error");
@@ -824,7 +825,7 @@ public class Read2004XML extends DefaultHandler {
 				if (pstm != null) {
 					try {
 						pstm.close();
-					} catch (SQLException ignored) {
+					} catch (final SQLException ignored) {
 						// SQLException ignored
 					}
 				}
@@ -840,17 +841,16 @@ public class Read2004XML extends DefaultHandler {
 			this.relationNoticeCreatedBy = attributes.getValue("createdBy");
 			PreparedStatement pst = null;
 			try {
-				pst = this.con
-						.prepareStatement("select nextval('relationnoticeseq')");
+				pst = this.con.prepareStatement("select nextval('relationnoticeseq')");
 				rnid = 0;
-				ResultSet rs = pst.executeQuery();
+				final ResultSet rs = pst.executeQuery();
 				if (rs.next()) {
 					rnid = rs.getInt(1);
 				} else {
 					throw new SAXException("Sequence relationnoticeseq error");
 				}
 				rs.close();
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 
 				e.printStackTrace();
 				throw new SAXException("Sequence relationoticeseq sql error");
@@ -858,7 +858,7 @@ public class Read2004XML extends DefaultHandler {
 				if (pst != null) {
 					try {
 						pst.close();
-					} catch (SQLException ignored) {
+					} catch (final SQLException ignored) {
 						// SQLException ignored
 					}
 				}
@@ -868,8 +868,7 @@ public class Read2004XML extends DefaultHandler {
 			this.relationBegDatePrefix = attributes.getValue("type");
 		} else if (this.currentEle.equals(relationSourceTG)) {
 			this.relationSourceId = attributes.getValue("sourceid");
-			logger.fine("Relation: " + this.relationIdA + "/"
-					+ this.relationSourceId);
+			logger.fine("Relation: " + this.relationIdA + "/" + this.relationSourceId);
 		} else if (this.currentEle.equals(relationBegDateTG)) {
 			this.relationBegDatePrefix = attributes.getValue("type");
 		} else if (this.currentEle.equals(relationEndDateTG)) {
@@ -900,20 +899,20 @@ public class Read2004XML extends DefaultHandler {
 		} else if (this.currentEle.equals(viewUnitTG)) {
 			this.viewUnitPid = attributes.getValue("unitid");
 		} else if (this.currentEle.equals(typesTG)) {
-			String sql = "delete from types";
+			final String sql = "delete from types";
 			Statement stm = null;
 			try {
 				stm = con.createStatement();
 				stm.executeUpdate(sql);
 				logger.log(Level.FINE, "deleted default types");
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				logger.log(Level.SEVERE, "deleting default types failed", e);
 				throw new SAXException(e);
 			} finally {
 				if (stm != null) {
 					try {
 						stm.close();
-					} catch (SQLException ignored) {
+					} catch (final SQLException ignored) {
 						// SQLException ignored
 					}
 				}
@@ -924,10 +923,10 @@ public class Read2004XML extends DefaultHandler {
 			this.typeTag = attributes.getValue("tag");
 		} else if (this.currentEle.equals(typeNameTG)) {
 
-			String langcode = attributes.getValue("langcode");
-			String name = attributes.getValue("name");
-			String reportname = attributes.getValue("reportname");
-			String sql = "insert into types (tagtype,tag,rule,langcode,name,reportname) "
+			final String langcode = attributes.getValue("langcode");
+			final String name = attributes.getValue("name");
+			final String reportname = attributes.getValue("reportname");
+			final String sql = "insert into types (tagtype,tag,rule,langcode,name,reportname) "
 					+ "values ('Notices',?,?,?,?,?) ";
 			PreparedStatement pst = null;
 			try {
@@ -939,16 +938,15 @@ public class Read2004XML extends DefaultHandler {
 				pst.setString(5, reportname);
 
 				pst.executeUpdate();
-				logger.log(Level.FINEST, "Added type '" + this.typeTag + "' ["
-						+ langcode + "]");
-			} catch (SQLException e) {
+				logger.log(Level.FINEST, "Added type '" + this.typeTag + "' [" + langcode + "]");
+			} catch (final SQLException e) {
 				logger.log(Level.SEVERE, "deleting default types failed", e);
 				throw new SAXException(e);
 			} finally {
 				if (pst != null) {
 					try {
 						pst.close();
-					} catch (SQLException ignored) {
+					} catch (final SQLException ignored) {
 						// SQLException ignored
 					}
 				}
@@ -959,12 +957,11 @@ public class Read2004XML extends DefaultHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.xml.sax.helpers.DefaultHandler#characters(char[], int, int)
 	 */
 	@Override
-	public void characters(char[] ch, int start, int length)
-			throws SAXException {
+	public void characters(char[] ch, int start, int length) throws SAXException {
 		if (this.currentChars != null) {
 
 			this.currentChars.append(ch, start, length);
@@ -974,13 +971,12 @@ public class Read2004XML extends DefaultHandler {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String,
 	 * java.lang.String, java.lang.String)
 	 */
 	@Override
-	public void endElement(String uri, String localName, String qName)
-			throws SAXException {
+	public void endElement(String uri, String localName, String qName) throws SAXException {
 		PreparedStatement pst = null;
 		String aux;
 		if (this.qName != null) {
@@ -998,14 +994,14 @@ public class Read2004XML extends DefaultHandler {
 		// }
 
 		if (this.currentEle.equals(unitSourceTG)) {
-			String saux = this.currentChars.toString();
+			final String saux = this.currentChars.toString();
 			if (saux.length() > 0) {
 				this.unitSourceText = saux;
 			}
 
 		}
 		if (this.currentEle.equals(unitPrivateTextTG)) {
-			String saux = this.currentChars.toString();
+			final String saux = this.currentChars.toString();
 			if (saux.length() > 0) {
 				this.unitPrivateText = saux;
 			}
@@ -1043,13 +1039,13 @@ public class Read2004XML extends DefaultHandler {
 			this.noticeDescription = this.currentChars.toString();
 		}
 		if (this.currentEle.equals(noticeNamelistNameTG)) {
-			String tmp = this.currentChars.toString();
+			final String tmp = this.currentChars.toString();
 			if (!tmp.isEmpty()) {
 				namelist.add(tmp);
 			}
 		}
 		if (this.currentEle.equals(noticePlacelistPlaceTG)) {
-			String tmp = this.currentChars.toString();
+			final String tmp = this.currentChars.toString();
 			if (!tmp.isEmpty()) {
 				placelist.add(tmp);
 			}
@@ -1255,15 +1251,13 @@ public class Read2004XML extends DefaultHandler {
 		if (this.currentEle.equals(sourceTG)) {
 			this.sourceNoteText = this.currentChars.toString();
 
-			if ((this.sourceNoteText != null)
-					&& (this.sourceNoteText.length() > 0)) {
+			if ((this.sourceNoteText != null) && (this.sourceNoteText.length() > 0)) {
 				try {
 					int sid;
 					try {
 						sid = Integer.parseInt(this.sourceId.substring(1));
-					} catch (NumberFormatException ne) {
-						throw new SAXException("SourceId " + this.sourceId
-								+ " not numeric");
+					} catch (final NumberFormatException ne) {
+						throw new SAXException("SourceId " + this.sourceId + " not numeric");
 					}
 
 					pst = this.con.prepareStatement(INSERT_SOURCES);
@@ -1279,14 +1273,14 @@ public class Read2004XML extends DefaultHandler {
 					// }
 					// }
 
-				} catch (SQLException e) {
+				} catch (final SQLException e) {
 					logger.log(Level.SEVERE, "importing sources failed", e);
 					throw new SAXException(e);
 				} finally {
 					if (pst != null) {
 						try {
 							pst.close();
-						} catch (SQLException ignored) {
+						} catch (final SQLException ignored) {
 							// SQLException ignored
 						}
 					}
@@ -1318,14 +1312,14 @@ public class Read2004XML extends DefaultHandler {
 				// }
 				// }
 				laskuriGroups++;
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				logger.log(Level.WARNING, "Problem with inserting groups ", e);
 				e.printStackTrace();
 			} finally {
 				if (pst != null) {
 					try {
 						pst.close();
-					} catch (SQLException ignored) {
+					} catch (final SQLException ignored) {
 						// SQLException ignored
 					}
 				}
@@ -1362,11 +1356,10 @@ public class Read2004XML extends DefaultHandler {
 		if (this.currentEle.equals(sukuMediaPathTG)) {
 			this.sukuMediaFolder = this.currentChars.toString();
 
-			File f = new File(this.databaseFolder + "/" + this.sukuMediaFolder);
+			final File f = new File(this.databaseFolder + "/" + this.sukuMediaFolder);
 			this.databaseHasImages = f.isDirectory();
 			if (!f.isDirectory()) {
-				logger.warning("Image folder " + f.getAbsolutePath()
-						+ " is not valid");
+				logger.warning("Image folder " + f.getAbsolutePath() + " is not valid");
 			}
 
 		}
@@ -1383,14 +1376,14 @@ public class Read2004XML extends DefaultHandler {
 				pst.setString(7, this.sukuEmail);
 				pst.executeUpdate();
 
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				logger.log(Level.SEVERE, "importing sukuvariables failed", e);
 				throw new SAXException(e);
 			} finally {
 				if (pst != null) {
 					try {
 						pst.close();
-					} catch (SQLException ignored) {
+					} catch (final SQLException ignored) {
 						// SQLException ignored
 					}
 				}
@@ -1405,18 +1398,14 @@ public class Read2004XML extends DefaultHandler {
 		}
 
 		if (this.currentEle.equals(conversionTG)) {
-			if ((this.conversionsFrom != null)
-					&& (this.conversionsLang != null)
-					&& (this.conversionsRule != null)
+			if ((this.conversionsFrom != null) && (this.conversionsLang != null) && (this.conversionsRule != null)
 					&& (this.conversionsTo != null)) {
 				String newLang = this.conversionsLang.toLowerCase();
 				if (newLang.equals("se")) {
 					newLang = "sv";
 				}
-				String tmp = this.conversionsFrom + "/" + newLang
-						+ this.conversionsRule;
-				String xx = this.conversionsChecker.put(tmp.toLowerCase(),
-						this.conversionsTo);
+				final String tmp = this.conversionsFrom + "/" + newLang + this.conversionsRule;
+				final String xx = this.conversionsChecker.put(tmp.toLowerCase(), this.conversionsTo);
 
 				if (xx == null) {
 					// add to db only if not there yet
@@ -1433,15 +1422,14 @@ public class Read2004XML extends DefaultHandler {
 
 						setRunnerValue("ConversionId: " + laskuriConversion);
 
-					} catch (SQLException e) {
-						logger.log(Level.SEVERE, "importing conversion failed",
-								e);
+					} catch (final SQLException e) {
+						logger.log(Level.SEVERE, "importing conversion failed", e);
 						throw new SAXException(e);
 					} finally {
 						if (pst != null) {
 							try {
 								pst.close();
-							} catch (SQLException ignored) {
+							} catch (final SQLException ignored) {
 								// SQLException ignored
 							}
 						}
@@ -1465,10 +1453,9 @@ public class Read2004XML extends DefaultHandler {
 
 					try {
 						vid = Integer.parseInt(this.viewId.substring(1));
-					} catch (NumberFormatException ne) {
-						throw new SAXException("ViewId " + this.viewId
-								+ " or unitid " + this.viewUnitPid
-								+ " is not numeric");
+					} catch (final NumberFormatException ne) {
+						throw new SAXException(
+								"ViewId " + this.viewId + " or unitid " + this.viewUnitPid + " is not numeric");
 					}
 
 					pst = this.con.prepareStatement(INSERT_VIEW);
@@ -1481,14 +1468,14 @@ public class Read2004XML extends DefaultHandler {
 
 					setRunnerValue("view [" + vid + "]" + this.viewName);
 
-				} catch (SQLException e) {
+				} catch (final SQLException e) {
 					logger.log(Level.SEVERE, "importing views failed", e);
 					throw new SAXException(e);
 				} finally {
 					if (pst != null) {
 						try {
 							pst.close();
-						} catch (SQLException ignored) {
+						} catch (final SQLException ignored) {
 							// SQLException ignored
 						}
 					}
@@ -1502,17 +1489,15 @@ public class Read2004XML extends DefaultHandler {
 		}
 
 		if (this.currentEle.equals(viewUnitTG)) {
-			if ((this.viewId != null) && (this.viewId.length() > 1)
-					&& (this.viewUnitPid != null)
+			if ((this.viewId != null) && (this.viewId.length() > 1) && (this.viewUnitPid != null)
 					&& (this.viewUnitPid.length() > 1)) {
 				try {
 					int vpid;
 					try {
 						vid = Integer.parseInt(this.viewId.substring(1));
 						vpid = Integer.parseInt(this.viewUnitPid.substring(1));
-					} catch (NumberFormatException ne) {
-						throw new SAXException("ViewUnitId " + this.viewUnitPid
-								+ " is not numeric");
+					} catch (final NumberFormatException ne) {
+						throw new SAXException("ViewUnitId " + this.viewUnitPid + " is not numeric");
 					}
 
 					pst = this.con.prepareStatement(INSERT_VIEW_UNIT);
@@ -1522,14 +1507,14 @@ public class Read2004XML extends DefaultHandler {
 
 					pst.executeUpdate();
 
-				} catch (SQLException e) {
+				} catch (final SQLException e) {
 					logger.log(Level.SEVERE, "importing viewunits failed", e);
 					throw new SAXException(e);
 				} finally {
 					if (pst != null) {
 						try {
 							pst.close();
-						} catch (SQLException ignored) {
+						} catch (final SQLException ignored) {
 							// SQLException ignored
 						}
 					}
@@ -1544,8 +1529,7 @@ public class Read2004XML extends DefaultHandler {
 		int k;
 		if (this.currentEle.endsWith(qName)) {
 			k = this.currentEle.length();
-			this.currentEle = this.currentEle.substring(0, k - qName.length()
-					- 1);
+			this.currentEle = this.currentEle.substring(0, k - qName.length() - 1);
 		} else {
 			Utils.println(this, "BAD XML: " + this.currentEle + "/" + qName);
 			return;
@@ -1568,17 +1552,14 @@ public class Read2004XML extends DefaultHandler {
 			pst.setString(7, this.noticeLanguagePlace);
 			pst.setString(8, this.noticeLanguageNoteText);
 			pst.setString(9, this.noticeLanguageMediaTitleText);
-			pst.setTimestamp(10,
-					toTimestamp(this.noticeLanguageModifiedDate, false));
-			pst.setTimestamp(11,
-					toTimestamp(this.noticeLanguageCreateDate, true));
+			pst.setTimestamp(10, toTimestamp(this.noticeLanguageModifiedDate, false));
+			pst.setTimestamp(11, toTimestamp(this.noticeLanguageCreateDate, true));
 			pst.setString(12, this.noticeLanguageModifiedBy);
 			pst.setString(13, this.noticeLanguageCreatedBy);
 			pst.executeUpdate();
 			pst.close();
-		} catch (SQLException e) {
-			logger.log(Level.SEVERE, "importing notice language notice failed",
-					e);
+		} catch (final SQLException e) {
+			logger.log(Level.SEVERE, "importing notice language notice failed", e);
 			throw new SAXException(e);
 		}
 		noticeLanguage = null;
@@ -1609,16 +1590,13 @@ public class Read2004XML extends DefaultHandler {
 			if (relationLanguageModifiedDate == null) {
 				pst.setNull(8, Types.TIMESTAMP);
 			} else {
-				pst.setTimestamp(8,
-						toTimestamp(this.relationLanguageModifiedDate, false));
+				pst.setTimestamp(8, toTimestamp(this.relationLanguageModifiedDate, false));
 			}
-			pst.setTimestamp(9,
-					toTimestamp(this.relationLanguageCreateDate, true));
+			pst.setTimestamp(9, toTimestamp(this.relationLanguageCreateDate, true));
 			pst.executeUpdate();
 			pst.close();
-		} catch (SQLException e) {
-			logger.log(Level.SEVERE,
-					"importing relation language notice failed", e);
+		} catch (final SQLException e) {
+			logger.log(Level.SEVERE, "importing relation language notice failed", e);
 			throw new SAXException(e);
 		}
 		relationLanguage = null;
@@ -1644,7 +1622,7 @@ public class Read2004XML extends DefaultHandler {
 			int row = 0;
 			try {
 				row = Integer.parseInt(this.relationNoticeRow);
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				// NumberFormatException ignored
 			}
 			// this.pstm.setTimestamp(16,
@@ -1653,7 +1631,7 @@ public class Read2004XML extends DefaultHandler {
 			int surety = 100;
 			try {
 				surety = Integer.parseInt(this.relationNoticeSurety);
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				// NumberFormatException ignored
 			}
 			pst.setInt(5, surety);
@@ -1668,16 +1646,14 @@ public class Read2004XML extends DefaultHandler {
 			pst.setString(14, this.relationSourceText);
 			pst.setString(15, this.relationPrivateText);
 
-			pst.setTimestamp(16,
-					toTimestamp(this.relationNoticeModifiedDate, false));
-			pst.setTimestamp(17,
-					toTimestamp(this.relationNoticeCreateDate, true));
+			pst.setTimestamp(16, toTimestamp(this.relationNoticeModifiedDate, false));
+			pst.setTimestamp(17, toTimestamp(this.relationNoticeCreateDate, true));
 			pst.setString(18, this.relationNoticeModifiedBy);
 			pst.setString(19, this.relationNoticeCreatedBy);
 
 			pst.executeUpdate();
 			pst.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.SEVERE, "importing relation notice failed", e);
 			throw new SAXException(e);
 		}
@@ -1717,15 +1693,14 @@ public class Read2004XML extends DefaultHandler {
 						aid = Integer.parseInt(this.relationIdA.substring(1));
 
 						pst.setInt(2, aid);
-					} catch (NumberFormatException ne) {
-						throw new SAXException("RelationIdA "
-								+ this.relationIdA + " not numeric");
+					} catch (final NumberFormatException ne) {
+						throw new SAXException("RelationIdA " + this.relationIdA + " not numeric");
 					}
 				}
 				if (this.relationSurety != null) {
 					try {
 						surety = Integer.parseInt(this.relationSurety);
-					} catch (NumberFormatException ne) {
+					} catch (final NumberFormatException ne) {
 						surety = 80;
 					}
 				} else {
@@ -1738,26 +1713,23 @@ public class Read2004XML extends DefaultHandler {
 					try {
 						relRow = Integer.parseInt(this.relationRowA);
 						pst.setInt(4, relRow);
-					} catch (NumberFormatException ne) {
-						throw new SAXException("RelationRowA "
-								+ this.relationRowA + " not numeric");
+					} catch (final NumberFormatException ne) {
+						throw new SAXException("RelationRowA " + this.relationRowA + " not numeric");
 					}
 				}
 				pst.setInt(5, surety);
 				if (this.relationModifiedDate == null) {
 					pst.setNull(6, Types.TIMESTAMP);
 				} else {
-					pst.setTimestamp(6,
-							toTimestamp(this.relationModifiedDate, false));
+					pst.setTimestamp(6, toTimestamp(this.relationModifiedDate, false));
 				}
 				pst.setTimestamp(7, toTimestamp(this.relationCreateDate, true));
 				pst.setString(8, this.relationModifiedBy);
 				pst.setString(9, this.relationCreatedBy);
 				try {
 					pst.executeUpdate();
-				} catch (SQLException se) {
-					String err = "Relative aPID = " + aid + " fails for RID = "
-							+ rid;
+				} catch (final SQLException se) {
+					final String err = "Relative aPID = " + aid + " fails for RID = " + rid;
 					errorLine.add(err + " [" + se.getMessage() + "]");
 
 					logger.log(Level.WARNING, err, se);
@@ -1770,9 +1742,8 @@ public class Read2004XML extends DefaultHandler {
 						bid = Integer.parseInt(this.relationIdB.substring(1));
 
 						pst.setInt(2, bid);
-					} catch (NumberFormatException ne) {
-						throw new SAXException("RelationIdB "
-								+ this.relationIdB + " not numeric");
+					} catch (final NumberFormatException ne) {
+						throw new SAXException("RelationIdB " + this.relationIdB + " not numeric");
 					}
 				}
 				pst.setString(3, this.relationTagb);
@@ -1780,22 +1751,19 @@ public class Read2004XML extends DefaultHandler {
 					try {
 						relRow = Integer.parseInt(this.relationRowB);
 						pst.setInt(4, relRow);
-					} catch (NumberFormatException ne) {
-						throw new SAXException("RelationRowB "
-								+ this.relationRowB + " not numeric");
+					} catch (final NumberFormatException ne) {
+						throw new SAXException("RelationRowB " + this.relationRowB + " not numeric");
 					}
 				}
 				pst.setInt(5, surety);
-				pst.setTimestamp(6,
-						toTimestamp(this.relationModifiedDate, true));
+				pst.setTimestamp(6, toTimestamp(this.relationModifiedDate, true));
 				pst.setTimestamp(7, toTimestamp(this.relationCreateDate, true));
 				pst.setString(8, this.relationModifiedBy);
 				pst.setString(9, this.relationCreatedBy);
 				try {
 					pst.executeUpdate();
-				} catch (SQLException se) {
-					String err = "Relative bPID = " + bid + " fails for RID = "
-							+ rid;
+				} catch (final SQLException se) {
+					final String err = "Relative bPID = " + bid + " fails for RID = " + rid;
 					errorLine.add(err + " [" + se.getMessage() + "]");
 
 					logger.log(Level.WARNING, err, se);
@@ -1812,19 +1780,17 @@ public class Read2004XML extends DefaultHandler {
 					pst.setInt(1, rid);
 					if (this.relationIdA != null) {
 						try {
-							aid = Integer.parseInt(this.relationIdA
-									.substring(1));
+							aid = Integer.parseInt(this.relationIdA.substring(1));
 
 							pst.setInt(2, aid);
-						} catch (NumberFormatException ne) {
-							throw new SAXException("RelationIdA "
-									+ this.relationIdA + " not numeric");
+						} catch (final NumberFormatException ne) {
+							throw new SAXException("RelationIdA " + this.relationIdA + " not numeric");
 						}
 					}
 					if (this.relationSurety != null) {
 						try {
 							surety = Integer.parseInt(this.relationSurety);
-						} catch (NumberFormatException ne) {
+						} catch (final NumberFormatException ne) {
 							surety = 80;
 						}
 					} else {
@@ -1837,23 +1803,19 @@ public class Read2004XML extends DefaultHandler {
 						try {
 							relRow = Integer.parseInt(this.relationRowA);
 							pst.setInt(4, relRow);
-						} catch (NumberFormatException ne) {
-							throw new SAXException("RelationRowA "
-									+ this.relationRowA + " not numeric");
+						} catch (final NumberFormatException ne) {
+							throw new SAXException("RelationRowA " + this.relationRowA + " not numeric");
 						}
 					}
 					pst.setInt(5, surety);
-					pst.setTimestamp(6,
-							toTimestamp(this.relationModifiedDate, true));
-					pst.setTimestamp(7,
-							toTimestamp(this.relationCreateDate, true));
+					pst.setTimestamp(6, toTimestamp(this.relationModifiedDate, true));
+					pst.setTimestamp(7, toTimestamp(this.relationCreateDate, true));
 					pst.setString(8, this.relationModifiedBy);
 					pst.setString(9, this.relationCreatedBy);
 					try {
 						pst.executeUpdate();
-					} catch (SQLException se) {
-						String err = "Relative aPID = " + aid
-								+ " fails for RID = " + rid;
+					} catch (final SQLException se) {
+						final String err = "Relative aPID = " + aid + " fails for RID = " + rid;
 						errorLine.add(err + " [" + se.getMessage() + "]");
 
 						logger.log(Level.WARNING, err, se);
@@ -1863,13 +1825,11 @@ public class Read2004XML extends DefaultHandler {
 					pst.setInt(1, rid);
 					if (this.relationIdB != null) {
 						try {
-							bid = Integer.parseInt(this.relationIdB
-									.substring(1));
+							bid = Integer.parseInt(this.relationIdB.substring(1));
 
 							pst.setInt(2, bid);
-						} catch (NumberFormatException ne) {
-							throw new SAXException("RelationIdB "
-									+ this.relationIdB + " not numeric");
+						} catch (final NumberFormatException ne) {
+							throw new SAXException("RelationIdB " + this.relationIdB + " not numeric");
 						}
 					}
 					pst.setString(3, "CHIL");
@@ -1877,21 +1837,18 @@ public class Read2004XML extends DefaultHandler {
 						try {
 							relRow = Integer.parseInt(this.relationRowB);
 							pst.setInt(4, relRow);
-						} catch (NumberFormatException ne) {
-							throw new SAXException("RelationRowB "
-									+ this.relationRowB + " not numeric");
+						} catch (final NumberFormatException ne) {
+							throw new SAXException("RelationRowB " + this.relationRowB + " not numeric");
 						}
 					}
 					pst.setInt(5, surety);
 					pst.setNull(6, Types.TIMESTAMP);
-					pst.setTimestamp(7,
-							toTimestamp(this.relationCreateDate, true));
+					pst.setTimestamp(7, toTimestamp(this.relationCreateDate, true));
 
 					try {
 						pst.executeUpdate();
-					} catch (SQLException se) {
-						String err = "Relative bPID = " + bid
-								+ " fails for RID = " + rid;
+					} catch (final SQLException se) {
+						final String err = "Relative bPID = " + bid + " fails for RID = " + rid;
 						errorLine.add(err + " [" + se.getMessage() + "]");
 
 						logger.log(Level.WARNING, err, se);
@@ -1899,26 +1856,22 @@ public class Read2004XML extends DefaultHandler {
 
 					if (this.relationDescription != null) {
 
-						pst = this.con
-								.prepareStatement("select nextval('relationnoticeseq')");
+						pst = this.con.prepareStatement("select nextval('relationnoticeseq')");
 						int rnid = 0;
 						rs = pst.executeQuery();
 						if (rs.next()) {
 							rnid = rs.getInt(1);
 						} else {
-							throw new SAXException(
-									"Sequence relationnoticeseq error");
+							throw new SAXException("Sequence relationnoticeseq error");
 						}
 						rs.close();
 
-						pst = this.con
-								.prepareStatement(INSERT_RELATION_ADOPTION);
+						pst = this.con.prepareStatement(INSERT_RELATION_ADOPTION);
 						pst.setInt(1, rnid);
 						pst.setInt(2, rid);
 						pst.setString(3, "ADOP");
 						pst.setInt(4, 1); // rownumber
-						pst.setTimestamp(5,
-								toTimestamp(this.relationCreateDate, true));
+						pst.setTimestamp(5, toTimestamp(this.relationCreateDate, true));
 						pst.executeUpdate();
 					}
 
@@ -1929,12 +1882,10 @@ public class Read2004XML extends DefaultHandler {
 					pst.setInt(1, rid);
 					if (this.relationIdA != null) {
 						try {
-							aid = Integer.parseInt(this.relationIdA
-									.substring(1));
+							aid = Integer.parseInt(this.relationIdA.substring(1));
 							pst.setInt(2, aid);
-						} catch (NumberFormatException ne) {
-							throw new SAXException("RelationIdA "
-									+ this.relationIdA + " not numeric");
+						} catch (final NumberFormatException ne) {
+							throw new SAXException("RelationIdA " + this.relationIdA + " not numeric");
 						}
 					}
 					pst.setString(3, "MARR");
@@ -1942,16 +1893,15 @@ public class Read2004XML extends DefaultHandler {
 						try {
 							relRow = Integer.parseInt(this.relationRowA);
 							pst.setInt(4, relRow);
-						} catch (NumberFormatException ne) {
-							throw new SAXException("RelationRowA "
-									+ this.relationRowA + " not numeric");
+						} catch (final NumberFormatException ne) {
+							throw new SAXException("RelationRowA " + this.relationRowA + " not numeric");
 						}
 					}
 
 					if (this.relationSurety != null) {
 						try {
 							surety = Integer.parseInt(this.relationSurety);
-						} catch (NumberFormatException ne) {
+						} catch (final NumberFormatException ne) {
 							surety = 80;
 						}
 					} else {
@@ -1960,15 +1910,13 @@ public class Read2004XML extends DefaultHandler {
 
 					pst.setInt(5, surety);
 					pst.setNull(6, Types.TIMESTAMP);
-					pst.setTimestamp(7,
-							toTimestamp(this.relationCreateDate, true));
+					pst.setTimestamp(7, toTimestamp(this.relationCreateDate, true));
 					pst.setNull(8, Types.VARCHAR);
 					pst.setNull(9, Types.VARCHAR);
 					try {
 						pst.executeUpdate();
-					} catch (SQLException se) {
-						String err = "Spouse aPID = " + aid
-								+ " fails for RID = " + rid;
+					} catch (final SQLException se) {
+						final String err = "Spouse aPID = " + aid + " fails for RID = " + rid;
 						errorLine.add(err + " [" + se.getMessage() + "]");
 						logger.log(Level.WARNING, err, se);
 					}
@@ -1976,12 +1924,10 @@ public class Read2004XML extends DefaultHandler {
 					pst.setInt(1, rid);
 					if (this.relationIdB != null) {
 						try {
-							bid = Integer.parseInt(this.relationIdB
-									.substring(1));
+							bid = Integer.parseInt(this.relationIdB.substring(1));
 							pst.setInt(2, bid);
-						} catch (NumberFormatException ne) {
-							throw new SAXException("RelationIdB "
-									+ this.relationIdB + " not numeric");
+						} catch (final NumberFormatException ne) {
+							throw new SAXException("RelationIdB " + this.relationIdB + " not numeric");
 						}
 					}
 					pst.setString(3, "MARR");
@@ -1989,21 +1935,18 @@ public class Read2004XML extends DefaultHandler {
 						try {
 							relRow = Integer.parseInt(this.relationRowB);
 							pst.setInt(4, relRow);
-						} catch (NumberFormatException ne) {
-							throw new SAXException("RelationRowB "
-									+ this.relationRowB + " not numeric");
+						} catch (final NumberFormatException ne) {
+							throw new SAXException("RelationRowB " + this.relationRowB + " not numeric");
 						}
 					}
 					pst.setInt(5, surety);
 					pst.setNull(6, Types.TIMESTAMP);
-					pst.setTimestamp(7,
-							toTimestamp(this.relationCreateDate, true));
+					pst.setTimestamp(7, toTimestamp(this.relationCreateDate, true));
 
 					try {
 						pst.executeUpdate();
-					} catch (SQLException se) {
-						String err = "Spouse bPID = " + bid
-								+ " fails for RID = " + rid;
+					} catch (final SQLException se) {
+						final String err = "Spouse bPID = " + bid + " fails for RID = " + rid;
 						errorLine.add(err + " [" + se.getMessage() + "]");
 						logger.log(Level.WARNING, err, se);
 					}
@@ -2015,12 +1958,10 @@ public class Read2004XML extends DefaultHandler {
 					//
 					// }
 
-					if ((this.relationBegDateFrom != null)
-							|| (this.relationBegPlace != null)
-							|| (this.relationBegType != null)
-							|| (this.relationDescription != null)) {
+					if ((this.relationBegDateFrom != null) || (this.relationBegPlace != null)
+							|| (this.relationBegType != null) || (this.relationDescription != null)) {
 
-						StringBuilder allText = new StringBuilder();
+						final StringBuilder allText = new StringBuilder();
 						if (this.relationBegType != null) {
 							allText.append(this.relationBegType);
 						}
@@ -2037,20 +1978,18 @@ public class Read2004XML extends DefaultHandler {
 						}
 
 						// System.out.println(allText.toString());
-						String langus[] = extractLangs(allText.toString());
+						final String langus[] = extractLangs(allText.toString());
 
 						this.nameCollector = new HashMap<String, String>();
 						this.placeCollector = new HashMap<String, String>();
 
-						pst = this.con
-								.prepareStatement("select nextval('relationnoticeseq')");
+						pst = this.con.prepareStatement("select nextval('relationnoticeseq')");
 						int rnid = 0;
 						rs = pst.executeQuery();
 						if (rs.next()) {
 							rnid = rs.getInt(1);
 						} else {
-							throw new SAXException(
-									"Sequence relationnoticeseq error");
+							throw new SAXException("Sequence relationnoticeseq error");
 						}
 						rs.close();
 
@@ -2060,18 +1999,13 @@ public class Read2004XML extends DefaultHandler {
 						pst.setString(3, "MARR");
 						pst.setInt(4, 1); // rownumber
 						pst.setInt(5, 100);
-						pst.setString(
-								6,
-								langText(this.relationDescription, this.oldCode));
-						pst.setString(7,
-								langText(this.relationBegType, this.oldCode));
+						pst.setString(6, langText(this.relationDescription, this.oldCode));
+						pst.setString(7, langText(this.relationBegType, this.oldCode));
 						pst.setString(8, this.relationBegDatePrefix);
 						pst.setString(9, this.relationBegDateFrom);
 						pst.setString(10, this.relationBegDateTo);
-						pst.setString(11,
-								langText(this.relationBegPlace, this.oldCode));
-						pst.setString(12,
-								langText(this.relationNoteText, this.oldCode));
+						pst.setString(11, langText(this.relationBegPlace, this.oldCode));
+						pst.setString(12, langText(this.relationNoteText, this.oldCode));
 						if (this.relationSourceId != null) {
 							pst.setInt(13, idToInt(this.relationSourceId)); // langText(this.noticeSourceText,this.oldCode));
 						} else {
@@ -2081,13 +2015,8 @@ public class Read2004XML extends DefaultHandler {
 						pst.setString(14, this.relationSourceText);
 						pst.setString(15, this.relationPrivateText);
 
-						pst.setTimestamp(
-								16,
-								toTimestamp(this.relationNoticeModifiedDate,
-										false));
-						pst.setTimestamp(
-								17,
-								toTimestamp(this.relationNoticeCreateDate, true));
+						pst.setTimestamp(16, toTimestamp(this.relationNoticeModifiedDate, false));
+						pst.setTimestamp(17, toTimestamp(this.relationNoticeCreateDate, true));
 						pst.setString(18, this.relationNoticeModifiedBy);
 						pst.setString(19, this.relationNoticeCreatedBy);
 
@@ -2098,30 +2027,16 @@ public class Read2004XML extends DefaultHandler {
 							for (i = 0; i < langus.length; i++) {
 								if (!langus[i].equals(this.oldCode)) {
 
-									pst = this.con
-											.prepareStatement(INSERT_RELATION_LANGUAGE);
+									pst = this.con.prepareStatement(INSERT_RELATION_LANGUAGE);
 									pst.setInt(1, rnid);
 									pst.setInt(2, rid);
 									pst.setString(3, toLangCode(langus[i]));
-									pst.setString(
-											4,
-											langText(this.relationBegType,
-													langus[i]));
-									pst.setString(
-											5,
-											langText(this.relationDescription,
-													langus[i]));
-									pst.setString(
-											6,
-											langText(this.relationBegPlace,
-													langus[i]));
-									pst.setString(
-											7,
-											langText(this.relationNoteText,
-													langus[i]));
+									pst.setString(4, langText(this.relationBegType, langus[i]));
+									pst.setString(5, langText(this.relationDescription, langus[i]));
+									pst.setString(6, langText(this.relationBegPlace, langus[i]));
+									pst.setString(7, langText(this.relationNoteText, langus[i]));
 									pst.setNull(8, Types.TIMESTAMP);
-									Timestamp now = new Timestamp(
-											System.currentTimeMillis());
+									final Timestamp now = new Timestamp(System.currentTimeMillis());
 									pst.setTimestamp(9, now);
 									// pst.setString(10,
 									// this.relationModifiedBy);
@@ -2134,8 +2049,7 @@ public class Read2004XML extends DefaultHandler {
 						}
 					}
 
-					if ((this.relationEndDateFrom != null)
-							|| (this.relationEndPlace != null)
+					if ((this.relationEndDateFrom != null) || (this.relationEndPlace != null)
 							|| (this.relationEndType != null)) {
 
 						String allText = "";
@@ -2146,20 +2060,18 @@ public class Read2004XML extends DefaultHandler {
 							allText += this.relationEndPlace;
 						}
 
-						String langus[] = extractLangs(allText);
+						final String langus[] = extractLangs(allText);
 
 						this.nameCollector = new HashMap<String, String>();
 						this.placeCollector = new HashMap<String, String>();
 
-						pst = this.con
-								.prepareStatement("select nextval('relationnoticeseq')");
+						pst = this.con.prepareStatement("select nextval('relationnoticeseq')");
 						int rnid = 0;
 						rs = pst.executeQuery();
 						if (rs.next()) {
 							rnid = rs.getInt(1);
 						} else {
-							throw new SAXException(
-									"Sequence relationnoticeseq error");
+							throw new SAXException("Sequence relationnoticeseq error");
 						}
 						rs.close();
 
@@ -2179,13 +2091,8 @@ public class Read2004XML extends DefaultHandler {
 						pst.setNull(13, Types.INTEGER);
 						pst.setNull(14, Types.VARCHAR);
 						pst.setNull(15, Types.VARCHAR);
-						pst.setTimestamp(
-								16,
-								toTimestamp(this.relationNoticeModifiedDate,
-										false));
-						pst.setTimestamp(
-								17,
-								toTimestamp(this.relationNoticeCreateDate, true));
+						pst.setTimestamp(16, toTimestamp(this.relationNoticeModifiedDate, false));
+						pst.setTimestamp(17, toTimestamp(this.relationNoticeCreateDate, true));
 						pst.setString(18, this.relationNoticeModifiedBy);
 						pst.setString(19, this.relationNoticeCreatedBy);
 
@@ -2195,24 +2102,16 @@ public class Read2004XML extends DefaultHandler {
 							for (i = 0; i < langus.length; i++) {
 								if (!langus[i].equals(this.oldCode)) {
 
-									pst = this.con
-											.prepareStatement(INSERT_RELATION_LANGUAGE);
+									pst = this.con.prepareStatement(INSERT_RELATION_LANGUAGE);
 									pst.setInt(1, rnid);
 									pst.setInt(2, rid);
 									pst.setString(3, toLangCode(langus[i]));
-									pst.setString(
-											4,
-											langText(this.relationEndType,
-													langus[i]));
+									pst.setString(4, langText(this.relationEndType, langus[i]));
 									pst.setString(5, null);
-									pst.setString(
-											6,
-											langText(this.relationEndPlace,
-													langus[i]));
+									pst.setString(6, langText(this.relationEndPlace, langus[i]));
 									pst.setString(7, null);
 									pst.setNull(8, Types.TIMESTAMP);
-									Timestamp now = new Timestamp(
-											System.currentTimeMillis());
+									final Timestamp now = new Timestamp(System.currentTimeMillis());
 									pst.setTimestamp(9, now);
 
 									pst.executeUpdate();
@@ -2224,19 +2123,19 @@ public class Read2004XML extends DefaultHandler {
 			}
 
 			if ((lastUnitId != null) && (lastUnitId.length() > 1)) {
-				int last = Integer.parseInt(lastUnitId.substring(1));
+				final int last = Integer.parseInt(lastUnitId.substring(1));
 				if (aid >= lastMaxAid) {
 					lastMaxAid = aid;
 				}
-				double prose = (lastMaxAid * 100) / last;
-				int intprose = (int) prose;
+				final double prose = (lastMaxAid * 100) / last;
+				final int intprose = (int) prose;
 				if (intprose < 100) {
 
 					setRunnerValue("" + intprose + ";" + rid);
 
 				}
 			}
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.SEVERE, "importing relation failed", e);
 			throw new SAXException(e);
 		}
@@ -2264,23 +2163,22 @@ public class Read2004XML extends DefaultHandler {
 			PreparedStatement pst = null;
 
 			try {
-				pst = this.con
-						.prepareStatement("select nextval('unitnoticeseq')");
-				ResultSet rs = pst.executeQuery();
+				pst = this.con.prepareStatement("select nextval('unitnoticeseq')");
+				final ResultSet rs = pst.executeQuery();
 				if (rs.next()) {
 					pnid = rs.getInt(1);
 				} else {
 					throw new SAXException("Sequence unitnoticeseq error");
 				}
 				rs.close();
-			} catch (SQLException e) {
+			} catch (final SQLException e) {
 				e.printStackTrace();
 				throw new SAXException("Sequence unitnoticeseq sql error");
 			} finally {
 				if (pst != null) {
 					try {
 						pst.close();
-					} catch (SQLException ignored) {
+					} catch (final SQLException ignored) {
 						// SQLException ignored
 					}
 				}
@@ -2296,14 +2194,14 @@ public class Read2004XML extends DefaultHandler {
 			int row = 0;
 			try {
 				row = Integer.parseInt(this.noticeRow);
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				// NumberFormatException ignored
 			}
 			pst.setInt(5, row);
-			int surety = 100;
+			final int surety = 100;
 			try {
 				row = Integer.parseInt(this.noticeSurety);
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				// NumberFormatException ignored
 			}
 			pst.setInt(6, surety);
@@ -2318,7 +2216,7 @@ public class Read2004XML extends DefaultHandler {
 			pst.setString(10, this.noticeModifiedBy);
 			pst.executeUpdate();
 			pst.close();
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.SEVERE, "importing notice init failed", e);
 			throw new SAXException(e);
 		}
@@ -2337,7 +2235,7 @@ public class Read2004XML extends DefaultHandler {
 	private void updateUnitNotice() throws SAXException {
 		int i;
 		PreparedStatement pst;
-		StringBuilder allText = new StringBuilder();
+		final StringBuilder allText = new StringBuilder();
 		if (this.noticeType != null) {
 			allText.append(this.noticeType);
 		}
@@ -2356,7 +2254,7 @@ public class Read2004XML extends DefaultHandler {
 			allText.append(this.noticeMediaTitle);
 		}
 		// System.out.println(allText.toString());
-		String langus[] = extractLangs(allText.toString());
+		final String langus[] = extractLangs(allText.toString());
 
 		this.nameCollector = new HashMap<String, String>();
 		this.placeCollector = new HashMap<String, String>();
@@ -2377,8 +2275,7 @@ public class Read2004XML extends DefaultHandler {
 			pst.setString(5, this.noticeDateTo);
 			pst.setString(6, langText(this.noticePlace, this.oldCode));
 
-			pst.setString(7,
-					extractCSVPart(this.noticeTag, this.noticeAddress, 0));
+			pst.setString(7, extractCSVPart(this.noticeTag, this.noticeAddress, 0));
 			pst.setString(8, this.noticePostalCode);
 			pst.setString(9, this.noticePostOffice);
 			pst.setString(10, this.noticeState);
@@ -2390,10 +2287,8 @@ public class Read2004XML extends DefaultHandler {
 			pst.setString(15, langText(this.noticeMediaTitle, this.oldCode));
 
 			if (finFamilyVersion == null) {
-				pst.setString(16,
-						Utils.extractPatronyme(this.noticeGivenName, false));
-				pst.setString(17,
-						Utils.extractPatronyme(this.noticeGivenName, true));
+				pst.setString(16, Utils.extractPatronyme(this.noticeGivenName, false));
+				pst.setString(17, Utils.extractPatronyme(this.noticeGivenName, true));
 			} else {
 				pst.setString(16, this.noticeGivenName);
 				pst.setString(17, this.noticePatronym);
@@ -2408,12 +2303,9 @@ public class Read2004XML extends DefaultHandler {
 				pst.setNull(21, Types.INTEGER);
 			}
 			if (finFamilyVersion == null) {
-				pst.setString(22,
-						extractCSVPart(this.noticeTag, this.noticeAddress, 1));
-				pst.setString(23,
-						extractCSVPart(this.noticeTag, this.noticeAddress, 2));
-				pst.setString(24,
-						extractCSVPart(this.noticeTag, this.noticeAddress, 3));
+				pst.setString(22, extractCSVPart(this.noticeTag, this.noticeAddress, 1));
+				pst.setString(23, extractCSVPart(this.noticeTag, this.noticeAddress, 2));
+				pst.setString(24, extractCSVPart(this.noticeTag, this.noticeAddress, 3));
 			} else {
 				pst.setString(22, this.noticeVillage);
 				pst.setString(23, this.noticeFarm);
@@ -2427,12 +2319,11 @@ public class Read2004XML extends DefaultHandler {
 			pst.executeUpdate();
 			pst.close();
 
-			if ((this.placeCollector.size() > 0)
-					|| (this.nameCollector.size() > 0)
+			if ((this.placeCollector.size() > 0) || (this.nameCollector.size() > 0)
 					|| ((this.namelist != null) && (this.namelist.size() > 0))
 					|| ((this.placelist != null) && (this.placelist.size() > 0))) {
 
-				NameArray asn = new NameArray();
+				final NameArray asn = new NameArray();
 				Iterator<String> it = this.nameCollector.keySet().iterator();
 				while (it.hasNext()) {
 
@@ -2440,13 +2331,13 @@ public class Read2004XML extends DefaultHandler {
 
 				}
 				if (namelist != null) {
-					for (String tmp : namelist) {
+					for (final String tmp : namelist) {
 						asn.append(tmp);
 					}
 					namelist = null;
 				}
 				// sn.append("}");
-				NameArray asp = new NameArray();
+				final NameArray asp = new NameArray();
 
 				// StringBuilder sp = new StringBuilder();
 				it = this.placeCollector.keySet().iterator();
@@ -2460,15 +2351,14 @@ public class Read2004XML extends DefaultHandler {
 					// sp.append("\""+it.next()+"\"");
 				}
 				if (placelist != null) {
-					for (String tmp : placelist) {
+					for (final String tmp : placelist) {
 						asp.append(tmp);
 					}
 					placelist = null;
 				}
 				// sp.append("}");
 
-				PreparedStatement ps = this.con
-						.prepareStatement(UPDATE_UNIT_INDEX_DATA);
+				final PreparedStatement ps = this.con.prepareStatement(UPDATE_UNIT_INDEX_DATA);
 				ps.setArray(1, asn);
 				ps.setArray(2, asp);
 				// ps.setString(1, sn.toString());
@@ -2482,37 +2372,31 @@ public class Read2004XML extends DefaultHandler {
 				File file = null;
 				FileInputStream fis;
 				if (isZipFile) {
-					String path = images.get(this.sukuMediaFolder + "/"
-							+ this.noticeMediaFilename);
+					final String path = images.get(this.sukuMediaFolder + "/" + this.noticeMediaFilename);
 					if (path != null) {
 
 						file = new File(path);
 					}
 				} else if (this.databaseHasImages) {
 
-					logger.fine("Trying image file: " + this.databaseFolder
-							+ "/" + this.sukuMediaFolder + "/"
+					logger.fine("Trying image file: " + this.databaseFolder + "/" + this.sukuMediaFolder + "/"
 							+ this.noticeMediaFilename);
 
-					file = new File(this.databaseFolder + "/"
-							+ this.sukuMediaFolder + "/"
-							+ this.noticeMediaFilename);
+					file = new File(this.databaseFolder + "/" + this.sukuMediaFolder + "/" + this.noticeMediaFilename);
 				}
 				if ((file != null) && file.exists() && file.isFile()) {
-					BufferedImage sourceImage = ImageIO.read(file);
+					final BufferedImage sourceImage = ImageIO.read(file);
 					if (sourceImage == null) {
-						String wrn = "Image file: " + this.databaseFolder + "/"
-								+ this.sukuMediaFolder + "/"
+						final String wrn = "Image file: " + this.databaseFolder + "/" + this.sukuMediaFolder + "/"
 								+ this.noticeMediaFilename + " read failed!!";
 						logger.warning(wrn);
 						errorLine.add(wrn);
 					} else {
-						int mediaWidth = sourceImage.getWidth(null);
-						int mediaHeight = sourceImage.getHeight(null);
+						final int mediaWidth = sourceImage.getWidth(null);
+						final int mediaHeight = sourceImage.getHeight(null);
 						try {
 							fis = new FileInputStream(file);
-							PreparedStatement ps = this.con
-									.prepareStatement(UPDATE_IMAGE_DATA);
+							final PreparedStatement ps = this.con.prepareStatement(UPDATE_IMAGE_DATA);
 
 							ps.setBinaryStream(1, fis, (int) file.length());
 							ps.setInt(2, mediaWidth);
@@ -2521,18 +2405,14 @@ public class Read2004XML extends DefaultHandler {
 							ps.executeUpdate();
 							ps.close();
 							fis.close();
-						} catch (FileNotFoundException e) {
-							String wrn = "Image file "
-									+ this.noticeMediaFilename + " not found";
+						} catch (final FileNotFoundException e) {
+							final String wrn = "Image file " + this.noticeMediaFilename + " not found";
 							logger.warning(wrn);
 							errorLine.add(wrn);
 							e.printStackTrace();
-						} catch (IOException e) {
-							String wrn = "Image file "
-									+ this.noticeMediaFilename + ":"
-									+ e.getMessage();
-							logger.log(Level.WARNING, "Image file "
-									+ this.noticeMediaFilename, e);
+						} catch (final IOException e) {
+							final String wrn = "Image file " + this.noticeMediaFilename + ":" + e.getMessage();
+							logger.log(Level.WARNING, "Image file " + this.noticeMediaFilename, e);
 
 							errorLine.add(wrn);
 							e.printStackTrace();
@@ -2544,8 +2424,7 @@ public class Read2004XML extends DefaultHandler {
 					// "/" + mediaHeight );
 				} else {
 
-					String wrn = "Image file " + this.noticeMediaFilename
-							+ " is missing";
+					final String wrn = "Image file " + this.noticeMediaFilename + " is missing";
 					logger.warning(wrn);
 					errorLine.add(wrn);
 				}
@@ -2564,22 +2443,14 @@ public class Read2004XML extends DefaultHandler {
 						pst.setString(4, toLangCode(langus[i]));
 
 						pst.setString(5, langText(this.noticeType, langus[i]));
-						pst.setString(6,
-								langText(this.noticeDescription, langus[i]));
+						pst.setString(6, langText(this.noticeDescription, langus[i]));
 
 						pst.setString(7, langText(this.noticePlace, langus[i]));
-						pst.setString(8,
-								langText(this.noticeNoteText, langus[i]));
-						pst.setString(9,
-								langText(this.noticeMediaTitle, langus[i]));
+						pst.setString(8, langText(this.noticeNoteText, langus[i]));
+						pst.setString(9, langText(this.noticeMediaTitle, langus[i]));
 
-						pst.setTimestamp(
-								10,
-								toTimestamp(this.noticeLanguageModifiedDate,
-										false));
-						pst.setTimestamp(
-								11,
-								toTimestamp(this.noticeLanguageCreateDate, true));
+						pst.setTimestamp(10, toTimestamp(this.noticeLanguageModifiedDate, false));
+						pst.setTimestamp(11, toTimestamp(this.noticeLanguageCreateDate, true));
 						pst.setString(12, this.noticeLanguageModifiedBy);
 						pst.setString(13, this.noticeLanguageCreatedBy);
 
@@ -2619,22 +2490,21 @@ public class Read2004XML extends DefaultHandler {
 			this.noticeSourceText = null;
 			this.noticeCreateDate = null;
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 
 			logger.log(Level.SEVERE, "importing notices failed", e);
 			throw new SAXException(e);
 
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			logger.log(Level.SEVERE, "importing image failed", e);
 			throw new SAXException(e);
 		}
 	}
 
 	private void updateUnit() throws SAXException {
-		logger.fine("UNIT: " + this.unitId + "/" + this.unitTag + "/"
-				+ this.unitSex + "/" + this.unitRefn + "/" + this.unitGivenName
-				+ "/" + this.unitPrefix + "/" + this.unitSurName + "/"
-				+ this.unitPostfix + "/" + this.unitCreateDate);
+		logger.fine("UNIT: " + this.unitId + "/" + this.unitTag + "/" + this.unitSex + "/" + this.unitRefn + "/"
+				+ this.unitGivenName + "/" + this.unitPrefix + "/" + this.unitSurName + "/" + this.unitPostfix + "/"
+				+ this.unitCreateDate);
 		int unitPid = 0;
 		PreparedStatement pst;
 		try {
@@ -2643,25 +2513,23 @@ public class Read2004XML extends DefaultHandler {
 
 			try {
 				unitPid = Integer.parseInt(this.unitId.substring(1));
-			} catch (NumberFormatException ne) {
-				throw new SAXException("UnitId " + this.unitId
-						+ " is not numeric");
+			} catch (final NumberFormatException ne) {
+				throw new SAXException("UnitId " + this.unitId + " is not numeric");
 			}
 			pst.setString(1, this.unitRefn);
 			unitRefn = null;
 			pst.setString(2, this.unitSourceText);
 			pst.setString(3, this.unitPrivateText);
 			pst.setInt(4, unitPid);
-			int resu = pst.executeUpdate();
+			final int resu = pst.executeUpdate();
 			if (resu != 1) {
-				throw new SAXException("update of unit " + this.unitId
-						+ " failed. count = " + resu);
+				throw new SAXException("update of unit " + this.unitId + " failed. count = " + resu);
 			}
 			pst.close();
 
 			// setRunnerValue("Pid = " + this.unitId);
 
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.SEVERE, "update unit source failed", e);
 		}
 
@@ -2704,18 +2572,17 @@ public class Read2004XML extends DefaultHandler {
 
 			pst.executeUpdate();
 			// this.runner.setRunnerValue("pid [" + unitPid + "]");
-			logger.fine("Unit: " + this.unitId + "/" + this.unitSex + "/"
-					+ this.unitSourceId);
+			logger.fine("Unit: " + this.unitId + "/" + this.unitSex + "/" + this.unitSourceId);
 
 			laskuriUnits++;
-		} catch (SQLException e) {
+		} catch (final SQLException e) {
 			logger.log(Level.SEVERE, "importing unit failed", e);
 			throw new SAXException(e);
 		} finally {
 			if (pst != null) {
 				try {
 					pst.close();
-				} catch (SQLException ignored) {
+				} catch (final SQLException ignored) {
 					// SQLException ignored
 				}
 			}
@@ -2723,10 +2590,9 @@ public class Read2004XML extends DefaultHandler {
 		if (finFamilyVersion == null) {
 			if ((this.unitGivenName != null) || (this.unitSurName != null)) {
 				try {
-					pst = this.con
-							.prepareStatement("select nextval('unitnoticeseq')");
+					pst = this.con.prepareStatement("select nextval('unitnoticeseq')");
 					int pnid = 0;
-					ResultSet rs = pst.executeQuery();
+					final ResultSet rs = pst.executeQuery();
 					if (rs.next()) {
 						pnid = rs.getInt(1);
 					} else {
@@ -2741,10 +2607,8 @@ public class Read2004XML extends DefaultHandler {
 					pst.setInt(2, pnid);
 					pst.setString(3, "NAME");
 					pst.setString(4, this.unitPrivacy);
-					pst.setString(5,
-							Utils.extractPatronyme(this.unitGivenName, false));
-					pst.setString(6,
-							Utils.extractPatronyme(this.unitGivenName, true));
+					pst.setString(5, Utils.extractPatronyme(this.unitGivenName, false));
+					pst.setString(6, Utils.extractPatronyme(this.unitGivenName, true));
 					pst.setString(7, this.unitPrefix);
 					pst.setString(8, this.unitSurName);
 					pst.setString(9, this.unitPostfix);
@@ -2754,11 +2618,10 @@ public class Read2004XML extends DefaultHandler {
 					pst.setString(13, this.unitModifiedBy);
 					pst.executeUpdate();
 					pst.close();
-					logger.fine("UnitName: " + this.unitId + "/"
-							+ this.unitGivenName + "/" + this.unitPrefix + "/"
+					logger.fine("UnitName: " + this.unitId + "/" + this.unitGivenName + "/" + this.unitPrefix + "/"
 							+ this.unitSurName + "/" + unitPostfix);
 
-					StringBuilder sb = new StringBuilder();
+					final StringBuilder sb = new StringBuilder();
 
 					sb.append(this.unitId + ":  ");
 					lastUnitId = this.unitId;
@@ -2777,24 +2640,23 @@ public class Read2004XML extends DefaultHandler {
 					}
 					setRunnerValue(sb.toString());
 
-				} catch (SQLException e) {
+				} catch (final SQLException e) {
 					logger.log(Level.SEVERE, "importing unit name failed", e);
 					throw new SAXException(e);
 				} finally {
 					if (pst != null) {
 						try {
 							pst.close();
-						} catch (SQLException ignored) {
+						} catch (final SQLException ignored) {
 							// SQLException ignored
 						}
 					}
 				}
 			}
 		}
-		logger.fine("UNIT: " + this.unitId + "/" + this.unitTag + "/"
-				+ this.unitSex + "/" + this.unitRefn + "/" + this.unitGivenName
-				+ "/" + this.unitPrefix + "/" + this.unitSurName + "/"
-				+ this.unitPostfix + "/" + this.unitCreateDate);
+		logger.fine("UNIT: " + this.unitId + "/" + this.unitTag + "/" + this.unitSex + "/" + this.unitRefn + "/"
+				+ this.unitGivenName + "/" + this.unitPrefix + "/" + this.unitSurName + "/" + this.unitPostfix + "/"
+				+ this.unitCreateDate);
 
 		this.unitGivenName = null;
 		this.unitSurName = null;
@@ -2822,7 +2684,7 @@ public class Read2004XML extends DefaultHandler {
 			return null;
 		}
 
-		String parts[] = noticeAddress.split(",");
+		final String parts[] = noticeAddress.split(",");
 
 		if (parts.length == 1) {
 			if (i == 0) {
@@ -2854,7 +2716,7 @@ public class Read2004XML extends DefaultHandler {
 
 	/**
 	 * Extract text for selected language
-	 * 
+	 *
 	 * @param text
 	 * @param lang
 	 * @return text for requested language
@@ -2864,7 +2726,7 @@ public class Read2004XML extends DefaultHandler {
 			return null;
 		}
 
-		HashMap<String, String> map = new HashMap<String, String>();
+		final HashMap<String, String> map = new HashMap<String, String>();
 
 		String v;
 		StringBuilder sb = new StringBuilder();
@@ -2944,7 +2806,7 @@ public class Read2004XML extends DefaultHandler {
 		// Now lets remove name and address tags
 		//
 
-		String kieli = sb.toString();
+		final String kieli = sb.toString();
 
 		int i1 = 0;
 		int i2 = 0;
@@ -2970,16 +2832,16 @@ public class Read2004XML extends DefaultHandler {
 			}
 			if (kieli.charAt(i1) == 'O') {
 				if (i2 > (i1 + 5)) {
-					String tmp = kieli.substring(i1 + 3, i2 - 1);
+					final String tmp = kieli.substring(i1 + 3, i2 - 1);
 					this.placeCollector.put(tmp, tmp);
 					sb.append(tmp);
 				}
 			} else if (kieli.charAt(i1) == 'P') {
 				if (i2 > (i1 + 5)) {
-					String nimi = kieli.substring(i1 + 1, i2);
-					StringBuilder tnimi = new StringBuilder();
+					final String nimi = kieli.substring(i1 + 1, i2);
+					final StringBuilder tnimi = new StringBuilder();
 					String etu = null, suku = null;
-					StringBuilder tuloste = new StringBuilder();
+					final StringBuilder tuloste = new StringBuilder();
 					int n1, n2;
 
 					n1 = nimi.indexOf("<");
@@ -3022,8 +2884,7 @@ public class Read2004XML extends DefaultHandler {
 							}
 
 							sb.append(tuloste);
-							this.nameCollector.put(tnimi.toString(),
-									tnimi.toString());
+							this.nameCollector.put(tnimi.toString(), tnimi.toString());
 						}
 					}
 				}
@@ -3043,10 +2904,10 @@ public class Read2004XML extends DefaultHandler {
 
 	/**
 	 * Extract the language codes existing withinh text
-	 * 
+	 *
 	 * @param text
 	 * @return a string array with language codes (oldCode) that text contains
-	 * 
+	 *
 	 */
 	private String[] extractLangs(String text) {
 		if (text == null) {
@@ -3058,7 +2919,7 @@ public class Read2004XML extends DefaultHandler {
 		Iterator<String> it;
 		int i;
 		boolean isElse = false;
-		HashMap<String, String> map = new HashMap<String, String>();
+		final HashMap<String, String> map = new HashMap<String, String>();
 		String s;
 		int i1 = 0;
 		int i2 = 0;
@@ -3127,7 +2988,7 @@ public class Read2004XML extends DefaultHandler {
 		}
 		try {
 			id = Integer.parseInt(numero.substring(1));
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			id = -1; // throw new SAXException ("UnitId " + this.unitId +
 			// " is not numeric");
 		}
@@ -3145,7 +3006,7 @@ public class Read2004XML extends DefaultHandler {
 		java.util.Date dd;
 		try {
 			dd = cdf.parse(date);
-		} catch (ParseException e) {
+		} catch (final ParseException e) {
 
 			dd = new java.util.Date();
 		}
@@ -3155,28 +3016,26 @@ public class Read2004XML extends DefaultHandler {
 
 	private File copyToTempfile(ZipInputStream zipIn, String imgName)
 			throws IOException, FileNotFoundException, SukuException {
-		int ldot = imgName.lastIndexOf(".");
+		final int ldot = imgName.lastIndexOf(".");
 		String imgSuffix = null;
 		if ((ldot > 0) && (ldot > (imgName.length() - 6))) {
 			imgSuffix = imgName.substring(ldot);
 		}
 
 		if (baseFolder.length() > 0) {
-			if (imgName.substring(0, baseFolder.length()).equalsIgnoreCase(
-					baseFolder)) {
+			if (imgName.substring(0, baseFolder.length()).equalsIgnoreCase(baseFolder)) {
 				imgName = imgName.substring(baseFolder.length());
 			}
 		}
 		try {
 			setRunnerValue(imgName);
 
-		} catch (SAXException e) {
+		} catch (final SAXException e) {
 			throw new SukuException(e);
 		}
-		File tf = File.createTempFile("finFam", imgSuffix);
+		final File tf = File.createTempFile("finFam", imgSuffix);
 		logger.fine("tempfile[" + imgName + "] to " + tf.getAbsolutePath());
-		BufferedOutputStream fos = new BufferedOutputStream(
-				new FileOutputStream(tf));
+		final BufferedOutputStream fos = new BufferedOutputStream(new FileOutputStream(tf));
 		int dd = 0;
 		while ((dd = zipIn.read()) >= 0) {
 			fos.write(dd);
@@ -3192,8 +3051,7 @@ public class Read2004XML extends DefaultHandler {
 	private void setRunnerValue(String juttu) throws SAXException {
 		if (runner != null) {
 			if (this.runner.setRunnerValue(juttu)) {
-				throw new SAXException(
-						Resurses.getString("EXECUTION_CANCELLED"));
+				throw new SAXException(Resurses.getString("EXECUTION_CANCELLED"));
 			}
 		}
 	}

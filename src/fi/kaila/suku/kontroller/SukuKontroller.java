@@ -37,12 +37,17 @@ public interface SukuKontroller {
 	 *             If connection fails this is thrown with reason for failuye
 	 */
 	public void getConnection(String host, String dbname, String userid,
-			String passwd) throws SukuException;
+			String passwd, boolean isH2) throws SukuException;
 
 	/**
 	 * Reset database connection.
 	 */
 	public void resetConnection();
+
+	/**
+	 * Reset database type.
+	 */
+	public void setDBType(boolean dbtype);
 
 	/**
 	 * Gets the suku data.
@@ -209,6 +214,13 @@ public interface SukuKontroller {
 	 * @return true if connected to db (PostgreSQL)
 	 */
 	public boolean isConnected();
+
+	/**
+	 * Checks if is connected.
+	 * 
+	 * @return true if connected to db (PostgreSQL)
+	 */
+	public boolean isH2();
 
 	/**
 	 * Gets the schema.

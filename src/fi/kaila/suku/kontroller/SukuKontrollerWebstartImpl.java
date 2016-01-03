@@ -67,6 +67,7 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 	private String userno = null;
 	private String schema = null;
 	private boolean isConnected = false;
+	private boolean isH2 = false;
 
 	/*
 	 * (non-Javadoc)
@@ -77,9 +78,10 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 	 */
 	@Override
 	public void getConnection(String host, String dbname, String userid,
-			String passwd) throws SukuException {
+			String passwd, boolean isH2) throws SukuException {
 		schema = null;
 		isConnected = false;
+		this.isH2 = isH2;
 		String requri = this.codebase + "SukuServlet?userid=" + userid
 				+ "&passwd=" + passwd;
 
@@ -143,6 +145,17 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 	@Override
 	public void resetConnection() {
 		isConnected = false;
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#setDBType()
+	 */
+	@Override
+	public void setDBType(boolean dbtype) {
+		isH2 = dbtype;
 
 	}
 
@@ -492,6 +505,16 @@ public class SukuKontrollerWebstartImpl implements SukuKontroller {
 	@Override
 	public boolean isConnected() {
 		return isConnected;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isH2()
+	 */
+	@Override
+	public boolean isH2() {
+		return isH2;
 	}
 
 	/*

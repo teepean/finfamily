@@ -32,8 +32,8 @@ import fi.kaila.suku.util.pojo.SukuData;
 /**
  * The Class ImportOtherDialog.
  */
-public class ImportOtherDialog extends JDialog implements ActionListener,
-		ListSelectionListener, PropertyChangeListener {
+public class ImportOtherDialog extends JDialog
+		implements ActionListener, ListSelectionListener, PropertyChangeListener {
 
 	/** */
 	private static final long serialVersionUID = 1L;
@@ -67,7 +67,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @throws SukuException
@@ -83,7 +83,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the runner.
-	 * 
+	 *
 	 * @return the dialog handle used for the progresBar
 	 */
 	public static ImportOtherDialog getRunner() {
@@ -91,27 +91,24 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 	}
 
 	private void constructMe(boolean allowNew) throws SukuException {
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
 		// setBounds(d.width / 2 - 300, d.height / 2 - 200, 600, 400);
 		setLayout(null);
 		int y = 20;
-		JPanel pna = new JPanel();
+		final JPanel pna = new JPanel();
 		pna.setLayout(null);
 		getContentPane().add(pna);
-		pna.setBorder(BorderFactory.createTitledBorder(Resurses
-				.getString("SCHEMA_SELECT")));
+		pna.setBorder(BorderFactory.createTitledBorder(Resurses.getString("SCHEMA_SELECT")));
 		JLabel lbl;// = new JLabel(Resurses.getString("SCHEMA_SELECT"));
 		// pna.add(lbl);
 		// lbl.setBounds(10, y, 200, 20);
 
-		SukuData dat = Suku.kontroller.getSukuData("cmd=schema", "type=get");
-		String schema = dat.generalArray.length == 1 ? dat.generalArray[0]
-				: null;
-		SukuData schemas = Suku.kontroller.getSukuData("cmd=schema",
-				"type=count");
+		final SukuData dat = Suku.kontroller.getSukuData("cmd=schema", "type=get");
+		final String schema = dat.generalArray.length == 1 ? dat.generalArray[0] : null;
+		final SukuData schemas = Suku.kontroller.getSukuData("cmd=schema", "type=count");
 
-		ArrayList<String> v = new ArrayList<String>();
+		final ArrayList<String> v = new ArrayList<String>();
 		for (int i = 0; i < schemas.generalArray.length; i++) {
 			if (!schemas.generalArray[i].equals(schema)) {
 				v.add(schemas.generalArray[i]);
@@ -122,7 +119,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 		scList = new JList(schemaList);
 		scList.addListSelectionListener(this);
-		JScrollPane scroll = new JScrollPane(scList);
+		final JScrollPane scroll = new JScrollPane(scList);
 		pna.add(scroll);
 		scroll.setBounds(10, y, 260, 100);
 
@@ -160,11 +157,10 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 		y += 30;
 		int yy = 20;
-		JPanel pnb = new JPanel();
+		final JPanel pnb = new JPanel();
 		pnb.setLayout(null);
 		getContentPane().add(pnb);
-		pnb.setBorder(BorderFactory.createTitledBorder(Resurses
-				.getString("SCHEMA_COMPARE")));
+		pnb.setBorder(BorderFactory.createTitledBorder(Resurses.getString("SCHEMA_COMPARE")));
 
 		dates = new JCheckBox(Resurses.getString("SCHEMA_COMP_BDATES"), true);
 		pnb.add(dates);
@@ -172,8 +168,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 		yy += 24;
 
-		patronym = new JCheckBox(Resurses.getString("SCHEMA_COMP_PATRONYM"),
-				true);
+		patronym = new JCheckBox(Resurses.getString("SCHEMA_COMP_PATRONYM"), true);
 		pnb.add(patronym);
 		patronym.setBounds(20, yy, 340, 20);
 
@@ -182,8 +177,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 		pnb.add(surname);
 		surname.setBounds(20, yy, 340, 20);
 		yy += 24;
-		firstname = new JCheckBox(Resurses.getString("SCHEMA_COMP_FIRSTNAME"),
-				true);
+		firstname = new JCheckBox(Resurses.getString("SCHEMA_COMP_FIRSTNAME"), true);
 		pnb.add(firstname);
 		firstname.setBounds(20, yy, 340, 20);
 
@@ -230,7 +224,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the result.
-	 * 
+	 *
 	 * @return possible error result
 	 */
 	public String getResult() {
@@ -239,7 +233,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the schema.
-	 * 
+	 *
 	 * @return the schema
 	 */
 	public String getSchema() {
@@ -252,7 +246,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the view id.
-	 * 
+	 *
 	 * @return the view id
 	 */
 	public int getViewId() {
@@ -267,7 +261,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the view name.
-	 * 
+	 *
 	 * @return the view name
 	 */
 	public String getViewName() {
@@ -279,19 +273,19 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent arg) {
 
-		Object activator = arg.getSource();
+		final Object activator = arg.getSource();
 		if (activator == null) {
 			return;
 		}
 
-		ArrayList<String> parms = new ArrayList<String>();
+		final ArrayList<String> parms = new ArrayList<String>();
 		parms.add("cmd=compare");
 		if (this.dates.isSelected()) {
 			parms.add("dates=true");
@@ -309,8 +303,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 		if (activator == this.copyAndComp) {
 			if (selectedSchema == null) {
-				JOptionPane.showMessageDialog(this,
-						Resurses.getString("SCHEMA_NOT_SELECTED"));
+				JOptionPane.showMessageDialog(this, Resurses.getString("SCHEMA_NOT_SELECTED"));
 				return;
 			}
 			selectedView = scViews.getSelectedIndex();
@@ -319,26 +312,22 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 			this.copyAndComp.setEnabled(false);
 
 			// we create new instances as needed.
-			Task task = new Task();
+			final Task task = new Task();
 			task.addPropertyChangeListener(this);
 			task.execute();
 
 			try {
 				parms.add("view=" + createdViewId);
 				parms.add("viewName=" + createdView);
-				SukuData resp = Suku.kontroller.getSukuData(parms
-						.toArray(new String[0]));
+				final SukuData resp = Suku.kontroller.getSukuData(parms.toArray(new String[0]));
 
 				if (resp.generalText != null) {
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString("COMPARE_RESULT") + " "
-									+ resp.generalText);
+					JOptionPane.showMessageDialog(this, Resurses.getString("COMPARE_RESULT") + " " + resp.generalText);
 				} else {
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString("COMPARE_RESULT_NONE"));
+					JOptionPane.showMessageDialog(this, Resurses.getString("COMPARE_RESULT_NONE"));
 				}
 
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 				JOptionPane.showMessageDialog(this, e.getMessage());
 			}
 			setVisible(false);
@@ -346,20 +335,16 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 		} else if (activator == this.compLocal) {
 			try {
 
-				SukuData resp = Suku.kontroller.getSukuData(parms
-						.toArray(new String[0]));
+				final SukuData resp = Suku.kontroller.getSukuData(parms.toArray(new String[0]));
 
 				if (resp.generalText != null) {
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString("COMPARE_RESULT") + " "
-									+ resp.generalText);
+					JOptionPane.showMessageDialog(this, Resurses.getString("COMPARE_RESULT") + " " + resp.generalText);
 					setVisible(false);
 				} else {
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString("COMPARE_RESULT_NONE"));
+					JOptionPane.showMessageDialog(this, Resurses.getString("COMPARE_RESULT_NONE"));
 				}
 
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 				JOptionPane.showMessageDialog(this, e.getMessage());
 
 			}
@@ -367,8 +352,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 		} else if (activator == this.compToSchema) {
 			if (selectedSchema == null) {
 
-				JOptionPane.showMessageDialog(this,
-						Resurses.getString("SCHEMA_NOT_SELECTED"));
+				JOptionPane.showMessageDialog(this, Resurses.getString("SCHEMA_NOT_SELECTED"));
 				return;
 			}
 			selectedView = scViews.getSelectedIndex();
@@ -381,20 +365,16 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 					parms.add("viewName=" + viewNames[selectedView]);
 				}
 
-				SukuData resp = Suku.kontroller.getSukuData(parms
-						.toArray(new String[0]));
+				final SukuData resp = Suku.kontroller.getSukuData(parms.toArray(new String[0]));
 
 				if (resp.generalText != null) {
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString("COMPARE_RESULT") + " "
-									+ resp.generalText);
+					JOptionPane.showMessageDialog(this, Resurses.getString("COMPARE_RESULT") + " " + resp.generalText);
 					setVisible(false);
 				} else {
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString("COMPARE_RESULT_NONE"));
+					JOptionPane.showMessageDialog(this, Resurses.getString("COMPARE_RESULT_NONE"));
 				}
 
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 				JOptionPane.showMessageDialog(this, e.getMessage());
 
 			}
@@ -409,7 +389,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event
 	 * .ListSelectionEvent)
@@ -417,7 +397,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 	@Override
 	public void valueChanged(ListSelectionEvent arg) {
 
-		String schema = schemaList[scList.getSelectedIndex()];
+		final String schema = schemaList[scList.getSelectedIndex()];
 		if (schema.equals(selectedSchema)) {
 			return;
 		}
@@ -425,13 +405,12 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 		scViews.setSelectedIndices(new int[0]);
 		try {
-			SukuData views = Suku.kontroller.getSukuData("cmd=viewlist",
-					"schema=" + selectedSchema);
+			final SukuData views = Suku.kontroller.getSukuData("cmd=viewlist", "schema=" + selectedSchema);
 			viewIds = new int[views.generalArray.length];
 			viewNames = new String[views.generalArray.length];
 			viewList.clear();
 			for (int i = 0; i < views.generalArray.length; i++) {
-				String[] parts = views.generalArray[i].split(";");
+				final String[] parts = views.generalArray[i].split(";");
 				if (parts.length == 2) {
 					viewIds[i] = Integer.parseInt(parts[0]);
 					viewNames[i] = parts[1];
@@ -440,7 +419,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 			}
 			this.scViews.updateUI();
 			this.viewScroll.updateUI();
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 
 			e.printStackTrace();
 		}
@@ -457,7 +436,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 		 */
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.SwingWorker#doInBackground()
 		 */
 		@Override
@@ -468,7 +447,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 			setRunnerValue("Aloitetaan tuonti");
 
 			try {
-				Vector<String> parms = new Vector<String>();
+				final Vector<String> parms = new Vector<String>();
 				parms.add("cmd=import");
 				parms.add("type=other");
 				parms.add("schema=" + selectedSchema);
@@ -477,11 +456,10 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 					parms.add("viewName=" + viewNames[selectedView]);
 				}
 
-				SukuData resp = Suku.kontroller.getSukuData(parms
-						.toArray(new String[0]));
+				final SukuData resp = Suku.kontroller.getSukuData(parms.toArray(new String[0]));
 				createdView = resp.generalText;
 				createdViewId = resp.resultPid;
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 
 				e.printStackTrace();
 				errorMessage = e.getMessage();
@@ -496,7 +474,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 		 */
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.SwingWorker#done()
 		 */
 		@Override
@@ -518,19 +496,19 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 	/**
 	 * The runner is the progress bar on the import dialog. Set new values to
 	 * the progress bar using this command
-	 * 
+	 *
 	 * the text may be split in two parts separated by ";"
-	 * 
+	 *
 	 * if the text is divided then part before ; must be an integer number
 	 * between 0-100 for the progress bar. Text behind ; or if ; does not exist
 	 * is displayed above the progress bar
-	 * 
+	 *
 	 * @param juttu
 	 *            the juttu
 	 * @return true if cancel command has been issued
 	 */
 	public boolean setRunnerValue(String juttu) {
-		String[] kaksi = juttu.split(";");
+		final String[] kaksi = juttu.split(";");
 		if (kaksi.length >= 2) {
 			int progress = 0;
 			try {
@@ -542,7 +520,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 					showCounter = 10;
 				}
 
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				textContent.setText(juttu);
 				progressBar.setIndeterminate(true);
 				progressBar.setValue(0);
@@ -555,9 +533,9 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 			showCounter--;
 			if ((progress > 0) && (showCounter < 0) && (timerText != null)) {
 				showCounter = 10;
-				long nowTime = System.currentTimeMillis();
-				long usedTime = nowTime - startTime;
-				long estimatedDuration = (usedTime / progress) * 100;
+				final long nowTime = System.currentTimeMillis();
+				final long usedTime = nowTime - startTime;
+				final long estimatedDuration = (usedTime / progress) * 100;
 				long restShow = estimatedDuration - usedTime;
 				// long restShow = usedTime * (100 - progress);
 				restShow = restShow / 1000;
@@ -566,7 +544,7 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 					timeType = " min";
 					restShow = restShow / 60;
 				}
-				String showTime = timerText + " :" + restShow + timeType;
+				final String showTime = timerText + " :" + restShow + timeType;
 				if (!timeEstimate.getText().equals(showTime)) {
 					timeEstimate.setText(showTime);
 				}
@@ -585,17 +563,17 @@ public class ImportOtherDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
 	 * PropertyChangeEvent)
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if ("progress".equals(evt.getPropertyName())) {
-			String juttu = evt.getNewValue().toString();
-			String[] kaksi = juttu.split(";");
+			final String juttu = evt.getNewValue().toString();
+			final String[] kaksi = juttu.split(";");
 			if (kaksi.length >= 2) {
-				int progress = Integer.parseInt(kaksi[0]);
+				final int progress = Integer.parseInt(kaksi[0]);
 				progressBar.setIndeterminate(false);
 				progressBar.setValue(progress);
 				textContent.setText(kaksi[1]);

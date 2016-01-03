@@ -23,15 +23,14 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * <h1>Import gedcom-file</h1>.
- * 
+ *
  * @author Kalle
  */
 
-public class ImportGedcomDialog extends JDialog implements ActionListener,
-		PropertyChangeListener {
+public class ImportGedcomDialog extends JDialog implements ActionListener, PropertyChangeListener {
 
 	/**
-		 * 
+		 *
 		 */
 	private static final long serialVersionUID = 1L;
 	private static final String OK = "OK";
@@ -50,7 +49,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the runner.
-	 * 
+	 *
 	 * @return the dialog handle used for the progresBar
 	 */
 	public static ImportGedcomDialog getRunner() {
@@ -64,7 +63,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the result.
-	 * 
+	 *
 	 * @return failed gedcom lines
 	 */
 	public String[] getResult() {
@@ -102,7 +101,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Constructor takes {@link fi.kaila.suku.swing.Suku main program} and
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @param dbName
@@ -119,7 +118,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 		setLayout(null);
 		int y = 20;
 
-		JLabel lbl = new JLabel(Resurses.getString("GEDCOM_FILE"));
+		final JLabel lbl = new JLabel(Resurses.getString("GEDCOM_FILE"));
 		getContentPane().add(lbl);
 		lbl.setBounds(30, y, 340, 20);
 
@@ -162,7 +161,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 		this.cancel.setBounds(200, y, 100, 24);
 		this.cancel.setActionCommand(CANCEL);
 		this.cancel.addActionListener(this);
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
 		setBounds((d.width / 2) - 200, (d.height / 2) - 100, 400, y + 100);
 
@@ -172,16 +171,12 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 
 		if (resp.resuCount > 0) {
 
-			int answer = JOptionPane.showConfirmDialog(
-					this,
-					Resurses.getString("DATABASE_NOT_EMPTY") + " "
-							+ resp.resuCount + " "
+			final int answer = JOptionPane.showConfirmDialog(this,
+					Resurses.getString("DATABASE_NOT_EMPTY") + " " + resp.resuCount + " "
 							+ Resurses.getString("DELETE_DATA_OK"),
-					Resurses.getString(Resurses.SUKU),
-					JOptionPane.ERROR_MESSAGE);
+					Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
 			if (answer == 1) {
-				throw new SukuException(
-						Resurses.getString("DATABASE_NOT_EMPTY"));
+				throw new SukuException(Resurses.getString("DATABASE_NOT_EMPTY"));
 
 			}
 		}
@@ -190,13 +185,13 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		if (cmd.equals(OK)) {
 
 			this.ok.setEnabled(false);
@@ -231,7 +226,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 		 */
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.SwingWorker#doInBackground()
 		 */
 		@Override
@@ -253,17 +248,14 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 				}
 
 				if (fileName.getText().length() > 0) {
-					SukuData resp = kontroller.getSukuData("cmd=import",
-							"type=gedcom");
+					final SukuData resp = kontroller.getSukuData("cmd=import", "type=gedcom");
 
 					gedcomResult = resp;
 					if (resp.resu != null) {
-						JOptionPane.showMessageDialog(owner,
-								Resurses.getString("IMPORT_GEDCOM") + ":"
-										+ resp.resu);
+						JOptionPane.showMessageDialog(owner, Resurses.getString("IMPORT_GEDCOM") + ":" + resp.resu);
 					}
 				}
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 				e.printStackTrace();
 
 				errorMessage = e.getMessage();
@@ -278,7 +270,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 		 */
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.SwingWorker#done()
 		 */
 		@Override
@@ -301,19 +293,19 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 	/**
 	 * The runner is the progress bar on the import dialog. Set new values to
 	 * the progress bar using this command
-	 * 
+	 *
 	 * the text may be split in two parts separated by ";"
-	 * 
+	 *
 	 * if the text is divided then part before ; must be an integer number
 	 * between 0-100 for the progress bar. Text behind ; or if ; does not exist
 	 * is displayed above the progress bar
-	 * 
+	 *
 	 * @param juttu
 	 *            the juttu
 	 * @return true if cancel command has been issued
 	 */
 	public boolean setRunnerValue(String juttu) {
-		String[] kaksi = juttu.split(";");
+		final String[] kaksi = juttu.split(";");
 		if (kaksi.length >= 2) {
 			int progress = 0;
 			try {
@@ -325,7 +317,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 					showCounter = 10;
 				}
 
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				textContent.setText(juttu);
 				progressBar.setIndeterminate(true);
 				progressBar.setValue(0);
@@ -338,9 +330,9 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 			showCounter--;
 			if ((progress > 0) && (showCounter < 0) && (timerText != null)) {
 				showCounter = 10;
-				long nowTime = System.currentTimeMillis();
-				long usedTime = nowTime - startTime;
-				long estimatedDuration = (usedTime / progress) * 100;
+				final long nowTime = System.currentTimeMillis();
+				final long usedTime = nowTime - startTime;
+				final long estimatedDuration = (usedTime / progress) * 100;
 				long restShow = estimatedDuration - usedTime;
 				// long restShow = usedTime * (100 - progress);
 				restShow = restShow / 1000;
@@ -349,7 +341,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 					timeType = " min";
 					restShow = restShow / 60;
 				}
-				String showTime = timerText + " :" + restShow + timeType;
+				final String showTime = timerText + " :" + restShow + timeType;
 				if (!timeEstimate.getText().equals(showTime)) {
 					timeEstimate.setText(showTime);
 				}
@@ -362,8 +354,7 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 				} else {
 					fileNameDescription = "!" + juttu.substring(1);
 				}
-				this.fileName
-						.setText(this.importFileName + fileNameDescription);
+				this.fileName.setText(this.importFileName + fileNameDescription);
 			} else {
 				textContent.setText(juttu);
 
@@ -377,17 +368,17 @@ public class ImportGedcomDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
 	 * PropertyChangeEvent)
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if ("progress".equals(evt.getPropertyName())) {
-			String juttu = evt.getNewValue().toString();
-			String[] kaksi = juttu.split(";");
+			final String juttu = evt.getNewValue().toString();
+			final String[] kaksi = juttu.split(";");
 			if (kaksi.length >= 2) {
-				int progress = Integer.parseInt(kaksi[0]);
+				final int progress = Integer.parseInt(kaksi[0]);
 				progressBar.setIndeterminate(false);
 				progressBar.setValue(progress);
 				textContent.setText(kaksi[1]);

@@ -48,6 +48,9 @@ public class ImportGedcomUtil {
 
 	private final Connection con;
 
+	/** The is H2 database. */
+	private boolean isH2 = false;
+
 	private ImportGedcomDialog runner = null;
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -63,8 +66,9 @@ public class ImportGedcomUtil {
 	 * @param con
 	 *            the con
 	 */
-	public ImportGedcomUtil(Connection con) {
+	public ImportGedcomUtil(Connection con, boolean isH2) {
 		this.con = con;
+		this.isH2 = isH2;
 		this.runner = ImportGedcomDialog.getRunner();
 	}
 
@@ -1732,11 +1736,19 @@ public class ImportGedcomUtil {
 
 			}
 		}
-
-		String sql = "insert into sukuvariables (owner_name,owner_info, "
-				+ "owner_address,owner_postalcode,owner_postoffice,"
-				+ "owner_country,owner_email,owner_webaddress,user_id) values (?,?,?,?,?,?,?,?,user) ";
-
+		
+		String sql = null;
+		
+		if (isH2){
+			sql = "insert into sukuvariables (owner_name,owner_info, "
+					+ "owner_address,owner_postalcode,owner_postoffice,"
+					+ "owner_country,owner_email,owner_webaddress) values (?,?,?,?,?,?,?,?) ";
+		} else {
+			sql = "insert into sukuvariables (owner_name,owner_info, "
+					+ "owner_address,owner_postalcode,owner_postoffice,"
+					+ "owner_country,owner_email,owner_webaddress,user_id) values (?,?,?,?,?,?,?,?,user) ";
+		}
+		
 		PreparedStatement pst = null;
 		int lukuri;
 		try {

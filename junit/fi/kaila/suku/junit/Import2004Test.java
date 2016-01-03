@@ -12,10 +12,9 @@ import fi.kaila.suku.util.pojo.PersonShortData;
 import fi.kaila.suku.util.pojo.SukuData;
 
 /**
- * tests for import from 2004
- * 
+ * tests for import from 2004.
+ *
  * @author fikaakail
- * 
  */
 public class Import2004Test extends TestCase {
 
@@ -24,7 +23,11 @@ public class Import2004Test extends TestCase {
 	private String dbname = null;
 	private String host = null;
 	private String filename = null;
+	private boolean isH2 = false;
 
+	/* (non-Javadoc)
+	 * @see junit.framework.TestCase#setUp()
+	 */
 	@Override
 	protected void setUp() {
 		ResourceBundle resources = ResourceBundle
@@ -44,9 +47,10 @@ public class Import2004Test extends TestCase {
 	}
 
 	/**
-	 * test import of suku 2004 backup
-	 * 
+	 * test import of suku 2004 backup.
+	 *
 	 * @throws SukuException
+	 *             the suku exception
 	 */
 	@Test
 	public void testImportTesti() throws SukuException {
@@ -55,7 +59,7 @@ public class Import2004Test extends TestCase {
 		SukuKontrollerLocalImpl kontroller = new SukuKontrollerLocalImpl(null);
 
 		kontroller.getConnection(this.host, this.dbname, this.userid,
-				this.password);
+				this.password, this.isH2);
 		// kontroller.setLocalFile(this.filename);
 
 		kontroller.getSukuData("cmd=import", "type=backup", "lang=FI");

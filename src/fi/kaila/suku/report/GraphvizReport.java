@@ -30,6 +30,9 @@ import fi.kaila.suku.util.pojo.PersonShortData;
 import fi.kaila.suku.util.pojo.Relation;
 import fi.kaila.suku.util.pojo.SukuData;
 
+/**
+ * The Class GraphvizReport.
+ */
 public class GraphvizReport extends CommonReport {
 
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
@@ -788,6 +791,9 @@ public class GraphvizReport extends CommonReport {
 
 	}
 
+	/**
+	 * The Class GraphData.
+	 */
 	class GraphData extends PersonShortData {
 		/**  */
 		private static final long serialVersionUID = 1L;
@@ -880,6 +886,9 @@ public class GraphvizReport extends CommonReport {
 		}
 	}
 
+	/**
+	 * The Class RelationData.
+	 */
 	class RelationData extends PersonShortData {
 		/**
 		 * 

@@ -31,6 +31,9 @@ import fi.kaila.suku.util.Resurses;
 import fi.kaila.suku.util.SukuException;
 import fi.kaila.suku.util.pojo.SukuData;
 
+/**
+ * The Class SqlCommandDialog.
+ */
 public class SqlCommandDialog extends JDialog implements ActionListener,
 		ComponentListener {
 

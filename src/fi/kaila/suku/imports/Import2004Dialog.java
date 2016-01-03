@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package fi.kaila.suku.imports;
 
@@ -28,35 +28,33 @@ import fi.kaila.suku.util.SukuException;
 import fi.kaila.suku.util.pojo.SukuData;
 
 /**
- * 
+ *
  * <h1>Importing a Sukuohjelmisto 2004 backup file</h1>
- * 
+ *
  * <p>
  * The Suku 2004 backup file is an xml-file that contains all relevant
  * information in the Suku2004 database. The xml-file is usually packed in
  * gzipped format
  * </p>
- * 
+ *
  * <p>
  * This is a Dialog window that is located in UI side. It runs a Worker thread
  * to display progress of the import. The import is executed in server side by
  * {@link fi.kaila.suku.imports.Read2004XML }. Setting up the import is done
  * here.
  * </p>
- * 
+ *
  * @author Kalle
- * 
+ *
  */
-public class Import2004Dialog extends JDialog implements ActionListener,
-		PropertyChangeListener {
+public class Import2004Dialog extends JDialog implements ActionListener, PropertyChangeListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static Logger logger = Logger.getLogger(Import2004Dialog.class
-			.getName());
+	private static Logger logger = Logger.getLogger(Import2004Dialog.class.getName());
 
 	private static final String OK = "OK";
 	private static final String CANCEL = "CANCEL";
@@ -78,7 +76,7 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the runner.
-	 * 
+	 *
 	 * @return the dialog handle used for the progresBar
 	 */
 	public static Import2004Dialog getRunner() {
@@ -90,7 +88,7 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 
 	/**
 	 * Constructor takes {@link fi.kaila.suku.swing.Suku main program} and
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @param kontroller
@@ -100,30 +98,29 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 	 *             {@link fi.kaila.suku.kontroller.SukuKontroller kontroller
 	 *             interface} as parameters
 	 */
-	public Import2004Dialog(JFrame owner, SukuKontroller kontroller)
-			throws SukuException {
+	public Import2004Dialog(JFrame owner, SukuKontroller kontroller) throws SukuException {
 		super(owner, Resurses.getString("IMPORT"), true);
 		this.owner = owner;
 		runner = this;
 		this.kontroller = kontroller;
 
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
 		setBounds((d.width / 2) - 200, (d.height / 2) - 100, 400, 230);
 		setLayout(null);
 		int y = 20;
 
-		JLabel lbl = new JLabel(Resurses.getString("IMPORT_LANGUAGE"));
+		final JLabel lbl = new JLabel(Resurses.getString("IMPORT_LANGUAGE"));
 		getContentPane().add(lbl);
 		lbl.setBounds(20, y, 100, 20);
 
 		// String deflan = Resurses.instance().getString("DEFAULT_LANGUAGE");
-		String lanlist = Resurses.getString("IMPORT_LANGS");
+		final String lanlist = Resurses.getString("IMPORT_LANGS");
 
-		String apu[] = lanlist.split(";");
+		final String apu[] = lanlist.split(";");
 
 		this.oldLangS = new String[apu.length / 3];
-		String langNames[] = new String[apu.length / 3];
+		final String langNames[] = new String[apu.length / 3];
 		int j = 0;
 		for (int i = 0; i < (apu.length / 3); i++) {
 			j++;
@@ -171,19 +168,15 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 
 		this.task = null;
 
-		SukuData resp = Suku.kontroller.getSukuData("cmd=unitCount");
+		final SukuData resp = Suku.kontroller.getSukuData("cmd=unitCount");
 		if (resp.resuCount > 0) {
 
-			int answer = JOptionPane.showConfirmDialog(
-					this,
-					Resurses.getString("DATABASE_NOT_EMPTY") + " "
-							+ resp.resuCount + " "
+			final int answer = JOptionPane.showConfirmDialog(this,
+					Resurses.getString("DATABASE_NOT_EMPTY") + " " + resp.resuCount + " "
 							+ Resurses.getString("DELETE_DATA_OK"),
-					Resurses.getString(Resurses.SUKU),
-					JOptionPane.ERROR_MESSAGE);
+					Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
 			if (answer == 1) {
-				throw new SukuException(
-						Resurses.getString("DATABASE_NOT_EMPTY"));
+				throw new SukuException(Resurses.getString("DATABASE_NOT_EMPTY"));
 
 			}
 		}
@@ -192,16 +185,16 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String selectedOldLang = null;
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		if (cmd.equals(OK)) {
-			int indx = this.lista.getSelectedIndex();
+			final int indx = this.lista.getSelectedIndex();
 
 			selectedOldLang = this.oldLangS[indx];
 
@@ -239,7 +232,7 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 		 */
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.SwingWorker#doInBackground()
 		 */
 		@Override
@@ -250,17 +243,13 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 			setRunnerValue("Luodaan tietokanta");
 
 			try {
-				xmlResult = kontroller.getSukuData("cmd=import", "type=backup",
-						"lang=" + lang);
+				xmlResult = kontroller.getSukuData("cmd=import", "type=backup", "lang=" + lang);
 
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 				errorMessage = e.getMessage();
 				logger.log(Level.SEVERE, "restore failed", e);
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(
-						owner,
-						Resurses.getString(Resurses.IMPORT_SUKU) + ":"
-								+ e.getMessage());
+				JOptionPane.showMessageDialog(owner, Resurses.getString(Resurses.IMPORT_SUKU) + ":" + e.getMessage());
 
 			}
 			setVisible(false);
@@ -272,7 +261,7 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 		 */
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.SwingWorker#done()
 		 */
 		@Override
@@ -284,7 +273,7 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the result.
-	 * 
+	 *
 	 * @return error message in case of failure of import. null stands for ok
 	 */
 	// public String getResult() {
@@ -292,7 +281,7 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 	// }
 
 	/**
-	 * 
+	 *
 	 * @return failed gedcom lines
 	 */
 	public String[] getResult() {
@@ -339,19 +328,19 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 	/**
 	 * The runner is the progress bar on the import dialog. Set new values to
 	 * the progress bar using this command
-	 * 
+	 *
 	 * the text may be split in two parts separated by ";"
-	 * 
+	 *
 	 * if the text is divided then part before ; must be an integer number
 	 * between 0-100 for the progress bar. Text behind ; or if ; does not exist
 	 * is displayed above the progress bar
-	 * 
+	 *
 	 * @param juttu
 	 *            the juttu
 	 * @return true if cancel command has been issued
 	 */
 	public boolean setRunnerValue(String juttu) {
-		String[] kaksi = juttu.split(";");
+		final String[] kaksi = juttu.split(";");
 		if (kaksi.length >= 2) {
 			int progress = 0;
 			try {
@@ -365,7 +354,7 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 				progressBar.setIndeterminate(false);
 				progressBar.setValue(progress);
 				textContent.setText(kaksi[1]);
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				// System.out.println("juttu=" + juttu);
 				// textContent.setText(juttu);
 				// progressBar.setIndeterminate(true);
@@ -377,9 +366,9 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 			showCounter--;
 			if ((progress > 0) && (showCounter < 0) && (timerText != null)) {
 				showCounter = 10;
-				long nowTime = System.currentTimeMillis();
-				long usedTime = nowTime - startTime;
-				long estimatedDuration = (usedTime / progress) * 100;
+				final long nowTime = System.currentTimeMillis();
+				final long usedTime = nowTime - startTime;
+				final long estimatedDuration = (usedTime / progress) * 100;
 				long restShow = estimatedDuration - usedTime;
 				// long restShow = usedTime * (100 - progress);
 				restShow = restShow / 1000;
@@ -388,7 +377,7 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 					timeType = " min";
 					restShow = restShow / 60;
 				}
-				String showTime = timerText + " :" + restShow + timeType;
+				final String showTime = timerText + " :" + restShow + timeType;
 				if (!timeEstimate.getText().equals(showTime)) {
 					timeEstimate.setText(showTime);
 				}
@@ -411,17 +400,17 @@ public class Import2004Dialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
 	 * PropertyChangeEvent)
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if ("progress".equals(evt.getPropertyName())) {
-			String juttu = evt.getNewValue().toString();
-			String[] kaksi = juttu.split(";");
+			final String juttu = evt.getNewValue().toString();
+			final String[] kaksi = juttu.split(";");
 			if (kaksi.length >= 2) {
-				int progress = Integer.parseInt(kaksi[0]);
+				final int progress = Integer.parseInt(kaksi[0]);
 				progressBar.setIndeterminate(false);
 				progressBar.setValue(progress);
 				textContent.setText(kaksi[1]);

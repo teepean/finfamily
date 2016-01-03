@@ -417,15 +417,17 @@ public class SukuServlet extends HttpServlet {
 		SukuServer sk;
 
 		try {
-			sk = new SukuServerImpl(ui.getUserId(), ui.openFile);
+			//TODO: FixMe
+			sk = new SukuServerImpl(ui.getUserId(), ui.openFile, false);
 
 			resp.addHeader("Content-Encoding", "gzip");
 			ServletOutputStream sos = resp.getOutputStream();
 			logger.fine("log: " + this.dbServer + "/" + this.dbDatabase + "/"
 					+ this.dbUser + "/" + this.dbPassword);
 
+			//TODO: FixMe
 			sk.getConnection(this.dbServer, this.dbDatabase, this.dbUser,
-					this.dbPassword);
+					this.dbPassword, false);
 
 			SukuData fam = sk.getSukuData(sukuData, params);
 

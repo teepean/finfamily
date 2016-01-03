@@ -25,11 +25,10 @@ import fi.kaila.suku.util.pojo.SukuData;
 /**
  * The Class ExportFamilyDatabaseDialog.
  */
-public class ExportFamilyDatabaseDialog extends JDialog implements
-		ActionListener, PropertyChangeListener {
+public class ExportFamilyDatabaseDialog extends JDialog implements ActionListener, PropertyChangeListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -51,7 +50,7 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 
 	/**
 	 * Instantiates a new export family database dialog.
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @param dbName
@@ -61,8 +60,7 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public ExportFamilyDatabaseDialog(Suku owner, String dbName, String zipName)
-			throws SukuException {
+	public ExportFamilyDatabaseDialog(Suku owner, String dbName, String zipName) throws SukuException {
 		super(owner, Resurses.getString("EXPORT"), true);
 		this.owner = owner;
 		runner = this;
@@ -106,7 +104,7 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 		this.cancel.setBounds(240, y, 100, 24);
 		this.cancel.setActionCommand(CANCEL);
 		this.cancel.addActionListener(this);
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
 		setBounds((d.width / 2) - 300, (d.height / 2) - 100, 600, y + 100);
 
@@ -114,13 +112,13 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		if (cmd.equals(OK)) {
 
 			this.ok.setEnabled(false);
@@ -148,19 +146,19 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 	/**
 	 * The runner is the progress bar on the import dialog. Set new values to
 	 * the progress bar using this command
-	 * 
+	 *
 	 * the text may be split in two parts separated by ";"
-	 * 
+	 *
 	 * if the text is divided then part before ; must be an integer number
 	 * between 0-100 for the progress bar. Text behind ; or if ; does not exist
 	 * is displayed above the progress bar
-	 * 
+	 *
 	 * @param juttu
 	 *            the juttu
 	 * @return true if cancel command has been issued
 	 */
 	public boolean setRunnerValue(String juttu) {
-		String[] kaksi = juttu.split(";");
+		final String[] kaksi = juttu.split(";");
 		if (kaksi.length >= 2) {
 			int progress = 0;
 			try {
@@ -172,7 +170,7 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 					showCounter = 10;
 				}
 
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				textContent.setText(juttu);
 				progressBar.setIndeterminate(true);
 				progressBar.setValue(0);
@@ -185,9 +183,9 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 			showCounter--;
 			if ((progress > 0) && (showCounter < 0) && (timerText != null)) {
 				showCounter = 10;
-				long nowTime = System.currentTimeMillis();
-				long usedTime = nowTime - startTime;
-				long estimatedDuration = (usedTime / progress) * 100;
+				final long nowTime = System.currentTimeMillis();
+				final long usedTime = nowTime - startTime;
+				final long estimatedDuration = (usedTime / progress) * 100;
 				long restShow = estimatedDuration - usedTime;
 				// long restShow = usedTime * (100 - progress);
 				restShow = restShow / 1000;
@@ -196,7 +194,7 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 					timeType = " min";
 					restShow = restShow / 60;
 				}
-				String showTime = timerText + " :" + restShow + timeType;
+				final String showTime = timerText + " :" + restShow + timeType;
 				if (!timeEstimate.getText().equals(showTime)) {
 					timeEstimate.setText(showTime);
 				}
@@ -219,17 +217,17 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
 	 * PropertyChangeEvent)
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if ("progress".equals(evt.getPropertyName())) {
-			String juttu = evt.getNewValue().toString();
-			String[] kaksi = juttu.split(";");
+			final String juttu = evt.getNewValue().toString();
+			final String[] kaksi = juttu.split(";");
 			if (kaksi.length >= 2) {
-				int progress = Integer.parseInt(kaksi[0]);
+				final int progress = Integer.parseInt(kaksi[0]);
 				progressBar.setIndeterminate(false);
 				progressBar.setValue(progress);
 				textContent.setText(kaksi[1]);
@@ -256,7 +254,7 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.SwingWorker#doInBackground()
 		 */
 		@Override
@@ -268,16 +266,16 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 			try {
 
 				if (fileName.getText().length() > 0) {
-					Vector<String> v = new Vector<String>();
+					final Vector<String> v = new Vector<String>();
 					v.add("cmd=create");
 					v.add("type=backup");
 					v.add("file=" + zipName);
 					v.add("db=" + dbName);
 
-					String[] auxes = v.toArray(new String[0]);
-					SukuData resp = Suku.kontroller.getSukuData(auxes);
+					final String[] auxes = v.toArray(new String[0]);
+					final SukuData resp = Suku.kontroller.getSukuData(auxes);
 
-					String tekst = "EXPORT_BACKUP";
+					final String tekst = "EXPORT_BACKUP";
 
 					byte[] buffi = null;
 					if (resp.buffer != null) {
@@ -285,17 +283,15 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 					} else {
 						buffi = tekst.getBytes();
 					}
-					ByteArrayInputStream in = new ByteArrayInputStream(buffi);
+					final ByteArrayInputStream in = new ByteArrayInputStream(buffi);
 
 					Suku.kontroller.saveFile("zip", in);
 
 				}
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 				e.printStackTrace();
 				errorMessage = e.getMessage();
-				JOptionPane.showMessageDialog(owner,
-						Resurses.getString("EXPORT_BACKUP") + ":"
-								+ errorMessage);
+				JOptionPane.showMessageDialog(owner, Resurses.getString("EXPORT_BACKUP") + ":" + errorMessage);
 
 			}
 
@@ -308,7 +304,7 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 		 */
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.SwingWorker#done()
 		 */
 		@Override
@@ -320,7 +316,7 @@ public class ExportFamilyDatabaseDialog extends JDialog implements
 
 	/**
 	 * Gets the runner.
-	 * 
+	 *
 	 * @return the runner
 	 */
 	public static ExportFamilyDatabaseDialog getRunner() {

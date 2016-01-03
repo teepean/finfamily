@@ -26,14 +26,13 @@ import fi.kaila.suku.util.pojo.SukuData;
 
 /**
  * Export as a Gedcom file.
- * 
+ *
  * @author Kalle
  */
-public class ExportGedcomDialog extends JDialog implements ActionListener,
-		PropertyChangeListener {
+public class ExportGedcomDialog extends JDialog implements ActionListener, PropertyChangeListener {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -57,14 +56,13 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 	private String langName = null;
 	private String[] langCodes = null;
 	private String[] langNames = null;
-	private final String[] charsetNames = { "", "Ascii", "Ansel", "UTF-8",
-			"UTF-16" };
+	private final String[] charsetNames = { "", "Ascii", "Ansel", "UTF-8", "UTF-16" };
 	private final JProgressBar progressBar;
 	private Task task = null;
 
 	/**
 	 * Gets the runner.
-	 * 
+	 *
 	 * @return the dialog handle used for the progresBar
 	 */
 	public static ExportGedcomDialog getRunner() {
@@ -78,7 +76,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Constructor takes {@link fi.kaila.suku.swing.Suku main program} and
-	 * 
+	 *
 	 * @param owner
 	 *            the owner
 	 * @param dbName
@@ -88,8 +86,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public ExportGedcomDialog(Suku owner, String dbName, String zipName)
-			throws SukuException {
+	public ExportGedcomDialog(Suku owner, String dbName, String zipName) throws SukuException {
 		super(owner, Resurses.getString("EXPORT"), true);
 		this.owner = owner;
 		runner = this;
@@ -135,8 +132,8 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 		lbl.setBounds(400, y, 160, 20);
 
 		y += 20;
-		SukuData vlist = Suku.kontroller.getSukuData("cmd=viewlist");
-		String[] lista = vlist.generalArray;
+		final SukuData vlist = Suku.kontroller.getSukuData("cmd=viewlist");
+		final String[] lista = vlist.generalArray;
 		this.viewList = new JComboBox();
 		getContentPane().add(this.viewList);
 		this.viewList.setBounds(30, y, 340, 20);
@@ -148,8 +145,8 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 
 		viewArray = lista;
 		viewList.addItem(Resurses.getString("EXPORT_ALL"));
-		for (String element : viewArray) {
-			String[] pp = element.split(";");
+		for (final String element : viewArray) {
+			final String[] pp = element.split(";");
 			if (pp.length > 1) {
 				viewList.addItem(pp[1]);
 			}
@@ -197,7 +194,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 		this.cancel.setBounds(240, y, 100, 24);
 		this.cancel.setActionCommand(CANCEL);
 		this.cancel.addActionListener(this);
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 
 		setBounds((d.width / 2) - 320, (d.height / 2) - 100, 640, y + 100);
 
@@ -205,7 +202,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the result.
-	 * 
+	 *
 	 * @return failed gedcom lines
 	 */
 	public String[] getResult() {
@@ -243,13 +240,13 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		if (cmd.equals(OK)) {
 
 			this.ok.setEnabled(false);
@@ -283,7 +280,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 		 */
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.SwingWorker#doInBackground()
 		 */
 		@Override
@@ -296,16 +293,16 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 			try {
 
 				if (fileName.getText().length() > 0) {
-					Vector<String> v = new Vector<String>();
+					final Vector<String> v = new Vector<String>();
 					v.add("cmd=create");
 					v.add("type=gedcom");
 					v.add("file=" + zipName);
 					v.add("db=" + dbName);
-					int listIdx = viewList.getSelectedIndex();
+					final int listIdx = viewList.getSelectedIndex();
 
 					if (listIdx > 0) {
-						String parts[] = viewArray[listIdx - 1].split(";");
-						int viewId = Integer.parseInt(parts[0]);
+						final String parts[] = viewArray[listIdx - 1].split(";");
+						final int viewId = Integer.parseInt(parts[0]);
 						if (parts.length > 1) {
 							viewName = parts[1];
 						}
@@ -320,7 +317,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 						v.add("lang=" + langCode);
 					}
 
-					int suretylevel = surety.getSurety();
+					final int suretylevel = surety.getSurety();
 					v.add("surety=" + suretylevel);
 					int charidx = charsetList.getSelectedIndex();
 
@@ -331,10 +328,10 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 						v.add("images=true");
 					}
 					v.add("charid=" + charidx);
-					String[] auxes = v.toArray(new String[0]);
-					SukuData resp = Suku.kontroller.getSukuData(auxes);
+					final String[] auxes = v.toArray(new String[0]);
+					final SukuData resp = Suku.kontroller.getSukuData(auxes);
 
-					String tekst = "GEDCOM EXPORT";
+					final String tekst = "GEDCOM EXPORT";
 
 					byte[] buffi = null;
 					if (resp.buffer != null) {
@@ -343,7 +340,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 						buffi = tekst.getBytes();
 					}
 					// if (Suku.kontroller.isWebStart()) {
-					ByteArrayInputStream in = new ByteArrayInputStream(buffi);
+					final ByteArrayInputStream in = new ByteArrayInputStream(buffi);
 
 					Suku.kontroller.saveFile("zip", in);
 					// } else {
@@ -364,7 +361,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 					// }
 					// }
 				}
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 				e.printStackTrace();
 				errorMessage = e.getMessage();
 			}
@@ -377,7 +374,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 		 */
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.SwingWorker#done()
 		 */
 		@Override
@@ -390,19 +387,19 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 	/**
 	 * The runner is the progress bar on the import dialog. Set new values to
 	 * the progress bar using this command
-	 * 
+	 *
 	 * the text may be split in two parts separated by ";"
-	 * 
+	 *
 	 * if the text is divided then part before ; must be an integer number
 	 * between 0-100 for the progress bar. Text behind ; or if ; does not exist
 	 * is displayed above the progress bar
-	 * 
+	 *
 	 * @param juttu
 	 *            the juttu
 	 * @return true if cancel command has been issued
 	 */
 	public boolean setRunnerValue(String juttu) {
-		String[] kaksi = juttu.split(";");
+		final String[] kaksi = juttu.split(";");
 		if (kaksi.length >= 2) {
 			int progress = 0;
 			try {
@@ -414,7 +411,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 					showCounter = 10;
 				}
 
-			} catch (NumberFormatException ne) {
+			} catch (final NumberFormatException ne) {
 				textContent.setText(juttu);
 				progressBar.setIndeterminate(true);
 				progressBar.setValue(0);
@@ -427,9 +424,9 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 			showCounter--;
 			if ((progress > 0) && (showCounter < 0) && (timerText != null)) {
 				showCounter = 10;
-				long nowTime = System.currentTimeMillis();
-				long usedTime = nowTime - startTime;
-				long estimatedDuration = (usedTime / progress) * 100;
+				final long nowTime = System.currentTimeMillis();
+				final long usedTime = nowTime - startTime;
+				final long estimatedDuration = (usedTime / progress) * 100;
 				long restShow = estimatedDuration - usedTime;
 				// long restShow = usedTime * (100 - progress);
 				restShow = restShow / 1000;
@@ -438,7 +435,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 					timeType = " min";
 					restShow = restShow / 60;
 				}
-				String showTime = timerText + " :" + restShow + timeType;
+				final String showTime = timerText + " :" + restShow + timeType;
 				if (!timeEstimate.getText().equals(showTime)) {
 					timeEstimate.setText(showTime);
 				}
@@ -461,17 +458,17 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
 	 * PropertyChangeEvent)
 	 */
 	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if ("progress".equals(evt.getPropertyName())) {
-			String juttu = evt.getNewValue().toString();
-			String[] kaksi = juttu.split(";");
+			final String juttu = evt.getNewValue().toString();
+			final String[] kaksi = juttu.split(";");
 			if (kaksi.length >= 2) {
-				int progress = Integer.parseInt(kaksi[0]);
+				final int progress = Integer.parseInt(kaksi[0]);
 				progressBar.setIndeterminate(false);
 				progressBar.setValue(progress);
 				textContent.setText(kaksi[1]);
@@ -493,7 +490,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the lang.
-	 * 
+	 *
 	 * @param asCode
 	 *            to return language code. false = language name
 	 * @return the langCode
@@ -508,7 +505,7 @@ public class ExportGedcomDialog extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the view name.
-	 * 
+	 *
 	 * @return the selected view name
 	 */
 	public String getViewName() {

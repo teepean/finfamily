@@ -156,20 +156,22 @@ public class SukuUtility {
 
 	/**
 	 * import Suku 2004 backup file.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 * @param path
 	 *            the path
 	 * @param oldCode
 	 *            the old code
+	 * @param isH2
+	 *            the is h2
 	 * @return Read2004XML class
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public SukuData import2004Data(Connection con, String path, String oldCode)
+	public SukuData import2004Data(Connection con, String path, String oldCode, boolean isH2)
 			throws SukuException {
-		Read2004XML x = new Read2004XML(con, oldCode);
+		Read2004XML x = new Read2004XML(con, oldCode, isH2);
 		return x.importFile(path);
 	}
 

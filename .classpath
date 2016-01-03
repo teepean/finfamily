@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/swingx-all-1.6.5-1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
 	<classpathentry kind="lib" path="lib/jxmapviewer2-2.1.jar"/>
+	<classpathentry kind="lib" path="lib/h2-1.4.190.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

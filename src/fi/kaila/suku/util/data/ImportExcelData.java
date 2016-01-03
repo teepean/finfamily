@@ -28,6 +28,8 @@ import fi.kaila.suku.util.SukuException;
 public class ImportExcelData {
 
 	private final Connection con;
+	/** The is H2 database. */
+	private boolean isH2 = false;
 
 	private static Logger logger = Logger.getLogger(ImportExcelData.class
 			.getName());
@@ -35,16 +37,19 @@ public class ImportExcelData {
 
 	/**
 	 * Database connection and excel workbook file is set in constructor.
-	 * 
+	 *
 	 * @param con
 	 *            database as destination
 	 * @param path
 	 *            excel file as source
+	 * @param isH2
+	 *            the is h2
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public ImportExcelData(Connection con, String path) throws SukuException {
+	public ImportExcelData(Connection con, String path, boolean isH2) throws SukuException {
 		this.con = con;
+		this.isH2 = isH2;
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setValidating(false);
@@ -100,7 +105,12 @@ public class ImportExcelData {
 		int latiIdx = -1;
 		int longIdx = -1;
 
-		String INSERT_PLACELOC = "insert into PlaceLocations (PlaceName,Location) values (?,point(?,?))";
+		String INSERT_PLACELOC = "";
+		if (isH2) {
+			INSERT_PLACELOC = "insert into PlaceLocations (PlaceName,Location_X,Location_Y) values (?,?,?)";
+		} else {
+			INSERT_PLACELOC = "insert into PlaceLocations (PlaceName,Location) values (?,point(?,?))";
+		}
 		String INSERT_PLACEOTHER = "insert into PlaceOtherNames (OtherName,PlaceName) values (?,?)";
 
 		String DELETE_PLACELOC = "delete from PlaceLocations";

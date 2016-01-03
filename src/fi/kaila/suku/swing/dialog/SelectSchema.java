@@ -139,25 +139,32 @@ public class SelectSchema extends JDialog implements ActionListener,
 
 	/**
 	 * Gets the schema.
-	 * 
+	 *
+	 * @param isH2
+	 *            the is h2
 	 * @return schema selected
 	 */
-	public String getSchema() {
-		if (okSelected) {
-			return Utils.toUsAscii(schema.getText());
+	public String getSchema(boolean isH2) {
+		if (isH2) {
+			return "finfamily";
+		} else {
+			if (okSelected) {
+				return Utils.toUsAscii(schema.getText());
+			}
+			return null;
 		}
-		return null;
-
 	}
 
 	/**
 	 * Checks if is existing schema.
-	 * 
+	 *
+	 * @param isH2
+	 *            the is h2
 	 * @return true if selected schema already existed
 	 */
-	public boolean isExistingSchema() {
+	public boolean isExistingSchema(boolean isH2) {
 
-		String aux = getSchema();
+		String aux = getSchema(isH2);
 		if (aux != null) {
 
 			for (String element : schemaList) {

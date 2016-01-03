@@ -27,7 +27,7 @@ public class SuomiPlacesResolver {
 	 *             the suku exception
 	 */
 	public static PlaceLocationData[] resolveSuomiPlaces(Connection con,
-			PlaceLocationData[] request) throws SukuException {
+			PlaceLocationData[] request, boolean isH2) throws SukuException {
 
 		if (request == null) {
 			return request;
@@ -38,11 +38,18 @@ public class SuomiPlacesResolver {
 		PlaceLocationData[] response = request;
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("select location[0],location[1],countrycode from placelocations where placename || ';' || countrycode  in ( ");
-		sql.append("select placename || ';' || countrycode from placeothernames where othername = ?) ");
-		sql.append("union ");
-		sql.append("select location[0],location[1],countrycode from placelocations where placename = ? ");
-
+		if (isH2) {
+			sql.append("select location_X,location_Y,countrycode from placelocations where placename || ';' || countrycode  in ( ");
+			sql.append("select placename || ';' || countrycode from placeothernames where othername = ?) ");
+			sql.append("union ");
+			sql.append("select location_X,location_Y,countrycode from placelocations where placename = ? ");
+		} else {
+			sql.append("select location[0],location[1],countrycode from placelocations where placename || ';' || countrycode  in ( ");
+			sql.append("select placename || ';' || countrycode from placeothernames where othername = ?) ");
+			sql.append("union ");
+			sql.append("select location[0],location[1],countrycode from placelocations where placename = ? ");
+		}
+		
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		String countryCode = null;

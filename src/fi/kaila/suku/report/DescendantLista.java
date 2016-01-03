@@ -322,10 +322,9 @@ public class DescendantLista extends CommonReport {
 	}
 
 	/**
-	 * Temp Storage for one person info
-	 * 
+	 * Temp Storage for one person info.
+	 *
 	 * @author kalle
-	 * 
 	 */
 	class ListPerson {
 

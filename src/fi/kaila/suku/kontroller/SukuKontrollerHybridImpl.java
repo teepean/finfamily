@@ -39,6 +39,7 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 	private String schema = null;
 
 	private boolean isConnected = false;
+	private boolean isH2 = false;
 
 	/**
 	 * Instantiates a new suku kontroller hybrid impl.
@@ -65,11 +66,12 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 	 */
 	@Override
 	public void getConnection(String host, String dbname, String userid,
-			String passwd) throws SukuException {
+			String passwd, boolean isH2) throws SukuException {
 		String requri = this.url + "SukuServlet?userid=" + userid + "&passwd="
 				+ passwd;
 		schema = null;
 		isConnected = false;
+		this.isH2 = isH2;
 		int resu;
 
 		try {
@@ -130,6 +132,17 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 	@Override
 	public void resetConnection() {
 		isConnected = false;
+
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#setDBType()
+	 */
+	@Override
+	public void setDBType(boolean dbtype) {
+		isH2 = dbtype;
 
 	}
 
@@ -461,6 +474,17 @@ public class SukuKontrollerHybridImpl implements SukuKontroller {
 	public boolean isConnected() {
 
 		return isConnected;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isH2()
+	 */
+	@Override
+	public boolean isH2() {
+
+		return isH2;
 	}
 
 	/*

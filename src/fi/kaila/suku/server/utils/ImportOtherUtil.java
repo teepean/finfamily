@@ -27,6 +27,9 @@ import fi.kaila.suku.util.pojo.SukuData;
 public class ImportOtherUtil {
 	private final Connection con;
 
+	/** The is H2 database. */
+	private boolean isH2 = false;
+
 	private ImportOtherDialog runner = null;
 	private final Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -42,8 +45,9 @@ public class ImportOtherUtil {
 	 * @param con
 	 *            the con
 	 */
-	public ImportOtherUtil(Connection con) {
+	public ImportOtherUtil(Connection con, boolean isH2) {
 		this.con = con;
+		this.isH2 = isH2;
 		this.runner = ImportOtherDialog.getRunner();
 
 	}
@@ -550,8 +554,13 @@ public class ImportOtherUtil {
 				sql.append("and ");
 			}
 			sql.append(sqlPrefix);
-			sql.append("( coalesce(a.surname,'') ilike coalesce(b.surname,'') and a.tag='NAME' and b.tag='NAME')"
-					+ sqlPostfix + ")  ");
+			if (isH2){
+				sql.append("( coalesce(a.surname,'') like coalesce(b.surname,'') and a.tag='NAME' and b.tag='NAME')"
+						+ sqlPostfix + ")  ");
+			} else {
+				sql.append("( coalesce(a.surname,'') ilike coalesce(b.surname,'') and a.tag='NAME' and b.tag='NAME')"
+						+ sqlPostfix + ")  ");
+			}
 
 		}
 		if (map.get("patronym") != null) {
@@ -560,8 +569,13 @@ public class ImportOtherUtil {
 				sql.append("and ");
 			}
 			sql.append(sqlPrefix);
-			sql.append("( coalesce(a.patronym,'') ilike coalesce(b.patronym,'') and a.tag='NAME' and b.tag='NAME')"
-					+ sqlPostfix + ")  ");
+			if (isH2){
+				sql.append("( coalesce(a.patronym,'') like coalesce(b.patronym,'') and a.tag='NAME' and b.tag='NAME')"
+						+ sqlPostfix + ")  ");
+			} else {
+				sql.append("( coalesce(a.patronym,'') ilike coalesce(b.patronym,'') and a.tag='NAME' and b.tag='NAME')"
+						+ sqlPostfix + ")  ");
+			}
 
 		}
 
@@ -573,16 +587,30 @@ public class ImportOtherUtil {
 		if (map.get("firstname") == null) {
 
 			sql.append(sqlPrefix);
-			sql.append("( coalesce(a.givenname,'') ilike coalesce(b.givenname,'') "
-					+ " and a.tag='NAME' and b.tag='NAME') "
-					+ sqlPostfix
-					+ " )");
+			if (isH2){
+				sql.append("( coalesce(a.givenname,'') like coalesce(b.givenname,'') "
+						+ " and a.tag='NAME' and b.tag='NAME') "
+						+ sqlPostfix
+						+ " )");
+			} else {
+				sql.append("( coalesce(a.givenname,'') ilike coalesce(b.givenname,'') "
+						+ " and a.tag='NAME' and b.tag='NAME') "
+						+ sqlPostfix
+						+ " )");
+			}
 		} else {
 			sql.append(sqlPrefix);
-			sql.append("( substring(coalesce(a.givenname,'') from '[\\\\w]+') "
-					+ " ilike substring(coalesce(b.givenname,'') from '[\\\\w]+') "
-					+ "   and a.tag='NAME' and b.tag='NAME') " + sqlPostfix
-					+ ") ");
+			if (isH2){
+				sql.append("( substring(coalesce(a.givenname,'') from '[\\\\w]+') "
+						+ " like substring(coalesce(b.givenname,'') from '[\\\\w]+') "
+						+ "   and a.tag='NAME' and b.tag='NAME') " + sqlPostfix
+						+ ") ");
+			} else {
+				sql.append("( substring(coalesce(a.givenname,'') from '[\\\\w]+') "
+						+ " ilike substring(coalesce(b.givenname,'') from '[\\\\w]+') "
+						+ "   and a.tag='NAME' and b.tag='NAME') " + sqlPostfix
+						+ ") ");
+			}
 		}
 		logger.info(sql.toString());
 

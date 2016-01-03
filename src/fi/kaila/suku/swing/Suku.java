@@ -122,62 +122,61 @@ import fi.kaila.suku.util.pojo.PlaceLocationData;
 import fi.kaila.suku.util.pojo.SukuData;
 
 /**
- * 
- * 
- * 
+ *
+ *
+ *
  * <h1>FinFamily main program</h1>
- * 
+ *
  * <p>
  * Swing-based java-application for managing genealogical data.
  * </p>
  * <p>
  * The genealogical data is stored in a PostgreSQL database
  * </p>
- * 
+ *
  * <h2>See <a href="../../../../overview.html#lic">Finfamily License</a></h2>
- * 
+ *
  * <h2>Starting the application</h2>
- * 
+ *
  * <p>
  * The FinFamily application is distributed as a zip file. unzip that file and
  * you are ready to go assuming you have installed the PostgreSQL database as
  * described in the guide.
  * </p>
- * 
+ *
  * <h3>Windows</h3>
- * 
+ *
  * <p>
  * For windows users there is a convenience application Suku.exe that you use to
  * start the main application. Suku.exe reads the suku.sh command. Changes the
  * java command to javaw and executes the command. You can rename suku.sh to
  * suku.bat if you like to start it showing the command line output.
  * </p>
- * 
+ *
  * <p>
  * suku.sh contains something like the command below to start suku. If you are
  * familiar with java then this tells you how. Else you need not care for it.
  * </p>
- * 
+ *
  * java -Xms64m -Xmx500m
  * -Djava.util.logging.config.file=properties/logging.properties -jar suku.jar
- * 
+ *
  * <h3>Linux</h3>
- * 
+ *
  * <p>
  * In Linux (or similar) execute the suku.sh command. You should first chmod it
  * to be an executable file unless you start it using the sh command
  * </p>
- * 
+ *
  * @author Kaarle Kaila
- * 
- * 
+ *
+ *
  */
-public class Suku extends JFrame implements ActionListener, ComponentListener,
-		MenuListener, MouseListener, MouseMotionListener, KeyListener, ISuku,
-		ClipboardOwner {
+public class Suku extends JFrame implements ActionListener, ComponentListener, MenuListener, MouseListener,
+		MouseMotionListener, KeyListener, ISuku, ClipboardOwner {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -189,6 +188,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	 * Server version
 	 */
 	public static String serverVersion = null;
+
+	/** The is H2 database. */
+	public boolean isH2 = false;
 
 	private static Logger logger = Logger.getLogger(Suku.class.getName());
 
@@ -334,16 +336,16 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	/**
 	 * FinFamily main program entry point when used as standard Swing
 	 * application.
-	 * 
+	 *
 	 * @param args
 	 *            the arguments
 	 */
 	public static void main(String[] args) {
 
-		Suku w = new Suku();
+		final Suku w = new Suku();
 		try {
 			w.startMe(args);
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			logger.log(Level.SEVERE, "Unable to start", e);
 		}
 
@@ -361,7 +363,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 			kontroller = new SukuKontrollerWebstartImpl();
 		} else {
-			Preferences sr = Preferences.userRoot();
+			final Preferences sr = Preferences.userRoot();
 			url = sr.get(this.getClass().getName() + "." + "SERVERURL", "");
 			if (url.isEmpty()) {
 				url = null;
@@ -374,10 +376,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		}
 		try {
 
-			String lfdef = Suku.kontroller.getPref(this, "LOOK_AND_FEEL", "");
+			final String lfdef = Suku.kontroller.getPref(this, "LOOK_AND_FEEL", "");
 			if (!lfdef.equals("")) {
-				UIManager.LookAndFeelInfo[] lafInfo = UIManager
-						.getInstalledLookAndFeels();
+				final UIManager.LookAndFeelInfo[] lafInfo = UIManager.getInstalledLookAndFeels();
 				int lfIdx = -1;
 				for (int i = 0; i < lafInfo.length; i++) {
 					if (lfdef.equalsIgnoreCase(lafInfo[i].getName())) {
@@ -403,8 +404,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						// set metal as name for
 						// CrossPlatformLookAndFeelClassName
 						if (args[0].equals("metal")) {
-							UIManager.setLookAndFeel(UIManager
-									.getCrossPlatformLookAndFeelClassName());
+							UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 						} else {
 							UIManager.setLookAndFeel(args[0]);
 						}
@@ -413,8 +413,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						// if (os.toLowerCase().indexOf("windows") >= 0
 						// || os.toLowerCase().indexOf("mac") >= 0) {
 
-						UIManager.setLookAndFeel(UIManager
-								.getSystemLookAndFeelClassName());
+						UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 						// } else if (os.toLowerCase().indexOf("linux") >= 0) {
 						// UIManager
 						// .setLookAndFeel("com.jgoodies.looks.plastic.PlasticLookAndFeel");
@@ -431,7 +430,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			// * com.jgoodies.looks.plastic.PlasticXPLookAndFeel
 			// UIManager.setLookAndFeel("com.seaglasslookandfeel.SeaGlassLookAndFeel");
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			logger.log(Level.INFO, "look-and-feel virhe", e);
 
 		}
@@ -439,27 +438,24 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		String loca = kontroller.getPref(this, Resurses.LOCALE, "xx");
 		if ((loca == null) || loca.equals("xx")) {
 			logger.info("Locale " + loca + " encountered.");
-			String languas[] = { "English", "Suomi", "Svenska", "Deutsch" };
-			String langabr[] = { "en", "fi", "sv", "de" };
-			int locaresu = JOptionPane.showOptionDialog(this,
-					"Select language / valitse kieli / välj språket",
-					"FinFamily", JOptionPane.DEFAULT_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, languas, "en");
+			final String languas[] = { "English", "Suomi", "Svenska", "Deutsch" };
+			final String langabr[] = { "en", "fi", "sv", "de" };
+			final int locaresu = JOptionPane.showOptionDialog(this, "Select language / valitse kieli / välj språket",
+					"FinFamily", JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, languas, "en");
 			loca = langabr[locaresu];
 			kontroller.putPref(this, Resurses.LOCALE, loca);
 		}
 
-		String scaleImageText = Suku.kontroller.getPref(this, "SCALE_IMAGE",
-				"0");
+		final String scaleImageText = Suku.kontroller.getPref(this, "SCALE_IMAGE", "0");
 		if (scaleImageText != null) {
 			imageScalingIndex = Integer.parseInt(scaleImageText);
 		}
 
 		Resurses.setLocale(loca);
 
-		String langu = kontroller.getPref(this, Resurses.REPOLANG, "fi");
+		final String langu = kontroller.getPref(this, Resurses.REPOLANG, "fi");
 		Resurses.setLanguage(langu);
-		String datfo = kontroller.getPref(this, Resurses.DATEFORMAT, "FI");
+		final String datfo = kontroller.getPref(this, Resurses.DATEFORMAT, "FI");
 		Resurses.setDateFormat(datfo);
 
 		this.menubar = new JMenuBar();
@@ -486,8 +482,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		this.mFile.addSeparator();
 
-		this.mNewDatabase = new JMenuItem(
-				Resurses.getString("SCHEMA_INITIALIZE"));
+		this.mNewDatabase = new JMenuItem(Resurses.getString("SCHEMA_INITIALIZE"));
 		this.mFile.add(this.mNewDatabase);
 		this.mNewDatabase.setActionCommand("SCHEMA_INITIALIZE");
 		this.mNewDatabase.addActionListener(this);
@@ -502,50 +497,43 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		mImport = new JMenu(Resurses.getString("IMPORT"));
 		this.mFile.add(mImport);
 
-		this.mImport2004 = new JMenuItem(
-				Resurses.getString(Resurses.IMPORT_SUKU));
+		this.mImport2004 = new JMenuItem(Resurses.getString(Resurses.IMPORT_SUKU));
 		mImport.add(this.mImport2004);
 		this.mImport2004.setActionCommand(Resurses.IMPORT_SUKU);
 		this.mImport2004.addActionListener(this);
 
-		this.mImportGedcom = new JMenuItem(
-				Resurses.getString(Resurses.IMPORT_GEDCOM));
+		this.mImportGedcom = new JMenuItem(Resurses.getString(Resurses.IMPORT_GEDCOM));
 		mImport.add(this.mImportGedcom);
 		this.mImportGedcom.setActionCommand(Resurses.IMPORT_GEDCOM);
 		this.mImportGedcom.addActionListener(this);
 		if (!kontroller.isRemote()) {
-			this.mImportOther = new JMenuItem(
-					Resurses.getString(Resurses.IMPORT_OTHER));
+			this.mImportOther = new JMenuItem(Resurses.getString(Resurses.IMPORT_OTHER));
 			mImport.add(this.mImportOther);
 			this.mImportOther.setActionCommand(Resurses.IMPORT_OTHER);
 			this.mImportOther.addActionListener(this);
 		}
 		mExport = new JMenu(Resurses.getString("EXPORT"));
 		this.mFile.add(mExport);
-		this.mExportGedcom = new JMenuItem(
-				Resurses.getString(Resurses.EXPORT_GEDCOM));
+		this.mExportGedcom = new JMenuItem(Resurses.getString(Resurses.EXPORT_GEDCOM));
 		mExport.add(this.mExportGedcom);
 		this.mExportGedcom.setActionCommand(Resurses.EXPORT_GEDCOM);
 		this.mExportGedcom.addActionListener(this);
 
-		this.mExportBackup = new JMenuItem(
-				Resurses.getString(Resurses.EXPORT_BACKUP));
+		this.mExportBackup = new JMenuItem(Resurses.getString(Resurses.EXPORT_BACKUP));
 		mExport.add(this.mExportBackup);
 		this.mExportBackup.setActionCommand(Resurses.EXPORT_BACKUP);
 		this.mExportBackup.addActionListener(this);
 
 		this.mFile.addSeparator();
 
-		this.mPrintPerson = new JMenuItem(
-				Resurses.getString(Resurses.PRINT_PERSON));
+		this.mPrintPerson = new JMenuItem(Resurses.getString(Resurses.PRINT_PERSON));
 		this.mFile.add(this.mPrintPerson);
 		this.mPrintPerson.setActionCommand(Resurses.PRINT_PERSON);
 		this.mPrintPerson.addActionListener(this);
 
 		this.mFile.addSeparator();
 
-		this.mDisconnect = new JMenuItem(
-				Resurses.getString(Resurses.DISCONNECT));
+		this.mDisconnect = new JMenuItem(Resurses.getString(Resurses.DISCONNECT));
 		this.mFile.add(this.mDisconnect);
 		this.mDisconnect.setActionCommand(Resurses.DISCONNECT);
 		this.mDisconnect.addActionListener(this);
@@ -567,29 +555,24 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		this.mActions.addSeparator();
 
-		this.mSubjectDown = new JMenuItem(
-				Resurses.getString("TOOLBAR.SUBJECT.TOOLTIP"));
+		this.mSubjectDown = new JMenuItem(Resurses.getString("TOOLBAR.SUBJECT.TOOLTIP"));
 		this.mActions.add(this.mSubjectDown);
-		this.mSubjectDown
-				.setActionCommand(Resurses.TOOLBAR_SUBJECT_DOWN_ACTION);
+		this.mSubjectDown.setActionCommand(Resurses.TOOLBAR_SUBJECT_DOWN_ACTION);
 		this.mSubjectDown.addActionListener(this);
 
-		this.mSubjectUp = new JMenuItem(
-				Resurses.getString("TOOLBAR.SUBJECTP.TOOLTIP"));
+		this.mSubjectUp = new JMenuItem(Resurses.getString("TOOLBAR.SUBJECTP.TOOLTIP"));
 		this.mActions.add(this.mSubjectUp);
 		this.mSubjectUp.setActionCommand(Resurses.TOOLBAR_SUBJECT_UP_ACTION);
 		this.mSubjectUp.addActionListener(this);
 
 		this.mActions.addSeparator();
 
-		this.mNewPerson = new JMenuItem(
-				Resurses.getString("TOOLBAR.NEWPERSON.TOOLTIP"));
+		this.mNewPerson = new JMenuItem(Resurses.getString("TOOLBAR.NEWPERSON.TOOLTIP"));
 		this.mActions.add(this.mNewPerson);
 		this.mNewPerson.setActionCommand(Resurses.TOOLBAR_NEWPERSON_ACTION);
 		this.mNewPerson.addActionListener(this);
 
-		this.mImportHiski = new JCheckBoxMenuItem(
-				Resurses.getString(Resurses.IMPORT_HISKI));
+		this.mImportHiski = new JCheckBoxMenuItem(Resurses.getString(Resurses.IMPORT_HISKI));
 		this.mActions.add(this.mImportHiski);
 		this.mImportHiski.setActionCommand(Resurses.IMPORT_HISKI);
 		this.mImportHiski.addActionListener(this);
@@ -600,8 +583,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			openHiskiWhenReady = true;
 		}
 
-		this.mRemPerson = new JMenuItem(
-				Resurses.getString("TOOLBAR.REMPERSON.TOOLTIP"));
+		this.mRemPerson = new JMenuItem(Resurses.getString("TOOLBAR.REMPERSON.TOOLTIP"));
 		this.mActions.add(this.mRemPerson);
 		this.mRemPerson.setActionCommand(Resurses.TOOLBAR_REMPERSON_ACTION);
 		this.mRemPerson.addActionListener(this);
@@ -615,11 +597,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		this.mShowInMap = new JMenu(Resurses.getString(Resurses.SHOWINMAP));
 		this.mActions.add(this.mShowInMap);
-		this.mShowWithBirth = new JMenuItem(
-				Resurses.getString("SHOWINMAPBIRTH"));
+		this.mShowWithBirth = new JMenuItem(Resurses.getString("SHOWINMAPBIRTH"));
 		this.mShowInMap.add(this.mShowWithBirth);
-		this.mShowWithDeath = new JMenuItem(
-				Resurses.getString("SHOWINMAPDEATH"));
+		this.mShowWithDeath = new JMenuItem(Resurses.getString("SHOWINMAPDEATH"));
 		this.mShowInMap.add(this.mShowWithDeath);
 		this.mShowWithBirth.setActionCommand("SHOWINMAPBIRTH");
 		this.mShowWithBirth.addActionListener(this);
@@ -643,8 +623,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		this.mShow = new JMenu(Resurses.getString("MENU_SHOW"));
 		this.menubar.add(this.mShow);
 
-		this.mShowNotices = new JCheckBoxMenuItem(
-				Resurses.getString("TOOLBAR.NOTICES.TOOLTIP"));
+		this.mShowNotices = new JCheckBoxMenuItem(Resurses.getString("TOOLBAR.NOTICES.TOOLTIP"));
 		this.mShow.add(this.mShowNotices);
 		this.mShowNotices.setActionCommand(Resurses.TOOLBAR_NOTICES_ACTION);
 		this.mShowNotices.addActionListener(this);
@@ -653,8 +632,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			mShowNotices.setSelected(true);
 		}
 
-		this.mShowNote = new JCheckBoxMenuItem(
-				Resurses.getString("TOOLBAR.NOTE.TOOLTIP"));
+		this.mShowNote = new JCheckBoxMenuItem(Resurses.getString("TOOLBAR.NOTE.TOOLTIP"));
 		this.mShow.add(this.mShowNote);
 		this.mShowNote.setActionCommand(Resurses.TOOLBAR_NOTE_ACTION);
 		this.mShowNote.addActionListener(this);
@@ -663,19 +641,16 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			mShowNote.setSelected(true);
 		}
 
-		this.mShowAddress = new JCheckBoxMenuItem(
-				Resurses.getString("TOOLBAR.ADDRESS.TOOLTIP"));
+		this.mShowAddress = new JCheckBoxMenuItem(Resurses.getString("TOOLBAR.ADDRESS.TOOLTIP"));
 		this.mShow.add(this.mShowAddress);
 		this.mShowAddress.setActionCommand(Resurses.TOOLBAR_ADDRESS_ACTION);
 		this.mShowAddress.addActionListener(this);
-		tmp = kontroller
-				.getPref(this, Resurses.TOOLBAR_ADDRESS_ACTION, "false");
+		tmp = kontroller.getPref(this, Resurses.TOOLBAR_ADDRESS_ACTION, "false");
 		if (tmp.equals("true")) {
 			mShowAddress.setSelected(true);
 		}
 
-		this.mShowFarm = new JCheckBoxMenuItem(
-				Resurses.getString("TOOLBAR.FARM.TOOLTIP"));
+		this.mShowFarm = new JCheckBoxMenuItem(Resurses.getString("TOOLBAR.FARM.TOOLTIP"));
 		this.mShow.add(this.mShowFarm);
 		this.mShowFarm.setActionCommand(Resurses.TOOLBAR_FARM_ACTION);
 		this.mShowFarm.addActionListener(this);
@@ -684,8 +659,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			mShowFarm.setSelected(true);
 		}
 
-		this.mShowImage = new JCheckBoxMenuItem(
-				Resurses.getString("TOOLBAR.IMAGE.TOOLTIP"));
+		this.mShowImage = new JCheckBoxMenuItem(Resurses.getString("TOOLBAR.IMAGE.TOOLTIP"));
 		this.mShow.add(this.mShowImage);
 		this.mShowImage.setActionCommand(Resurses.TOOLBAR_IMAGE_ACTION);
 		this.mShowImage.addActionListener(this);
@@ -694,13 +668,11 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			mShowImage.setSelected(true);
 		}
 
-		this.mShowPrivate = new JCheckBoxMenuItem(
-				Resurses.getString("TOOLBAR.PRIVATE.TOOLTIP"));
+		this.mShowPrivate = new JCheckBoxMenuItem(Resurses.getString("TOOLBAR.PRIVATE.TOOLTIP"));
 		this.mShow.add(this.mShowPrivate);
 		this.mShowPrivate.setActionCommand(Resurses.TOOLBAR_PRIVATE_ACTION);
 		this.mShowPrivate.addActionListener(this);
-		tmp = kontroller
-				.getPref(this, Resurses.TOOLBAR_PRIVATE_ACTION, "false");
+		tmp = kontroller.getPref(this, Resurses.TOOLBAR_PRIVATE_ACTION, "false");
 		if (tmp.equals("true")) {
 			mShowPrivate.setSelected(true);
 		}
@@ -714,7 +686,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		this.mSettings.setActionCommand(Resurses.SETTINGS);
 		this.mSettings.addActionListener(this);
 
-		JMenu auxCommands = new JMenu(Resurses.getString("MENU_TOOLS_DBWORK"));
+		final JMenu auxCommands = new JMenu(Resurses.getString("MENU_TOOLS_DBWORK"));
 		this.mTools.add(auxCommands);
 
 		this.mDbWork = new JMenuItem(Resurses.getString("MENU_NOTICES_ORDER"));
@@ -722,8 +694,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		this.mDbWork.setActionCommand("MENU_NOTICES_ORDER");
 		this.mDbWork.addActionListener(this);
 
-		this.mOrderChildren = new JMenuItem(
-				Resurses.getString("MENU_CHILDREN_ORDER"));
+		this.mOrderChildren = new JMenuItem(Resurses.getString("MENU_CHILDREN_ORDER"));
 		auxCommands.add(this.mOrderChildren);
 		this.mOrderChildren.setActionCommand("MENU_CHILDREN_ORDER");
 		this.mOrderChildren.addActionListener(this);
@@ -738,8 +709,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		this.mDbUpdate.setActionCommand(Resurses.updateDb);
 		this.mDbUpdate.addActionListener(this);
 
-		this.mGroupMgr = new JMenuItem(
-				Resurses.getString("MENU_TOOLS_GROUP_MGR"));
+		this.mGroupMgr = new JMenuItem(Resurses.getString("MENU_TOOLS_GROUP_MGR"));
 		this.mTools.add(this.mGroupMgr);
 		this.mGroupMgr.setActionCommand("MENU_TOOLS_GROUP_MGR");
 		this.mGroupMgr.addActionListener(this);
@@ -749,10 +719,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		this.mViewMgr.setActionCommand("MENU_TOOLS_VIEW_MGR");
 		this.mViewMgr.addActionListener(this);
 
-		JMenu load = new JMenu(Resurses.getString("MENU_TOOLS_LOAD"));
+		final JMenu load = new JMenu(Resurses.getString("MENU_TOOLS_LOAD"));
 		mTools.add(load);
-		mLoadCoordinates = new JMenuItem(
-				Resurses.getString("MENU_TOOLS_LOAD_COORDINATES"));
+		mLoadCoordinates = new JMenuItem(Resurses.getString("MENU_TOOLS_LOAD_COORDINATES"));
 		load.add(mLoadCoordinates);
 		mLoadCoordinates.setActionCommand("MENU_TOOLS_LOAD_COORDINATES");
 		mLoadCoordinates.addActionListener(this);
@@ -762,44 +731,37 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		mLoadTypes.setActionCommand("MENU_TOOLS_LOAD_TYPES");
 		mLoadTypes.addActionListener(this);
 
-		JMenu cnv = new JMenu(Resurses.getString("MENU_TOOLS_CONVERSIONS"));
+		final JMenu cnv = new JMenu(Resurses.getString("MENU_TOOLS_CONVERSIONS"));
 		this.mTools.add(cnv);
 
-		mLoadConversions = new JMenuItem(
-				Resurses.getString("MENU_TOOLS_LOAD_CONVERSIONS"));
+		mLoadConversions = new JMenuItem(Resurses.getString("MENU_TOOLS_LOAD_CONVERSIONS"));
 		cnv.add(mLoadConversions);
 		mLoadConversions.setActionCommand("MENU_TOOLS_LOAD_CONVERSIONS");
 		mLoadConversions.addActionListener(this);
 
-		mStoreConversions = new JMenuItem(
-				Resurses.getString("MENU_TOOLS_STORE_CONVERSIONS"));
+		mStoreConversions = new JMenuItem(Resurses.getString("MENU_TOOLS_STORE_CONVERSIONS"));
 		cnv.add(mStoreConversions);
 		mStoreConversions.setActionCommand("MENU_TOOLS_STORE_CONVERSIONS");
 		mStoreConversions.addActionListener(this);
 
-		mStoreAllConversions = new JMenuItem(
-				Resurses.getString("MENU_TOOLS_STORE_ALL_CONVERSIONS"));
+		mStoreAllConversions = new JMenuItem(Resurses.getString("MENU_TOOLS_STORE_ALL_CONVERSIONS"));
 		cnv.add(mStoreAllConversions);
-		mStoreAllConversions
-				.setActionCommand("MENU_TOOLS_STORE_ALL_CONVERSIONS");
+		mStoreAllConversions.setActionCommand("MENU_TOOLS_STORE_ALL_CONVERSIONS");
 		mStoreAllConversions.addActionListener(this);
 		mTools.addSeparator();
 		if (!kontroller.isWebStart()) {
-			mToolsAuxProgram = new JMenu(
-					Resurses.getString("TOOLS_AUX_COMMANDS"));
+			mToolsAuxProgram = new JMenu(Resurses.getString("TOOLS_AUX_COMMANDS"));
 			mTools.add(mToolsAuxProgram);
-			mToolsAuxGraphviz = new JMenuItem(
-					Resurses.getString("TOOLS_AUX_GRAPHVIZ"));
+			mToolsAuxGraphviz = new JMenuItem(Resurses.getString("TOOLS_AUX_GRAPHVIZ"));
 			mToolsAuxGraphviz.addActionListener(this);
 			mToolsAuxGraphviz.setActionCommand("GRAPHVIZ");
-			String exeTask = kontroller.getPref(this, "GRAPHVIZ", "");
+			final String exeTask = kontroller.getPref(this, "GRAPHVIZ", "");
 			if ("".equals(exeTask)) {
 				mToolsAuxGraphviz.setEnabled(false);
 			}
 			mToolsAuxProgram.add(mToolsAuxGraphviz);
 
-			mListDatabases = new JMenuItem(
-					Resurses.getString("MENU_TOOLS_LIST_DATABASES"));
+			mListDatabases = new JMenuItem(Resurses.getString("MENU_TOOLS_LIST_DATABASES"));
 			mTools.add(mListDatabases);
 			mListDatabases.setActionCommand("MENU_TOOLS_LIST_DATABASES");
 			if (kontroller.isRemote()) {
@@ -813,18 +775,17 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		this.mHelp = new JMenu(Resurses.getString(Resurses.HELP));
 
 		this.menubar.add(this.mHelp);
-		JMenuItem swUpdate = new JMenuItem(
-				Resurses.getString(Resurses.SW_UPDATE));
+		final JMenuItem swUpdate = new JMenuItem(Resurses.getString(Resurses.SW_UPDATE));
 		this.mHelp.add(swUpdate);
 		swUpdate.setActionCommand(Resurses.SW_UPDATE);
 		swUpdate.addActionListener(this);
 
-		JMenuItem lic = new JMenuItem(Resurses.getString(Resurses.LICENSE));
+		final JMenuItem lic = new JMenuItem(Resurses.getString(Resurses.LICENSE));
 		this.mHelp.add(lic);
 		lic.setActionCommand(Resurses.LICENSE);
 		lic.addActionListener(this);
 
-		JMenuItem wiki = new JMenuItem(Resurses.getString(Resurses.WIKI));
+		final JMenuItem wiki = new JMenuItem(Resurses.getString(Resurses.WIKI));
 		this.mHelp.add(wiki);
 		wiki.setActionCommand(Resurses.WIKI);
 		wiki.addActionListener(this);
@@ -841,11 +802,11 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		this.mAbout.addActionListener(this);
 
 		popupListener = new PopupListener(this);
-		SukuPopupMenu pop = SukuPopupMenu.getInstance();
+		final SukuPopupMenu pop = SukuPopupMenu.getInstance();
 		pop.addActionListener(popupListener);
 
 		crit = SearchCriteria.getCriteria(this);
-		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		if (d.width > 1024) {
 			d.width = 1024;
 		}
@@ -869,41 +830,31 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		// first button
 		try {
 
-			tQueryButton = makeNavigationButton(Resurses.TOOLBAR_QUERY_IMAGE,
-					Resurses.TOOLBAR_QUERY_ACTION,
-					Resurses.getString("TOOLBAR.QUERY.TOOLTIP"),
-					Resurses.getString("TOOLBAR.QUERY.ALTTEXT"));
+			tQueryButton = makeNavigationButton(Resurses.TOOLBAR_QUERY_IMAGE, Resurses.TOOLBAR_QUERY_ACTION,
+					Resurses.getString("TOOLBAR.QUERY.TOOLTIP"), Resurses.getString("TOOLBAR.QUERY.ALTTEXT"));
 
 			this.toolbar.add(tQueryButton);
 
 			this.toolbar.addSeparator(new Dimension(20, 30));
-			tSubjectButton = makeNavigationButton(
-					Resurses.TOOLBAR_SUBJECT_DOWN_IMAGE,
-					Resurses.TOOLBAR_SUBJECT_ON_IMAGE,
-					Resurses.TOOLBAR_SUBJECT_DOWN_ACTION,
-					Resurses.getString("TOOLBAR.SUBJECT.TOOLTIP"),
-					Resurses.getString("TOOLBAR.SUBJECT.ALTTEXT"));
+			tSubjectButton = makeNavigationButton(Resurses.TOOLBAR_SUBJECT_DOWN_IMAGE,
+					Resurses.TOOLBAR_SUBJECT_ON_IMAGE, Resurses.TOOLBAR_SUBJECT_DOWN_ACTION,
+					Resurses.getString("TOOLBAR.SUBJECT.TOOLTIP"), Resurses.getString("TOOLBAR.SUBJECT.ALTTEXT"));
 			this.toolbar.add(tSubjectButton);
 
-			tSubjectPButton = makeNavigationButton(
-					Resurses.TOOLBAR_SUBJECT_UP_IMAGE,
-					Resurses.TOOLBAR_SUBJECT_UP_ACTION,
-					Resurses.getString("TOOLBAR.SUBJECTP.TOOLTIP"),
+			tSubjectPButton = makeNavigationButton(Resurses.TOOLBAR_SUBJECT_UP_IMAGE,
+					Resurses.TOOLBAR_SUBJECT_UP_ACTION, Resurses.getString("TOOLBAR.SUBJECTP.TOOLTIP"),
 					Resurses.getString("TOOLBAR.SUBJECTP.ALTTEXT"));
 			tSubjectPButton.setEnabled(false);
 			this.toolbar.add(tSubjectPButton);
 
 			this.toolbar.addSeparator(new Dimension(20, 30));
-			tPersonButton = makeNavigationButton(Resurses.TOOLBAR_PERSON_IMAGE,
-					Resurses.TOOLBAR_NEWPERSON_ACTION,
-					Resurses.getString("TOOLBAR.NEWPERSON.TOOLTIP"),
-					Resurses.getString("TOOLBAR.NEWPERSON.ALTTEXT"));
+			tPersonButton = makeNavigationButton(Resurses.TOOLBAR_PERSON_IMAGE, Resurses.TOOLBAR_NEWPERSON_ACTION,
+					Resurses.getString("TOOLBAR.NEWPERSON.TOOLTIP"), Resurses.getString("TOOLBAR.NEWPERSON.ALTTEXT"));
 
 			this.toolbar.add(tPersonButton);
 
 			tHiskiPane = makeNavigationButton("hiski", Resurses.IMPORT_HISKI,
-					Resurses.getString("TOOLBAR.HISKI.TOOLTIP"),
-					Resurses.getString("TOOLBAR.HISKI.ALTTEXT"));
+					Resurses.getString("TOOLBAR.HISKI.TOOLTIP"), Resurses.getString("TOOLBAR.HISKI.ALTTEXT"));
 			this.toolbar.add(tHiskiPane);
 
 			tmp = kontroller.getPref(this, Resurses.IMPORT_HISKI, "false");
@@ -911,30 +862,23 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				tHiskiPane.setSelected(true);
 			}
 
-			tRemovePerson = makeNavigationButton(
-					Resurses.TOOLBAR_REMPERSON_IMAGE,
-					Resurses.TOOLBAR_REMPERSON_ACTION,
-					Resurses.getString("TOOLBAR.REMPERSON.TOOLTIP"),
-					Resurses.getString("TOOLBAR.REMPERSON.ALTTEXT"));
+			tRemovePerson = makeNavigationButton(Resurses.TOOLBAR_REMPERSON_IMAGE, Resurses.TOOLBAR_REMPERSON_ACTION,
+					Resurses.getString("TOOLBAR.REMPERSON.TOOLTIP"), Resurses.getString("TOOLBAR.REMPERSON.ALTTEXT"));
 
 			this.toolbar.add(tRemovePerson);
 
 			this.toolbar.addSeparator(new Dimension(20, 30));
 
-			tMapButton = makeNavigationButton(
-					Resurses.TOOLBAR_MAP_IMAGE,
-					Resurses.TOOLBAR_MAP_ACTION,
-					Resurses.getString("SHOWINMAP") + " "
-							+ Resurses.getString("SHOWINMAPBIRTH"),
+			tMapButton = makeNavigationButton(Resurses.TOOLBAR_MAP_IMAGE, Resurses.TOOLBAR_MAP_ACTION,
+					Resurses.getString("SHOWINMAP") + " " + Resurses.getString("SHOWINMAPBIRTH"),
 					Resurses.getString("TOOLBAR.MAP.ALTTEXT"));
 
 			this.toolbar.add(tMapButton);
 
 			this.toolbar.addSeparator(new Dimension(20, 30));
 
-			tNoticesButton = makeNavigationButton("Tietojaksot24",
-					"Tietojaksot24_nega", Resurses.TOOLBAR_NOTICES_ACTION,
-					Resurses.getString("TOOLBAR.NOTICES.TOOLTIP"),
+			tNoticesButton = makeNavigationButton("Tietojaksot24", "Tietojaksot24_nega",
+					Resurses.TOOLBAR_NOTICES_ACTION, Resurses.getString("TOOLBAR.NOTICES.TOOLTIP"),
 					Resurses.getString("TOOLBAR.NOTICES.ALTTEXT"));
 
 			tmp = kontroller.getPref(this, Resurses.NOTICES_BUTTON, "false");
@@ -943,80 +887,61 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			}
 			this.toolbar.add(tNoticesButton);
 
-			tNoteButton = makeNavigationButton("Teksti24", "Teksti24_nega",
-					Resurses.TOOLBAR_NOTE_ACTION,
-					Resurses.getString("TOOLBAR.NOTE.TOOLTIP"),
-					Resurses.getString("TOOLBAR.NOTE.ALTTEXT"));
-			tmp = kontroller.getPref(this, Resurses.TOOLBAR_NOTE_ACTION,
-					"false");
+			tNoteButton = makeNavigationButton("Teksti24", "Teksti24_nega", Resurses.TOOLBAR_NOTE_ACTION,
+					Resurses.getString("TOOLBAR.NOTE.TOOLTIP"), Resurses.getString("TOOLBAR.NOTE.ALTTEXT"));
+			tmp = kontroller.getPref(this, Resurses.TOOLBAR_NOTE_ACTION, "false");
 			if (tmp.equals("true")) {
 				tNoteButton.setSelected(true);
 			}
 			this.toolbar.add(tNoteButton);
 
-			tAddressButton = makeNavigationButton("showAddress",
-					"showAddress_nega", Resurses.TOOLBAR_ADDRESS_ACTION,
-					Resurses.getString("TOOLBAR.ADDRESS.TOOLTIP"),
-					Resurses.getString("TOOLBAR.ADDRESS.ALTTEXT"));
-			tmp = kontroller.getPref(this, Resurses.TOOLBAR_ADDRESS_ACTION,
-					"false");
+			tAddressButton = makeNavigationButton("showAddress", "showAddress_nega", Resurses.TOOLBAR_ADDRESS_ACTION,
+					Resurses.getString("TOOLBAR.ADDRESS.TOOLTIP"), Resurses.getString("TOOLBAR.ADDRESS.ALTTEXT"));
+			tmp = kontroller.getPref(this, Resurses.TOOLBAR_ADDRESS_ACTION, "false");
 			if (tmp.equals("true")) {
 				tAddressButton.setSelected(true);
 			}
 			this.toolbar.add(tAddressButton);
 
-			tFarmButton = makeNavigationButton("talo", "talo_nega",
-					Resurses.TOOLBAR_FARM_ACTION,
-					Resurses.getString("TOOLBAR.FARM.TOOLTIP"),
-					Resurses.getString("TOOLBAR.FARM.ALTTEXT"));
+			tFarmButton = makeNavigationButton("talo", "talo_nega", Resurses.TOOLBAR_FARM_ACTION,
+					Resurses.getString("TOOLBAR.FARM.TOOLTIP"), Resurses.getString("TOOLBAR.FARM.ALTTEXT"));
 
-			tmp = kontroller.getPref(this, Resurses.TOOLBAR_FARM_ACTION,
-					"false");
+			tmp = kontroller.getPref(this, Resurses.TOOLBAR_FARM_ACTION, "false");
 			if (tmp.equals("true")) {
 				tFarmButton.setSelected(true);
 			}
 
 			this.toolbar.add(tFarmButton);
 
-			tImageButton = makeNavigationButton("kamera", "kamera_nega",
-					Resurses.TOOLBAR_IMAGE_ACTION,
-					Resurses.getString("TOOLBAR.IMAGE.TOOLTIP"),
-					Resurses.getString("TOOLBAR.IMAGE.ALTTEXT"));
-			tmp = kontroller.getPref(this, Resurses.TOOLBAR_IMAGE_ACTION,
-					"false");
+			tImageButton = makeNavigationButton("kamera", "kamera_nega", Resurses.TOOLBAR_IMAGE_ACTION,
+					Resurses.getString("TOOLBAR.IMAGE.TOOLTIP"), Resurses.getString("TOOLBAR.IMAGE.ALTTEXT"));
+			tmp = kontroller.getPref(this, Resurses.TOOLBAR_IMAGE_ACTION, "false");
 			if (tmp.equals("true")) {
 				tImageButton.setSelected(true);
 			}
 			this.toolbar.add(tImageButton);
 
-			tPrivateButton = makeNavigationButton("showPrivate",
-					"showPrivate_nega", Resurses.TOOLBAR_PRIVATE_ACTION,
-					Resurses.getString("TOOLBAR.PRIVATE.TOOLTIP"),
-					Resurses.getString("TOOLBAR.PRIVATE.ALTTEXT"));
-			tmp = kontroller.getPref(this, Resurses.TOOLBAR_PRIVATE_ACTION,
-					"false");
+			tPrivateButton = makeNavigationButton("showPrivate", "showPrivate_nega", Resurses.TOOLBAR_PRIVATE_ACTION,
+					Resurses.getString("TOOLBAR.PRIVATE.TOOLTIP"), Resurses.getString("TOOLBAR.PRIVATE.ALTTEXT"));
+			tmp = kontroller.getPref(this, Resurses.TOOLBAR_PRIVATE_ACTION, "false");
 			if (tmp.equals("true")) {
 				tPrivateButton.setSelected(true);
 			}
 			this.toolbar.add(tPrivateButton);
 			this.toolbar.addSeparator(new Dimension(20, 30));
-			tAddNotice = makeNavigationButton(Resurses.TOOLBAR_ADDNOTICE_IMAGE,
-					Resurses.TOOLBAR_ADDNOTICE_ACTION,
-					Resurses.getString("TOOLBAR.ADDNOTICE.TOOLTIP"),
-					Resurses.getString("TOOLBAR.ADDNOTICE.ALTTEXT"));
+			tAddNotice = makeNavigationButton(Resurses.TOOLBAR_ADDNOTICE_IMAGE, Resurses.TOOLBAR_ADDNOTICE_ACTION,
+					Resurses.getString("TOOLBAR.ADDNOTICE.TOOLTIP"), Resurses.getString("TOOLBAR.ADDNOTICE.ALTTEXT"));
 
 			this.toolbar.add(tAddNotice);
 
 			this.toolbar.addSeparator(new Dimension(20, 30));
-			tDeleteNotice = makeNavigationButton(
-					Resurses.TOOLBAR_DELETENOTICE_IMAGE,
-					Resurses.TOOLBAR_DELETENOTICE_ACTION,
-					Resurses.getString("TOOLBAR.DELETENOTICE.TOOLTIP"),
+			tDeleteNotice = makeNavigationButton(Resurses.TOOLBAR_DELETENOTICE_IMAGE,
+					Resurses.TOOLBAR_DELETENOTICE_ACTION, Resurses.getString("TOOLBAR.DELETENOTICE.TOOLTIP"),
 					Resurses.getString("TOOLBAR.DELETENOTICE.ALTTEXT"));
 
 			this.toolbar.add(tDeleteNotice);
 
-		} catch (IOException e2) {
+		} catch (final IOException e2) {
 			throw new SukuException("Failed to create toolbar", e2);
 		}
 
@@ -1028,25 +953,21 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		this.personView = new PersonView(this);
 
-		this.splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true,
-				this.scrollPane, this.personView);
+		this.splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, this.scrollPane, this.personView);
 
 		getContentPane().add(this.splitPane);
-		this.currentSize = new Dimension(getWidth()
-				- (SPLITTER_HORIZ_MARGIN * 3), 400);
+		this.currentSize = new Dimension(getWidth() - (SPLITTER_HORIZ_MARGIN * 3), 400);
 		int splitterValue = currentSize.width / 2;
 		if (currentSize.width > 522) {
 			splitterValue = currentSize.width - 522;
 		}
 		this.splitPane.setDividerLocation(splitterValue);
 
-		this.splitPane.setBounds(10, 50, this.currentSize.width,
-				this.currentSize.height);
+		this.splitPane.setBounds(10, 50, this.currentSize.width, this.currentSize.height);
 
 		this.statusPanel = new JTextField("");
 		this.getContentPane().add(this.statusPanel);
-		this.statusPanel.setBorder(BorderFactory
-				.createEtchedBorder(EtchedBorder.LOWERED));
+		this.statusPanel.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		this.statusPanel.setEditable(false);
 		this.statusPanel.setBackground(Color.WHITE);
 		this.statusPanel.setBounds(0, 420, 700, 20);
@@ -1056,40 +977,36 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		if (os.toLowerCase().indexOf("windows") < 0) {
 			//
 			// this fixes on non windows versions problem with layout
-			javax.swing.Timer t = new javax.swing.Timer(4,
-					new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							myFrame.setExtendedState(MAXIMIZED_BOTH);
-							myFrame.repaint();
-						}
-					});
+			final javax.swing.Timer t = new javax.swing.Timer(4, new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					myFrame.setExtendedState(MAXIMIZED_BOTH);
+					myFrame.repaint();
+				}
+			});
 			t.setRepeats(false);
 			t.start();
 		}
 
-		InputStream in = this.getClass().getResourceAsStream(
-				"/images/sukuicon.gif");
+		final InputStream in = this.getClass().getResourceAsStream("/images/sukuicon.gif");
 
 		BufferedImage icon;
 		try {
 			icon = ImageIO.read(in);
 			setIconImage(icon);
-		} catch (IOException e1) {
+		} catch (final IOException e1) {
 			e1.printStackTrace();
 		}
 		if (openHiskiWhenReady) {
 			importFromHiski(true);
 		}
-		logger.info("FinFamily [" + Resurses.getLanguage() + "] Version "
-				+ AntVersion.antVersion + " - Java Version: "
-				+ System.getProperty("java.version") + " from "
-				+ System.getProperty("java.vendor") + " [" + os + "]");
+		logger.info("FinFamily [" + Resurses.getLanguage() + "] Version " + AntVersion.antVersion + " - Java Version: "
+				+ System.getProperty("java.version") + " from " + System.getProperty("java.vendor") + " [" + os + "]");
 		// if (!this.isWebApp){
 		calcSize();
 		connectDb();
 		if (!kontroller.isWebStart()) {
-			File home = new File(".");
+			final File home = new File(".");
 			statusPanel.setText(home.getAbsolutePath());
 		}
 		// }
@@ -1113,7 +1030,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	/**
 	 * This can be used by some dialogs to attach it to the main program instead
 	 * of null.
-	 * 
+	 *
 	 * @return the Suku instance
 	 */
 	public static JFrame getFrame() {
@@ -1123,7 +1040,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	/**
 	 * Report languages is a two dimensional array with 0 = lancode and 1 =
 	 * langname.
-	 * 
+	 *
 	 * @return count of languages available
 	 */
 	public static int getRepoLanguageCount() {
@@ -1135,7 +1052,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Report languages is a two dimensional array with.
-	 * 
+	 *
 	 * @param idx
 	 *            index into report language list
 	 * @param theCode
@@ -1146,7 +1063,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		if ((repoLangList == null) || (idx >= repoLangList.length)) {
 			return null;
 		}
-		String[] tmp = repoLangList[idx].split(";");
+		final String[] tmp = repoLangList[idx].split(";");
 		if (tmp.length != 2) {
 			System.out.println("kiinni");
 		}
@@ -1158,14 +1075,14 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Get the index into the report language list for specified language.
-	 * 
+	 *
 	 * @param langCode
 	 *            the lang code
 	 * @return index to language list
 	 */
 	public static int getRepoLanguageIndex(String langCode) {
 		for (int i = 0; i < repoLangList.length; i++) {
-			String[] tmp = repoLangList[i].split(";");
+			final String[] tmp = repoLangList[i].split(";");
 			if (langCode.equals(tmp[0])) {
 				return i;
 			}
@@ -1175,13 +1092,13 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * get absolute rectangle of current database window.
-	 * 
+	 *
 	 * @return the Rectangle in absolute coordinates
 	 */
 	public Rectangle getDbWindow() {
 
-		Rectangle r = scrollPane.getBounds();
-		Point pt = new Point(r.x, r.y);
+		final Rectangle r = scrollPane.getBounds();
+		final Point pt = new Point(r.x, r.y);
 		SwingUtilities.convertPointToScreen(pt, scrollPane);
 		r.x = pt.x;
 		r.y = pt.y;
@@ -1210,10 +1127,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 					@Override
 					public String getToolTipText(MouseEvent e) {
 
-						java.awt.Point p = e.getPoint();
-						int index = this.columnModel.getColumnIndexAtX(p.x);
+						final java.awt.Point p = e.getPoint();
+						final int index = this.columnModel.getColumnIndexAtX(p.x);
 						// System.out.print("COLUMNINDEX: [" + index);
-						int someIndex = table.convertColumnIndexToModel(index);
+						final int someIndex = table.convertColumnIndexToModel(index);
 
 						// int realIndex = this.columnModel.getColumn(index)
 						// .getModelIndex();
@@ -1238,11 +1155,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				// int colIndex = columnAtPoint(p);
 				// int realColumnIndex = convertColumnIndexToModel(colIndex);
 
-				int yy = e.getY();
-				int rh = Suku.this.table.getRowHeight();
-				int ii = yy / rh;
-				SukuRow row = (SukuRow) Suku.this.tableModel.getValueAt(ii,
-						SukuModel.SUKU_ROW);
+				final int yy = e.getY();
+				final int rh = Suku.this.table.getRowHeight();
+				final int ii = yy / rh;
+				final SukuRow row = (SukuRow) Suku.this.tableModel.getValueAt(ii, SukuModel.SUKU_ROW);
 				if (row == null) {
 					return null;
 				}
@@ -1250,28 +1166,27 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			}
 		};
 		table.getTableHeader().setReorderingAllowed(false);
-		String databaseViewFontSize = Suku.kontroller.getPref(this,
-				"DB_VIEW_FONTSIZE", "11");
+		final String databaseViewFontSize = Suku.kontroller.getPref(this, "DB_VIEW_FONTSIZE", "11");
 		int dbFont = 10;
 
 		try {
 			dbFont = Integer.parseInt(databaseViewFontSize);
-		} catch (NumberFormatException ne) {
+		} catch (final NumberFormatException ne) {
 			// NumberFormatException ignored
 		}
-		Font fff = table.getFont();
-		Font ff = new Font(fff.getName(), Font.PLAIN, dbFont);
+		final Font fff = table.getFont();
+		final Font ff = new Font(fff.getName(), Font.PLAIN, dbFont);
 		this.table.setFont(ff);
 		this.table.setRowSorter(new TableRowSorter<SukuModel>(this.tableModel));
 
 		this.table.setDragEnabled(true);
-		TransferHandler newHandler = new SukuTransferHandler();
+		final TransferHandler newHandler = new SukuTransferHandler();
 
 		this.table.setTransferHandler(newHandler);
 
 		initSorter(crit);
 
-		TableColumnModel tc = this.table.getColumnModel();
+		final TableColumnModel tc = this.table.getColumnModel();
 		TableColumn cc;
 		for (int k = crit.getColTableCount() - 1; k >= 0; k--) {
 			cc = tc.getColumn(k);
@@ -1279,25 +1194,22 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			//
 			// cc.setMinWidth(100);
 			// }
-			String colid = crit.getColTable(k).getColName();
+			final String colid = crit.getColTable(k).getColName();
 			if (colid.equals(Resurses.COLUMN_T_NAME)) {
 				cc.setMinWidth(120);
 			}
-			boolean bb = Utils.getBooleanPref(crit, colid, true);
+			final boolean bb = Utils.getBooleanPref(crit, colid, true);
 			if (!bb) {
 				crit.getColTable(k).setCurrentState(false);
 				tc.removeColumn(cc);
 			} else {
-				if (colid.equals(Resurses.COLUMN_T_ISCHILD)
-						|| colid.equals(Resurses.COLUMN_T_ISMARR)
-						|| colid.equals(Resurses.COLUMN_T_ISPARE)
-						|| colid.equals(Resurses.COLUMN_T_UNKN)
+				if (colid.equals(Resurses.COLUMN_T_ISCHILD) || colid.equals(Resurses.COLUMN_T_ISMARR)
+						|| colid.equals(Resurses.COLUMN_T_ISPARE) || colid.equals(Resurses.COLUMN_T_UNKN)
 						|| colid.equals(Resurses.COLUMN_T_SEX)) {
 					cc.setMaxWidth(35);
 				}
-				if ((!Resurses.getDateFormat().equals("SE") && (colid
-						.equals(Resurses.COLUMN_T_BIRT) || colid
-						.equals(Resurses.COLUMN_T_DEAT)))
+				if ((!Resurses.getDateFormat().equals("SE")
+						&& (colid.equals(Resurses.COLUMN_T_BIRT) || colid.equals(Resurses.COLUMN_T_DEAT)))
 						|| colid.equals(Resurses.COLUMN_T_PID)) {
 					cc.setCellRenderer(new RightTableCellRenderer());
 				}
@@ -1316,7 +1228,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Convert to view.
-	 * 
+	 *
 	 * @param viewIdx
 	 *            the view idx
 	 * @return the int
@@ -1327,8 +1239,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	@SuppressWarnings("unchecked")
 	private void initSorter(SearchCriteria crit) {
-		TableRowSorter<SukuModel> sorter = (TableRowSorter<SukuModel>) this.table
-				.getRowSorter();
+		final TableRowSorter<SukuModel> sorter = (TableRowSorter<SukuModel>) this.table.getRowSorter();
 
 		int i;
 		int curre = 0;
@@ -1336,7 +1247,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		@SuppressWarnings("rawtypes")
 		Comparator sukucompa;
 		for (i = 0; i < crit.getColTableCount(); i++) {
-			ColTable col = crit.getColTable(i);
+			final ColTable col = crit.getColTable(i);
 			if (col.getCurrentState()) {
 				curre = i;
 				if (col.getColName().equals(Resurses.COLUMN_T_NAME)) {
@@ -1373,7 +1284,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Gets the kontroller.
-	 * 
+	 *
 	 * @return the kontroller instance
 	 */
 	public static SukuKontroller getKontroller() {
@@ -1382,7 +1293,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Sets the status.
-	 * 
+	 *
 	 * @param text
 	 *            the new status
 	 */
@@ -1392,7 +1303,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.awt.Frame#setTitle(java.lang.String)
 	 */
 	@Override
@@ -1400,7 +1311,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		SukuData dat;
 		String schema = null;
 
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append(Resurses.getString(Resurses.SUKU));
 
 		if (Suku.kontroller.isRemote()) {
@@ -1418,11 +1329,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 				dat = kontroller.getSukuData("cmd=schema", "type=get");
 				if (dat.generalArray != null) {
-					schema = dat.generalArray.length == 1 ? dat.generalArray[0]
-							: null;
+					schema = dat.generalArray.length == 1 ? dat.generalArray[0] : null;
 				}
 
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 
 				e.printStackTrace();
 				return;
@@ -1452,7 +1362,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			try {
 				this.personView.setSubjectForFamily(0);
 				personView.setTextForPerson(null);
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 				logger.log(Level.WARNING, "resetting family tree", e);
 
 			}
@@ -1462,7 +1372,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Make navigation button.
-	 * 
+	 *
 	 * @param imageName
 	 *            the image name
 	 * @param selectedName
@@ -1477,16 +1387,15 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	protected JButton makeNavigationButton(String imageName,
-			String selectedName, String actionCommand, String toolTipText,
-			String altText) throws IOException {
+	protected JButton makeNavigationButton(String imageName, String selectedName, String actionCommand,
+			String toolTipText, String altText) throws IOException {
 		// Look for the image.
-		String imgLocation = "/images/" + imageName + ".gif";
-		String selectedLocation = "/images/" + selectedName + ".gif";
+		final String imgLocation = "/images/" + imageName + ".gif";
+		final String selectedLocation = "/images/" + selectedName + ".gif";
 		ImageIcon icon = null;
 		ImageIcon selectedIcon = null;
 		// System.out.println("NAV1: " + imageName);
-		byte imbytes[] = new byte[8192];
+		final byte imbytes[] = new byte[8192];
 
 		InputStream in = null;
 		int imsize;
@@ -1501,7 +1410,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			if (in != null) {
 				try {
 					in.close();
-				} catch (IOException ignored) {
+				} catch (final IOException ignored) {
 					// IOException ignored
 				}
 			}
@@ -1520,7 +1429,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			if (in != null) {
 				try {
 					in.close();
-				} catch (IOException ignored) {
+				} catch (final IOException ignored) {
 					// IOException ignored
 				}
 			}
@@ -1528,7 +1437,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		}
 
 		// Create and initialize the button.
-		JButton button = new JButton();
+		final JButton button = new JButton();
 		button.setActionCommand(actionCommand);
 		button.setToolTipText(toolTipText);
 		button.addActionListener(this);
@@ -1548,7 +1457,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Make navigation button.
-	 * 
+	 *
 	 * @param imageName
 	 *            the image name
 	 * @param actionCommand
@@ -1561,22 +1470,21 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	 * @throws IOException
 	 *             Signals that an I/O exception has occurred.
 	 */
-	protected JButton makeNavigationButton(String imageName,
-			String actionCommand, String toolTipText, String altText)
+	protected JButton makeNavigationButton(String imageName, String actionCommand, String toolTipText, String altText)
 			throws IOException {
 		// Look for the image.
-		String imgLocation = "/images/" + imageName + ".gif";
+		final String imgLocation = "/images/" + imageName + ".gif";
 		// String negaLocation = "/images/" + imageName + "nega.gif";
 		ImageIcon icon = null;
 		// ImageIcon selectedIcon=null;
 		// System.out.println("NAV1: " + imageName );
-		byte imbytes[] = new byte[8192];
+		final byte imbytes[] = new byte[8192];
 
 		InputStream in = null;
 		try {
 			in = this.getClass().getResourceAsStream(imgLocation);
 			// System.out.println("NAV2: " + imageName + ":"+in);
-			int imsize = in.read(imbytes);
+			final int imsize = in.read(imbytes);
 			if (imsize < imbytes.length) {
 				icon = new ImageIcon(imbytes, altText);
 			}
@@ -1584,7 +1492,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			if (in != null) {
 				try {
 					in.close();
-				} catch (IOException ignored) {
+				} catch (final IOException ignored) {
 					// IOException ignored
 				}
 			}
@@ -1592,7 +1500,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		}
 
 		// Create and initialize the button.
-		JButton button = new JButton();
+		final JButton button = new JButton();
 		button.setActionCommand(actionCommand);
 		button.setToolTipText(toolTipText);
 		button.addActionListener(this);
@@ -1615,8 +1523,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			return null;
 		}
 
-		SukuData res = Suku.kontroller.getSukuData("cmd=person", "mode=short",
-				"pid=" + joinPersonPid);
+		final SukuData res = Suku.kontroller.getSukuData("cmd=person", "mode=short", "pid=" + joinPersonPid);
 
 		if ((res.pers != null) && (res.pers.length == 1)) {
 			return res.pers[0];
@@ -1628,11 +1535,11 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	private void connectDb() {
 		sukuObject = null;
 		joinPersonPid = 0;
-		SukuPopupMenu pop = SukuPopupMenu.getInstance();
+		final SukuPopupMenu pop = SukuPopupMenu.getInstance();
 		pop.enableJoinAdd(null);
 
-		ConnectDialog cdlg = new ConnectDialog(this, kontroller);
-		boolean hasMemory = cdlg.hasDatabase();
+		final ConnectDialog cdlg = new ConnectDialog(this, kontroller);
+		final boolean hasMemory = cdlg.hasDatabase();
 		if (kontroller.isConnected() && hasMemory) {
 			this.tableModel.resetModel(); // clear contents of table first
 			table.getRowSorter().modelStructureChanged();
@@ -1656,21 +1563,36 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		databaseName = cdlg.getDbName();
 		String userid = cdlg.getUserId();
 		String password = cdlg.getPassword();
+		isH2 = cdlg.isH2();
+
+		if (isH2) {
+			userid = "";
+			password = "";
+			name = "";
+			kontroller.putPref(this, "DBNAME", databaseName + ".mv.db");
+			kontroller.setDBType(true);
+		} else {
+			kontroller.setDBType(false);
+		}
 
 		try {
 			if (kontroller.isRemote()) {
 				if ("demo".equals(userid) && "demo".equals(password)) {
-					kontroller.getConnection(name, databaseName, userid,
-							password);
+					kontroller.getConnection(name, databaseName, userid, password, isH2);
 				} else {
 					throw new SukuException("UNKNOWN USER/PASSWORD");
 				}
 			} else {
-				kontroller.getConnection(name, databaseName, userid, password);
+				kontroller.getConnection(name, databaseName, userid, password, isH2);
+				if (isH2) {
+					if (cdlg.hasInit()) {
+						this.newDatabaseInit();
+					}
+				}
 				cdlg.rememberDatabase(true);
 			}
-		} catch (SukuException e3) {
-			String e1 = e3.getMessage();
+		} catch (final SukuException e3) {
+			final String e1 = e3.getMessage();
 			String[] e2 = { "Connection failed" };
 			if (e1 != null) {
 				e2 = e1.split("\n");
@@ -1678,9 +1600,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 			cdlg.rememberDatabase(false);
 
-			JOptionPane.showMessageDialog(this, e2[0],
-					Resurses.getString(Resurses.SUKU),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, e2[0], Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
 			this.statusPanel.setText(e2[0]);
 			e3.printStackTrace();
 
@@ -1689,56 +1609,58 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		}
 		try {
 			String schema = null;
-			if (!kontroller.isRemote()) {
+			if (isH2) {
+				final SelectSchema schemas = new SelectSchema(this, databaseName, false);
 
-				SelectSchema schemas = new SelectSchema(this, databaseName,
-						false);
+				schema = schemas.getSchema(isH2);
+			} else {
+				if (!kontroller.isRemote()) {
 
-				schema = schemas.getSchema();
+					final SelectSchema schemas = new SelectSchema(this, databaseName, false);
 
-				if ((schema == null) || schema.isEmpty()) {
-					schemas.setVisible(true);
+					schema = schemas.getSchema(isH2);
 
-				}
-				schema = schemas.getSchema();
-				if (schema == null) {
-					cdlg.rememberDatabase(false);
-					return;
-				}
-				SukuData dblist = kontroller.getSukuData("cmd=dblista");
+					if ((schema == null) || schema.isEmpty()) {
+						schemas.setVisible(true);
 
-				if (dblist.generalArray != null) {
-					StringBuilder sb = new StringBuilder();
-					sb.append(databaseName);
-					for (int i = 0; i < dblist.generalArray.length; i++) {
-						if (!dblist.generalArray[i]
-								.equalsIgnoreCase(databaseName)) {
-							sb.append(";");
-							sb.append(dblist.generalArray[i]);
-						}
 					}
+					schema = schemas.getSchema(isH2);
+					if (schema == null) {
+						cdlg.rememberDatabase(false);
+						return;
+					}
+					final SukuData dblist = kontroller.getSukuData("cmd=dblista");
 
-					kontroller.putPref(cdlg, "DBNAMES", sb.toString());
-				}
-				schema = schemas.getSchema();
-				if ((schema == null) || schema.isEmpty()) {
+					if (dblist.generalArray != null) {
+						final StringBuilder sb = new StringBuilder();
+						sb.append(databaseName);
+						for (int i = 0; i < dblist.generalArray.length; i++) {
+							if (!dblist.generalArray[i].equalsIgnoreCase(databaseName)) {
+								sb.append(";");
+								sb.append(dblist.generalArray[i]);
+							}
+						}
 
-					enableCommands();
-					cdlg.rememberDatabase(false);
-					return;
+						kontroller.putPref(cdlg, "DBNAMES", sb.toString());
+					}
+					schema = schemas.getSchema(isH2);
+					if ((schema == null) || schema.isEmpty()) {
+
+						enableCommands();
+						cdlg.rememberDatabase(false);
+						return;
+					}
+					kontroller.getSukuData("cmd=schema", "type=set", "name=" + schema);
 				}
-				kontroller.getSukuData("cmd=schema", "type=set", "name="
-						+ schema);
 			}
 
 			repoLangList = ExcelBundle.getLangList();
 
-			SukuData resp = Suku.kontroller.getSukuData("cmd=getsettings",
-					"type=needle", "name=needle");
+			final SukuData resp = Suku.kontroller.getSukuData("cmd=getsettings", "type=needle", "name=needle");
 			needle.clear();
 			if (resp.generalArray != null) {
 
-				for (String element : resp.generalArray) {
+				for (final String element : resp.generalArray) {
 					needle.add(element);
 				}
 				if (resp.generalArray.length > 0) {
@@ -1746,20 +1668,19 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				}
 			}
 
-			long startOfIntelli = System.currentTimeMillis();
+			final long startOfIntelli = System.currentTimeMillis();
 
 			resetIntellisens();
-			long endOfIntelli = System.currentTimeMillis();
-			long timeOfIntelli = (endOfIntelli - startOfIntelli) / 1000;
+			final long endOfIntelli = System.currentTimeMillis();
+			final long timeOfIntelli = (endOfIntelli - startOfIntelli) / 1000;
 			postServerVersion += ", Intellisens [" + timeOfIntelli + "] secs";
 			kontroller.setSchema(schema);
 
 			enableCommands();
 			setTitle(null);
-			SukuData serverVersion = kontroller.getSukuData("cmd=dbversion");
+			final SukuData serverVersion = kontroller.getSukuData("cmd=dbversion");
 
-			if ((serverVersion.generalArray != null)
-					&& (serverVersion.generalArray.length > 0)) {
+			if ((serverVersion.generalArray != null) && (serverVersion.generalArray.length > 0)) {
 				postServerVersion = serverVersion.generalArray[0];
 				postServerVersion += " " + serverVersion.generalArray[1];
 			}
@@ -1771,8 +1692,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 			return;
 
-		} catch (SukuException e) {
-			String e1 = e.getMessage();
+		} catch (final SukuException e) {
+			final String e1 = e.getMessage();
 			String[] e2 = { "Connection failed" };
 			if (e1 != null) {
 				e2 = e1.split("\n");
@@ -1791,9 +1712,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	}
 
 	private void resetIntellisens() throws SukuException {
-		SukuData dat = Suku.kontroller.getSukuData("cmd=intelli");
+		final SukuData dat = Suku.kontroller.getSukuData("cmd=intelli");
 
-		SukuSenser sens = SukuSenser.getInstance();
+		final SukuSenser sens = SukuSenser.getInstance();
 
 		if ((dat != null) && (dat.vvTexts != null) && (dat.vvTexts.size() > 6)) {
 			sens.setPlaces(dat.vvTexts.get(0));
@@ -1809,50 +1730,50 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		String cmd = e.getActionCommand();
+		final String cmd = e.getActionCommand();
 		try {
 			if (cmd.equals(Resurses.ABOUT)) {
 
-				AboutDialog about = new AboutDialog(this);
+				final AboutDialog about = new AboutDialog(this);
 				about.setVisible(true);
 				return;
 			}
 
 			if (cmd.equals(Resurses.SW_UPDATE)) {
-				String updateSite = "https://sourceforge.net/projects/finfamily/";
+				final String updateSite = "https://sourceforge.net/projects/finfamily/";
 				Utils.openExternalFile(updateSite);
 				setStatus(updateSite);
 				return;
 			}
 			if (cmd.equals(Resurses.LICENSE)) {
-				LicenseDialog license = new LicenseDialog(this);
+				final LicenseDialog license = new LicenseDialog(this);
 				license.setVisible(true);
 				return;
 			}
 			if (cmd.equals(Resurses.WIKI)) {
-				String updateSite = Resurses.getString("WIKI_URL");
+				final String updateSite = Resurses.getString("WIKI_URL");
 				Utils.openExternalFile(updateSite);
 				setStatus(updateSite);
 				return;
 			}
 			if (cmd.equals("GRAPHVIZ")) {
-				String exeTask = kontroller.getPref(this, "GRAPHVIZ", "");
+				final String exeTask = kontroller.getPref(this, "GRAPHVIZ", "");
 				if (!"".equals(exeTask)) {
 					if (!kontroller.openFile("txt;gv")) {
 						return;
 					}
-					String infile = kontroller.getFilePath();
+					final String infile = kontroller.getFilePath();
 					if (!kontroller.createLocalFile("jpg;png;svg")) {
 						return;
 					}
-					String endi = kontroller.getFilePath();
+					final String endi = kontroller.getFilePath();
 
 					Utils.graphvizDo(this, exeTask, infile, endi);
 
@@ -1864,7 +1785,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			}
 			if (cmd.equals("MENU_TOOLS_SQL")) {
 
-				SqlCommandDialog sql = new SqlCommandDialog(this);
+				final SqlCommandDialog sql = new SqlCommandDialog(this);
 				sql.setVisible(true);
 
 				// if (viewWin == null) {
@@ -1877,8 +1798,12 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 			}
 			if (cmd.equals(Resurses.updateDb)) {
-				SukuData resp = kontroller.getSukuData("cmd=initdb",
-						"path=/sql/dbupdates.sql");
+				SukuData resp = null;
+				if (isH2) {
+					resp = kontroller.getSukuData("cmd=initdb", "path=/sql/dbupdatesH2.sql");
+				} else {
+					resp = kontroller.getSukuData("cmd=initdb", "path=/sql/dbupdates.sql");
+				}
 				String resu = "OK";
 				if (resp.resu != null) {
 					resu = resp.resu;
@@ -1888,114 +1813,98 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 				}
 
-				JOptionPane.showMessageDialog(this, resu,
-						Resurses.getString(Resurses.SUKU),
+				JOptionPane.showMessageDialog(this, resu, Resurses.getString(Resurses.SUKU),
 						JOptionPane.INFORMATION_MESSAGE);
 				disconnectDb();
 			} else if (cmd.equals("SCHEMA_INITIALIZE")) {
-				String selectedSchema = null;
-				if (!kontroller.isRemote()) {
+				if (isH2) {
+					newDatabaseInit();
+				} else {
+					String selectedSchema = null;
+					if (!kontroller.isRemote()) {
 
-					try {
-						SelectSchema schema = null;
-						schema = new SelectSchema(this, databaseName);
+						try {
+							SelectSchema schema = null;
+							schema = new SelectSchema(this, databaseName);
 
-						schema.setVisible(true);
+							schema.setVisible(true);
 
-						selectedSchema = schema.getSchema();
-						if (selectedSchema == null) {
+							selectedSchema = schema.getSchema(isH2);
+							if (selectedSchema == null) {
+								return;
+							}
+							if (!schema.isExistingSchema(isH2)) {
+								kontroller.getSukuData("cmd=schema", "type=create", "name=" + selectedSchema);
+
+							}
+							kontroller.getSukuData("cmd=schema", "type=set", "name=" + selectedSchema);
+							setTitle(null);
+						} catch (final SukuException e1) {
+
+							e1.printStackTrace();
+							JOptionPane.showMessageDialog(this, e1.getMessage(), Resurses.getString(Resurses.SUKU),
+									JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						if (!schema.isExistingSchema()) {
-							kontroller.getSukuData("cmd=schema", "type=create",
-									"name=" + selectedSchema);
+					}
+					final SukuData resp = Suku.kontroller.getSukuData("cmd=unitCount");
+					if (resp.resuCount > 0) {
+						// if (schema.isExistingSchema()) {
 
+						final int resu = JOptionPane.showConfirmDialog(this, Resurses.getString("CONFIRM_NEWDB"),
+								Resurses.getString(Resurses.SUKU), JOptionPane.YES_NO_OPTION,
+								JOptionPane.QUESTION_MESSAGE);
+						if (resu != JOptionPane.YES_OPTION) {
+							return;
 						}
-						kontroller.getSukuData("cmd=schema", "type=set",
-								"name=" + selectedSchema);
+					}
+					try {
+						this.tableModel.resetModel(); // clear contents of table
+						table.getRowSorter().modelStructureChanged();
+						// first
+						this.personView.reset();
+						this.table.updateUI();
+						this.scrollPane.updateUI();
+
+						kontroller.getSukuData("cmd=initdb");
+
+						kontroller.getSukuData("cmd=excel", "page=coordinates");
+						kontroller.getSukuData("cmd=excel", "page=types");
+
+						JOptionPane.showMessageDialog(this, Resurses.getString("CREATED_NEWDB"),
+								Resurses.getString(Resurses.SUKU), JOptionPane.INFORMATION_MESSAGE);
+						resetIntellisens();
+						kontroller.setSchema(selectedSchema);
+
+						enableCommands();
 						setTitle(null);
-					} catch (SukuException e1) {
+					} catch (final SukuException e1) {
+						JOptionPane.showMessageDialog(this, Resurses.getString(Resurses.NEWDB),
+								Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
+						logger.log(Level.WARNING, Resurses.getString(Resurses.NEWDB), e1);
 
-						e1.printStackTrace();
-						JOptionPane.showMessageDialog(this, e1.getMessage(),
-								Resurses.getString(Resurses.SUKU),
-								JOptionPane.ERROR_MESSAGE);
-						return;
 					}
 				}
-				SukuData resp = Suku.kontroller.getSukuData("cmd=unitCount");
-				if (resp.resuCount > 0) {
-					// if (schema.isExistingSchema()) {
-
-					int resu = JOptionPane.showConfirmDialog(this,
-							Resurses.getString("CONFIRM_NEWDB"),
-							Resurses.getString(Resurses.SUKU),
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE);
-					if (resu != JOptionPane.YES_OPTION) {
-						return;
-					}
-				}
-				try {
-					this.tableModel.resetModel(); // clear contents of table
-					table.getRowSorter().modelStructureChanged();
-					// first
-					this.personView.reset();
-					this.table.updateUI();
-					this.scrollPane.updateUI();
-
-					kontroller.getSukuData("cmd=initdb");
-
-					kontroller.getSukuData("cmd=excel", "page=coordinates");
-					kontroller.getSukuData("cmd=excel", "page=types");
-
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString("CREATED_NEWDB"),
-							Resurses.getString(Resurses.SUKU),
-							JOptionPane.INFORMATION_MESSAGE);
-					resetIntellisens();
-					kontroller.setSchema(selectedSchema);
-
-					enableCommands();
-					setTitle(null);
-				} catch (SukuException e1) {
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString(Resurses.NEWDB),
-							Resurses.getString(Resurses.SUKU),
-							JOptionPane.ERROR_MESSAGE);
-					logger.log(Level.WARNING,
-							Resurses.getString(Resurses.NEWDB), e1);
-
-				}
-
 			} else if (cmd.equals("SCHEMA_DROP")) {
-				SukuData scm = kontroller.getSukuData("cmd=schema", "type=get");
+				final SukuData scm = kontroller.getSukuData("cmd=schema", "type=get");
 				if (scm.generalArray[0].equals("public")) {
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString("SCHEMA_PUBLIC_NOT_DROPPED"),
-							Resurses.getString(Resurses.SUKU),
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, Resurses.getString("SCHEMA_PUBLIC_NOT_DROPPED"),
+							Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 
-				SukuData resp = Suku.kontroller.getSukuData("cmd=unitCount");
+				final SukuData resp = Suku.kontroller.getSukuData("cmd=unitCount");
 				if (resp.resuCount > 0) {
-					int answer = JOptionPane.showConfirmDialog(
-							this,
-							Resurses.getString("SCHEMA_NOT_EMPTY") + " ["
-									+ scm.generalArray[0] + "] "
-									+ Resurses.getString("SCHEMA_PERSONCOUNT")
-									+ "= " + resp.resuCount + " "
+					final int answer = JOptionPane.showConfirmDialog(this,
+							Resurses.getString("SCHEMA_NOT_EMPTY") + " [" + scm.generalArray[0] + "] "
+									+ Resurses.getString("SCHEMA_PERSONCOUNT") + "= " + resp.resuCount + " "
 									+ Resurses.getString("DELETE_DATA_OK"),
-							Resurses.getString(Resurses.SUKU),
-							JOptionPane.ERROR_MESSAGE);
+							Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
 					if (answer == 1) {
-						throw new SukuException(
-								Resurses.getString("SCHEMA_NOT_EMPTY"));
+						throw new SukuException(Resurses.getString("SCHEMA_NOT_EMPTY"));
 					}
 				}
-				kontroller.getSukuData("cmd=schema", "type=drop", "name="
-						+ scm.generalArray[0]);
+				kontroller.getSukuData("cmd=schema", "type=drop", "name=" + scm.generalArray[0]);
 				disconnectDb();
 
 			} else if (cmd.equals("MENU_NOTICES_ORDER")) {
@@ -2010,7 +1919,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				Utils.println(this, "EDIT-COPY by ctrl/c");
 			} else if (cmd.equals(Resurses.TOOLBAR_REMPERSON_ACTION)) {
 
-				int[] selection = table.getSelectedRows();
+				final int[] selection = table.getSelectedRows();
 				for (int i = 0; i < selection.length; i++) {
 					selection[i] = table.convertRowIndexToModel(selection[i]);
 				}
@@ -2018,44 +1927,34 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 					return;
 				}
 				// int isele = table.getSelectedRow();
-				int isele = selection[0];
+				final int isele = selection[0];
 				if (isele < 0) {
-					JOptionPane.showMessageDialog(this,
-							Resurses.getString("MESSAGE_NO_PERSON_TO_DELETE"),
-							Resurses.getString(Resurses.SUKU),
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, Resurses.getString("MESSAGE_NO_PERSON_TO_DELETE"),
+							Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
 					return;
 
 				}
 
-				SukuRow row = (SukuRow) tableModel.getValueAt(isele,
-						SukuModel.SUKU_ROW);
+				final SukuRow row = (SukuRow) tableModel.getValueAt(isele, SukuModel.SUKU_ROW);
 
-				PersonShortData p = tableMap.get(row.getPid());
+				final PersonShortData p = tableMap.get(row.getPid());
 
-				int resu = JOptionPane
-						.showConfirmDialog(
-								this,
-								Resurses.getString("CONFIRM_DELETE") + " "
-										+ p.getAlfaName(),
-								Resurses.getString(Resurses.SUKU),
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.QUESTION_MESSAGE);
+				final int resu = JOptionPane.showConfirmDialog(this,
+						Resurses.getString("CONFIRM_DELETE") + " " + p.getAlfaName(), Resurses.getString(Resurses.SUKU),
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (resu == JOptionPane.YES_OPTION) {
 
 					try {
-						SukuData result = kontroller.getSukuData("cmd=delete",
-								"pid=" + p.getPid());
+						final SukuData result = kontroller.getSukuData("cmd=delete", "pid=" + p.getPid());
 						if (result.resu != null) {
-							JOptionPane.showMessageDialog(this, result.resu,
-									Resurses.getString(Resurses.SUKU),
+							JOptionPane.showMessageDialog(this, result.resu, Resurses.getString(Resurses.SUKU),
 									JOptionPane.ERROR_MESSAGE);
 							logger.log(Level.WARNING, result.resu);
 						}
 
-						int mainpaneidx = personView.getMainPaneIndex();
+						final int mainpaneidx = personView.getMainPaneIndex();
 						if (mainpaneidx > 1) {
-							SukuTabPane pane = personView.getPane(mainpaneidx);
+							final SukuTabPane pane = personView.getPane(mainpaneidx);
 							if (p.getPid() == pane.getPid()) {
 								personView.closeMainPane(false);
 							} else {
@@ -2065,8 +1964,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						}
 
 						for (int i = 0; i < needle.size(); i++) {
-							String[] dbl = needle.get(i).split(";");
-							int dblid = Integer.parseInt(dbl[0]);
+							final String[] dbl = needle.get(i).split(";");
+							final int dblid = Integer.parseInt(dbl[0]);
 							if (p.getPid() == dblid) {
 								needle.remove(i);
 								break;
@@ -2079,9 +1978,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						table.updateUI();
 						scrollPane.updateUI();
 
-					} catch (SukuException e1) {
-						JOptionPane.showMessageDialog(this, e1.getMessage(),
-								Resurses.getString(Resurses.SUKU),
+					} catch (final SukuException e1) {
+						JOptionPane.showMessageDialog(this, e1.getMessage(), Resurses.getString(Resurses.SUKU),
 								JOptionPane.ERROR_MESSAGE);
 						logger.log(Level.WARNING, e1.getMessage(), e1);
 						e1.printStackTrace();
@@ -2098,27 +1996,23 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 				enableCommands();
 			} else if (cmd.equals(Resurses.MENU_OPEN_PERSON)) {
-				String textPid = JOptionPane.showInputDialog(this,
-						Resurses.getString("DIALOG_GIVE_PID"));
+				final String textPid = JOptionPane.showInputDialog(this, Resurses.getString("DIALOG_GIVE_PID"));
 				// .showMessageDialog(this, Resurses
 				// .getString(Resurses.PGSQL_STOP)
 				// + ":" + "OK");
 				if (textPid != null) {
 					try {
-						int pid = Integer.parseInt(textPid);
+						final int pid = Integer.parseInt(textPid);
 
-						SukuData res = Suku.kontroller.getSukuData(
-								"cmd=person", "pid=" + pid);
+						final SukuData res = Suku.kontroller.getSukuData("cmd=person", "pid=" + pid);
 						if (res.pers != null) {
 							showPerson(pid);
 						} else {
 							JOptionPane.showMessageDialog(this,
-									Resurses.getString("DIALOG_PID_NOT_EXISTS")
-											+ " [" + pid + "]");
+									Resurses.getString("DIALOG_PID_NOT_EXISTS") + " [" + pid + "]");
 						}
-					} catch (NumberFormatException ne) {
-						JOptionPane.showMessageDialog(this,
-								Resurses.getString("DIALOG_BAD_PID"));
+					} catch (final NumberFormatException ne) {
+						JOptionPane.showMessageDialog(this, Resurses.getString("DIALOG_BAD_PID"));
 					}
 
 				}
@@ -2150,14 +2044,14 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				System.exit(0);
 			} else if (cmd.equals(Resurses.SETTINGS)) {
 
-				int midx = personView.getMainPaneIndex();
+				final int midx = personView.getMainPaneIndex();
 				if (midx > 0) {
-					SukuTabPane tp = personView.getPane(midx);
+					final SukuTabPane tp = personView.getPane(midx);
 					if (tp != null) {
 						personView.askAndClosePerson();
 					}
 				}
-				SettingsDialog sets = new SettingsDialog(this);
+				final SettingsDialog sets = new SettingsDialog(this);
 				sets.setVisible(true);
 
 			} else if (cmd.equals(Resurses.PRINT_PERSON)) {
@@ -2166,10 +2060,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 			} else if (cmd.equals(Resurses.MENU_LISTA)) {
 
-				ReportWorkerDialog dlg = new ReportWorkerDialog(this,
-						kontroller, null);
+				final ReportWorkerDialog dlg = new ReportWorkerDialog(this, kontroller, null);
 				dlg.setVisible(true);
-				for (String repo : dlg.getReportVector()) {
+				for (final String repo : dlg.getReportVector()) {
 					Utils.openExternalFile(repo);
 				}
 
@@ -2182,7 +2075,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				if (!tSubjectButton.isSelected() && (activePersonPid > 0)) {
 
 					tSubjectButton.setSelected(true);
-					PersonShortData pp = tableMap.get(activePersonPid);
+					final PersonShortData pp = tableMap.get(activePersonPid);
 					if (pp != null) {
 						addToNeedle(pp);
 					}
@@ -2193,10 +2086,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			} else if (cmd.equals(Resurses.IMPORT_HISKI)) {
 				boolean isDown = true;
 				if (e.getSource() == tHiskiPane) {
-					boolean theButt = !tHiskiPane.isSelected();
+					final boolean theButt = !tHiskiPane.isSelected();
 					isDown = theButt;
 				} else {
-					boolean theMenu = mImportHiski.isSelected();
+					final boolean theMenu = mImportHiski.isSelected();
 					isDown = theMenu;
 				}
 				mImportHiski.setSelected(isDown);
@@ -2206,78 +2099,73 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			} else if (cmd.equals(Resurses.TOOLBAR_NOTE_ACTION)) {
 				boolean isDown = true;
 				if (e.getSource() == tNoteButton) {
-					boolean theButt = !tNoteButton.isSelected();
+					final boolean theButt = !tNoteButton.isSelected();
 					isDown = theButt;
 				} else {
-					boolean theMenu = mShowNote.isSelected();
+					final boolean theMenu = mShowNote.isSelected();
 					isDown = theMenu;
 				}
 				mShowNote.setSelected(isDown);
 				tNoteButton.setSelected(isDown);
 				personView.resizeNoticePanes();
-				kontroller.putPref(this, Resurses.TOOLBAR_NOTE_ACTION, ""
-						+ isDown);
+				kontroller.putPref(this, Resurses.TOOLBAR_NOTE_ACTION, "" + isDown);
 			} else if (cmd.equals(Resurses.TOOLBAR_ADDRESS_ACTION)) {
 				boolean isDown = true;
 				if (e.getSource() == tAddressButton) {
-					boolean theButt = !tAddressButton.isSelected();
+					final boolean theButt = !tAddressButton.isSelected();
 					isDown = theButt;
 				} else {
-					boolean theMenu = mShowAddress.isSelected();
+					final boolean theMenu = mShowAddress.isSelected();
 					isDown = theMenu;
 				}
 				mShowAddress.setSelected(isDown);
 				tAddressButton.setSelected(isDown);
 				personView.resizeNoticePanes();
-				kontroller.putPref(this, Resurses.TOOLBAR_ADDRESS_ACTION, ""
-						+ isDown);
+				kontroller.putPref(this, Resurses.TOOLBAR_ADDRESS_ACTION, "" + isDown);
 			} else if (cmd.equals(Resurses.TOOLBAR_FARM_ACTION)) {
 				boolean isDown = true;
 				if (e.getSource() == tFarmButton) {
-					boolean theButt = !tFarmButton.isSelected();
+					final boolean theButt = !tFarmButton.isSelected();
 					isDown = theButt;
 				} else {
-					boolean theMenu = mShowFarm.isSelected();
+					final boolean theMenu = mShowFarm.isSelected();
 					isDown = theMenu;
 				}
 				mShowFarm.setSelected(isDown);
 				tFarmButton.setSelected(isDown);
 				personView.resizeNoticePanes();
-				kontroller.putPref(this, Resurses.TOOLBAR_FARM_ACTION, ""
-						+ isDown);
+				kontroller.putPref(this, Resurses.TOOLBAR_FARM_ACTION, "" + isDown);
 			} else if (cmd.equals(Resurses.TOOLBAR_IMAGE_ACTION)) {
 				boolean isDown = true;
 				if (e.getSource() == tImageButton) {
-					boolean theButt = !tImageButton.isSelected();
+					final boolean theButt = !tImageButton.isSelected();
 					isDown = theButt;
 				} else {
-					boolean theMenu = mShowImage.isSelected();
+					final boolean theMenu = mShowImage.isSelected();
 					isDown = theMenu;
 				}
 				mShowImage.setSelected(isDown);
 				tImageButton.setSelected(isDown);
 				personView.resizeNoticePanes();
-				kontroller.putPref(this, Resurses.TOOLBAR_IMAGE_ACTION, ""
-						+ isDown);
+				kontroller.putPref(this, Resurses.TOOLBAR_IMAGE_ACTION, "" + isDown);
 			} else if (cmd.equals(Resurses.TOOLBAR_PRIVATE_ACTION)) {
 				boolean isDown = true;
 				if (e.getSource() == tPrivateButton) {
-					boolean theButt = !tPrivateButton.isSelected();
+					final boolean theButt = !tPrivateButton.isSelected();
 					isDown = theButt;
 				} else {
-					boolean theMenu = mShowPrivate.isSelected();
+					final boolean theMenu = mShowPrivate.isSelected();
 					isDown = theMenu;
 				}
 				mShowPrivate.setSelected(isDown);
 				tPrivateButton.setSelected(isDown);
 				personView.resizeNoticePanes();
-				kontroller.putPref(this, Resurses.TOOLBAR_PRIVATE_ACTION, ""
-						+ isDown);
+				kontroller.putPref(this, Resurses.TOOLBAR_PRIVATE_ACTION, "" + isDown);
 			} else if (cmd.equals(Resurses.TOOLBAR_SUBJECT_DOWN_ACTION)) {
 
 				if (activePersonPid > 0) {
 
-					PersonShortData pp = tableMap.get(activePersonPid);
+					final PersonShortData pp = tableMap.get(activePersonPid);
 					if (pp != null) {
 
 						addToNeedle(pp);
@@ -2286,15 +2174,15 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 			} else if (cmd.equals(Resurses.TOOLBAR_SUBJECT_UP_ACTION)) {
 				if (needle.size() > 0) {
-					ArrayList<String> subvec = new ArrayList<String>();
+					final ArrayList<String> subvec = new ArrayList<String>();
 					// String[] subjes = null;
-					HashMap<String, String> submap = new HashMap<String, String>();
+					final HashMap<String, String> submap = new HashMap<String, String>();
 					// subjes = new String[needle.size()];
 					// for (int i = 0; i < needle.size(); i++) {
 					int i = 0;
 					while (needle.size() > i) {
-						String dbx = needle.get(i);
-						String dbs[] = dbx.split(";");
+						final String dbx = needle.get(i);
+						final String dbs[] = dbx.split(";");
 
 						if (submap.put(dbx, dbx) == null) {
 							subvec.add(dbs[1]);
@@ -2312,13 +2200,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 					submap.clear();
 
-					String[] subjes = subvec.toArray(new String[0]);
-					Object par = JOptionPane.showInputDialog(personView,
-							Resurses.getString("SELECT_PERSON")
+					final String[] subjes = subvec.toArray(new String[0]);
+					final Object par = JOptionPane.showInputDialog(personView, Resurses.getString("SELECT_PERSON")
 
-							, Resurses.getString(Resurses.SUKU),
-							JOptionPane.QUESTION_MESSAGE, null, subjes,
-							subjes[0]);
+					, Resurses.getString(Resurses.SUKU), JOptionPane.QUESTION_MESSAGE, null, subjes, subjes[0]);
 
 					if (par != null) {
 						int subrow = -1;
@@ -2333,20 +2218,16 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						}
 						if (subrow >= 0) {
 
-							String[] dbl = needle.get(subrow).split(";");
-							int pid = Integer.parseInt(dbl[0]);
-							SukuData res = Suku.kontroller.getSukuData(
-									"cmd=person", "pid=" + pid);
+							final String[] dbl = needle.get(subrow).split(";");
+							final int pid = Integer.parseInt(dbl[0]);
+							final SukuData res = Suku.kontroller.getSukuData("cmd=person", "pid=" + pid);
 							if (res.pers != null) {
 								showPerson(pid);
 
 								needle.add(0, dbl[0] + ";" + dbl[1]);
 							} else {
-								JOptionPane
-										.showMessageDialog(
-												this,
-												Resurses.getString("DIALOG_PID_NOT_EXISTS")
-														+ " [" + pid + "]");
+								JOptionPane.showMessageDialog(this,
+										Resurses.getString("DIALOG_PID_NOT_EXISTS") + " [" + pid + "]");
 								needle.remove(subrow);
 							}
 
@@ -2356,10 +2237,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			} else if (cmd.equals(Resurses.TOOLBAR_NOTICES_ACTION)) {
 				boolean isDown = true;
 				if (e.getSource() == tNoticesButton) {
-					boolean theButt = !tNoticesButton.isSelected();
+					final boolean theButt = !tNoticesButton.isSelected();
 					isDown = theButt;
 				} else {
-					boolean theMenu = mShowNotices.isSelected();
+					final boolean theMenu = mShowNotices.isSelected();
 					isDown = theMenu;
 				}
 				mShowNotices.setSelected(isDown);
@@ -2375,26 +2256,75 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				personView.deleteNotice();
 			}
 
-		} catch (Throwable ex) {
+		} catch (final Throwable ex) {
 
 			logger.log(Level.WARNING, "Suku action", ex);
 			JOptionPane.showMessageDialog(personView.getSuku(), ex.toString());
 		}
 	}
 
+	/**
+	 * @throws SukuException
+	 */
+	private void newDatabaseInit() throws SukuException {
+		{
+			String selectedSchema = null;
+			SelectSchema schema = null;
+			schema = new SelectSchema(this, databaseName);
+
+			selectedSchema = schema.getSchema(isH2);
+
+			final SukuData resp = Suku.kontroller.getSukuData("cmd=unitCount");
+			if (resp.resuCount > 0) {
+				// if (schema.isExistingSchema()) {
+
+				final int resu = JOptionPane.showConfirmDialog(this, Resurses.getString("CONFIRM_NEWDB"),
+						Resurses.getString(Resurses.SUKU), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				if (resu != JOptionPane.YES_OPTION) {
+					return;
+				}
+			}
+			try {
+				this.tableModel.resetModel(); // clear contents of table
+				table.getRowSorter().modelStructureChanged();
+				// first
+				this.personView.reset();
+				this.table.updateUI();
+				this.scrollPane.updateUI();
+
+				kontroller.getSukuData("cmd=initdb");
+
+				kontroller.getSukuData("cmd=excel", "page=coordinates");
+				kontroller.getSukuData("cmd=excel", "page=types");
+
+				JOptionPane.showMessageDialog(this, Resurses.getString("CREATED_NEWDB"),
+						Resurses.getString(Resurses.SUKU), JOptionPane.INFORMATION_MESSAGE);
+				resetIntellisens();
+				kontroller.setSchema(selectedSchema);
+
+				enableCommands();
+				setTitle(null);
+			} catch (final SukuException e1) {
+				JOptionPane.showMessageDialog(this, Resurses.getString(Resurses.NEWDB),
+						Resurses.getString(Resurses.SUKU), JOptionPane.ERROR_MESSAGE);
+				logger.log(Level.WARNING, Resurses.getString(Resurses.NEWDB), e1);
+
+			}
+
+		}
+	}
+
 	private void executeOrderChildren() {
 		OrderChildren dlg;
 		if (personView.getMainPaneIndex() > 1) {
-			JOptionPane.showMessageDialog(this,
-					Resurses.getString("STORE_CLOSE_PERSON"));
+			JOptionPane.showMessageDialog(this, Resurses.getString("STORE_CLOSE_PERSON"));
 			return;
 		}
 		try {
 			dlg = new OrderChildren(this);
 			dlg.setVisible(true);
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(this, e.toString(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(this, e.toString(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 		}
 
@@ -2403,9 +2333,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	private void importOther() {
 
 		try {
-			ImportOtherDialog cdlg = new ImportOtherDialog(this);
+			final ImportOtherDialog cdlg = new ImportOtherDialog(this);
 
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 
 			if (cdlg.getResult() != null) {
 				sb.append(Resurses.getString("IMPORT_ERROR"));
@@ -2418,12 +2348,11 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				}
 				sb.append("\n");
 				sb.append(cdlg.getResult());
-				JOptionPane.showMessageDialog(this, sb.toString(),
-						Resurses.getString(Resurses.SUKU),
+				JOptionPane.showMessageDialog(this, sb.toString(), Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 			}
 
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			e.printStackTrace();
 		}
 
@@ -2431,16 +2360,15 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	private void createFamilyBackup() {
 		try {
-			SukuData dat = kontroller.getSukuData("cmd=schema", "type=get");
-			String schema = dat.generalArray.length == 1 ? dat.generalArray[0]
-					: "finfamily";
+			final SukuData dat = kontroller.getSukuData("cmd=schema", "type=get");
+			final String schema = dat.generalArray.length == 1 ? dat.generalArray[0] : "finfamily";
 
 			ExportFamilyDatabaseDialog dlg;
 
 			dlg = new ExportFamilyDatabaseDialog(this, schema, schema + ".zip");
 			dlg.setVisible(true);
 
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 			return;
 		}
@@ -2465,19 +2393,18 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		// if (this.isWebApp) {
 		try {
-			SukuData dat = kontroller.getSukuData("cmd=schema", "type=get");
-			String schema = dat.generalArray.length == 1 ? dat.generalArray[0]
-					: "demo";
+			final SukuData dat = kontroller.getSukuData("cmd=schema", "type=get");
+			final String schema = dat.generalArray.length == 1 ? dat.generalArray[0] : "demo";
 			ExportGedcomDialog dlg;
 
 			dlg = new ExportGedcomDialog(this, schema, schema + ".zip");
 
 			dlg.setVisible(true);
 
-			String[] failedLines = dlg.getResult();
+			final String[] failedLines = dlg.getResult();
 			if (failedLines != null) {
-				StringBuilder sb = new StringBuilder();
-				for (String failedLine : failedLines) {
+				final StringBuilder sb = new StringBuilder();
+				for (final String failedLine : failedLines) {
 					sb.append(failedLine);
 				}
 				if (sb.length() > 0) {
@@ -2495,13 +2422,13 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						sb.append(dlg.getViewName());
 
 					}
-					java.util.Date d = new java.util.Date();
-					SukuPad pad = new SukuPad(this, kontroller.getFileName()
-							+ "\n" + d.toString() + "\n\n" + sb.toString());
+					final java.util.Date d = new java.util.Date();
+					final SukuPad pad = new SukuPad(this,
+							kontroller.getFileName() + "\n" + d.toString() + "\n\n" + sb.toString());
 					pad.setVisible(true);
 				}
 			}
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			JOptionPane.showMessageDialog(this, e.getMessage());
 			return;
 		}
@@ -2556,19 +2483,18 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	private void listDatabaseStatistics() {
 
-		ConnectDialog cdlg = new ConnectDialog(this, kontroller);
+		final ConnectDialog cdlg = new ConnectDialog(this, kontroller);
 
-		String user = kontroller.getPref(cdlg, "USERID", "");
-		String pass = kontroller.getPref(cdlg, "PASSWORD", "");
-		String host = kontroller.getPref(cdlg, "HOST", "localhost");
+		final String user = kontroller.getPref(cdlg, "USERID", "");
+		final String pass = kontroller.getPref(cdlg, "PASSWORD", "");
+		final String host = kontroller.getPref(cdlg, "HOST", "localhost");
 		SukuData resp = null;
 		try {
 			setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-			resp = Suku.kontroller.getSukuData("cmd=get", "type=dbstatistics",
-					"user=" + user, "password=" + pass, "host=" + host);
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+			resp = Suku.kontroller.getSukuData("cmd=get", "type=dbstatistics", "user=" + user, "password=" + pass,
+					"host=" + host);
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.INFORMATION_MESSAGE);
 			e.printStackTrace();
 			return;
@@ -2578,16 +2504,15 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		}
 		// String[] statisticsLines = { "Some lines", "here", "and there" };
 		if ((resp != null) && (resp.generalArray != null)) {
-			StringBuilder sb = new StringBuilder();
-			for (String element : resp.generalArray) {
+			final StringBuilder sb = new StringBuilder();
+			for (final String element : resp.generalArray) {
 				sb.append(element + "\n");
 			}
 			if (sb.length() > 0) {
 
-				java.util.Date d = new java.util.Date();
-				SukuPad pad = new SukuPad(this, d.toString() + "\n"
-						+ Resurses.getString("MENU_TOOLS_LIST_DATABASES")
-						+ "\n\n" + sb.toString());
+				final java.util.Date d = new java.util.Date();
+				final SukuPad pad = new SukuPad(this,
+						d.toString() + "\n" + Resurses.getString("MENU_TOOLS_LIST_DATABASES") + "\n\n" + sb.toString());
 				pad.setVisible(true);
 			}
 
@@ -2601,16 +2526,12 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		}
 
 		try {
-			kontroller.getSukuData("cmd=excel", "page=conversions",
-					"type=export", "all=" + doAll);
-			JOptionPane.showMessageDialog(this,
-					Resurses.getString("EXPORTED_CONVERSIONS"),
-					Resurses.getString(Resurses.SUKU),
-					JOptionPane.INFORMATION_MESSAGE);
+			kontroller.getSukuData("cmd=excel", "page=conversions", "type=export", "all=" + doAll);
+			JOptionPane.showMessageDialog(this, Resurses.getString("EXPORTED_CONVERSIONS"),
+					Resurses.getString(Resurses.SUKU), JOptionPane.INFORMATION_MESSAGE);
 
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
@@ -2619,19 +2540,15 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	private void importConversions() {
 		try {
-			boolean openedFile = Suku.kontroller.openFile("xls");
+			final boolean openedFile = Suku.kontroller.openFile("xls");
 			if (openedFile) {
-				kontroller.getSukuData("cmd=excel", "file=xls",
-						"page=conversions", "type=import");
+				kontroller.getSukuData("cmd=excel", "file=xls", "page=conversions", "type=import");
 
-				JOptionPane.showMessageDialog(this,
-						Resurses.getString("IMPORTED_CONVERSIONS"),
-						Resurses.getString(Resurses.SUKU),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, Resurses.getString("IMPORTED_CONVERSIONS"),
+						Resurses.getString(Resurses.SUKU), JOptionPane.INFORMATION_MESSAGE);
 			}
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
@@ -2642,7 +2559,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		boolean isOpened;
 
 		isOpened = kontroller.openFile("ged;zip");
-		String dbname = kontroller.getFileName();
+		final String dbname = kontroller.getFileName();
 		logger.finest("Opened GEDCOM FILE status " + isOpened);
 		Utils.println(this, "gedcom open=" + isOpened + ": " + dbname);
 		if (isOpened) {
@@ -2656,26 +2573,26 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				SelectSchema schema;
 				try {
 					schema = new SelectSchema(this, databaseName);
+					if (isH2) {
+						selectedSchema = schema.getSchema(isH2);
+					} else {
+						schema.setVisible(true);
 
-					schema.setVisible(true);
+						selectedSchema = schema.getSchema(isH2);
+						if (selectedSchema == null) {
+							return;
+						}
+						if (!schema.isExistingSchema(isH2)) {
+							kontroller.getSukuData("cmd=schema", "type=create", "name=" + selectedSchema);
 
-					selectedSchema = schema.getSchema();
-					if (selectedSchema == null) {
-						return;
+						}
+						kontroller.getSukuData("cmd=schema", "type=set", "name=" + selectedSchema);
+						setTitle(null);
 					}
-					if (!schema.isExistingSchema()) {
-						kontroller.getSukuData("cmd=schema", "type=create",
-								"name=" + selectedSchema);
-
-					}
-					kontroller.getSukuData("cmd=schema", "type=set", "name="
-							+ selectedSchema);
-					setTitle(null);
-				} catch (SukuException e1) {
+				} catch (final SukuException e1) {
 
 					e1.printStackTrace();
-					JOptionPane.showMessageDialog(this, e1.getMessage(),
-							Resurses.getString(Resurses.SUKU),
+					JOptionPane.showMessageDialog(this, e1.getMessage(), Resurses.getString(Resurses.SUKU),
 							JOptionPane.ERROR_MESSAGE);
 					return;
 				}
@@ -2683,24 +2600,22 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			ImportGedcomDialog dlg;
 			try {
 				dlg = new ImportGedcomDialog(this, dbname);
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 				return;
 			}
 			dlg.setVisible(true);
 			kontroller.setSchema(selectedSchema);
-			String[] failedLines = dlg.getResult();
+			final String[] failedLines = dlg.getResult();
 			if (failedLines != null) {
-				StringBuilder sb = new StringBuilder();
-				for (String failedLine : failedLines) {
+				final StringBuilder sb = new StringBuilder();
+				for (final String failedLine : failedLines) {
 					sb.append(failedLine);
 				}
 				if (sb.length() > 0) {
 
-					java.util.Date d = new java.util.Date();
-					SukuPad pad = new SukuPad(this, kontroller.getFileName()
-							+ "\n" + d.toString() + "\n"
-							+ Resurses.getString("GEDCOM_IMPORT_IGNORED")
-							+ "\n\n" + sb.toString());
+					final java.util.Date d = new java.util.Date();
+					final SukuPad pad = new SukuPad(this, kontroller.getFileName() + "\n" + d.toString() + "\n"
+							+ Resurses.getString("GEDCOM_IMPORT_IGNORED") + "\n\n" + sb.toString());
 					pad.setVisible(true);
 				}
 
@@ -2714,8 +2629,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	 * @param pp
 	 */
 	private void addToNeedle(PersonShortData pp) {
-		String dd = "" + pp.getPid() + ";" + pp.getAlfaName(true) + " "
-				+ Utils.nv4(pp.getBirtDate()) + "-"
+		final String dd = "" + pp.getPid() + ";" + pp.getAlfaName(true) + " " + Utils.nv4(pp.getBirtDate()) + "-"
 				+ Utils.nv4(pp.getDeatDate());
 		needle.add(0, dd);
 
@@ -2723,8 +2637,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			if (i > 4) {
 				needle.remove(i);
 			} else {
-				String[] dbl = needle.get(i).split(";");
-				int dblid = Integer.parseInt(dbl[0]);
+				final String[] dbl = needle.get(i).split(";");
+				final int dblid = Integer.parseInt(dbl[0]);
 				if ((pp.getPid() == dblid) || (i >= maxNeedle)) {
 					needle.remove(i);
 				}
@@ -2735,19 +2649,16 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	private void importDefaultTypes() {
 		try {
-			boolean openedFile = Suku.kontroller.openFile("xls");
+			final boolean openedFile = Suku.kontroller.openFile("xls");
 			if (openedFile) {
 				kontroller.getSukuData("cmd=excel", "file=xls", "page=types");
-				SukuTypesModel typesModel = Utils.typeInstance();
+				final SukuTypesModel typesModel = Utils.typeInstance();
 				typesModel.initTypes();
-				JOptionPane.showMessageDialog(this,
-						Resurses.getString("IMPORTED_TYPES"),
-						Resurses.getString(Resurses.SUKU),
-						JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(this, Resurses.getString("IMPORTED_TYPES"),
+						Resurses.getString(Resurses.SUKU), JOptionPane.INFORMATION_MESSAGE);
 			}
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
@@ -2756,41 +2667,30 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	private void importDefaultCoordinates() {
 		try {
-			boolean openedFile = Suku.kontroller.openFile("xls");
+			final boolean openedFile = Suku.kontroller.openFile("xls");
 			if (openedFile) {
-				SukuData result = kontroller.getSukuData("cmd=excel",
-						"file=xls", "page=coordinates");
+				final SukuData result = kontroller.getSukuData("cmd=excel", "file=xls", "page=coordinates");
 				if (result.generalArray != null) {
-					StringBuilder sb = new StringBuilder();
-					for (String element : result.generalArray) {
+					final StringBuilder sb = new StringBuilder();
+					for (final String element : result.generalArray) {
 						sb.append(element);
 					}
 					if (sb.length() > 0) {
 
-						java.util.Date d = new java.util.Date();
-						SukuPad pad = new SukuPad(
-								this,
-								kontroller.getFileName()
-										+ "\n"
-										+ d.toString()
-										+ "\n"
-										+ Resurses
-												.getString("COORDINATE_IMPORT_FAILED")
-										+ "\n\n" + sb.toString());
+						final java.util.Date d = new java.util.Date();
+						final SukuPad pad = new SukuPad(this, kontroller.getFileName() + "\n" + d.toString() + "\n"
+								+ Resurses.getString("COORDINATE_IMPORT_FAILED") + "\n\n" + sb.toString());
 						pad.setVisible(true);
 					} else {
-						JOptionPane.showMessageDialog(this,
-								Resurses.getString("IMPORTED_COORDINATES"),
-								Resurses.getString(Resurses.SUKU),
-								JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(this, Resurses.getString("IMPORTED_COORDINATES"),
+								Resurses.getString(Resurses.SUKU), JOptionPane.INFORMATION_MESSAGE);
 					}
 
 				}
 
 			}
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(this, e.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(this, e.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
@@ -2801,11 +2701,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		if (this.groupWin == null) {
 			try {
 				groupWin = new GroupMgrWindow(this);
-			} catch (SukuException e) {
+			} catch (final SukuException e) {
 
 				e.printStackTrace();
-				JOptionPane.showMessageDialog(this, Resurses.getString("SUKU")
-						+ ":" + e.getMessage());
+				JOptionPane.showMessageDialog(this, Resurses.getString("SUKU") + ":" + e.getMessage());
 				return;
 
 			}
@@ -2826,26 +2725,25 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				viewWin.initViewlist();
 				viewWin.setVisible(true);
 			}
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(this, Resurses.getString("SUKU")
-					+ ":" + e.getMessage());
+			JOptionPane.showMessageDialog(this, Resurses.getString("SUKU") + ":" + e.getMessage());
 		}
 	}
 
 	private void executeDbWork() {
-		ToolsDialog dlg = new ToolsDialog(this);
+		final ToolsDialog dlg = new ToolsDialog(this);
 		dlg.setVisible(true);
 	}
 
 	private void showOwnerInformation() {
-		OwnerDialog dlg = new OwnerDialog(this);
+		final OwnerDialog dlg = new OwnerDialog(this);
 		dlg.setVisible(true);
 	}
 
 	/**
 	 * The toolbox button that defines if Note field is to be visible.
-	 * 
+	 *
 	 * @return true if button is depressed
 	 */
 	public boolean isShowNote() {
@@ -2854,7 +2752,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * The toolbox button that defines if Address field is to be visible.
-	 * 
+	 *
 	 * @return true if button is depressed
 	 */
 	public boolean isShowAddress() {
@@ -2864,7 +2762,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	/**
 	 * The toolbox button that defines if village, farm and Croft fields are to
 	 * be visible.
-	 * 
+	 *
 	 * @return true if button is depressed
 	 */
 	public boolean isShowFarm() {
@@ -2873,7 +2771,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * The toolbox button that defines if Image field is to be visible.
-	 * 
+	 *
 	 * @return true if button is depressed
 	 */
 	public boolean isShowImage() {
@@ -2882,7 +2780,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * The toolbox button that defines if Notices are to be visible.
-	 * 
+	 *
 	 * @return true if button is depressed
 	 */
 	public boolean isShowNotices() {
@@ -2893,7 +2791,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * The toolbox button that defines if Private text field is to be visible.
-	 * 
+	 *
 	 * @return true if button is depressed
 	 */
 	public boolean isShowPrivate() {
@@ -2902,15 +2800,15 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Creates the report.
-	 * 
+	 *
 	 * @param pers
 	 *            the pers
 	 */
 	public void createReport(PersonShortData pers) {
-		ReportWorkerDialog dlg = new ReportWorkerDialog(this, kontroller, pers);
+		final ReportWorkerDialog dlg = new ReportWorkerDialog(this, kontroller, pers);
 		dlg.setVisible(true);
 
-		for (String repo : dlg.getReportVector()) {
+		for (final String repo : dlg.getReportVector()) {
 			Utils.openExternalFile(repo);
 		}
 
@@ -2918,7 +2816,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Start join.
-	 * 
+	 *
 	 * @param sub
 	 *            the sub
 	 */
@@ -2926,11 +2824,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		PersonShortData main;
 		try {
 			main = getJoinPerson();
-			JoinDialog join = new JoinDialog(this, main, sub);
+			final JoinDialog join = new JoinDialog(this, main, sub);
 			join.setVisible(true);
-		} catch (SukuException e) {
-			JOptionPane.showMessageDialog(this, Resurses.getString("SUKU")
-					+ ":" + e.getMessage());
+		} catch (final SukuException e) {
+			JOptionPane.showMessageDialog(this, Resurses.getString("SUKU") + ":" + e.getMessage());
 		}
 
 	}
@@ -2954,7 +2851,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Get's opened persons pid or 0 if none opened.
-	 * 
+	 *
 	 * @return pid of opened person
 	 */
 	public PersonLongData getSubject() {
@@ -2966,7 +2863,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	/**
 	 * Whenever a PersonView is opened this stores the activePerson pid for use
 	 * by Subject button.
-	 * 
+	 *
 	 * @param pid
 	 *            the new active person
 	 */
@@ -2977,21 +2874,20 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * gets from db view the selected persons name if one person is selected.
-	 * 
+	 *
 	 * @return the selected name if only one row is selected
 	 */
 	public PersonShortData getSelectedPerson() {
 
-		int[] ii = table.getSelectedRows();
+		final int[] ii = table.getSelectedRows();
 		if (ii.length == 0) {
 			return null;
 		}
 
-		int tabsize = table.getRowCount();
+		final int tabsize = table.getRowCount();
 		if (ii.length == 1) {
 			if (ii[0] < tabsize) {
-				SukuRow rivi = (SukuRow) table.getValueAt(ii[0],
-						SukuModel.SUKU_ROW);
+				final SukuRow rivi = (SukuRow) table.getValueAt(ii[0], SukuModel.SUKU_ROW);
 				if (rivi == null) {
 					return null;
 				}
@@ -3004,14 +2900,14 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * updates group id for person on database window.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @param groupId
 	 *            the group id
 	 */
 	public void updateDbGroup(int pid, String groupId) {
-		PersonShortData p = tableMap.get(pid);
+		final PersonShortData p = tableMap.get(pid);
 		if (p != null) {
 			p.setGroup(groupId);
 		}
@@ -3027,12 +2923,12 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Get an array of pid's of the selected rows.
-	 * 
+	 *
 	 * @return an int[] array of selected pid's
 	 */
 	public int[] getSelectedPids() {
-		int[] pids = new int[table.getSelectedRows().length];
-		int[] rows = table.getSelectedRows();
+		final int[] pids = new int[table.getSelectedRows().length];
+		final int[] rows = table.getSelectedRows();
 		// System.out.print("(");
 		// for (int ii=0;ii<pids.length; ii++){
 		// if (ii>0) System.out.print(";");
@@ -3041,8 +2937,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		// System.out.println(")");
 		for (int i = 0; i < pids.length; i++) {
 			// System.out.println("i=" + i + ";ri=" + rows[i] );
-			SukuRow rivi = (SukuRow) table.getValueAt(rows[i],
-					SukuModel.SUKU_ROW);
+			final SukuRow rivi = (SukuRow) table.getValueAt(rows[i], SukuModel.SUKU_ROW);
 			if (rivi == null) {
 				return new int[0];
 			}
@@ -3054,8 +2949,8 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	// private void copyPerson(int pid) {
 	// String koe = "Leikepöydälle [" + pid + "] kamaa";
 	private void copyToClip(String koe) {
-		StringSelection stringSelection = new StringSelection(koe);
-		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+		final StringSelection stringSelection = new StringSelection(koe);
+		final Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		clipboard.setContents(stringSelection, this);
 
 	}
@@ -3071,37 +2966,32 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				this.adminUtilities.setVisible(true);
 			}
 
-		} catch (Exception e) {
+		} catch (final Exception e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(this,
-					Resurses.getString(Resurses.ADMIN) + ":" + e.getMessage());
+			JOptionPane.showMessageDialog(this, Resurses.getString(Resurses.ADMIN) + ":" + e.getMessage());
 
 		}
 
 	}
 
 	private void displayMap(String cmd) {
-		PersonShortData ppp[] = new PersonShortData[tableMap.size()];
-		Set<Map.Entry<Integer, PersonShortData>> entriesx = tableMap.entrySet();
-		Iterator<Map.Entry<Integer, PersonShortData>> eex = entriesx.iterator();
+		final PersonShortData ppp[] = new PersonShortData[tableMap.size()];
+		final Set<Map.Entry<Integer, PersonShortData>> entriesx = tableMap.entrySet();
+		final Iterator<Map.Entry<Integer, PersonShortData>> eex = entriesx.iterator();
 		int i = 0;
 		while (eex.hasNext()) {
-			Map.Entry<Integer, PersonShortData> entrx = eex.next();
+			final Map.Entry<Integer, PersonShortData> entrx = eex.next();
 			ppp[i++] = entrx.getValue();
 		}
 
 		if (ppp.length == 0) {
-			JOptionPane.showMessageDialog(this,
-					Resurses.getString("STAT_MAKE_QUERY_FIRST"),
-					Resurses.getString("STAT_FOR_YOUR_INFORMATION"),
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, Resurses.getString("STAT_MAKE_QUERY_FIRST"),
+					Resurses.getString("STAT_FOR_YOUR_INFORMATION"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 		if (this.suomi == null) {
 
-			if (!kontroller.isWebStart()
-					&& kontroller.getPref(this, "USE_OPEN_STREETMAP", "false")
-							.equals("true")) {
+			if (!kontroller.isWebStart() && kontroller.getPref(this, "USE_OPEN_STREETMAP", "false").equals("true")) {
 				this.suomi = new WorldMap(this);
 			} else {
 
@@ -3109,31 +2999,30 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			}
 		}
 
-		HashMap<String, String> ccodes = new HashMap<String, String>();
+		final HashMap<String, String> ccodes = new HashMap<String, String>();
 		try {
-			SukuData countdata = kontroller.getSukuData("cmd=get",
-					"type=ccodes");
+			final SukuData countdata = kontroller.getSukuData("cmd=get", "type=ccodes");
 
-			for (String nxt : countdata.generalArray) {
+			for (final String nxt : countdata.generalArray) {
 				if (nxt != null) {
-					String parts[] = nxt.split(";");
+					final String parts[] = nxt.split(";");
 					if (parts.length == 2) {
 						ccodes.put(parts[0], parts[1]);
 					}
 				}
 			}
 
-		} catch (SukuException e1) {
+		} catch (final SukuException e1) {
 			logger.log(Level.WARNING, "Failed to get country codes", e1);
 
 		}
 
-		HashMap<String, PlaceLocationData> paikat = new HashMap<String, PlaceLocationData>();
+		final HashMap<String, PlaceLocationData> paikat = new HashMap<String, PlaceLocationData>();
 		int idx;
 		String paikka;
 		String maa;
 		String ccode;
-		String defaultCountry = Resurses.getDefaultCountry();
+		final String defaultCountry = Resurses.getDefaultCountry();
 		PlaceLocationData place;
 
 		for (idx = 0; idx < ppp.length; idx++) {
@@ -3191,10 +3080,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			}
 		}
 
-		SukuData request = new SukuData();
+		final SukuData request = new SukuData();
 		request.places = new PlaceLocationData[paikat.size()];
 
-		Iterator<String> it = paikat.keySet().iterator();
+		final Iterator<String> it = paikat.keySet().iterator();
 		idx = 0;
 		while (it.hasNext()) {
 			request.places[idx] = paikat.get(it.next());
@@ -3202,41 +3091,35 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		}
 
 		try {
-			SukuData response = kontroller.getSukuData(request, "cmd=places");
+			final SukuData response = kontroller.getSukuData(request, "cmd=places");
 
-			suomi.displayMap((response != null) ? response.places
-					: new PlaceLocationData[0]);
+			suomi.displayMap((response != null) ? response.places : new PlaceLocationData[0]);
 
-		} catch (SukuException e) {
+		} catch (final SukuException e) {
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(
-					this,
-					Resurses.getString(Resurses.SHOWINMAP) + ":"
-							+ e.getMessage());
+			JOptionPane.showMessageDialog(this, Resurses.getString(Resurses.SHOWINMAP) + ":" + e.getMessage());
 
 		}
 
 	}
 
 	private void displayGenStats() {
-		PersonShortData ppp[] = new PersonShortData[tableMap.size()];
-		Set<Map.Entry<Integer, PersonShortData>> entriesx = tableMap.entrySet();
-		Iterator<Map.Entry<Integer, PersonShortData>> eex = entriesx.iterator();
+		final PersonShortData ppp[] = new PersonShortData[tableMap.size()];
+		final Set<Map.Entry<Integer, PersonShortData>> entriesx = tableMap.entrySet();
+		final Iterator<Map.Entry<Integer, PersonShortData>> eex = entriesx.iterator();
 		int i = 0;
 		while (eex.hasNext()) {
-			Map.Entry<Integer, PersonShortData> entrx = eex.next();
+			final Map.Entry<Integer, PersonShortData> entrx = eex.next();
 			ppp[i++] = entrx.getValue();
 		}
 
 		if (ppp.length == 0) {
-			JOptionPane.showMessageDialog(this,
-					Resurses.getString("STAT_MAKE_QUERY_FIRST"),
-					Resurses.getString("STAT_FOR_YOUR_INFORMATION"),
-					JOptionPane.INFORMATION_MESSAGE);
+			JOptionPane.showMessageDialog(this, Resurses.getString("STAT_MAKE_QUERY_FIRST"),
+					Resurses.getString("STAT_FOR_YOUR_INFORMATION"), JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 
-		GenStat genStat = new GenStat(this, ppp);
+		final GenStat genStat = new GenStat(this, ppp);
 		genStat.setVisible(true);
 
 	}
@@ -3245,7 +3128,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * <h1>Database window access</h1>.
-	 * 
+	 *
 	 * @return number of rows in databasewindow
 	 */
 	public int getDatabaseRowCount() {
@@ -3257,10 +3140,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * <h1>Database window access.</h1>
-	 * 
+	 *
 	 * database window consist of rows containing instances of class
 	 * PersonShortData
-	 * 
+	 *
 	 * @param idx
 	 *            the idx
 	 * @return the PersonShortData of the window on row
@@ -3274,11 +3157,11 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		try {
 
 			sukuObject = null; // reset program "clipboard"
-			SearchCriteria crit = SearchCriteria.getCriteria(this);
+			final SearchCriteria crit = SearchCriteria.getCriteria(this);
 			crit.populateFields();
 			crit.setVisible(true);
 
-			TableColumnModel tc = this.table.getColumnModel();
+			final TableColumnModel tc = this.table.getColumnModel();
 			TableColumn cc;
 			String colhdr, tabnm;
 			int j, k;
@@ -3320,22 +3203,20 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 					if (crit.getColTable(k).getCurrentState() == true) {
 						logger.fine("let's add " + tabnm);
 
-						int colidx = tc.getColumnCount();
+						final int colidx = tc.getColumnCount();
 
-						String colnm = crit.getColName(k);
-						int curidx = crit.getCurrentIndex(colnm);
+						final String colnm = crit.getColName(k);
+						final int curidx = crit.getCurrentIndex(colnm);
 
-						TableColumn c = new TableColumn(k);
-						if (tabId.equals(Resurses.COLUMN_T_ISCHILD)
-								|| tabId.equals(Resurses.COLUMN_T_ISMARR)
+						final TableColumn c = new TableColumn(k);
+						if (tabId.equals(Resurses.COLUMN_T_ISCHILD) || tabId.equals(Resurses.COLUMN_T_ISMARR)
 								|| tabId.equals(Resurses.COLUMN_T_ISPARE)) {
 							c.setMaxWidth(35);
 						}
 						c.setHeaderValue(tabnm);
 
-						if ((!Resurses.getDateFormat().equals("SE") && (tabId
-								.equals(Resurses.COLUMN_T_BIRT) || tabId
-								.equals(Resurses.COLUMN_T_DEAT)))
+						if ((!Resurses.getDateFormat().equals("SE")
+								&& (tabId.equals(Resurses.COLUMN_T_BIRT) || tabId.equals(Resurses.COLUMN_T_DEAT)))
 								|| tabId.equals(Resurses.COLUMN_T_PID)) {
 							c.setCellRenderer(new RightTableCellRenderer());
 						}
@@ -3347,19 +3228,15 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 			}
 
-			ArrayList<String> v = new ArrayList<String>();
+			final ArrayList<String> v = new ArrayList<String>();
 			v.add("cmd=plist");
 			for (i = 0; i < crit.getFieldCount(); i++) {
-				if ((crit.getCriteriaField(i) != null)
-						&& !crit.getCriteriaField(i).isEmpty()) {
-					v.add(crit.getFieldName(i)
-							+ "="
-							+ URLEncoder.encode(crit.getCriteriaField(i),
-									"UTF-8"));
+				if ((crit.getCriteriaField(i) != null) && !crit.getCriteriaField(i).isEmpty()) {
+					v.add(crit.getFieldName(i) + "=" + URLEncoder.encode(crit.getCriteriaField(i), "UTF-8"));
 				}
 			}
-			String[] auxes = v.toArray(new String[0]);
-			SukuData fam = kontroller.getSukuData(auxes);
+			final String[] auxes = v.toArray(new String[0]);
+			final SukuData fam = kontroller.getSukuData(auxes);
 
 			// System.out.println("ROWS: " + table.getRowCount());
 			// System.out.println("MAP: " + tableMap.size());
@@ -3414,22 +3291,20 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			this.table.updateUI();
 			this.scrollPane.updateUI();
 			initSorter(crit);
-		} catch (SukuException e1) {
+		} catch (final SukuException e1) {
 			e1.printStackTrace();
-			JOptionPane.showMessageDialog(this,
-					Resurses.getString(Resurses.QUERY) + ":" + e1.getMessage());
-		} catch (UnsupportedEncodingException ue) {
+			JOptionPane.showMessageDialog(this, Resurses.getString(Resurses.QUERY) + ":" + e1.getMessage());
+		} catch (final UnsupportedEncodingException ue) {
 			ue.printStackTrace();
-			JOptionPane.showMessageDialog(this,
-					Resurses.getString(Resurses.QUERY) + ":" + ue.getMessage());
+			JOptionPane.showMessageDialog(this, Resurses.getString(Resurses.QUERY) + ":" + ue.getMessage());
 		}
 	}
 
 	/**
 	 * <h1>Database window access.</h1>
-	 * 
+	 *
 	 * Update database window with data for person
-	 * 
+	 *
 	 * @param p
 	 *            the p
 	 * @throws SukuException
@@ -3437,18 +3312,17 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	 */
 	public void updatePerson(PersonShortData p) throws SukuException {
 
-		int key = p.getPid();
-		PersonShortData ret = this.tableMap.put(key, p);
+		final int key = p.getPid();
+		final PersonShortData ret = this.tableMap.put(key, p);
 
-		int midx = personView.getMainPaneIndex();
+		final int midx = personView.getMainPaneIndex();
 		if (midx > 0) {
-			SukuTabPane tp = personView.getPane(midx);
+			final SukuTabPane tp = personView.getPane(midx);
 			if (tp.getPid() == key) {
 				personView.closeMainPane(true);
 			}
 		}
-		SukuData resp = kontroller.getSukuData("cmd=virtual", "type=counts",
-				"pid=" + key);
+		final SukuData resp = kontroller.getSukuData("cmd=virtual", "type=counts", "pid=" + key);
 
 		if ((resp.pidArray != null) && (resp.pidArray.length == 3)) {
 			p.setChildCount(resp.pidArray[0]);
@@ -3457,15 +3331,13 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		}
 
-		SukuData resprela = kontroller.getSukuData("cmd=virtual",
-				"type=relatives", "pid=" + key);
+		final SukuData resprela = kontroller.getSukuData("cmd=virtual", "type=relatives", "pid=" + key);
 
-		for (int element : resprela.pidArray) {
+		for (final int element : resprela.pidArray) {
 
-			SukuData rex = kontroller.getSukuData("cmd=virtual", "type=counts",
-					"pid=" + element);
+			final SukuData rex = kontroller.getSukuData("cmd=virtual", "type=counts", "pid=" + element);
 
-			PersonShortData px = this.tableMap.get(element);
+			final PersonShortData px = this.tableMap.get(element);
 			if ((rex != null) && (px != null)) {
 
 				if ((rex.pidArray != null) && (rex.pidArray.length == 3)) {
@@ -3479,7 +3351,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		}
 
 		if (ret == null) {
-			SukuRow row = new SukuRow(this, this.tableModel, p);
+			final SukuRow row = new SukuRow(this, this.tableModel, p);
 			tableModel.addRow(0, row);
 
 		}
@@ -3501,10 +3373,10 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * <h1>Database window access.</h1>
-	 * 
+	 *
 	 * get PersonShortData from database window for person pid (pid = person
 	 * identification number integer database specific identifier
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 * @return PersonShortData instance for requested person
@@ -3515,16 +3387,16 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Delete person.
-	 * 
+	 *
 	 * @param pid
 	 *            the pid
 	 */
 	public void deletePerson(int pid) {
-		PersonShortData ss = tableMap.get(pid);
+		final PersonShortData ss = tableMap.get(pid);
 		if (ss != null) {
 
 			for (int i = 0; i < tableModel.getRowCount(); i++) {
-				SukuRow rr = (SukuRow) tableModel.getValueAt(i, -1);
+				final SukuRow rr = (SukuRow) tableModel.getValueAt(i, -1);
 				if (rr.getPid() == ss.getPid()) {
 					tableModel.removeRow(i);
 					tableMap.remove(pid);
@@ -3538,11 +3410,11 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	}
 
 	private PersonShortData appendToLocalview(PersonShortData p) {
-		int key = p.getPid();
-		PersonShortData ret = this.tableMap.put(key, p);
+		final int key = p.getPid();
+		final PersonShortData ret = this.tableMap.put(key, p);
 		if (ret == null) {
 
-			SukuRow row = new SukuRow(this, this.tableModel, p);
+			final SukuRow row = new SukuRow(this, this.tableModel, p);
 			this.tableModel.addRow(row);
 		}
 		return ret;
@@ -3550,22 +3422,20 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	private void disconnectDb() {
 
-		ConnectDialog cdlg = new ConnectDialog(this, kontroller);
+		final ConnectDialog cdlg = new ConnectDialog(this, kontroller);
 		cdlg.rememberDatabase(false);
 		if (!kontroller.isConnected()) {
 			return;
 		}
 
-		SukuData request = new SukuData();
+		final SukuData request = new SukuData();
 		request.generalArray = needle.toArray(new String[0]);
 
 		try {
-			Suku.kontroller.getSukuData(request, "cmd=updatesettings",
-					"type=needle", "name=needle");
-		} catch (SukuException ee) {
+			Suku.kontroller.getSukuData(request, "cmd=updatesettings", "type=needle", "name=needle");
+		} catch (final SukuException ee) {
 			if (kontroller.getSchema() != null) {
-				JOptionPane.showMessageDialog(this, ee.getMessage(),
-						Resurses.getString(Resurses.SUKU),
+				JOptionPane.showMessageDialog(this, ee.getMessage(), Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 				ee.printStackTrace();
 			}
@@ -3601,26 +3471,23 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			logger.finest("Opened IMPORT FILE status " + isOpened);
 			String selectedSchema = null;
 			if (!kontroller.isRemote()) {
-				SelectSchema schema = new SelectSchema(this, databaseName);
+				final SelectSchema schema = new SelectSchema(this, databaseName);
 				schema.setVisible(true);
-				selectedSchema = schema.getSchema();
+				selectedSchema = schema.getSchema(isH2);
 				if (selectedSchema == null) {
 					return;
 				}
-				if (!schema.isExistingSchema()) {
-					kontroller.getSukuData("cmd=schema", "type=create", "name="
-							+ selectedSchema);
+				if (!schema.isExistingSchema(isH2)) {
+					kontroller.getSukuData("cmd=schema", "type=create", "name=" + selectedSchema);
 				}
-				kontroller.getSukuData("cmd=schema", "type=set", "name="
-						+ selectedSchema);
+				kontroller.getSukuData("cmd=schema", "type=set", "name=" + selectedSchema);
 			}
 			Import2004Dialog dlg = null;
 			try {
 				dlg = new Import2004Dialog(this, kontroller);
-			} catch (SukuException ex) {
+			} catch (final SukuException ex) {
 				logger.log(Level.WARNING, "Import failed", ex);
-				JOptionPane.showMessageDialog(this, ex.getMessage(),
-						Resurses.getString(Resurses.SUKU),
+				JOptionPane.showMessageDialog(this, ex.getMessage(), Resurses.getString(Resurses.SUKU),
 						JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -3635,27 +3502,24 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 			kontroller.getSukuData("cmd=excel", "page=types");
 			// }
 			setTitle(null);
-			String[] failedLines = dlg.getResult();
+			final String[] failedLines = dlg.getResult();
 			if (failedLines != null) {
-				StringBuilder sb = new StringBuilder();
-				for (String failedLine : failedLines) {
+				final StringBuilder sb = new StringBuilder();
+				for (final String failedLine : failedLines) {
 					sb.append(failedLine + "\n");
 				}
 				if (sb.length() > 0) {
 
-					java.util.Date d = new java.util.Date();
-					SukuPad pad = new SukuPad(this, kontroller.getFileName()
-							+ "\n" + d.toString() + "\n"
-							+ Resurses.getString("SUKU2004_IMPORT_ERRORS")
-							+ "\n\n" + sb.toString());
+					final java.util.Date d = new java.util.Date();
+					final SukuPad pad = new SukuPad(this, kontroller.getFileName() + "\n" + d.toString() + "\n"
+							+ Resurses.getString("SUKU2004_IMPORT_ERRORS") + "\n\n" + sb.toString());
 					pad.setVisible(true);
 				}
 			} else {
 				queryDb();
 			}
-		} catch (SukuException e1) {
-			JOptionPane.showMessageDialog(this, e1.getMessage(),
-					Resurses.getString(Resurses.SUKU),
+		} catch (final SukuException e1) {
+			JOptionPane.showMessageDialog(this, e1.getMessage(), Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 			e1.printStackTrace();
 		}
@@ -3671,7 +3535,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		if (lastLoc < 0) {
 			lastLoc = 100;
 		}
-		int lastWidth = this.currentSize.width;
+		final int lastWidth = this.currentSize.width;
 
 		if ((getExtendedState() & ICONIFIED) != 0) {
 			return;
@@ -3679,19 +3543,17 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		this.currentSize = getSize();
 
-		Dimension splitterSize = new Dimension();
+		final Dimension splitterSize = new Dimension();
 
 		splitterSize.height = this.currentSize.height - 120;
-		splitterSize.width = this.currentSize.width
-				- (SPLITTER_HORIZ_MARGIN * 3);
+		splitterSize.width = this.currentSize.width - (SPLITTER_HORIZ_MARGIN * 3);
 
 		int rooty = getRootPane().getLocation().y;
 		rooty += this.menubar.getSize().height;
 
-		int rootw = getRootPane().getSize().width;
+		final int rootw = getRootPane().getSize().width;
 
-		this.statusPanel.setBounds(2, this.currentSize.height - rooty - 30,
-				rootw - 3, 26);
+		this.statusPanel.setBounds(2, this.currentSize.height - rooty - 30, rootw - 3, 26);
 
 		int splitWidth = splitterSize.width;
 		if (splitWidth < 0) {
@@ -3706,7 +3568,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		if (lastWidth > 0) {
 			if ((Math.abs(lastWidth - this.currentSize.width) > 10)) {
-				int locaNew = (splitWidth * lastLoc) / lastWidth;
+				final int locaNew = (splitWidth * lastLoc) / lastWidth;
 
 				// System.out.println("LOCAN/W: " + locaNew + "/" + lastLoc);
 				this.splitPane.setDividerLocation(locaNew);
@@ -3714,7 +3576,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 			try {
 				this.splitPane.updateUI();
-			} catch (NullPointerException ne) {
+			} catch (final NullPointerException ne) {
 				logger.warning("splitPane NullPointerException");
 			}
 
@@ -3722,7 +3584,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		if (this.scrollPane != null) {
 			try {
 				this.scrollPane.updateUI();
-			} catch (NullPointerException ne) {
+			} catch (final NullPointerException ne) {
 				logger.warning("scrollPane NullPointerException");
 				// ne.printStackTrace();
 			}
@@ -3732,7 +3594,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -3744,7 +3606,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -3756,7 +3618,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * recalculates sizes.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -3768,7 +3630,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -3779,7 +3641,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -3790,7 +3652,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -3801,7 +3663,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -3822,9 +3684,16 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		mSubjectDown.setEnabled(kontroller.getSchema() != null);
 		mSubjectUp.setEnabled(kontroller.getSchema() != null);
 		// mSettings.setEnabled(isConnected > 0);
-		mNewDatabase.setEnabled(kontroller.isConnected());
-		if (!kontroller.isRemote()) {
-			mDropSchema.setEnabled(kontroller.isConnected());
+		if (kontroller.isH2() && kontroller.isConnected()) {
+			mAdmin.setEnabled(false);
+			mNewDatabase.setEnabled(false);
+			mDropSchema.setEnabled(false);
+		} else {
+			mAdmin.setEnabled(true);
+			mNewDatabase.setEnabled(kontroller.isConnected());
+			if (!kontroller.isRemote()) {
+				mDropSchema.setEnabled(kontroller.isConnected());
+			}
 		}
 		mOpenPerson.setEnabled(kontroller.getSchema() != null);
 		mPrintPerson.setEnabled(kontroller.getSchema() != null);
@@ -3876,39 +3745,36 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	 */
 	public void showAddNoticeButton() {
 
-		int isele = personView.getSelectedIndex();
-		int mnotice = personView.getMainPaneIndex();
-		tAddNotice.setEnabled((kontroller.getSchema() != null)
-				&& tNoticesButton.isSelected() && (isele >= mnotice));
-		tDeleteNotice.setEnabled((kontroller.getSchema() != null)
-				&& tNoticesButton.isSelected() && (isele >= (mnotice + 2)));
+		final int isele = personView.getSelectedIndex();
+		final int mnotice = personView.getMainPaneIndex();
+		tAddNotice.setEnabled((kontroller.getSchema() != null) && tNoticesButton.isSelected() && (isele >= mnotice));
+		tDeleteNotice.setEnabled(
+				(kontroller.getSchema() != null) && tNoticesButton.isSelected() && (isele >= (mnotice + 2)));
 
 	}
 
 	/**
 	 * mouse clicked on database window.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
-		int ii = this.table.getSelectedRow();
+		final int ii = this.table.getSelectedRow();
 		if (ii < 0) {
 			return;
 		}
 		if ((e.getClickCount() == 2) && (e.getButton() == MouseEvent.BUTTON1)) {
-			SukuRow row = (SukuRow) this.table.getValueAt(ii,
-					SukuModel.SUKU_ROW);
+			final SukuRow row = (SukuRow) this.table.getValueAt(ii, SukuModel.SUKU_ROW);
 			if (row == null) {
 				return;
 			}
 			try {
 				this.personView.setSubjectForFamily(row.getPerson().getPid());
-			} catch (SukuException e1) {
-				JOptionPane.showMessageDialog(this, "show " + row + " error "
-						+ e1.getMessage());
+			} catch (final SukuException e1) {
+				JOptionPane.showMessageDialog(this, "show " + row + " error " + e1.getMessage());
 				e1.printStackTrace();
 			}
 			//
@@ -3931,7 +3797,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -3943,7 +3809,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -3955,7 +3821,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -3966,7 +3832,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -3995,7 +3861,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -4006,7 +3872,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -4019,7 +3885,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -4031,7 +3897,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param arg0
 	 *            the arg0
 	 */
@@ -4042,7 +3908,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * does nothing.
-	 * 
+	 *
 	 * @param e
 	 *            the e
 	 */
@@ -4053,7 +3919,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * release map window.
-	 * 
+	 *
 	 * @param me
 	 *            the me
 	 */
@@ -4065,7 +3931,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * release admin window.
-	 * 
+	 *
 	 * @param me
 	 *            the me
 	 */
@@ -4088,10 +3954,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	 * The listener interface for receiving popup events. The class that is
 	 * interested in processing a popup event implements this interface, and the
 	 * object created with that class is registered with a component using the
-	 * component's <code>addPopupListener<code> method. When
-	 * the popup event occurs, that object's appropriate
-	 * method is invoked.
-	 * 
+	 * component's <code>addPopupListener<code> method. When the popup event
+	 * occurs, that object's appropriate method is invoked.
+	 *
 	 * @see PopupEvent
 	 */
 	class PopupListener extends MouseAdapter implements ActionListener {
@@ -4101,7 +3966,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		/**
 		 * Instantiates a new popup listener.
-		 * 
+		 *
 		 * @param suku
 		 *            the suku
 		 */
@@ -4111,7 +3976,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * java.awt.event.MouseAdapter#mousePressed(java.awt.event.MouseEvent)
 		 */
@@ -4122,7 +3987,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * java.awt.event.MouseAdapter#mouseReleased(java.awt.event.MouseEvent)
 		 */
@@ -4134,17 +3999,16 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		private void maybeShowPopup(MouseEvent e) {
 			if (e.isPopupTrigger()) {
 
-				Point clickPoint = e.getPoint();
+				final Point clickPoint = e.getPoint();
 
-				int rowAtPoint = table.rowAtPoint(clickPoint);
+				final int rowAtPoint = table.rowAtPoint(clickPoint);
 				if (rowAtPoint < 0) {
 					return;
 				}
 
-				activeRow = (SukuRow) table.getValueAt(rowAtPoint,
-						SukuModel.SUKU_ROW);
+				activeRow = (SukuRow) table.getValueAt(rowAtPoint, SukuModel.SUKU_ROW);
 
-				SukuPopupMenu pop = SukuPopupMenu.getInstance();
+				final SukuPopupMenu pop = SukuPopupMenu.getInstance();
 				pop.setPerson(activeRow.getPerson());
 				pop.show(e, e.getX(), e.getY(), MenuSource.dbView);
 			}
@@ -4152,18 +4016,17 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent
-		 * )
+		 *
+		 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.
+		 * ActionEvent )
 		 */
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			String cmd = e.getActionCommand();
+			final String cmd = e.getActionCommand();
 			if (cmd == null) {
 				return;
 			}
-			SukuPopupMenu pop = SukuPopupMenu.getInstance();
+			final SukuPopupMenu pop = SukuPopupMenu.getInstance();
 			if (pop.getSource() == MenuSource.familyView) {
 				// TODO:
 			} else if (activeRow == null) {
@@ -4174,74 +4037,61 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 					try {
 						personView.setTextForPerson(pop.getPerson());
-					} catch (SukuException e1) {
-						JOptionPane.showMessageDialog(parent, "SHOW PERSON: "
-								+ pop.getPerson().getAlfaName() + " error "
-								+ e1.getMessage());
+					} catch (final SukuException e1) {
+						JOptionPane.showMessageDialog(parent,
+								"SHOW PERSON: " + pop.getPerson().getAlfaName() + " error " + e1.getMessage());
 						e1.printStackTrace();
 					}
 
 				} else if (cmd.equals(Resurses.TAB_FAMILY)) {
 					try {
-						personView
-								.setSubjectForFamily(pop.getPerson() == null ? 0
-										: pop.getPerson().getPid());
+						personView.setSubjectForFamily(pop.getPerson() == null ? 0 : pop.getPerson().getPid());
 
-					} catch (SukuException e1) {
-						JOptionPane.showMessageDialog(null, "SHOW FAMILY: "
-								+ pop.getPerson().getAlfaName() + " error "
-								+ e1.getMessage());
+					} catch (final SukuException e1) {
+						JOptionPane.showMessageDialog(null,
+								"SHOW FAMILY: " + pop.getPerson().getAlfaName() + " error " + e1.getMessage());
 
 						e1.printStackTrace();
 					}
 					//
 				} else if (cmd.startsWith("HISKI") && (cmd.length() > 5)) {
-					int hiskino = Integer.parseInt(cmd.substring(5));
+					final int hiskino = Integer.parseInt(cmd.substring(5));
 					personView.setHiskiPerson(hiskino, pop.getPerson());
 				} else if (cmd.equals(Resurses.TOOLBAR_REMPERSON_ACTION)) {
 
-					PersonShortData p = pop.getPerson();
-					int resu = JOptionPane.showConfirmDialog(
-							parent,
-							Resurses.getString("CONFIRM_DELETE") + " "
-									+ p.getAlfaName(),
-							Resurses.getString(Resurses.SUKU),
-							JOptionPane.YES_NO_OPTION,
-							JOptionPane.QUESTION_MESSAGE);
+					final PersonShortData p = pop.getPerson();
+					final int resu = JOptionPane.showConfirmDialog(parent,
+							Resurses.getString("CONFIRM_DELETE") + " " + p.getAlfaName(),
+							Resurses.getString(Resurses.SUKU), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (resu == JOptionPane.YES_OPTION) {
 
 						try {
-							SukuData result = Suku.kontroller.getSukuData(
-									"cmd=delete", "pid=" + p.getPid());
+							final SukuData result = Suku.kontroller.getSukuData("cmd=delete", "pid=" + p.getPid());
 							if (result.resu != null) {
-								JOptionPane.showMessageDialog(parent,
-										result.resu,
-										Resurses.getString(Resurses.SUKU),
+								JOptionPane.showMessageDialog(parent, result.resu, Resurses.getString(Resurses.SUKU),
 										JOptionPane.ERROR_MESSAGE);
 								logger.log(Level.WARNING, result.resu);
 								return;
 							}
 
-							int key = p.getPid();
+							final int key = p.getPid();
 
-							PersonShortData ret = getPerson(key);
+							final PersonShortData ret = getPerson(key);
 							if (ret != null) {
 								// this says the person is in db view
 								deletePerson(key);
 							}
-							int midx = personView.getMainPaneIndex();
+							final int midx = personView.getMainPaneIndex();
 							if (midx > 1) {
-								int mpid = personView.getPane(midx).getPid();
+								final int mpid = personView.getPane(midx).getPid();
 
 								personView.closeMainPane(mpid != p.getPid());
 								personView.refreshRelativesPane();
 
 							}
 
-						} catch (SukuException e1) {
-							JOptionPane.showMessageDialog(parent,
-									e1.getMessage(),
-									Resurses.getString(Resurses.SUKU),
+						} catch (final SukuException e1) {
+							JOptionPane.showMessageDialog(parent, e1.getMessage(), Resurses.getString(Resurses.SUKU),
 									JOptionPane.ERROR_MESSAGE);
 							logger.log(Level.WARNING, e1.getMessage(), e1);
 							e1.printStackTrace();
@@ -4251,36 +4101,32 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 				} else if (cmd.equals(Resurses.CREATE_REPORT)) {
 					createReport(pop.getPerson());
 				} else if (cmd.equals(Resurses.TAB_PERSON)) {
-					int pid = pop.getPerson().getPid();
+					final int pid = pop.getPerson().getPid();
 					try {
 						showPerson(pid);
-					} catch (SukuException e1) {
+					} catch (final SukuException e1) {
 
 						String message = Resurses.getString(e1.getMessage());
-						int createdIdx = message.toLowerCase().indexOf(
-								"the column name");
+						final int createdIdx = message.toLowerCase().indexOf("the column name");
 						if (createdIdx > 0) {
-							message += "\n"
-									+ Resurses.getString("SUGGEST_UPDATE");
+							message += "\n" + Resurses.getString("SUGGEST_UPDATE");
 						}
 
 						JOptionPane.showMessageDialog(parent, message);
-						logger.log(Level.SEVERE, "Failed to create person ["
-								+ pid + "]", e);
+						logger.log(Level.SEVERE, "Failed to create person [" + pid + "]", e);
 
 					}
 
 				} else if (cmd.equals(Resurses.TAB_RELATIVES)) {
-					int pid = pop.getPerson().getPid();
+					final int pid = pop.getPerson().getPid();
 					try {
 						showPerson(pid);
-					} catch (SukuException e1) {
+					} catch (final SukuException e1) {
 						JOptionPane.showMessageDialog(parent, e1.getMessage());
-						logger.log(Level.SEVERE, "Failed to create person ["
-								+ pid + "]", e);
+						logger.log(Level.SEVERE, "Failed to create person [" + pid + "]", e);
 					}
 
-					int midx = personView.getMainPaneIndex();
+					final int midx = personView.getMainPaneIndex();
 					if (midx >= 2) {
 						personView.setSelectedIndex(midx + 1);
 					}
@@ -4290,27 +4136,24 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						personView.copyFamilyToClipboardAsImage();
 					} else {
 
-						PersonShortData perso = pop.getPerson();
+						final PersonShortData perso = pop.getPerson();
 						if (perso != null) {
 							Suku.sukuObject = perso;
-							logger.fine("Copied to clipboard ["
-									+ perso.getPid() + "]: "
-									+ perso.getAlfaName());
+							logger.fine("Copied to clipboard [" + perso.getPid() + "]: " + perso.getAlfaName());
 						} else {
 							return;
 						}
 
-						int[] ii = table.getSelectedRows();
+						final int[] ii = table.getSelectedRows();
 						if (ii.length == 0) {
 							return;
 						}
-						StringBuilder sb = new StringBuilder();
+						final StringBuilder sb = new StringBuilder();
 
 						sb.append(perso.getHeader() + "\n");
-						for (int element : ii) {
-							SukuRow rivi = (SukuRow) table.getValueAt(element,
-									SukuModel.SUKU_ROW);
-							PersonShortData pers = rivi.getPerson();
+						for (final int element : ii) {
+							final SukuRow rivi = (SukuRow) table.getValueAt(element, SukuModel.SUKU_ROW);
+							final PersonShortData pers = rivi.getPerson();
 
 							sb.append(pers.toString() + "\n");
 
@@ -4319,18 +4162,18 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						sb.append(" ");
 						sb.append(Resurses.getString("SUKUOHJELMISTO"));
 						sb.append(" ");
-						java.util.Date now = new java.util.Date();
+						final java.util.Date now = new java.util.Date();
 						sb.append(now.toString());
 
 						copyToClip(sb.toString());
 					}
 				} else if (cmd.equals(Resurses.MENU_NEEDLE)) {
-					PersonShortData pp = pop.getPerson();
+					final PersonShortData pp = pop.getPerson();
 					if (pp != null) {
 						addToNeedle(pp);
 					}
 				} else if (cmd.startsWith("ADD")) {
-					PersonShortData pp = pop.getPerson();
+					final PersonShortData pp = pop.getPerson();
 					if (pp != null) {
 
 						parent.activePersonPid = 0;
@@ -4340,8 +4183,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 								parent.showPerson(0, null);
 								parent.personView.addParentToPerson(pp);
 							} else if (cmd.equals("ADDSPOUSE")) {
-								String spouseSex = (pp.getSex().equals("M")) ? "F"
-										: "M";
+								final String spouseSex = (pp.getSex().equals("M")) ? "F" : "M";
 								parent.showPerson(0, spouseSex);
 								parent.personView.addSpouseToPerson(pp);
 
@@ -4350,11 +4192,9 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 								parent.personView.addChildToPerson(pp);
 							}
 
-						} catch (SukuException e1) {
-							JOptionPane.showMessageDialog(parent,
-									e1.getMessage());
-							logger.log(Level.SEVERE,
-									"Failed to create person ", e);
+						} catch (final SukuException e1) {
+							JOptionPane.showMessageDialog(parent, e1.getMessage());
+							logger.log(Level.SEVERE, "Failed to create person ", e);
 						}
 					}
 				} else if (cmd.equals("JOIN_PERSON")) {
@@ -4363,20 +4203,19 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 						pop.enableJoinAdd(pop.getPerson());
 					}
 				} else if (cmd.equals("JOIN_ADD_PERSON")) {
-					StringBuilder messu = new StringBuilder();
+					final StringBuilder messu = new StringBuilder();
 					PersonShortData main = null;
 					try {
 						main = getJoinPerson();
-					} catch (SukuException e1) {
+					} catch (final SukuException e1) {
 						messu.append(e1.toString());
 					}
 					if (main != null) {
-						String sexm = main.getSex();
-						String sexp = pop.getPerson().getSex();
+						final String sexm = main.getSex();
+						final String sexp = pop.getPerson().getSex();
 						if (!sexm.equals("U") && !sexp.equals("U")) {
 							if (!sexm.equals(sexp)) {
-								messu.append(Resurses
-										.getString("JOIN_DIFF_SEX"));
+								messu.append(Resurses.getString("JOIN_DIFF_SEX"));
 							}
 						}
 
@@ -4400,12 +4239,12 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 	/**
 	 * This is used to align columns in database view to the right dated,
 	 * numbers etc.
-	 * 
+	 *
 	 * @author fikaakail
 	 */
 	class RightTableCellRenderer extends DefaultTableCellRenderer {
 		/**
-		 * 
+		 *
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -4420,7 +4259,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * java.awt.datatransfer.ClipboardOwner#lostOwnership(java.awt.datatransfer
 	 * .Clipboard, java.awt.datatransfer.Transferable)
@@ -4433,7 +4272,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see fi.kaila.suku.swing.ISuku#GroupWindowClosing()
 	 */
 	@Override
@@ -4458,7 +4297,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * javax.swing.TransferHandler#getSourceActions(javax.swing.JComponent)
 		 */
@@ -4469,7 +4308,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see
 		 * javax.swing.TransferHandler#createTransferable(javax.swing.JComponent
 		 * )
@@ -4477,12 +4316,12 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 		@Override
 		protected Transferable createTransferable(JComponent c) {
 			if (c instanceof JTable) {
-				int midx = personView.getMainPaneIndex();
+				final int midx = personView.getMainPaneIndex();
 				if (midx >= 2) {
 					personView.setSelectedIndex(midx + 1);
 				}
 
-				PersonShortData ps = getSelectedPerson();
+				final PersonShortData ps = getSelectedPerson();
 				if (ps != null) {
 					ps.setDragSource(Utils.PersonSource.DATABASE);
 					return ps;
@@ -4495,7 +4334,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.TransferHandler#exportDone(javax.swing.JComponent,
 		 * java.awt.datatransfer.Transferable, int)
 		 */
@@ -4518,7 +4357,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		/**
 		 * Instantiates a new db table.
-		 * 
+		 *
 		 * @param model
 		 *            the model
 		 */
@@ -4529,7 +4368,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.JTable#convertColumnIndexToView(int)
 		 */
 		@Override
@@ -4539,7 +4378,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 		/*
 		 * (non-Javadoc)
-		 * 
+		 *
 		 * @see javax.swing.JTable#convertColumnIndexToModel(int)
 		 */
 		@Override
@@ -4551,7 +4390,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Sets the image scaler index.
-	 * 
+	 *
 	 * @param imageScaler
 	 *            the new image scaler index
 	 */
@@ -4562,7 +4401,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Gets the image scaler index.
-	 * 
+	 *
 	 * @return the image scaler index
 	 */
 	public int getImageScalerIndex() {
@@ -4571,17 +4410,16 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Gets the fin family xls.
-	 * 
+	 *
 	 * @return the finFamilyXls
 	 */
 	public static String getFinFamilyXls() {
 		if (finFamilyXls != null) {
-			File f = new File(finFamilyXls);
+			final File f = new File(finFamilyXls);
 			if (f.exists()) {
 				return finFamilyXls;
 			} else {
-				logger.warning("FinFamily file does not exist at "
-						+ finFamilyXls);
+				logger.warning("FinFamily file does not exist at " + finFamilyXls);
 			}
 		}
 		return null;
@@ -4589,7 +4427,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener,
 
 	/**
 	 * Sets the fin family xls.
-	 * 
+	 *
 	 * @param path
 	 *            the new fin family xls
 	 */

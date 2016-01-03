@@ -9,16 +9,14 @@ import org.junit.Test;
 import fi.kaila.suku.util.Resurses;
 
 /**
- * 
- * Test of resourceBundle and other properties
- * 
+ * Test of resourceBundle and other properties.
+ *
  * @author fikaakail
- * 
  */
 public class PropertiesTest extends TestCase {
 
 	/**
-	 * test that FILE exists
+	 * test that FILE exists.
 	 */
 	@Test
 	public void testFilePropertyFin() {
@@ -30,7 +28,7 @@ public class PropertiesTest extends TestCase {
 	}
 
 	/**
-	 * test that FILE = Tiedosto in fi
+	 * test that FILE = Tiedosto in fi.
 	 */
 	@Test
 	public void testFilePropertyEn() {
@@ -42,7 +40,7 @@ public class PropertiesTest extends TestCase {
 	}
 
 	/**
-	 * test that FILE = File in en
+	 * test that FILE = File in en.
 	 */
 	@Test
 	public void testNoexistatntProperty() {

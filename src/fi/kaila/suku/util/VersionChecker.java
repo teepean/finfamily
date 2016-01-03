@@ -165,6 +165,9 @@ public class VersionChecker {
 
 	}
 
+	/**
+	 * The Class VersionTask.
+	 */
 	class VersionTask extends SwingWorker<Void, Void> {
 
 		/*

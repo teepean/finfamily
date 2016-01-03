@@ -10,14 +10,14 @@ import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
 /**
- * Multiplies two images
+ * Multiplies two images.
+ *
  * @author Martin Steiger
  */
 public class MultiplyComposite implements Composite
 {
-	/**
-	 * The default implementation
-	 */
+	
+	/** The default implementation. */
 	public static final MultiplyComposite Default = new MultiplyComposite();
 
 	private MultiplyComposite()
@@ -25,6 +25,9 @@ public class MultiplyComposite implements Composite
 		// empty
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.awt.Composite#createContext(java.awt.image.ColorModel, java.awt.image.ColorModel, java.awt.RenderingHints)
+	 */
 	@Override
 	public CompositeContext createContext(ColorModel srcColorModel, ColorModel dstColorModel, RenderingHints hints)
 	{

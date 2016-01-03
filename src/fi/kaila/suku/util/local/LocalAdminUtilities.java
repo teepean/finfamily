@@ -182,6 +182,9 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 	 * @return true is succeeded to connect to databse
 	 */
 	public boolean connectPostgres() {
+		/** The is H2 database. */
+		boolean isH2 = false;
+
 		AdminConnectDialog pdlg = new AdminConnectDialog(this);
 		pdlg.setVisible(true);
 		postPassword = pdlg.getPassword();
@@ -193,11 +196,11 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 			String[] userlista;
 			try {
 				Connection con = getConnection();
-				datalista = LocalDatabaseUtility.getListOfDatabases(con);
+				datalista = LocalDatabaseUtility.getListOfDatabases(con, isH2);
 				// this.dblista.removeAll();
 				this.dblista.setListData(datalista);
 
-				userlista = LocalDatabaseUtility.getListOfUsers(con);
+				userlista = LocalDatabaseUtility.getListOfUsers(con, isH2);
 				this.userCombo.removeAllItems();
 				for (String element : userlista) {
 					this.userCombo.addItem(element);
@@ -238,6 +241,9 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		/** The is H2 database. */
+		boolean isH2 = false;
+ 
 		String cmd = e.getActionCommand();
 
 		if (cmd == null) {
@@ -277,7 +283,7 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 					stm.executeUpdate(sql);
 
 					String[] userlista = LocalDatabaseUtility
-							.getListOfUsers(con);
+							.getListOfUsers(con, isH2);
 					this.userCombo.removeAllItems();
 					for (String element : userlista) {
 						this.userCombo.addItem(element);
@@ -339,7 +345,7 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 					Statement stm = con.createStatement();
 					stm.executeUpdate(sql);
 					String[] datalista = LocalDatabaseUtility
-							.getListOfDatabases(con);
+							.getListOfDatabases(con, isH2);
 					this.dblista.setListData(datalista);
 					stm.close();
 					con.close();
@@ -370,7 +376,7 @@ public class LocalAdminUtilities extends JFrame implements ActionListener {
 					Statement stm = con.createStatement();
 					stm.executeUpdate(sql);
 					String[] datalista = LocalDatabaseUtility
-							.getListOfDatabases(con);
+							.getListOfDatabases(con, isH2);
 					this.dblista.setListData(datalista);
 					stm.close();
 					con.close();

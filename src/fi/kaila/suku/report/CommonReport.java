@@ -2481,6 +2481,9 @@ public abstract class CommonReport {
 		return text;
 	}
 
+	/**
+	 * The Class TextNamePart.
+	 */
 	class TextNamePart {
 
 		/** The location. */

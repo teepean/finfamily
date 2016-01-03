@@ -16,7 +16,7 @@ import org.jxmapviewer.viewer.WaypointRenderer;
 
 
 /**
- * A FinFamily waypoint painter
+ * A FinFamily waypoint painter.
  */
 public class FFWaypointRenderer implements WaypointRenderer<FFWaypoint>
 {
@@ -27,7 +27,7 @@ public class FFWaypointRenderer implements WaypointRenderer<FFWaypoint>
 	private BufferedImage origImage;
 
 	/**
-	 * Uses a default waypoint image
+	 * Uses a default waypoint image.
 	 */
 	public FFWaypointRenderer()
 	{
@@ -64,6 +64,9 @@ public class FFWaypointRenderer implements WaypointRenderer<FFWaypoint>
 		return imgOut;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.jxmapviewer.viewer.WaypointRenderer#paintWaypoint(java.awt.Graphics2D, org.jxmapviewer.JXMapViewer, java.lang.Object)
+	 */
 	@Override
 	public void paintWaypoint(Graphics2D g, JXMapViewer viewer, FFWaypoint w)
 	{

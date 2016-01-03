@@ -14,6 +14,9 @@ import fi.kaila.suku.swing.Suku;
 import fi.kaila.suku.util.Resurses;
 import fi.kaila.suku.util.pojo.PersonShortData;
 
+/**
+ * The Class JoinDialog.
+ */
 public class JoinDialog extends JDialog implements ActionListener {
 
 	/**

@@ -28,10 +28,9 @@ import fi.kaila.suku.util.pojo.SukuData;
  * in selected view
  * 
  * If person has children without birth year that person is inserted into result
- * view
- * 
+ * view.
+ *
  * @author kalle
- * 
  */
 public class OrderChildren extends JDialog implements ActionListener,
 		PropertyChangeListener {

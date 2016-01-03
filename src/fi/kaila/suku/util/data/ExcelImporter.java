@@ -37,16 +37,18 @@ public class ExcelImporter {
 
 	/**
 	 * Import the types data.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 * @param fis
 	 *            the fis
+	 * @param isH2
+	 *            the is h2
 	 * @return types
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public SukuData importTypes(Connection con, InputStream fis)
+	public SukuData importTypes(Connection con, InputStream fis, boolean isH2)
 			throws SukuException {
 		WorkbookSettings ws = new WorkbookSettings();
 		ws.setEncoding("ISO-8859-1");
@@ -99,9 +101,16 @@ public class ExcelImporter {
 				String INSERT_TYPES = "insert into Types (TagType,Tag,Rule,LangCode,Name,ReportName) "
 						+ " values (?,?,?,?,?,?)";
 				String DELETE_TYPES = "delete from Types";
-				String UPDATE_SETTINGS = "update SukuSettings "
-						+ "set settingvalue = substring(settingvalue for 5)  "
-						+ "where settingtype = 'reporttypes' ";
+				String UPDATE_SETTINGS = "";
+				if (isH2) {
+					UPDATE_SETTINGS = "update SukuSettings "
+							+ "set settingvalue = LEFT(settingvalue,5)  "
+							+ "where settingtype = 'reporttypes' ";
+				} else {
+					UPDATE_SETTINGS = "update SukuSettings "
+							+ "set settingvalue = substring(settingvalue for 5)  "
+							+ "where settingtype = 'reporttypes' ";
+				}
 				try {
 
 					pst = con.prepareStatement(DELETE_TYPES);
@@ -284,23 +293,30 @@ public class ExcelImporter {
 
 	/**
 	 * Import the coordinates data.
-	 * 
+	 *
 	 * @param con
 	 *            the con
 	 * @param fis
 	 *            the fis
+	 * @param isH2
+	 *            the is h2
 	 * @return coordinates reuqested
 	 * @throws SukuException
 	 *             the suku exception
 	 */
-	public SukuData importCoordinates(Connection con, InputStream fis)
+	public SukuData importCoordinates(Connection con, InputStream fis, boolean isH2)
 			throws SukuException {
 
 		SukuData suk = new SukuData();
 
 		Vector<String> errvec = new Vector<String>();
-
-		String INSERT_PLACELOC = "insert into PlaceLocations (PlaceName,CountryCode,Location) values (?,?,point(?,?))";
+		
+		String INSERT_PLACELOC = "";
+		if (isH2) {
+			INSERT_PLACELOC = "insert into PlaceLocations (PlaceName,CountryCode,Location_X,Location_Y) values (?,?,?,?)";
+		} else {
+			INSERT_PLACELOC = "insert into PlaceLocations (PlaceName,CountryCode,Location) values (?,?,point(?,?))";
+		}
 		String INSERT_PLACEOTHER = "insert into PlaceOtherNames (OtherName,CountryCode,PlaceName) values (?,?,?)";
 
 		String DELETE_PLACELOC = "delete from PlaceLocations";

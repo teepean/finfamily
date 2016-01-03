@@ -34,6 +34,7 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 	private SukuServer server = null;
 	private static Logger logger = null;
 	private boolean isConnected = false;
+	private boolean isH2 = false;
 	private File file = null;
 	private Suku host = null;
 	private String schema = null;
@@ -48,7 +49,7 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 	 */
 	public SukuKontrollerLocalImpl(Suku host) throws SukuException {
 		this.host = host;
-		this.server = new SukuServerImpl(null, null);
+		this.server = new SukuServerImpl(null, null, isH2);
 		sr = Preferences.userRoot();
 		logger = Logger.getLogger(this.getClass().getName());
 	}
@@ -62,9 +63,10 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 	 */
 	@Override
 	public void getConnection(String host, String dbname, String userid,
-			String passwd) throws SukuException {
+			String passwd, boolean isH2) throws SukuException {
 		isConnected = false;
-		this.server.getConnection(host, dbname, userid, passwd);
+		this.isH2 = isH2;
+		this.server.getConnection(host, dbname, userid, passwd, isH2);
 		isConnected = true;
 	}
 
@@ -77,6 +79,16 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 	public void resetConnection() {
 		this.server.resetConnection();
 		isConnected = false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#setDBType()
+	 */
+	@Override
+	public void setDBType(boolean dbtype) {
+		isH2 = dbtype;
 	}
 
 	/**
@@ -416,6 +428,17 @@ public class SukuKontrollerLocalImpl implements SukuKontroller {
 	public boolean isConnected() {
 
 		return isConnected;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see fi.kaila.suku.kontroller.SukuKontroller#isConnected()
+	 */
+	@Override
+	public boolean isH2() {
+
+		return isH2;
 	}
 
 	/*

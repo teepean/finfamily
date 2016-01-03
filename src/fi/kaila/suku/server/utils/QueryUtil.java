@@ -27,6 +27,9 @@ public class QueryUtil {
 
 	private Connection con = null;
 
+	/** The is H2 database. */
+	private boolean isH2 = false;
+
 	// private String toDoTagName = null;
 
 	/**
@@ -35,8 +38,9 @@ public class QueryUtil {
 	 * @param con
 	 *            the con
 	 */
-	public QueryUtil(Connection con) {
+	public QueryUtil(Connection con, boolean isH2) {
 		this.con = con;
+		this.isH2 = isH2;
 		// this.toDoTagName = Resurses.getString(Resurses.COLUMN_T_TODO);
 
 	}
@@ -100,7 +104,11 @@ public class QueryUtil {
 							if (sbn.length() > 0) {
 								sbn.append("and ");
 							}
-							sbn.append("givenname ilike '");
+							if (isH2){
+								sbn.append("givenname like '");
+							} else {
+								sbn.append("givenname ilike '");
+							}
 							sbn.append(toQuery(decod));
 							sbn.append("%' ");
 						} else if (pari[0].equals(Resurses.CRITERIA_SURNAME)) {
@@ -108,14 +116,22 @@ public class QueryUtil {
 								sbn.append("and ");
 							}
 
-							sbn.append("surname ilike '");
+							if (isH2){
+								sbn.append("surname like '");
+							} else {
+								sbn.append("surname ilike '");
+							}
 							sbn.append(toQuery(decod));
 							sbn.append("%' ");
 						} else if (pari[0].equals(Resurses.CRITERIA_PATRONYME)) {
 							if (sbn.length() > 0) {
 								sbn.append("and ");
 							}
-							sbn.append("patronym ilike '");
+							if (isH2){
+								sbn.append("patronym like '");
+							} else {
+								sbn.append("patronym ilike '");
+							}
 							sbn.append(toQuery(decod));
 							sbn.append("%' ");
 						} else if (pari[0].equals(Resurses.CRITERIA_PLACE)) {
@@ -180,7 +196,11 @@ public class QueryUtil {
 						fromSQL.append("and ");
 					}
 					isFirstCriteria = false;
-					fromSQL.append("u.groupid ilike '");
+					if (isH2){
+						fromSQL.append("u.groupid like '");
+					} else {
+						fromSQL.append("u.groupid ilike '");
+					}
 					fromSQL.append(toQuery(group));
 					fromSQL.append("%' ");
 				}
@@ -223,11 +243,19 @@ public class QueryUtil {
 					}
 					if ((begdate == null) && (todate == null)
 							&& (place != null)) {
-						fromSQL.append("place ilike '");
+						if (isH2){
+							fromSQL.append("place like '");
+						} else {
+							fromSQL.append("place ilike '");
+						}
 						fromSQL.append(toQuery(place));
 						fromSQL.append("%' ");
 					} else if (place != null) {
-						fromSQL.append("and place ilike '");
+						if (isH2){
+							fromSQL.append("and place like '");
+						} else {
+							fromSQL.append("and place ilike '");
+						}
 						fromSQL.append(toQuery(place));
 						fromSQL.append("' ");
 					}
@@ -275,11 +303,19 @@ public class QueryUtil {
 					}
 					if ((begdate == null) && (todate == null)
 							&& (place != null)) {
-						fromSQL.append("place ilike '");
+						if (isH2){
+							fromSQL.append("place like '");
+						} else {
+							fromSQL.append("place ilike '");
+						}
 						fromSQL.append(toQuery(place));
 						fromSQL.append("' ");
 					} else if (place != null) {
-						fromSQL.append("and place ilike '");
+						if (isH2){
+							fromSQL.append("and place like '");
+						} else {
+							fromSQL.append("and place ilike '");
+						}
 						fromSQL.append(place);
 						fromSQL.append("%' ");
 					}
@@ -362,7 +398,11 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							fromSQL.append(" place ilike '");
+							if (isH2){
+								fromSQL.append(" place like '");
+							} else {
+								fromSQL.append(" place ilike '");
+							}
 							fromSQL.append(toQuery(searchPlace));
 							fromSQL.append("%'");
 						}
@@ -372,7 +412,11 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							fromSQL.append(" village ilike '");
+							if (isH2){
+								fromSQL.append(" village like '");
+							} else {
+								fromSQL.append(" village ilike '");
+							}
 							fromSQL.append(toQuery(searchVillage));
 							fromSQL.append("%'");
 						}
@@ -382,7 +426,11 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							fromSQL.append(" farm ilike '");
+							if (isH2){
+								fromSQL.append(" farm like '");
+							} else {
+								fromSQL.append(" farm ilike '");
+							}
 							fromSQL.append(toQuery(searchFarm));
 							fromSQL.append("%'");
 						}
@@ -392,7 +440,11 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							fromSQL.append(" croft ilike '");
+							if (isH2){
+								fromSQL.append(" croft like '");
+							} else {
+								fromSQL.append(" croft ilike '");
+							}
 							fromSQL.append(toQuery(searchCroft));
 							fromSQL.append("%'");
 						}
@@ -407,7 +459,11 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							fromSQL.append(" place ilike '");
+							if (isH2){
+								fromSQL.append(" place like '");
+							} else {
+								fromSQL.append(" place ilike '");
+							}
 							fromSQL.append(toQuery(searchPlace));
 							fromSQL.append("'");
 						}
@@ -417,7 +473,11 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							fromSQL.append(" village ilike '");
+							if (isH2){
+								fromSQL.append(" village like '");
+							} else {
+								fromSQL.append(" village ilike '");
+							}
 							fromSQL.append(toQuery(searchVillage));
 							fromSQL.append("'");
 						}
@@ -427,7 +487,11 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							fromSQL.append(" farm ilike '");
+							if (isH2){
+								fromSQL.append(" farm like '");
+							} else {
+								fromSQL.append(" farm ilike '");
+							}
 							fromSQL.append(toQuery(searchFarm));
 							fromSQL.append("'");
 						}
@@ -437,7 +501,11 @@ public class QueryUtil {
 							} else {
 								fromSQL.append(" and");
 							}
-							fromSQL.append(" croft ilike '");
+							if (isH2){
+								fromSQL.append(" croft like '");
+							} else {
+								fromSQL.append(" croft ilike '");
+							}
 							fromSQL.append(toQuery(searchCroft));
 							fromSQL.append("'");
 						}
@@ -508,7 +576,11 @@ public class QueryUtil {
 						}
 						free.append("u.pid ");
 						free.append((valueAndOrNot == 2 ? "not " : ""));
-						free.append("in (select pid from fullTextView where fulltext ilike '%");
+						if (isH2){
+							free.append("in (select pid from fullTextView where fulltext like '%");
+						} else {
+							free.append("in (select pid from fullTextView where fulltext ilike '%");
+						}
 						free.append(toQuery(parts[i]));
 						free.append("%') ");
 					}
