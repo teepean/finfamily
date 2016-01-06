@@ -243,10 +243,12 @@ public class PersonUtil {
 		}
 
 		int pid = 0;
+
+		Statement stm = null;
+		PreparedStatement pst = null;
+
 		try {
 			con.setAutoCommit(false);
-			Statement stm;
-			PreparedStatement pst;
 
 			if (req.persLong.getPid() > 0) { // insert new person
 
@@ -580,6 +582,14 @@ public class PersonUtil {
 			return res;
 
 		} finally {
+			if (pst != null) {
+				try {
+					pst.close();
+				} catch (final SQLException ignored) {
+					// SQLException ignored
+				}
+			}
+
 			try {
 				con.setAutoCommit(true);
 			} catch (final SQLException e) {

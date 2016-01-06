@@ -816,6 +816,7 @@ public class XmlReport implements ReportInterface {
 				}
 			}
 			sbb.append(ff.out());
+			ff.close();
 
 			return sbb.toString();
 		} else {
@@ -882,6 +883,7 @@ public class XmlReport implements ReportInterface {
 				}
 			}
 			sbb.append(ff.out());
+			ff.close();
 
 			return sbb.toString();
 
