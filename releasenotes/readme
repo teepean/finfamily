@@ -2,6 +2,9 @@ FinFamily Release notes
 
 Releases follow the Subversion revision numbers. 
 
+Release 1251 on 31 jan 2016
+* Fixed setting translations in language dialog.
+
 Release 1247 on 6 jan 2016
 * Added possibility to use file based H2 database.
 * Technical fixes and changes.
