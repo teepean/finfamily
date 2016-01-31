@@ -92,11 +92,7 @@ public class Upload {
 					if (curPid > 0) {
 						respons.pidArray[i] = curPid;
 					} else if (curPid < 0) {
-						if (isH2) {
-							respons.pidArray[i] = nextSeq(con, "UnitSeq");
-						} else {
-							respons.pidArray[i] = nextSeq(con, "unitseq");
-						}
+						respons.pidArray[i] = nextSeq(con, "unitseq");
 					}
 
 					if (curPid < 0) {
@@ -117,11 +113,7 @@ public class Upload {
 			if (families.persons[i].getPid() == 0) {
 				// TODO:
 			} else if ((families.persons[i].getPid() <= 0) && (respons.pidArray[i] <= 0)) {
-				if (isH2) {
-					respons.pidArray[i] = nextSeq(con, "UnitSeq");
-				} else {
-					respons.pidArray[i] = nextSeq(con, "unitseq");
-				}
+				respons.pidArray[i] = nextSeq(con, "unitseq");
 			} else if (families.persons[i].getPid() > 0) {
 				respons.pidArray[i] = families.persons[i].getPid();
 			}

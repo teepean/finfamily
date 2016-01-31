@@ -661,12 +661,12 @@ public class Read2004XML extends DefaultHandler {
 			ResultSet rs = stm.executeQuery(sql);
 			int maxpid = 0;
 			if (rs.next()) {
-				maxpid = rs.getInt(1);
+				maxpid = rs.getInt(1) + 1;
 			}
 			rs.close();
 			if (maxpid > 0) {
 				if (this.isH2) {
-					sql = "ALTER SEQUENCE UnitSeq RESTART WITH " + maxpid;
+					sql = "ALTER SEQUENCE unitseq RESTART WITH " + maxpid;
 					stm.executeUpdate(sql);
 				} else {
 					sql = "SELECT setval('unitseq'," + maxpid + ")";
@@ -679,7 +679,7 @@ public class Read2004XML extends DefaultHandler {
 			rs = stm.executeQuery(sql);
 			int maxvid = 0;
 			if (rs.next()) {
-				maxvid = rs.getInt(1);
+				maxvid = rs.getInt(1) + 1;
 			}
 			rs.close();
 			if (maxvid > 0) {
