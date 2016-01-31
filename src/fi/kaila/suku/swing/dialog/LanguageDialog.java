@@ -221,7 +221,7 @@ public class LanguageDialog extends JDialog implements ActionListener, Component
 					&& (u.getPlace() == null) && (u.getNoteText() == null)) {
 				u.setToBeDeleted(true);
 			}
-			if ((u.getPid() > 0) && !u.isToBeDeleted()) {
+			if (((u.getPid() > 0) && !u.isToBeDeleted()) || u.isToBeUpdated()) {
 				ulv.add(u);
 			}
 		}
