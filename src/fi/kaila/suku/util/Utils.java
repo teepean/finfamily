@@ -40,7 +40,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.FieldPosition;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -1165,6 +1168,61 @@ public class Utils {
 
 		}
 		return exitVal;
+	}
+
+	public static String dateToDb(String sdat) {
+		if (sdat == null) {
+			return "";
+		}
+
+		final Date dat = stringToDate(sdat);
+		final String dff = "yyyy-MM-dd";
+		final SimpleDateFormat sf = new SimpleDateFormat(dff);
+		StringBuffer sb = new StringBuffer();
+		sb = sf.format(dat, sb, new FieldPosition(0));
+		return sb.toString();
+	}
+
+	public static String dateToString(Date dat) {
+		if (dat == null) {
+			return "";
+		}
+
+		final String df = Resurses.getDateFormat();
+		String dff = "yyyy.MM.dd";
+		if (df != null) {
+			if (df.equals("FI")) {
+				dff = "dd.MM.yyyy";
+			} else if (df.equals("UK")) {
+				dff = "dd/MM/yyyy";
+			} else if (df.equals("US")) {
+				dff = "MM/dd/yyyy";
+			}
+		}
+		final SimpleDateFormat sf = new SimpleDateFormat(dff);
+		StringBuffer sb = new StringBuffer();
+		sb = sf.format(dat, sb, new FieldPosition(0));
+		return sb.toString();
+	}
+
+	public static Date stringToDate(String dat) {
+		final String df = Resurses.getDateFormat();
+		String dff = "yyyy.MM.dd";
+		if (df != null) {
+			if (df.equals("FI")) {
+				dff = "dd.MM.yyyy";
+			} else if (df.equals("UK")) {
+				dff = "dd/MM/yyyy";
+			} else if (df.equals("US")) {
+				dff = "MM/dd/yyyy";
+			}
+		}
+		final SimpleDateFormat sf = new SimpleDateFormat(dff);
+		try {
+			return sf.parse(dat);
+		} catch (final ParseException e) {
+			return null;
+		}
 	}
 
 }

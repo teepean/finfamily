@@ -35,10 +35,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.FieldPosition;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,7 +53,7 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
-import org.jbundle.thin.base.screen.jcalendarbutton.JCalendarButton;
+import com.toedter.calendar.JDateChooser;
 
 import fi.kaila.suku.swing.Suku;
 import fi.kaila.suku.swing.util.SukuSuretyField;
@@ -93,9 +90,9 @@ public class SearchCriteria extends JDialog implements ActionListener {
 	private final JTextField deatToDate;
 	private final JTextField deatPlace;
 
-	private final DateTextField createdFromDate;
+	private final JDateChooser createdFromDate;
 
-	private final DateTextField createdToDate;
+	private final JDateChooser createdToDate;
 
 	private final JComboBox viewList;
 	private String[] viewArray = null;
@@ -479,9 +476,9 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		lbl = new JLabel(Resurses.getString(Resurses.CRITERIA_CREATED_TO));
 		this.createdPanel.add(lbl);
 
-		this.createdFromDate = new DateTextField();
+		this.createdFromDate = new JDateChooser();
 		this.createdPanel.add(this.createdFromDate);
-		this.createdToDate = new DateTextField();
+		this.createdToDate = new JDateChooser();
 		this.createdPanel.add(this.createdToDate);
 
 		tit = BorderFactory.createTitledBorder(bvl, Resurses.getString(Resurses.CRITERIA_VIEW));
@@ -664,9 +661,9 @@ public class SearchCriteria extends JDialog implements ActionListener {
 						deatPlace.setText(parts[1]);
 
 					} else if (parts[0].equals("createdFromDate")) {
-						createdFromDate.setText(parts[1]);
+						createdFromDate.setDate(Utils.stringToDate(parts[1]));
 					} else if (parts[0].equals("createdToDate")) {
-						createdToDate.setText(parts[1]);
+						createdToDate.setDate(Utils.stringToDate(parts[1]));
 					} else if (parts[0].equals("viewGroup")) {
 						viewGroup.setText(parts[1]);
 					} else if (parts[0].equals("viewId")) {
@@ -1001,9 +998,9 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		case 8:
 			return this.deatPlace.getText();
 		case 9:
-			return this.createdFromDate.getText();
+			return Utils.dateToString(this.createdFromDate.getDate());
 		case 10:
-			return this.createdToDate.getText();
+			return Utils.dateToString(this.createdToDate.getDate());
 		case 11:
 			vid = this.getViewId();
 			if (vid == 0) {
@@ -1173,8 +1170,8 @@ public class SearchCriteria extends JDialog implements ActionListener {
 				v.add("deatToDate=" + tmpDate);
 			}
 			v.add("deatPlace=" + deatPlace.getText());
-			v.add("createdFromDate=" + createdFromDate.getText());
-			v.add("createdToDate=" + createdToDate.getText());
+			v.add("createdFromDate=" + Utils.dateToString(createdFromDate.getDate()));
+			v.add("createdToDate=" + Utils.dateToString(createdToDate.getDate()));
 			v.add("viewGroup=" + viewGroup.getText());
 
 			final int vid = this.getViewId();
@@ -1268,8 +1265,8 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		deatToDate.setText("");
 		deatPlace.setText("");
 
-		createdFromDate.setText("");
-		createdToDate.setText("");
+		createdFromDate.setDate(null);
+		createdToDate.setDate(null);
 		if (viewList.getItemCount() > 0) {
 			viewList.setSelectedIndex(0);
 		}
@@ -1290,76 +1287,4 @@ public class SearchCriteria extends JDialog implements ActionListener {
 		fullText.setText("");
 
 	}
-
-	/**
-	 * The Class DateTextField.
-	 */
-	class DateTextField extends JPanel {
-		/**
-		 *
-		 */
-		private static final long serialVersionUID = 1L;
-		private final JTextField createdDate;
-
-		/**
-		 * Instantiates a new date text field.
-		 */
-		DateTextField() {
-			this.setLayout(null);
-			this.createdDate = new JTextField();
-			this.add(createdDate);
-			final JCalendarButton calDate = new JCalendarButton();
-			this.add(calDate);
-
-			calDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-				@Override
-				public void propertyChange(java.beans.PropertyChangeEvent evt) {
-					if (evt.getNewValue() instanceof Date) {
-						final String df = Resurses.getDateFormat();
-						String dff = "yyyy.MM.dd";
-						if (df != null) {
-							if (df.equals("FI")) {
-								dff = "dd.MM.yyyy";
-							} else if (df.equals("UK")) {
-								dff = "dd/MM/yyyy";
-							} else if (df.equals("US")) {
-								dff = "MM/dd/yyyy";
-							}
-						}
-						final SimpleDateFormat sf = new SimpleDateFormat(dff);
-						final Date dat = (Date) evt.getNewValue();
-						StringBuffer sb = new StringBuffer();
-						sb = sf.format(dat, sb, new FieldPosition(0));
-						createdDate.setText(sb.toString());
-					}
-				}
-			});
-
-			final Dimension dd = calDate.getPreferredSize();
-			this.createdDate.setBounds(0, 0, 155, dd.height);
-			calDate.setBounds(160, 0, dd.width, dd.height);
-
-		}
-
-		/**
-		 * Sets the text.
-		 *
-		 * @param text
-		 *            the new text
-		 */
-		public void setText(String text) {
-			createdDate.setText(text);
-		}
-
-		/**
-		 * Gets the text.
-		 *
-		 * @return the text
-		 */
-		public String getText() {
-			return createdDate.getText();
-		}
-
-	}
-
 }

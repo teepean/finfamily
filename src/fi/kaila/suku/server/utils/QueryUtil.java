@@ -41,6 +41,7 @@ import java.util.logging.Logger;
 
 import fi.kaila.suku.util.Resurses;
 import fi.kaila.suku.util.SukuException;
+import fi.kaila.suku.util.Utils;
 import fi.kaila.suku.util.pojo.PersonShortData;
 import fi.kaila.suku.util.pojo.SukuData;
 
@@ -369,18 +370,18 @@ public class QueryUtil {
 					isFirstCriteria = false;
 					if (todate == null) {
 						fromSQL.append("u.pid in (select pid from unitnotice where coalesce(modified,createdate) >= '");
-						fromSQL.append(begdate);
+						fromSQL.append(Utils.dateToDb(begdate));
 						fromSQL.append("')");
 					} else if (begdate == null) {
 						fromSQL.append("u.pid in (select pid from unitnotice where coalesce(modified,createdate) <= '");
-						fromSQL.append(todate);
+						fromSQL.append(Utils.dateToDb(todate));
 						fromSQL.append("' )");
 					} else {
 						fromSQL.append(
 								"u.pid in (select pid from unitnotice where coalesce(modified,createdate) between '");
-						fromSQL.append(begdate);
+						fromSQL.append(Utils.dateToDb(begdate));
 						fromSQL.append("' and '");
-						fromSQL.append(todate);
+						fromSQL.append(Utils.dateToDb(todate));
 						fromSQL.append("' ) ");
 					}
 				}
