@@ -1,6 +1,6 @@
 commons-logging-1.2.jar, https://commons.apache.org/proper/commons-logging/, http://www.apache.org/licenses/LICENSE-2.0
 h2-1.4.190.jar, http://www.h2database.com/html/main.html, http://www.h2database.com/html/license.html
-jcalendarbutton-1.4.5.jar, http://jcalendarbutton.sourceforge.net/, GPLv2
+jcalendar-1.4.jar, http://toedter.com/jcalendar/, LGPL v2.1
 jcommon-1.0.21.jar, http://www.jfree.org/jcommon/, http://www.gnu.org/licenses/lgpl.html
 jfreechart-1.0.17.jar, http://www.jfree.org/jfreechart/, http://www.gnu.org/licenses/lgpl.html
 jnlp.jar, 

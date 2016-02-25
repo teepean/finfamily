@@ -67,7 +67,7 @@
 	<manifest >
     <attribute name="Built-By" value="${user.name}"/>
 	<attribute name="Main-Class" value="fi.kaila.suku.swing.Suku"/>
-	<attribute name="Class-Path" value="lib/h2-1.4.190.jar lib/postgresql-9.0-801.jdbc4.jar lib/commons-logging-1.2.jar lib/jfreechart-1.0.17.jar lib/jcommon-1.0.21.jar lib/jxl.jar lib/jcalendarbutton-1.4.5.jar lib/swingx-all-1.6.5-1.jar lib/jxmapviewer2-2.1.jar  resources/"/>
+	<attribute name="Class-Path" value="lib/h2-1.4.190.jar lib/postgresql-9.0-801.jdbc4.jar lib/commons-logging-1.2.jar lib/jfreechart-1.0.17.jar lib/jcommon-1.0.21.jar lib/jxl.jar lib/jcalendar-1.4.jar lib/swingx-all-1.6.5-1.jar lib/jxmapviewer2-2.1.jar  resources/"/>
     <section name="common">
       <attribute name="Specification-Title" value="Example"/>
       <attribute name="Specification-Version" value="${app.version}.${revision.version}"/>
@@ -90,7 +90,7 @@
 	    
 	<copy file="${web.home}/WEB-INF/lib/finfamily.jar" tofile="${web.home}/suku.jar" />
 	<copy file="${lib.home}/jxl.jar" tofile="${web.home}/jxl.jar" />	
-	<copy file="${lib.home}/jcalendarbutton-1.4.5.jar" tofile="${web.home}/jcalendarbutton-1.4.5.jar" />	
+	<copy file="${lib.home}/jcalendar-1.4.jar" tofile="${web.home}/jcalendar-1.4.jar" />	
 	<copy file="${lib.home}/jfreechart-1.0.17.jar" tofile="${web.home}/jfreechart-1.0.17.jar" />	
 	<copy file="${lib.home}/jcommon-1.0.21.jar" tofile="${web.home}/jcommon-1.0.21.jar" />	
 	<war destfile="${dist.home}/finfamily.war" basedir="${basedir}/WebContent">	 		
@@ -115,7 +115,7 @@
 			<manifest >
 		    <attribute name="Built-By" value="${user.name}"/>
 			<attribute name="Main-Class" value="fi.kaila.suku.swing.Suku"/>
-			<attribute name="Class-Path" value="commons-logging-1.2.jar jfreechart-1.0.17.jar jcommon-1.0.21.jar lib/jxl.jar jcalendarbutton-1.4.5.jar swingx-all-1.6.5-1.jar jxmapviewer2-2.1.jar  resources/"/>
+			<attribute name="Class-Path" value="commons-logging-1.2.jar jfreechart-1.0.17.jar jcommon-1.0.21.jar lib/jxl.jar jcalendar-1.4.jar swingx-all-1.6.5-1.jar jxmapviewer2-2.1.jar  resources/"/>
 		    <section name="common">
 		      <attribute name="Specification-Title" value="Example"/>
 		      <attribute name="Specification-Version" value="${app.version}.${revision.version}"/>
@@ -139,7 +139,7 @@
 				
 				<include name="lib/jfreechart-1.0.17.jar"/>
 				<include name="lib/jcommon-1.0.21.jar"/>
-				<include name="lib/jcalendarbutton-1.4.5.jar"/>
+				<include name="lib/jcalendar-1.4.jar"/>
 				<include name="lib/jxl.jar"/>
 					
 				
@@ -181,7 +181,7 @@
 	
 	<zip destfile="${swing.home}/finfamily${revision.version}.zip" basedir="${dist.home}"
 	  includes="suku.jar suku.sh SukuMac lib/h2-1.4.190.jar lib/postgresql-9.0-801.jdbc4.jar 
-	  lib/commons-logging-1.2.jar lib/jxl.jar lib/jcalendarbutton-1.4.5.jar lib/jfreechart-1.0.17.jar lib/jcommon-1.0.21.jar lib/swingx-all-1.6.5-1.jar lib/jxmapviewer2-2.1.jar
+	  lib/commons-logging-1.2.jar lib/jxl.jar lib/jcalendar-1.4.jar lib/jfreechart-1.0.17.jar lib/jcommon-1.0.21.jar lib/swingx-all-1.6.5-1.jar lib/jxmapviewer2-2.1.jar
 	  properties/* 
 	  resources/excel/FinFamily.xls resources/excel/PlaceLocations.xls resources/excel/Taivut_fi.xls 
 	  resources/xml/*">
