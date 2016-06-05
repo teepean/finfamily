@@ -945,7 +945,7 @@ public class ExportGedcomUtil {
 		sb.append("2 VERS " + AntVersion.antVersion + "\r\n");
 		sb.append("2 NAME Kaarle Kaila\r\n");
 		sb.append("2 CORP KK-Software\r\n");
-		sb.append("3 ADDR http://www.sukuohjelmisto.fi\r\n");
+		sb.append("3 ADDR https://sourceforge.net/projects/finfamily/\r\n");
 		sb.append("1 SUBM @U1@\r\n");
 		sb.append("1 GEDC\r\n");
 		sb.append("2 VERS 5.5.1\r\n");
