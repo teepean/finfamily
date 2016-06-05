@@ -11,7 +11,6 @@
 <XPD:OBJ name="DocumentElement" type="UMLProject" guid="DajknZtZ+0CM60C2k8utbgAA">
 <XPD:ATTR name="Title" type="string">Taulurakenne</XPD:ATTR>
 <XPD:ATTR name="Author" type="string">Kaarle Kaila</XPD:ATTR>
-<XPD:ATTR name="Company" type="string">KK-Software</XPD:ATTR>
 <XPD:ATTR name="#OwnedElements" type="integer">5</XPD:ATTR>
 <XPD:OBJ name="OwnedElements[0]" type="UMLModel" guid="Glw2OIUSwE2kjjNGIDc4ywAA">
 <XPD:ATTR name="Name" type="string">Use Case Model</XPD:ATTR>

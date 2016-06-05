@@ -943,8 +943,7 @@ public class ExportGedcomUtil {
 		sb.append("0 HEAD\r\n");
 		sb.append("1 SOUR FinFamily\r\n");
 		sb.append("2 VERS " + AntVersion.antVersion + "\r\n");
-		sb.append("2 NAME Kaarle Kaila\r\n");
-		sb.append("2 CORP KK-Software\r\n");
+		sb.append("2 NAME FinFamily\r\n");
 		sb.append("3 ADDR https://sourceforge.net/projects/finfamily/\r\n");
 		sb.append("1 SUBM @U1@\r\n");
 		sb.append("1 GEDC\r\n");
