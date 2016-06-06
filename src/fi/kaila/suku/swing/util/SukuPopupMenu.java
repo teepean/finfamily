@@ -51,6 +51,7 @@ public class SukuPopupMenu {
 
 	private JPopupMenu pMenu = null;
 	private final JMenuItem pShowPerson;
+	private final JMenuItem pShowTimeline;
 	private final JMenuItem pShowRelatives;
 	private final JMenuItem pShowFamily;
 	private final JMenuItem pMainPerson;
@@ -80,7 +81,8 @@ public class SukuPopupMenu {
 	public enum MenuSource {
 
 		/** The db view. */
-		dbView, /** The family view. */
+		dbView,
+		/** The family view. */
 		familyView
 	}
 
@@ -120,6 +122,7 @@ public class SukuPopupMenu {
 	 */
 	public void addActionListener(ActionListener l) {
 		pShowPerson.addActionListener(l);
+		pShowTimeline.addActionListener(l);
 		pShowRelatives.addActionListener(l);
 		pMainPerson.addActionListener(l);
 		pShowFamily.addActionListener(l);
@@ -218,6 +221,11 @@ public class SukuPopupMenu {
 		// pShowPerson.addActionListener(popupListener);
 		pShowPerson.setActionCommand(Resurses.TAB_PERSON_TEXT);
 		pMenu.add(pShowPerson);
+
+		pShowTimeline = new JMenuItem(Resurses.getString(Resurses.TAB_TIMELINE_TEXT));
+		// pShowTimeline.addActionListener(popupListener);
+		pShowTimeline.setActionCommand(Resurses.TAB_TIMELINE_TEXT);
+		pMenu.add(pShowTimeline);
 
 		pShowFamily = new JMenuItem(Resurses.getString(Resurses.TAB_FAMILY));
 		// pShowFamily.addActionListener(popupListener);

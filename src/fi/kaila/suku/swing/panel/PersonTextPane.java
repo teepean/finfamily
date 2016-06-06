@@ -87,7 +87,7 @@ public class PersonTextPane extends JTextPane {
 			doc = (AbstractDocument) styledDoc;
 			doc.setDocumentFilter(new DocumentSukuFilter());
 		} else {
-			JOptionPane.showMessageDialog(this, "FAIELD TO START DOCUMENT", Resurses.getString(Resurses.SUKU),
+			JOptionPane.showMessageDialog(this, "FAILED TO START DOCUMENT", Resurses.getString(Resurses.SUKU),
 					JOptionPane.ERROR_MESSAGE);
 			logger.log(Level.WARNING, "CLOSE");
 			return;

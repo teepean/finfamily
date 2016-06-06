@@ -105,6 +105,9 @@ class RelativePopupListener extends MouseAdapter implements ActionListener {
 			if (cmd.equals(Resurses.TAB_PERSON_TEXT)) {
 				relativesPane.personView.setTextForPerson(relativesPane.pop.getMousePerson());
 			}
+			if (cmd.equals(Resurses.TAB_TIMELINE_TEXT)) {
+				relativesPane.personView.setTimelineForPerson(relativesPane.pop.getMousePerson());
+			}
 			if (cmd.equals(Resurses.TAB_FAMILY)) {
 				final PersonShortData pp = relativesPane.pop.getMousePerson();
 				relativesPane.personView.setSubjectForFamily(pp == null ? 0 : pp.getPid());

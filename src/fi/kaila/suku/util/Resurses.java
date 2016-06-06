@@ -77,6 +77,9 @@ public class Resurses {
 	/** The Constant PRINT_PERSON. */
 	public static final String PRINT_PERSON = "PRINT_PERSON";
 
+	/** The Constant PRINT_TIMELINE. */
+	public static final String PRINT_TIMELINE = "PRINT_TIMELINE";
+
 	/** The Constant SHOWINMAP. */
 	public static final String SHOWINMAP = "SHOWINMAP";
 
@@ -301,8 +304,10 @@ public class Resurses {
 	public static final String TAB_RELATIVES = "TAB_RELATIVES";
 
 	/** The Constant TAB_PERSON_TEXT. */
-	/** */
 	public static final String TAB_PERSON_TEXT = "TAB_PERSON_TEXT";
+
+	/** The Constant TAB_TIMELINE_TEXT. */
+	public static final String TAB_TIMELINE_TEXT = "TAB_TIMELINE_TEXT";
 
 	/** The Constant TAB_FAMILY. */
 	public static final String TAB_FAMILY = "TAB_FAMILY";

@@ -94,7 +94,6 @@ public class SukuData implements Serializable {
 	public PlaceLocationData[] places = null;
 
 	/** Single full person data. */
-
 	public PersonLongData persLong = null;
 
 	/** array of long persons. */

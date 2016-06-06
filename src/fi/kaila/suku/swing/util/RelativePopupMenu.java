@@ -54,6 +54,7 @@ public class RelativePopupMenu {
 	private final JMenuItem pPerson;
 	private final JMenuItem pRelatives;
 	private final JMenuItem pShowPerson;
+	private final JMenuItem pShowTimeline;
 	private final JMenuItem pShowFamily;
 	private final JMenuItem pShowReport;
 	private final JMenuItem pDeletePerson;
@@ -69,6 +70,7 @@ public class RelativePopupMenu {
 		pRelatives.addActionListener(l);
 		pShowFamily.addActionListener(l);
 		pShowPerson.addActionListener(l);
+		pShowTimeline.addActionListener(l);
 		pShowReport.addActionListener(l);
 		pDeletePerson.addActionListener(l);
 		// pPaste.addActionListener(l);
@@ -164,6 +166,11 @@ public class RelativePopupMenu {
 		// pShowPerson.addActionListener(popupListener);
 		pShowPerson.setActionCommand(Resurses.TAB_PERSON_TEXT);
 		pMenu.add(pShowPerson);
+
+		pShowTimeline = new JMenuItem(Resurses.getString(Resurses.TAB_TIMELINE_TEXT));
+		// pShowPerson.addActionListener(popupListener);
+		pShowTimeline.setActionCommand(Resurses.TAB_TIMELINE_TEXT);
+		pMenu.add(pShowTimeline);
 
 		pShowFamily = new JMenuItem(Resurses.getString(Resurses.TAB_FAMILY));
 		// pShowFamily.addActionListener(popupListener);

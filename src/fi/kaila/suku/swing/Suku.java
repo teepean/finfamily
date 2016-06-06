@@ -241,6 +241,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener, M
 	private JMenuItem mDropSchema;
 	private JMenuItem mDisconnect;
 	private JMenuItem mPrintPerson;
+	private JMenuItem mPrintTimeline;
 	private JMenuItem mNewPerson;
 	private JMenuItem mRemPerson;
 	private JMenuItem mOpenPerson;
@@ -560,6 +561,13 @@ public class Suku extends JFrame implements ActionListener, ComponentListener, M
 		this.mFile.add(this.mPrintPerson);
 		this.mPrintPerson.setActionCommand(Resurses.PRINT_PERSON);
 		this.mPrintPerson.addActionListener(this);
+
+		this.mFile.addSeparator();
+
+		this.mPrintTimeline = new JMenuItem(Resurses.getString(Resurses.PRINT_TIMELINE));
+		this.mFile.add(this.mPrintTimeline);
+		this.mPrintTimeline.setActionCommand(Resurses.PRINT_TIMELINE);
+		this.mPrintTimeline.addActionListener(this);
 
 		this.mFile.addSeparator();
 
@@ -1392,6 +1400,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener, M
 			try {
 				this.personView.setSubjectForFamily(0);
 				personView.setTextForPerson(null);
+				personView.setTimelineForPerson(null);
 			} catch (final SukuException e) {
 				logger.log(Level.WARNING, "resetting family tree", e);
 
@@ -2086,7 +2095,11 @@ public class Suku extends JFrame implements ActionListener, ComponentListener, M
 
 			} else if (cmd.equals(Resurses.PRINT_PERSON)) {
 
-				this.personView.testMe();
+				this.personView.printPersonText();
+
+			} else if (cmd.equals(Resurses.PRINT_TIMELINE)) {
+
+				this.personView.printPersonTimeline();
 
 			} else if (cmd.equals(Resurses.MENU_LISTA)) {
 
@@ -3399,6 +3412,12 @@ public class Suku extends JFrame implements ActionListener, ComponentListener, M
 		if (key == personView.getTextPersonPid()) {
 			personView.setTextForPerson(p);
 		}
+		//
+		// and timeline draft
+		//
+		if (key == personView.getTimelinePersonPid()) {
+			personView.setTimelineForPerson(p);
+		}
 	}
 
 	/**
@@ -3727,6 +3746,7 @@ public class Suku extends JFrame implements ActionListener, ComponentListener, M
 		}
 		mOpenPerson.setEnabled(kontroller.getSchema() != null);
 		mPrintPerson.setEnabled(kontroller.getSchema() != null);
+		mPrintTimeline.setEnabled(kontroller.getSchema() != null);
 		mDisconnect.setEnabled(kontroller.getSchema() != null);
 		mShowInMap.setEnabled(kontroller.getSchema() != null);
 		mStatistics.setEnabled(kontroller.getSchema() != null);
@@ -4067,6 +4087,16 @@ public class Suku extends JFrame implements ActionListener, ComponentListener, M
 
 					try {
 						personView.setTextForPerson(pop.getPerson());
+					} catch (final SukuException e1) {
+						JOptionPane.showMessageDialog(parent,
+								"SHOW PERSON: " + pop.getPerson().getAlfaName() + " error " + e1.getMessage());
+						e1.printStackTrace();
+					}
+
+				} else if (cmd.equals(Resurses.TAB_TIMELINE_TEXT)) {
+
+					try {
+						personView.setTimelineForPerson(pop.getPerson());
 					} catch (final SukuException e1) {
 						JOptionPane.showMessageDialog(parent,
 								"SHOW PERSON: " + pop.getPerson().getAlfaName() + " error " + e1.getMessage());

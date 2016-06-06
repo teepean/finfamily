@@ -125,10 +125,15 @@ public class PersonView extends JPanel implements ChangeListener {
 
 		addTab(new SukuTabPane(Resurses.TAB_FAMILY, famPanel));
 		tabbedPane.setForegroundAt(0, Color.BLUE);
-		final PersonTextPane textPerson = new PersonTextPane();
 
+		final PersonTextPane textPerson = new PersonTextPane();
 		addTab(new SukuTabPane(Resurses.TAB_PERSON_TEXT, textPerson));
 		tabbedPane.setForegroundAt(1, Color.BLUE);
+		add(this.tabbedPane);
+
+		final PersonTimelinePane textTimeline = new PersonTimelinePane();
+		addTab(new SukuTabPane(Resurses.TAB_TIMELINE_TEXT, textTimeline));
+		tabbedPane.setForegroundAt(2, Color.BLUE);
 		add(this.tabbedPane);
 
 	}
@@ -265,7 +270,7 @@ public class PersonView extends JPanel implements ChangeListener {
 	 */
 	public void displayHiskiPane() {
 		HiskiImportPanel hiskiPanel = null;
-		int hiskiIdx = 2;
+		int hiskiIdx = 3;
 		SukuTabPane spnl = null;
 
 		for (int i = 0; i < paneTabs.size(); i++) {
@@ -800,7 +805,7 @@ public class PersonView extends JPanel implements ChangeListener {
 	/**
 	 * print contents of database draft.
 	 */
-	public void testMe() {
+	public void printPersonText() {
 		final PersonTextPane textPerson = (PersonTextPane) paneTabs.get(1).pnl;
 		if (textPerson.getText().length() > 0) {
 			try {
@@ -877,6 +882,89 @@ public class PersonView extends JPanel implements ChangeListener {
 	public void setDoc(StyledDocument doc) {
 		final PersonTextPane textPerson = (PersonTextPane) paneTabs.get(1).pnl;
 		textPerson.setStyledDocument(doc);
+
+	}
+
+	/**
+	 * print contents of database draft.
+	 */
+	public void printPersonTimeline() {
+		final PersonTimelinePane textTimeline = (PersonTimelinePane) paneTabs.get(2).pnl;
+		if (textTimeline.getText().length() > 0) {
+			try {
+				textTimeline.print();
+			} catch (final PrinterException e) {
+				logger.log(Level.WARNING, "printing database draft", e);
+				JOptionPane.showMessageDialog(this, "PRINT ERROR", Resurses.getString(Resurses.SUKU),
+						JOptionPane.ERROR_MESSAGE);
+
+			}
+			final FamilyPanel famPanel = (FamilyPanel) paneTabs.get(0).pnl;
+			famPanel.updateUI();
+		} else {
+			JOptionPane.showMessageDialog(this, Resurses.getString("TIMELINE_WINDOW_IS_EMPTY"),
+					Resurses.getString("STAT_FOR_YOUR_INFORMATION"), JOptionPane.INFORMATION_MESSAGE);
+		}
+
+	}
+
+	/**
+	 * Gets the text person pid.
+	 *
+	 * @return pid for current person in text window
+	 */
+	public int getTimelinePersonPid() {
+		final PersonTimelinePane textTimeline = (PersonTimelinePane) paneTabs.get(2).pnl;
+		return textTimeline.getCurrentPid();
+	}
+
+	/**
+	 * set to show database draft.
+	 *
+	 * @param person
+	 *            the new text for person
+	 * @throws SukuException
+	 *             the suku exception
+	 */
+	public void setTimelineForPerson(PersonShortData person) throws SukuException {
+
+		final PersonTimelinePane textTimeline = (PersonTimelinePane) paneTabs.get(2).pnl;
+		if (person == null) {
+			textTimeline.initPerson(null, null, null);
+			return;
+		}
+
+		final SukuData pdata = Suku.kontroller.getSukuData("cmd=person", "pid=" + person.getPid(),
+				"lang=" + Resurses.getLanguage());
+		final SukuData family = Suku.kontroller.getSukuData("cmd=family", "pid=" + person.getPid(), "parents=yes");
+		// PersonTextPane textPerson = (PersonTextPane) paneTabs.get(1).pnl;
+		textTimeline.initPerson(pdata.persLong, pdata.relations, family.pers);
+		setSelectedIndex(2);
+
+	}
+
+	/**
+	 * Gets the doc.
+	 *
+	 * @return the javatext document
+	 */
+	public StyledDocument getTimelineDoc() {
+		final PersonTimelinePane textTimeline = (PersonTimelinePane) paneTabs.get(2).pnl;
+		if (textTimeline == null) {
+			return null;
+		}
+		return textTimeline.getStyledDocument();
+	}
+
+	/**
+	 * sets the javatext documnet.
+	 *
+	 * @param doc
+	 *            the new doc
+	 */
+	public void setTimelineDoc(StyledDocument doc) {
+		final PersonTimelinePane textTimeline = (PersonTimelinePane) paneTabs.get(2).pnl;
+		textTimeline.setStyledDocument(doc);
 
 	}
 
