@@ -2,6 +2,10 @@ FinFamily Release notes
 
 Releases follow the Subversion revision numbers. 
 
+Release 1260 on 8 jun 2016
+* Changed old links.
+* Added new Timeline function
+
 Release 1253 on 31 jan 2016
 * Fixed setting translations in language dialog.
 * Adding new person to H2 database didn't worked after importing backup
