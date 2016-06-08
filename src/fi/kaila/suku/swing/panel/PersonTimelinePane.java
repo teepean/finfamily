@@ -158,19 +158,42 @@ public class PersonTimelinePane extends JTextPane {
 			final UnitNotice[] notices = pers.getNotices();
 			String bl = "";
 			String blx = "";
+			boolean blb = false;
 			for (final UnitNotice notice : notices) {
 				blx = notice.getTag();
+				if ((notice.getFromDate() == null) || notice.getFromDate().isEmpty()) {
+					blb = false;
+				} else {
+					blb = true;
+				}
 				if (blx.equals("NAME")) {
 					bl = appendName(notice.getGivenname(), notice.getPatronym(), notice.getPrefix(),
 							notice.getSurname(), notice.getPostfix());
 					append(bl, bodyBold);
-				} else if (blx.equals("BIRT")) {
-					timeline = new TimelineData(Utils.textDate(notice.getFromDate(), true) + ", "
-							+ Resurses.getString("CARD_PERSON_BIRT_DATE") + "\n", notice.getFromDate());
+				} else if (blx.equals("BIRT") && blb) {
+					timeline = new TimelineData(
+							Utils.textDate(notice.getFromDate(), true) + ", " + Resurses.getString("DATA_BIRT") + "\n",
+							notice.getFromDate());
 					timelines.put(notice.getFromDate(), timeline);
-				} else if (blx.equals("DEAT")) {
+				} else if (blx.equals("CHR") && blb) {
+					timeline = new TimelineData(
+							Utils.textDate(notice.getFromDate(), true) + ", " + Resurses.getString("DATA_CHR") + "\n",
+							notice.getFromDate());
+					timelines.put(notice.getFromDate(), timeline);
+				} else if (blx.equals("OCCU") && blb) {
 					timeline = new TimelineData(Utils.textDate(notice.getFromDate(), true) + ", "
-							+ Resurses.getString("CARD_PERSON_DEAT_DATE") + "\n", notice.getFromDate());
+							+ Resurses.getString("DATA_OCCU") + ", " + notice.getDescription() + "\n",
+							notice.getFromDate());
+					timelines.put(notice.getFromDate(), timeline);
+				} else if (blx.equals("DEAT") && blb) {
+					timeline = new TimelineData(
+							Utils.textDate(notice.getFromDate(), true) + ", " + Resurses.getString("DATA_DEAT") + "\n",
+							notice.getFromDate());
+					timelines.put(notice.getFromDate(), timeline);
+				} else if (blx.equals("BURI") && blb) {
+					timeline = new TimelineData(
+							Utils.textDate(notice.getFromDate(), true) + ", " + Resurses.getString("DATA_BURI") + "\n",
+							notice.getFromDate());
 					timelines.put(notice.getFromDate(), timeline);
 				}
 
