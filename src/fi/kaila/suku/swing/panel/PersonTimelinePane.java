@@ -56,7 +56,7 @@ import fi.kaila.suku.util.pojo.TimelineData;
 import fi.kaila.suku.util.pojo.UnitNotice;
 
 /**
- * database draft text is shown here.
+ * Timeline text is shown here.
  *
  * @author halonmi
  */
