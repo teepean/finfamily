@@ -188,7 +188,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	// private boolean DEBUG = false;
-	private static final String EXIT = "EXIT";
+	private static final String EXIT = "CLOSE";
 	private static final String START = "START";
 
 	private JLabel textContent;
@@ -293,10 +293,14 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 	private static ReportWorkerDialog runner = null;
 
 	private static final int x1 = 10;
-	private static final int x2 = 250;
-	private static final int x3 = 440;
-	private static final int x4 = 620;
-	private static final int xtype = 310;
+	private static final int xsettings = 770;
+	private static final int xsources = 10;
+	private static final int xdirectory = 180;
+	private static final int xdates = 430;
+	private static final int xinfo = 320;
+	private static final int xtype = 520;
+	private static final int xspouse = 600;
+	private static final int xstart = 600;
 	private static final int y1 = 20;
 	// private static final int y2 = 250;
 	private static final int y3 = 390;
@@ -304,6 +308,9 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 	private static final int tabh = 360;
 	private static final int tabw = 300;
+
+	private static final int tableh = 360;
+	private static final int tablew = 450;
 
 	private Vector<String> repos = null;
 	private final Suku parent;
@@ -646,7 +653,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 	private void initMe() {
 		final Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		Dimension sz = new Dimension(d.width - 200, d.height - 150);
-		sz = new Dimension(1000, 600);
+		sz = new Dimension(1000, 620);
 		final int footery = sz.height - 125;
 		setBounds((d.width - sz.width) / 2, (d.height - sz.height) / 2, sz.width, sz.height);
 		setLayout(null);
@@ -670,12 +677,12 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 		typesTable = new SukuTypesTable(new Dimension(500, 70));
 		// Create the scroll pane and add the table to it.
 		final JScrollPane scrollPane = new JScrollPane(typesTable);
-		scrollPane.setBounds(xtype, y1, tabw, tabh);
+		scrollPane.setBounds(xtype, y1, tablew, tableh);
 		// Add the scroll pane to this panel.
 		add(scrollPane);
 
 		final TableColumnModel modl = typesTable.getColumnModel();
-		final int checkWidth = 30;
+		final int checkWidth = 50;
 		TableColumn c = modl.getColumn(1);
 		c.setMaxWidth(checkWidth);
 		c = modl.getColumn(2);
@@ -692,110 +699,79 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 		final ImageIcon icon3 = createImageIcon("/images/muupolvi.gif");
 
 		commonWithImages = new JCheckBox(Resurses.getString("REPORT.WITHIMAGES"), true);
-		commonWithImages.setBounds(x4, y1, 160, 20);
+		commonWithImages.setBounds(xinfo, y1, 160, 20);
 		add(commonWithImages);
 
 		commonImageSize = new JTextField();
-		commonImageSize.setBounds(x4, y1 + 22, 60, 20);
+		commonImageSize.setBounds(xinfo, y1 + 22, 60, 20);
 		add(commonImageSize);
 
 		lb = new JLabel(Resurses.getString("REPORT.IMAGE.HEIGHT"));
 		add(lb);
-		lb.setBounds(x4 + 64, y1 + 22, 160, 20);
+		lb.setBounds(xinfo + 64, y1 + 22, 160, 20);
 
 		commonPersonImageSize = new JTextField();
-		commonPersonImageSize.setBounds(x4, y1 + 44, 60, 20);
+		commonPersonImageSize.setBounds(xinfo, y1 + 44, 60, 20);
 		add(commonPersonImageSize);
 
 		lb = new JLabel(Resurses.getString("REPORT.PERSONIMAGE.HEIGHT"));
 		add(lb);
-		lb.setBounds(x4 + 64, y1 + 44, 160, 20);
+		lb.setBounds(xinfo + 64, y1 + 44, 160, 20);
 
 		commonNumberImages = new JCheckBox(Resurses.getString("REPORT.IMAGE.NUMBER"), true);
-		commonNumberImages.setBounds(x4, y1 + 66, 160, 20);
+		commonNumberImages.setBounds(xinfo, y1 + 66, 160, 20);
 		add(commonNumberImages);
 
 		commonSeparateImages = new JCheckBox(Resurses.getString("REPORT.IMAGE.SEPARATE"), true);
-		commonSeparateImages.setBounds(x4, y1 + 88, 160, 20);
+		commonSeparateImages.setBounds(xinfo, y1 + 88, 160, 20);
 		add(commonSeparateImages);
 
 		commonBendNames = new JCheckBox(Resurses.getString("REPORT.BENDNAMES"), true);
-		commonBendNames.setBounds(x4, y1 + 110, 160, 20);
+		commonBendNames.setBounds(xinfo, y1 + 110, 160, 20);
 		add(commonBendNames);
 
 		commonIncludeFarm = new JCheckBox(Resurses.getString("REPORT.INCLUDEFARM"), true);
-		commonIncludeFarm.setBounds(x4, y1 + 132, 160, 20);
+		commonIncludeFarm.setBounds(xinfo, y1 + 132, 160, 20);
 		add(commonIncludeFarm);
 
 		commonSeparateNotices = new JCheckBox(Resurses.getString("REPORT.SEPARATENOTICES"), true);
-		commonSeparateNotices.setBounds(x4, y1 + 154, 160, 20);
+		commonSeparateNotices.setBounds(xinfo, y1 + 154, 160, 20);
 		add(commonSeparateNotices);
 
 		commonDateFormatGroup = new ButtonGroup();
 
 		commonNamesBold = new JCheckBox(Resurses.getString("REPORT.NAME.BOLD"));
-		commonNamesBold.setBounds(x4, y1 + 176, 160, 20);
+		commonNamesBold.setBounds(xinfo, y1 + 176, 160, 20);
 		add(commonNamesBold);
 
 		commonNamesUnderline = new JCheckBox(Resurses.getString("REPORT.NAME.UNDERLINE"));
-		commonNamesUnderline.setBounds(x4, y1 + 198, 160, 20);
+		commonNamesUnderline.setBounds(xinfo, y1 + 198, 160, 20);
 		add(commonNamesUnderline);
 
 		commonWithAddress = new JCheckBox(Resurses.getString("REPORT.WITHADDRESS"), true);
-		commonWithAddress.setBounds(x4, y1 + 220, 160, 20);
+		commonWithAddress.setBounds(xinfo, y1 + 220, 160, 20);
 		add(commonWithAddress);
 
 		commonWithRefn = new JCheckBox(Resurses.getString("REPORT.WITHREFN"), true);
-		commonWithRefn.setBounds(x4, y1 + 242, 160, 20);
+		commonWithRefn.setBounds(xinfo, y1 + 242, 160, 20);
 		add(commonWithRefn);
 
 		commonWithGroup = new JCheckBox(Resurses.getString("REPORT.WITHGROUP"), true);
-		commonWithGroup.setBounds(x4, y1 + 262, 160, 20);
+		commonWithGroup.setBounds(xinfo, y1 + 262, 160, 20);
 		add(commonWithGroup);
 
 		lb = new JLabel(Resurses.getString("REPORT.SURETY"));
-		lb.setBounds(x4, y1 + 286, 160, 20);
+		lb.setBounds(xinfo, y1 + 286, 160, 20);
 		add(lb);
 
 		commonSurety = new SukuSuretyField();
-		commonSurety.setBounds(x4, y1 + 306, 160, 20);
+		commonSurety.setBounds(xinfo, y1 + 306, 160, 20);
 		add(commonSurety);
-
-		spouseData = new ButtonGroup();
-
-		final int rtypy = y1;// + 250;
-		pane = new JPanel();
-		pane.setBorder(BorderFactory.createTitledBorder(Resurses.getString("REPORT.DESC.SPOUSE")));
-		pane.setLayout(new GridLayout(0, 1));
-
-		pane.setBounds(x4 + 200, rtypy, 160, 120);
-
-		JRadioButton radio = new JRadioButton(Resurses.getString("REPORT.DESC.SPOUSE.NONE"));
-		spouseData.add(radio);
-		radio.setActionCommand(ReportWorkerDialog.SET_SPOUSE_NONE);
-		pane.add(radio);
-
-		radio = new JRadioButton(Resurses.getString("REPORT.DESC.SPOUSE.YEAR"));
-		radio.setSelected(true);
-		spouseData.add(radio);
-		radio.setActionCommand(ReportWorkerDialog.SET_SPOUSE_YEAR);
-		pane.add(radio);
-
-		radio = new JRadioButton(Resurses.getString("REPORT.DESC.SPOUSE.DATE"));
-		spouseData.add(radio);
-		radio.setActionCommand(ReportWorkerDialog.SET_SPOUSE_DATE);
-		pane.add(radio);
-
-		radio = new JRadioButton(Resurses.getString("REPORT.DESC.SPOUSE.FULL"));
-		spouseData.add(radio);
-		radio.setActionCommand(ReportWorkerDialog.SET_SPOUSE_FULL);
-		pane.add(radio);
-		add(pane);
 
 		pane = new JPanel();
 		pane.setBorder(BorderFactory.createTitledBorder(Resurses.getString("REPORT.DATEFORMAT")));
 		pane.setLayout(new GridLayout(0, 1));
-		pane.setBounds(x2, y3, 160, 100);
+		pane.setBounds(xdates, y3, 160, 100);
 
 		JRadioButton formd = new JRadioButton(Resurses.getString("REPORT.DATEFI"));
 		formd.setActionCommand(SET_FI);
@@ -822,7 +798,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 		pane = new JPanel();
 		pane.setBorder(BorderFactory.createTitledBorder(Resurses.getString("REPORT.SOURCES")));
 		pane.setLayout(new GridLayout(0, 1));
-		pane.setBounds(x3, y3, 160, 100);
+		pane.setBounds(xsources, y3, 160, 100);
 
 		formd = new JRadioButton(Resurses.getString("REPORT.SOURCENO"));
 		formd.setActionCommand(SET_NO);
@@ -855,25 +831,55 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 		// v.add(Resurses.getString("REPORT.LISTA.GRAPHVIZ"));
 
 		lb = new JLabel(Resurses.getString("REPORT.FORMAT"));
-		lb.setBounds(x3, footery, 200, 20);
+		lb.setBounds(xsources, footery, 200, 20);
 		add(lb);
 
 		commonReportFormatList = new JComboBox(v);
-		commonReportFormatList.setBounds(x3, footery + 25, 160, 20);
+		commonReportFormatList.setBounds(xsources, footery + 25, 160, 20);
 		add(commonReportFormatList);
 
 		commonDebugCheck = new JCheckBox(Resurses.getString("REPORT.DEBUG"));
-		commonDebugCheck.setBounds(x3, footery + 50, 160, 20);
+		commonDebugCheck.setBounds(xsources, footery + 50, 160, 20);
 		add(commonDebugCheck);
+
+		spouseData = new ButtonGroup();
+
+		final int rtypy = y1;// + 250;
+		pane = new JPanel();
+		pane.setBorder(BorderFactory.createTitledBorder(Resurses.getString("REPORT.DESC.SPOUSE")));
+		pane.setLayout(new GridLayout(0, 1));
+
+		pane.setBounds(xspouse, y3, 160, 100);
+
+		JRadioButton radio = new JRadioButton(Resurses.getString("REPORT.DESC.SPOUSE.NONE"));
+		spouseData.add(radio);
+		radio.setActionCommand(ReportWorkerDialog.SET_SPOUSE_NONE);
+		pane.add(radio);
+
+		radio = new JRadioButton(Resurses.getString("REPORT.DESC.SPOUSE.YEAR"));
+		radio.setSelected(true);
+		spouseData.add(radio);
+		radio.setActionCommand(ReportWorkerDialog.SET_SPOUSE_YEAR);
+		pane.add(radio);
+
+		radio = new JRadioButton(Resurses.getString("REPORT.DESC.SPOUSE.DATE"));
+		spouseData.add(radio);
+		radio.setActionCommand(ReportWorkerDialog.SET_SPOUSE_DATE);
+		pane.add(radio);
+
+		radio = new JRadioButton(Resurses.getString("REPORT.DESC.SPOUSE.FULL"));
+		spouseData.add(radio);
+		radio.setActionCommand(ReportWorkerDialog.SET_SPOUSE_FULL);
+		pane.add(radio);
+		add(pane);
 
 		pane = new JPanel();
 		pane.setBorder(BorderFactory.createTitledBorder(Resurses.getString("REPORT.INDEX")));
 		pane.setLayout(new GridLayout(0, 1));
 
-		pane.setBounds(x4, y3, 240, 100);
+		pane.setBounds(xdirectory, y3, 240, 100);
 
 		add(pane);
-
 		commonIndexNames = new JCheckBox(Resurses.getString("REPORT.INDEX.NAMES"));
 		commonIndexNames.setBounds(0, 0, 150, 0);
 		pane.add(commonIndexNames);
@@ -961,10 +967,10 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		viewInsert = new JComboBox(insertViewList);
 		add(viewInsert);
-		viewInsert.setBounds(x4, footery + 25, 340, 20);
+		viewInsert.setBounds(xdirectory, footery + 25, 340, 20);
 
 		viewResetInsert = new JCheckBox(Resurses.getString("REPORT.RESET.VIEW"));
-		viewResetInsert.setBounds(x4, footery + 50, 200, 20);
+		viewResetInsert.setBounds(xdirectory, footery + 50, 200, 20);
 		add(viewResetInsert);
 
 		if (pers == null) {
@@ -1005,11 +1011,11 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		}
 		lb = new JLabel(Resurses.getString("REPORT.SETTINGS.NAME"));
-		lb.setBounds(x1 + 20, y3, 100, 20);
+		lb.setBounds(xsettings, y3, 100, 20);
 		add(lb);
 
 		final JButton save = new JButton(Resurses.getString(Resurses.REPORT_SETTINGS_SAVE));
-		save.setBounds(x1 + 20, y3 + 60, 80, 20);
+		save.setBounds(xsettings, y3 + 60, 80, 20);
 		save.setActionCommand(Resurses.REPORT_SETTINGS_SAVE);
 		save.addActionListener(this);
 		add(save);
@@ -1019,17 +1025,17 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		textContent = new JLabel("x");
 		getContentPane().add(textContent);
-		this.textContent.setBounds(30, footery, 340, 20);
+		this.textContent.setBounds(xstart, footery, 340, 20);
 
 		progressBar = new JProgressBar(0, 100);
 		progressBar.setValue(0);
 		progressBar.setStringPainted(true);
-		this.progressBar.setBounds(30, footery + 25, 340, 20);
+		this.progressBar.setBounds(xstart, footery + 25, 340, 20);
 		getContentPane().add(this.progressBar);
 
 		this.start = new JButton(Resurses.getString(START));
 		getContentPane().add(this.start);
-		this.start.setBounds(30, footery + 60, 100, 24);
+		this.start.setBounds(xstart, footery + 55, 100, 24);
 		this.start.setActionCommand(START);
 		this.start.addActionListener(this);
 
@@ -1042,7 +1048,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		this.cancel = new JButton(Resurses.getString(EXIT));
 		getContentPane().add(this.cancel);
-		this.cancel.setBounds(250, footery + 60, 100, 24);
+		this.cancel.setBounds(xstart + 120, footery + 55, 100, 24);
 		this.cancel.setActionCommand(EXIT);
 		this.cancel.addActionListener(this);
 
@@ -1052,7 +1058,7 @@ public class ReportWorkerDialog extends JDialog implements ActionListener {
 
 		settingsName = new JComboBox(settingModel);
 		settingsName.setEditable(true);
-		settingsName.setBounds(x1 + 20, y3 + 30, 200, 20);
+		settingsName.setBounds(xsettings, y3 + 30, 200, 20);
 		// settingsName.setSelectedIndex(settingsIndex);
 		settingsName.addActionListener(this);
 		settingsName.setActionCommand(ACTION_INDEX);
