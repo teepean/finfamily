@@ -989,11 +989,27 @@ public class ImportGedcomUtil {
 					final UnitNotice notice = new UnitNotice("NAME");
 					notices.add(notice);
 					notice.setGivenname(previousGivenName);
-					notice.setSurname(noti.lineValue);
+					final String parts[] = noti.lineValue.split("/");
+					if (parts.length > 0) {
+						if ((parts.length > 1) && (parts[1].length() > 0)) {
+							notice.setSurname(parts[1]);
+						}
+					} else {
+						notice.setSurname(noti.lineValue);
+					}
+
 				} else {
 					final UnitNotice notice = new UnitNotice("ALIA");
 					notices.add(notice);
-					notice.setDescription(noti.lineValue);
+					final String parts[] = noti.lineValue.split("/");
+					if (parts.length > 0) {
+						if ((parts.length > 1) && (parts[1].length() > 0)) {
+							notice.setDescription(parts[1]);
+						}
+					} else {
+						notice.setDescription(noti.lineValue);
+					}
+
 				}
 			} else if (noti.tag.equals("NAME")) {
 
@@ -1164,7 +1180,7 @@ public class ImportGedcomUtil {
 				}
 			} else if ((Resurses.gedcomTags.indexOf(noti.tag) > 0)
 
-			|| noti.tag.startsWith("_")) {
+					|| noti.tag.startsWith("_")) {
 
 				String notiTag = noti.tag;
 
