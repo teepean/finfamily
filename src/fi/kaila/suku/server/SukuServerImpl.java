@@ -2053,7 +2053,7 @@ public class SukuServerImpl implements SukuServer {
 	private SukuData updatePerson(SukuData request) {
 		final PersonUtil u = new PersonUtil(con);
 
-		return u.updatePerson(this.userId, request);
+		return u.updatePerson(this.userId, request, isH2);
 
 	}
 

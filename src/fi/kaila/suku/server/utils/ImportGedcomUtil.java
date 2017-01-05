@@ -1306,7 +1306,7 @@ public class ImportGedcomUtil {
 		request.persLong = pers;
 		final PersonUtil u = new PersonUtil(con);
 
-		final SukuData resp = u.updatePerson(null, request);
+		final SukuData resp = u.updatePerson(null, request, isH2);
 		if (resp.resu != null) {
 			throw new SukuException(resp.resu);
 		}

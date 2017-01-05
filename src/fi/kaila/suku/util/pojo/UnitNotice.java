@@ -232,15 +232,22 @@ public class UnitNotice implements Serializable {
 		if ("NOTE".equals(tag)) {
 			Array xx = rs.getArray("refnames");
 			if (xx != null) {
-				refNames = (String[]) xx.getArray();
-
+				final Object[] a = (Object[]) xx.getArray();
+				final String[] aArray = new String[a.length];
+				for (int i = 0; i < a.length; i++) {
+					aArray[i] = a[i].toString();
+				}
+				refNames = aArray;
 			}
 			xx = rs.getArray("refplaces");
 			if (xx != null) {
-				refPlaces = (String[]) xx.getArray();
-
+				final Object[] b = (Object[]) xx.getArray();
+				final String[] bArray = new String[b.length];
+				for (int i = 0; i < b.length; i++) {
+					bArray[i] = b[i].toString();
+				}
+				refPlaces = bArray;
 			}
-
 		}
 
 		sourceText = rs.getString("sourcetext");

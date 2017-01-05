@@ -238,10 +238,13 @@ public class Upload {
 						if (n.getRefNames() == null) {
 							pstmn.setNull(20, Types.ARRAY);
 						} else {
-
-							final Array xx = con.createArrayOf("varchar", n.getRefNames());
-							pstmn.setArray(20, xx);
-
+							if (isH2) {
+								final String[] namelist = n.getRefNames();
+								pstmn.setObject(20, namelist);
+							} else {
+								final Array xx = con.createArrayOf("varchar", n.getRefNames());
+								pstmn.setArray(20, xx);
+							}
 						}
 
 						final int lukuri = pstmn.executeUpdate();

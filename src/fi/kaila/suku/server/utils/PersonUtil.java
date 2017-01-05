@@ -88,7 +88,7 @@ public class PersonUtil {
 	 *            the req
 	 * @return result in resu field if failed
 	 */
-	public SukuData updatePerson(String usertext, SukuData req) {
+	public SukuData updatePerson(String usertext, SukuData req, boolean isH2) {
 
 		String insPers;
 		String userid = Utils.toUsAscii(usertext);
@@ -427,18 +427,24 @@ public class PersonUtil {
 							if (n.getRefNames() == null) {
 								pst.setNull(28, Types.ARRAY);
 							} else {
-
-								final Array xx = con.createArrayOf("varchar", n.getRefNames());
-								pst.setArray(28, xx);
-
+								if (isH2) {
+									final String[] namelist = n.getRefNames();
+									pst.setObject(28, namelist);
+								} else {
+									final Array xx = con.createArrayOf("varchar", n.getRefNames());
+									pst.setArray(28, xx);
+								}
 							}
 							if (n.getRefPlaces() == null) {
 								pst.setNull(29, Types.ARRAY);
 							} else {
-
-								final Array xx = con.createArrayOf("varchar", n.getRefPlaces());
-								pst.setArray(29, xx);
-
+								if (isH2) {
+									final String[] placelist = n.getRefPlaces();
+									pst.setObject(29, placelist);
+								} else {
+									final Array xx = con.createArrayOf("varchar", n.getRefPlaces());
+									pst.setArray(29, xx);
+								}
 							}
 						}
 						if (n.getPnid() > 0) {

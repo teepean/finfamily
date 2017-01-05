@@ -1058,10 +1058,12 @@ public class ExportBackupUtil {
 			String[] refPlaces = null;
 			Array xx = rs.getArray("refnames");
 			if (xx != null) {
-				refNames = (String[]) xx.getArray();
-				if (refNames.length == 0) {
-					refNames = null;
+				final Object[] a = (Object[]) xx.getArray();
+				final String[] aArray = new String[a.length];
+				for (int i = 0; i < a.length; i++) {
+					aArray[i] = a[i].toString();
 				}
+				refNames = aArray;
 			}
 			if (refNames != null) {
 				final Element namesEle = document.createElement("namelist");
@@ -1075,11 +1077,12 @@ public class ExportBackupUtil {
 
 			xx = rs.getArray("refplaces");
 			if (xx != null) {
-				refPlaces = (String[]) xx.getArray();
-				if (refPlaces.length == 0) {
-					refPlaces = null;
+				final Object[] b = (Object[]) xx.getArray();
+				final String[] bArray = new String[b.length];
+				for (int i = 0; i < b.length; i++) {
+					bArray[i] = b[i].toString();
 				}
-
+				refPlaces = bArray;
 			}
 			if (refPlaces != null) {
 				final Element placesEle = document.createElement("placelist");
