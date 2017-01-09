@@ -404,7 +404,8 @@ public class ReportUtil {
 		}
 		if (childrenAlreadyListed) {
 
-			if (order.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE) && chi.getSex().equals("M")) {
+			if (order.equals(ReportWorkerDialog.SET_ORDER_FIRSTMALE) && chi.getSex().equals("M")
+					&& (spoUnits != null)) {
 				final ReportTableMember rtm = spoUnits.getParent().get(0);
 				females.put(spoUnits.getPid(), rtm);
 
