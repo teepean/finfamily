@@ -529,6 +529,7 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		if (cmd.equals(Resurses.GET_HISKI)) {
 
 			fetchFromHiski();
+			// fetchFromGeni();
 
 		} else if (cmd.equals(Resurses.HISKI_UPLOAD)) {
 
@@ -1794,6 +1795,103 @@ public class HiskiImportPanel extends JPanel implements ActionListener {
 		}
 
 	}
+
+	/*
+	 * private void fetchFromGeni() {
+	 * 
+	 * book.setText(""); srk.setText(""); srkNo.setText(""); eventId = null;
+	 * 
+	 * eventFirstType.setText(""); eventFirstDate.setText("");
+	 * eventLastType.setText(""); eventLastDate.setText("");
+	 * 
+	 * bookName = null; pvm1Name = null; pvm2Name = null; personCount = 0;
+	 * 
+	 * eventFrom.setText(""); eventTo.setText(""); eventVillage.setText("");
+	 * eventFarm.setText(""); eventReason.setText("");
+	 * eventUserComment.setText(""); eventOrigComment.setText("");
+	 * eventNote.setText("");
+	 * 
+	 * for (int i = 0; i < pNumero.length; i++) {
+	 * 
+	 * remove(pSukuPid[i]); remove(pSukuName[i]); remove(pNumero[i]);
+	 * remove(pType[i]); remove(pSex[i]); remove(rOccu[i]);
+	 * remove(rGivenname[i]); remove(rPatronym[i]); remove(rSurname[i]);
+	 * remove(pOccu[i]); remove(pGivenname[i]); remove(pPatronym[i]);
+	 * remove(pSurname[i]); remove(pAgeVillage[i]); remove(pReasonFarm[i]);
+	 * 
+	 * }
+	 * 
+	 * pNumero = new JLabel[0]; pSukuPid = new JLabel[0]; pSukuName = new
+	 * JLabel[0]; pTypeName = new String[0]; pType = new JLabel[0]; pSex = new
+	 * JComboBox[0]; pOccu = new JTextField[0]; pGivenname = new JTextField[0];
+	 * pPatronym = new JTextField[0]; pSurname = new JTextField[0]; pAgeVillage
+	 * = new JTextField[0]; pReasonFarm = new JTextField[0];
+	 * 
+	 * final StringBuilder sb = new StringBuilder();
+	 * sb.append("https://www.geni.com/api/");
+	 * 
+	 * String requri; //
+	 * https://www.geni.com/api/profile?guid=6000000004718458014 int resu;
+	 * 
+	 * // String paras[] = new String[params.length]; //
+	 * "suku?userno="+this.userno+"&person=" + pid
+	 * 
+	 * final SukuPopupMenu pop = SukuPopupMenu.getInstance();
+	 * 
+	 * for (int i = 0; i < 3; i++) { pop.enableHiskiPerson(i, false, null); }
+	 * 
+	 * sb.append("profile?guid=");
+	 * 
+	 * final String hiskiNumStr = this.hiskiNumber.getText().trim();
+	 * 
+	 * long hiskiNum = 0; JSONObject doc = null; try { hiskiNum =
+	 * Long.parseLong(hiskiNumStr); } catch (final NumberFormatException ne) {
+	 * JOptionPane.showMessageDialog(this, "'" + hiskiNumStr + "'" +
+	 * Resurses.getString("NOT_NUMBER"), Resurses.getString("HISKI_NUMBER"),
+	 * JOptionPane.WARNING_MESSAGE); return; } sb.append(hiskiNum);
+	 * hiskiBrowserUrl = sb.toString();
+	 * 
+	 * requri = sb.toString(); try {
+	 * 
+	 * // logger.fine("URILOG: " + requri); final URL url = new URL(requri);
+	 * final HttpURLConnection uc = (HttpURLConnection) url.openConnection(); //
+	 * String encoding = uc.getContentEncoding();
+	 * 
+	 * resu = uc.getResponseCode(); // System.out.println("Resu = " + resu); if
+	 * (resu == 200) {
+	 * 
+	 * final String text = IOUtils.toString(uc.getInputStream()); try { doc =
+	 * new JSONObject(text); } catch (final Exception e) { e.printStackTrace();
+	 * throw new SukuException(e); } }
+	 * 
+	 * } catch (final Exception e) { JOptionPane.showMessageDialog(this,
+	 * e.toString()); logger.log(Level.WARNING, "hiski", e); return; }
+	 * 
+	 * personCount = 1; initHiskiPersons(personCount);
+	 * 
+	 * final String vv = null; final String kk = null; final String vk = null;
+	 * final String pv = null;
+	 * 
+	 * final int pidx = 0;
+	 * 
+	 * pNumero[pidx].setText("" + pidx); final String theType = "Geni";
+	 * pType[pidx].setText(doc.getString("gender")); final boolean showMenu =
+	 * true; if ("male".equals(doc.getString("gender"))) {
+	 * 
+	 * pSex[pidx].setSelectedIndex(1); pSex[pidx].setEnabled(false); } else if
+	 * ("female".equals(doc.getString("gender"))) {
+	 * 
+	 * pSex[pidx].setSelectedIndex(2); pSex[pidx].setEnabled(false); }
+	 * rGivenname[pidx].setText(doc.getString("first_name"));
+	 * pGivenname[pidx].setText(doc.getString("first_name"));
+	 * rPatronym[pidx].setText(doc.getString("middle_name"));
+	 * pPatronym[pidx].setText(doc.getString("middle_name"));
+	 * rSurname[pidx].setText(doc.getString("last_name"));
+	 * pSurname[pidx].setText(doc.getString("last_name")); if (showMenu) {
+	 * pop.enableHiskiPerson(pidx, true, theType); }
+	 * 
+	 * }
+	 */
 
 	private void fetchFromHiski() {
 
