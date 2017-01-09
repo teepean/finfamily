@@ -350,7 +350,7 @@ public class ImportGedcomUtil {
 						if ((i2 > 0) && (i2 < linex.length())) {
 							aux = linex.substring(i1 + 1, i2);
 							i3 = i2;
-							if ((aux.charAt(0) == '@') && (aux.charAt(aux.length() - 1) == '@')) {
+							if ((aux.length() > 1) && (aux.charAt(0) == '@') && (aux.charAt(aux.length() - 1) == '@')) {
 								lineg.id = aux;
 								i3 = linex.indexOf(' ', i2 + 1);
 								if (i3 > 0) {
