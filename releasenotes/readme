@@ -2,7 +2,7 @@ FinFamily Release notes
 
 Releases follow the Subversion revision numbers. 
 
-Release 1267 on 8 jan 2017
+Release 1267 on 9 jan 2017
 * Usability changes to report dialog
 * Fixed importing ALIA tag from SukuJutut GEDCOM file
 * Fixed text notices name and place lists to work with H2 database
